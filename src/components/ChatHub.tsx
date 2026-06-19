@@ -126,7 +126,7 @@ export default function ChatHub({ token, themeClass }: ChatHubProps) {
               <select 
                 value={selectedSpaceId} 
                 onChange={(e) => setSelectedSpaceId(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-200 font-medium"
+                className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-200 font-medium"
               >
                 {spaces.map(space => (
                   <option key={space.name} value={space.name}>{space.displayName || space.name}</option>
@@ -141,7 +141,7 @@ export default function ChatHub({ token, themeClass }: ChatHubProps) {
               value={messageText}
               onChange={(e) => setMessageText(e.target.value)}
               rows={4}
-              className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2.5 text-slate-700 dark:text-slate-200 rounded-lg mt-1 outline-none leading-relaxed font-medium"
+              className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2.5 text-slate-700 dark:text-slate-200 rounded-lg mt-1 outline-none leading-relaxed font-medium"
               placeholder="Type your comforting message..."
             />
           </div>
@@ -154,7 +154,7 @@ export default function ChatHub({ token, themeClass }: ChatHubProps) {
                   key={idx}
                   type="button"
                   onClick={() => setMessageText(text)}
-                  className="w-full text-left p-2.5 bg-slate-50 dark:bg-slate-900 hover:bg-rose-50/20 dark:hover:bg-rose-950/10 border border-black/5 rounded-xl text-[10.5px] text-slate-500 hover:text-rose-600 transition-colors"
+                  className="w-full text-left p-2.5 bg-slate-50 dark:bg-black hover:bg-rose-50/20 dark:hover:bg-rose-950/10 border border-black/5 rounded-xl text-[10.5px] text-slate-500 hover:text-rose-600 transition-colors"
                 >
                   {text}
                 </button>
@@ -229,7 +229,7 @@ export default function ChatHub({ token, themeClass }: ChatHubProps) {
                     className={`w-full text-left p-4 rounded-xl border flex items-center justify-between transition-all ${
                       isSelected 
                         ? "bg-rose-50/40 dark:bg-rose-950/15 border-rose-200" 
-                        : "bg-transparent border-black/5 hover:bg-slate-50 dark:hover:bg-slate-900"
+                        : "bg-transparent border-black/5 hover:bg-slate-50 dark:hover:bg-black"
                     }`}
                   >
                     <div className="space-y-1">
@@ -260,7 +260,7 @@ export default function ChatHub({ token, themeClass }: ChatHubProps) {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 border border-black/10 shadow-2xl space-y-4 text-left"
+              className="bg-white dark:bg-black rounded-2xl max-w-md w-full p-6 border border-black/10 shadow-2xl space-y-4 text-left"
             >
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-amber-50 dark:bg-amber-950/30 rounded-xl text-amber-600 border border-amber-200">

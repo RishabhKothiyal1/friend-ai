@@ -1244,7 +1244,7 @@ export default function IndianPaintingsMoodBoard() {
               <path d="M15 150 Q45 135 60 170" fill="none" stroke="#059669" strokeWidth="1.5" />
               <path d="M155 140 Q175 145 160 180" fill="none" stroke="#059669" strokeWidth="1.5" />
             </motion.svg>
-            <span className="absolute bottom-2 left-2 text-[8px] bg-white dark:bg-slate-900 px-1.5 py-0.5 border border-red-500 rounded font-mono text-[#be2222] font-bold z-10">Mithila Horror Vacui</span>
+            <span className="absolute bottom-2 left-2 text-[8px] bg-white dark:bg-black px-1.5 py-0.5 border border-red-500 rounded font-mono text-[#be2222] font-bold z-10">Mithila Horror Vacui</span>
           </div>
         );
 
@@ -1466,8 +1466,8 @@ export default function IndianPaintingsMoodBoard() {
             onClick={() => setActiveSubTab("gallery")}
             className={`px-3.5 py-1.5 text-xs font-bold rounded-xl cursor-pointer transition-all flex items-center gap-1.5 ${
               activeSubTab === "gallery"
-                ? "bg-rose-850 hover:bg-rose-900 text-white shadow-sm dark:shadow-slate-900/30 font-serif"
-                : "text-stone-650 hover:bg-stone-100/60 hover:text-stone-850"
+                ? "bg-rose-800 hover:bg-rose-900 text-white shadow-sm dark:shadow-slate-900/30 font-serif"
+                : "text-slate-500 hover:bg-slate-100/60 hover:text-slate-800"
             }`}
           >
             🎨 Interactive Folk Art Manuscript
@@ -1477,8 +1477,8 @@ export default function IndianPaintingsMoodBoard() {
             onClick={() => setActiveSubTab("syllabus")}
             className={`px-3.5 py-1.5 text-xs font-bold rounded-xl cursor-pointer transition-all flex items-center gap-1.5 ${
               activeSubTab === "syllabus"
-                ? "bg-rose-850 hover:bg-rose-900 text-white shadow-sm dark:shadow-slate-900/30 font-serif"
-                : "text-stone-650 hover:bg-stone-100/60 hover:text-stone-850"
+                ? "bg-rose-800 hover:bg-rose-900 text-white shadow-sm dark:shadow-slate-900/30 font-serif"
+                : "text-slate-500 hover:bg-slate-100/60 hover:text-slate-800"
             }`}
           >
             🏛️ Civilizational Chronicles (UPSC)
@@ -1488,8 +1488,8 @@ export default function IndianPaintingsMoodBoard() {
             onClick={() => setActiveSubTab("pitch")}
             className={`px-3.5 py-1.5 text-xs font-bold rounded-xl cursor-pointer transition-all flex items-center gap-1.5 ${
               activeSubTab === "pitch"
-                ? "bg-rose-850 hover:bg-rose-900 text-white shadow-sm dark:shadow-slate-900/30 font-serif"
-                : "text-stone-650 hover:bg-stone-100/60 hover:text-stone-850"
+                ? "bg-rose-800 hover:bg-rose-900 text-white shadow-sm dark:shadow-slate-900/30 font-serif"
+                : "text-slate-500 hover:bg-slate-100/60 hover:text-slate-800"
             }`}
           >
             ⏱️ Startup Pitch (4-Min Presentation)
@@ -1505,7 +1505,7 @@ export default function IndianPaintingsMoodBoard() {
           
           {/* Left Canvas Panel */}
           <div className="lg:col-span-5 space-y-4">
-            <div className="p-4 bg-white dark:bg-slate-900 border border-[#ebdcb9] rounded-2xl shadow-xs flex flex-col gap-4 text-left">
+            <div className="p-4 bg-white dark:bg-black border border-[#ebdcb9] rounded-2xl shadow-xs flex flex-col gap-4 text-left">
               {/* Header with high fidelity selectors */}
               <div className="flex flex-col gap-3 border-b pb-3 border-dashed border-[#ebdcb9]">
                 <div className="flex items-center justify-between">
@@ -1676,7 +1676,7 @@ export default function IndianPaintingsMoodBoard() {
                 </div>
                 <h3 className="text-[13px] font-bold font-serif text-[#3e2723]">{activeArt.name}</h3>
                 <p className="text-[11px] leading-relaxed text-stone-600">{activeArt.description}</p>
-                <div className="text-[10px] bg-white dark:bg-slate-900 border border-stone-150 p-2 rounded-lg text-stone-500">
+                <div className="text-[10px] bg-white dark:bg-black border border-stone-150 p-2 rounded-lg text-stone-500">
                   <strong>Sacred Lore &amp; Context:</strong> {activeArt.lore}
                 </div>
               </div>
@@ -1694,7 +1694,7 @@ export default function IndianPaintingsMoodBoard() {
                       className={`px-2 py-0.8 text-[9.5px] font-bold font-mono rounded-lg border transition-all cursor-pointer ${
                         breathSync 
                           ? "bg-emerald-750 text-white border-emerald-800" 
-                          : "bg-white dark:bg-slate-900 hover:bg-emerald-50 text-emerald-800 border-emerald-200"
+                          : "bg-white dark:bg-black hover:bg-emerald-50 text-emerald-800 border-emerald-200"
                       }`}
                     >
                       {breathSync ? "Active ✓" : "Sync Pulse"}
@@ -1717,7 +1717,7 @@ export default function IndianPaintingsMoodBoard() {
 
           {/* Right Paintings Catalog Grid */}
           <div className="lg:col-span-7 space-y-4">
-            <div className="p-4.5 bg-white dark:bg-slate-900 border border-[#ebdcb9] rounded-2xl shadow-xs text-left">
+            <div className="p-4.5 bg-white dark:bg-black border border-[#ebdcb9] rounded-2xl shadow-xs text-left">
               
               {/* Search & filters */}
               <div className="flex flex-col md:flex-row gap-3 items-stretch justify-between pb-4 border-b border-stone-150">
@@ -1787,7 +1787,7 @@ export default function IndianPaintingsMoodBoard() {
                       >
                         {/* Motif circular badge */}
                         <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shrink-0 border uppercase font-serif ${
-                          isActive ? "bg-rose-850 text-white border-rose-900" : "bg-white dark:bg-slate-900 text-stone-600 border-stone-200"
+                          isActive ? "bg-rose-850 text-white border-rose-900" : "bg-white dark:bg-black text-stone-600 border-stone-200"
                         }`}>
                           {art.name.charAt(0)}
                         </div>
@@ -1927,7 +1927,7 @@ export default function IndianPaintingsMoodBoard() {
                     value={artSignature}
                     onChange={(e) => setArtSignature(e.target.value)}
                     placeholder="Type your name to sign scroll..."
-                    className="w-full bg-white dark:bg-slate-900 border border-stone-300 font-serif text-sm p-2 rounded-lg text-amber-900 focus:outline-none focus:ring-1 focus:ring-amber-600 focus:border-amber-600 placeholder:text-stone-400"
+                    className="w-full bg-white dark:bg-black border border-stone-300 font-serif text-sm p-2 rounded-lg text-amber-900 focus:outline-none focus:ring-1 focus:ring-amber-600 focus:border-amber-600 placeholder:text-stone-400"
                   />
                   {artSignature && (
                     <div className="pt-2 text-center border-t border-dashed border-stone-300">
@@ -1970,7 +1970,7 @@ export default function IndianPaintingsMoodBoard() {
           
           {/* Syllabus Topics Accordion - Column left */}
           <div className="lg:col-span-8 space-y-4">
-            <div className="p-5 bg-white dark:bg-slate-900 border border-[#ebdcb9] rounded-2xl shadow-xs text-left space-y-4.5">
+            <div className="p-5 bg-white dark:bg-black border border-[#ebdcb9] rounded-2xl shadow-xs text-left space-y-4.5">
               
               <div className="border-b pb-3 border-stone-200">
                 <span className="text-[10px] uppercase font-mono tracking-[0.2em] text-rose-800 font-extrabold block">Academics &amp; Civilizational Legacy Archive</span>
@@ -1998,7 +1998,7 @@ export default function IndianPaintingsMoodBoard() {
                     <motion.div 
                       initial={{ height: 0 }} 
                       animate={{ height: "auto" }} 
-                      className="p-4 bg-white dark:bg-slate-900 text-xs leading-relaxed text-stone-600 font-sans space-y-3"
+                      className="p-4 bg-white dark:bg-black text-xs leading-relaxed text-stone-600 font-sans space-y-3"
                     >
                       <p>
                         The decline of the <strong>Indus Valley Civilization (IVC)</strong> around 1900 BCE represents one of the most studied transitions in ancient history. The decline was not a sudden cataclysmic event caused by a single invasion, but a gradual, century-long process of urban disintegration.
@@ -2029,7 +2029,7 @@ export default function IndianPaintingsMoodBoard() {
                     <span className="text-stone-400 text-xs font-mono">{expandedSyllabus === "urbanization" ? "[ Collapse ]" : "[ Expand ]"}</span>
                   </button>
                   {expandedSyllabus === "urbanization" && (
-                    <div className="p-4 bg-white dark:bg-slate-900 text-xs leading-relaxed text-stone-600 font-sans space-y-2">
+                    <div className="p-4 bg-white dark:bg-black text-xs leading-relaxed text-stone-600 font-sans space-y-2">
                       <p>
                         Occurring around the 6th Century BCE in the Ganga Valley, the <strong>Second Urbanization</strong> marks a dramatic departure from nomadic agrarian life to dense city layouts and organized state power.
                       </p>
@@ -2055,7 +2055,7 @@ export default function IndianPaintingsMoodBoard() {
                     <span className="text-stone-400 text-xs font-mono">{expandedSyllabus === "caste" ? "[ Collapse ]" : "[ Expand ]"}</span>
                   </button>
                   {expandedSyllabus === "caste" && (
-                    <div className="p-4 bg-white dark:bg-slate-900 text-xs leading-relaxed text-stone-600 font-sans space-y-2">
+                    <div className="p-4 bg-white dark:bg-black text-xs leading-relaxed text-stone-600 font-sans space-y-2">
                       <p>
                         A major focus of UPSC socio-anthropological study is explaining the difference between the scriptural Varna system and the operational Jati system.
                       </p>
@@ -2092,7 +2092,7 @@ export default function IndianPaintingsMoodBoard() {
                     <span className="text-stone-400 text-xs font-mono">{expandedSyllabus === "medieval" ? "[ Collapse ]" : "[ Expand ]"}</span>
                   </button>
                   {expandedSyllabus === "medieval" && (
-                    <div className="p-4 bg-white dark:bg-slate-900 text-xs leading-relaxed text-stone-600 font-sans space-y-3">
+                    <div className="p-4 bg-white dark:bg-black text-xs leading-relaxed text-stone-600 font-sans space-y-3">
                       <div>
                         <h5 className="font-bold font-serif text-[#3e2723]">Delhi Sultanate Changes:</h5>
                         <p className="mt-1 text-stone-605 text-[11px]">
@@ -2126,7 +2126,7 @@ export default function IndianPaintingsMoodBoard() {
                     <span className="text-stone-400 text-xs font-mono">{expandedSyllabus === "modern" ? "[ Collapse ]" : "[ Expand ]"}</span>
                   </button>
                   {expandedSyllabus === "modern" && (
-                    <div className="p-4 bg-white dark:bg-slate-900 text-xs leading-relaxed text-stone-600 font-sans space-y-3">
+                    <div className="p-4 bg-white dark:bg-black text-xs leading-relaxed text-stone-600 font-sans space-y-3">
                       <div>
                         <h5 className="font-bold font-serif text-[#3e2723]">Impact of World War I on India:</h5>
                         <p className="mt-1 text-[11px]">
@@ -2160,7 +2160,7 @@ export default function IndianPaintingsMoodBoard() {
               </div>
 
               {/* Question 1 */}
-              <div className="p-3 bg-white dark:bg-slate-900 border border-stone-200 rounded-xl flex flex-col gap-2">
+              <div className="p-3 bg-white dark:bg-black border border-stone-200 rounded-xl flex flex-col gap-2">
                 <span className="text-[9px] bg-amber-100 text-amber-900 border border-amber-200 font-bold font-mono px-2 py-0.5 rounded-full select-none w-max">
                   Prelims 2015 Question
                 </span>
@@ -2197,7 +2197,7 @@ export default function IndianPaintingsMoodBoard() {
               </div>
 
               {/* Question 2 */}
-              <div className="p-3 bg-white dark:bg-slate-900 border border-stone-200 rounded-xl flex flex-col gap-2">
+              <div className="p-3 bg-white dark:bg-black border border-stone-200 rounded-xl flex flex-col gap-2">
                 <span className="text-[9px] bg-amber-100 text-amber-900 border border-amber-200 font-bold font-mono px-2 py-0.5 rounded-full select-none w-max">
                   Prelims 2013 Question
                 </span>
@@ -2236,7 +2236,7 @@ export default function IndianPaintingsMoodBoard() {
               </div>
 
               {/* Mains Writing Board */}
-              <div className="p-3 bg-white dark:bg-slate-900 border border-[#ebdcb9] rounded-xl flex flex-col gap-2">
+              <div className="p-3 bg-white dark:bg-black border border-[#ebdcb9] rounded-xl flex flex-col gap-2">
                 <span className="text-[9px] bg-yellow-100 text-yellow-850 font-bold font-mono px-2 py-0.5 rounded-full w-max">
                   UPSC Mains Corner
                 </span>
@@ -2271,7 +2271,7 @@ export default function IndianPaintingsMoodBoard() {
           
           {/* Slide Deck presentation - Column left */}
           <div className="lg:col-span-8 space-y-4">
-            <div className="p-5 bg-white dark:bg-slate-900 border-4 border-double border-orange-900/30 rounded-2xl shadow-sm dark:shadow-slate-900/30 text-left relative overflow-hidden">
+            <div className="p-5 bg-white dark:bg-black border-4 border-double border-orange-900/30 rounded-2xl shadow-sm dark:shadow-slate-900/30 text-left relative overflow-hidden">
               <div className="absolute inset-1 border border-amber-900/10 rounded-xl pointer-events-none" />
               
               {/* Timeline Progress Header */}
@@ -2403,7 +2403,7 @@ export default function IndianPaintingsMoodBoard() {
           <div className="lg:col-span-4 space-y-4">
             
             {/* Slide Index navigator */}
-            <div className="p-4 bg-white dark:bg-slate-900 border border-[#ebdcb9] rounded-2xl text-left space-y-3 shadow-xs">
+            <div className="p-4 bg-white dark:bg-black border border-[#ebdcb9] rounded-2xl text-left space-y-3 shadow-xs">
               <h4 className="text-xs font-bold uppercase tracking-wider text-[#3e2723] font-serif border-b pb-2">Pitch Overview Cards</h4>
               
               <div className="flex flex-col gap-2">
@@ -2445,14 +2445,14 @@ export default function IndianPaintingsMoodBoard() {
               </div>
               
               <div className="space-y-2.5 text-xs text-stone-600 leading-relaxed font-sans">
-                <div className="p-2.5 bg-white dark:bg-slate-900 border border-stone-150 rounded-xl space-y-1">
+                <div className="p-2.5 bg-white dark:bg-black border border-stone-150 rounded-xl space-y-1">
                   <span className="font-bold text-[#3e2723] text-[10.5px] block font-serif">Corporate Valuation</span>
                   <p className="text-[10px] leading-normal font-sans">
                     <strong>Pre-Seed Block:</strong> ₹4.78 Crores ($500K USD) on a ₹57 Crore ($6M USD) Post-Money SAFE arrangement.
                   </p>
                 </div>
                 
-                <div className="p-2.5 bg-white dark:bg-slate-900 border border-stone-150 rounded-xl space-y-1">
+                <div className="p-2.5 bg-white dark:bg-black border border-stone-150 rounded-xl space-y-1">
                   <span className="font-bold text-[#3e2723] text-[10.5px] block font-serif">Product Target</span>
                   <p className="text-[10px] leading-normal font-sans">
                     <strong>Use of Funds:</strong> Establish production-grade client offline sandboxes. Scale secure offline nodes to 10,000 active monthly clients.

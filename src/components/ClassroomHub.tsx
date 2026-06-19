@@ -113,7 +113,7 @@ export default function ClassroomHub({ token, themeClass }: ClassroomHubProps) {
           <button
             onClick={fetchCourses}
             disabled={loadingCourses}
-            className="p-1 px-2 text-[10px] font-mono font-bold text-indigo-650 bg-indigo-50 dark:bg-indigo-950/40 rounded-lg cursor-pointer hover:bg-indigo-100/70 border border-indigo-150 flex items-center gap-1.5"
+            className="p-1 px-2 text-[10px] font-mono font-bold text-indigo-650 bg-indigo-50 dark:bg-white/[0.02]/40 rounded-lg cursor-pointer hover:bg-indigo-100/70 border border-indigo-150 flex items-center gap-1.5"
           >
             <RefreshCw className={`w-3 h-3 ${loadingCourses ? "animate-spin" : ""}`} />
             Sync Classes
@@ -156,11 +156,11 @@ export default function ClassroomHub({ token, themeClass }: ClassroomHubProps) {
                   onClick={() => setSelectedCourseId(c.id)}
                   className={`w-full text-left p-3.5 rounded-xl border transition-all flex items-start gap-3 ${
                     isSel 
-                      ? "bg-indigo-50/25 dark:bg-indigo-950/15 border-indigo-200 outline-none" 
-                      : "bg-transparent border-transparent hover:bg-slate-50 dark:hover:bg-slate-900"
+                      ? "bg-indigo-50/25 dark:bg-white/[0.02]/15 border-indigo-200 outline-none" 
+                      : "bg-transparent border-transparent hover:bg-slate-50 dark:hover:bg-black"
                   }`}
                 >
-                  <div className="p-2 bg-indigo-50 dark:bg-indigo-950/20 rounded-lg text-indigo-500 shrink-0 border border-indigo-150">
+                  <div className="p-2 bg-indigo-50 dark:bg-white/[0.02]/20 rounded-lg text-indigo-500 shrink-0 border border-indigo-150">
                     <BookOpen className="w-4 h-4 text-indigo-550" />
                   </div>
                   <div className="space-y-0.5">
@@ -218,7 +218,7 @@ export default function ClassroomHub({ token, themeClass }: ClassroomHubProps) {
                   Drawing student roster files...
                 </div>
               ) : roster.length === 0 ? (
-                <p className="text-xs text-slate-400 italic bg-slate-50 dark:bg-slate-900 border border-dashed rounded-xl p-4 text-center">
+                <p className="text-xs text-slate-400 italic bg-slate-50 dark:bg-black border border-dashed rounded-xl p-4 text-center">
                   Roster files are empty or restricted. Standard consumer G Suite policies apply. Invite classmates to your Somatic study cohort.
                 </p>
               ) : (
@@ -228,7 +228,7 @@ export default function ClassroomHub({ token, themeClass }: ClassroomHubProps) {
                     const studentPhoto = student.profile?.photoUrl || null;
 
                     return (
-                      <div key={idx} className="p-2.5 bg-slate-50 dark:bg-slate-900 border border-black/5 rounded-xl flex items-center gap-2.5">
+                      <div key={idx} className="p-2.5 bg-slate-50 dark:bg-black border border-black/5 rounded-xl flex items-center gap-2.5">
                         {studentPhoto ? (
                           <img 
                             src={studentPhoto} 
@@ -237,7 +237,7 @@ export default function ClassroomHub({ token, themeClass }: ClassroomHubProps) {
                             className="w-6.5 h-6.5 rounded-full object-cover" 
                           />
                         ) : (
-                          <div className="w-6.5 h-6.5 rounded-full bg-indigo-50 dark:bg-indigo-950/20 text-indigo-500 border border-indigo-150 flex items-center justify-center font-bold text-[10px]">
+                          <div className="w-6.5 h-6.5 rounded-full bg-indigo-50 dark:bg-white/[0.02]/20 text-indigo-500 border border-indigo-150 flex items-center justify-center font-bold text-[10px]">
                             {studentName.substring(0,2).toUpperCase()}
                           </div>
                         )}
@@ -250,7 +250,7 @@ export default function ClassroomHub({ token, themeClass }: ClassroomHubProps) {
             </div>
 
             {/* Schedule details */}
-            <div className="p-3 bg-indigo-50/20 dark:bg-indigo-950/10 border border-indigo-150 rounded-xl space-y-1 text-slate-500 flex items-center gap-3">
+            <div className="p-3 bg-indigo-50/20 dark:bg-white/[0.02]/10 border border-indigo-150 rounded-xl space-y-1 text-slate-500 flex items-center gap-3">
               <Calendar className="w-5 h-5 text-indigo-500 shrink-0" />
               <div className="text-[11px] leading-relaxed">
                 <span className="font-bold text-slate-700 dark:text-indigo-200 block">Classroom Syllabi & Materials:</span>

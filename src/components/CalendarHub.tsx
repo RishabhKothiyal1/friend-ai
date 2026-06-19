@@ -141,7 +141,7 @@ export default function CalendarHub({ token, themeClass }: CalendarHubProps) {
               type="text" 
               value={title} 
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 rounded-lg mt-1 outline-none font-bold text-slate-800 dark:text-slate-200"
+              className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 rounded-lg mt-1 outline-none font-bold text-slate-800 dark:text-slate-200"
               placeholder="e.g. Self-Care Walk"
             />
           </div>
@@ -153,7 +153,7 @@ export default function CalendarHub({ token, themeClass }: CalendarHubProps) {
                 type="date" 
                 value={eventDate} 
                 onChange={(e) => setEventDate(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-200"
+                className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-200"
               />
             </div>
             <div>
@@ -162,7 +162,7 @@ export default function CalendarHub({ token, themeClass }: CalendarHubProps) {
                 type="time" 
                 value={eventTime} 
                 onChange={(e) => setEventTime(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-200"
+                className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-200"
               />
             </div>
           </div>
@@ -172,7 +172,7 @@ export default function CalendarHub({ token, themeClass }: CalendarHubProps) {
             <select 
               value={duration} 
               onChange={(e) => setDuration(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-200"
+              className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-200"
             >
               <option value="5">5 Minutes (Quick Rest)</option>
               <option value="15">15 Minutes (Standard Grounding)</option>
@@ -187,7 +187,7 @@ export default function CalendarHub({ token, themeClass }: CalendarHubProps) {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
-              className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2.5 rounded-lg mt-1 outline-none leading-relaxed text-slate-700 dark:text-slate-300"
+              className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2.5 rounded-lg mt-1 outline-none leading-relaxed text-slate-700 dark:text-slate-300"
               placeholder="Grounding techniques to include in event description..."
             />
           </div>
@@ -225,7 +225,7 @@ export default function CalendarHub({ token, themeClass }: CalendarHubProps) {
           <button
             onClick={fetchUpcomingEvents}
             disabled={loading}
-            className="p-1 px-2.5 text-[10px] font-mono font-bold text-indigo-650 bg-indigo-50 dark:bg-indigo-950/40 rounded-lg cursor-pointer hover:bg-indigo-100/70 flex items-center gap-1.5 border border-indigo-150"
+            className="p-1 px-2.5 text-[10px] font-mono font-bold text-indigo-650 bg-indigo-50 dark:bg-white/[0.02]/40 rounded-lg cursor-pointer hover:bg-indigo-100/70 flex items-center gap-1.5 border border-indigo-150"
           >
             <RefreshCw className={`w-3 h-3 ${loading ? "animate-spin" : ""}`} />
             Sync Now
@@ -309,7 +309,7 @@ export default function CalendarHub({ token, themeClass }: CalendarHubProps) {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 border border-black/10 shadow-2xl space-y-4 text-left"
+              className="bg-white dark:bg-black rounded-2xl max-w-md w-full p-6 border border-black/10 shadow-2xl space-y-4 text-left"
             >
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-amber-50 dark:bg-amber-950/30 rounded-xl text-amber-600 border border-amber-200">

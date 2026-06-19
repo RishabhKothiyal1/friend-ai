@@ -82,7 +82,7 @@ export function MedicoLegalLawyersDirectory({ initialLocation = "Delhi" }: Medic
           <select
             value={selectedLocation}
             onChange={(e) => setSelectedLocation(e.target.value)}
-            className="w-full pl-3 pr-8 py-2 text-xs border border-slate-205 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-105 focus:outline-none focus:ring-1 focus:ring-rose-450 cursor-pointer appearance-none shadow-xs"
+            className="w-full pl-3 pr-8 py-2 text-xs border border-slate-205 dark:border-white/10 rounded-xl bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-105 focus:outline-none focus:ring-1 focus:ring-rose-450 cursor-pointer appearance-none shadow-xs"
           >
             {Object.keys(LAWYER_DIRECTORIES).map((loc) => (
               <option key={loc} value={loc}>📍 {loc}</option>
@@ -95,7 +95,7 @@ export function MedicoLegalLawyersDirectory({ initialLocation = "Delhi" }: Medic
       {/* Directory Grid */}
       <div className="space-y-2.5 pt-1 max-h-[280px] overflow-y-auto pr-1">
         {currentDirectory.map((lawyer, idx) => (
-          <div key={idx} className="p-3 rounded-lg border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-905 space-y-1.5 shadow-3xs">
+          <div key={idx} className="p-3 rounded-lg border border-slate-200/70 dark:border-white/10 bg-white dark:bg-slate-905 space-y-1.5 shadow-3xs">
             <div className="flex flex-col gap-0.5">
               <div className="flex flex-wrap gap-1.5">
                 <span className="text-[8.5px] font-bold text-rose-750 dark:text-rose-305 bg-rose-500/10 dark:bg-rose-500/5 px-2 py-0.5 rounded font-mono uppercase tracking-wider">
@@ -114,7 +114,7 @@ export function MedicoLegalLawyersDirectory({ initialLocation = "Delhi" }: Medic
               <strong className="text-slate-500 dark:text-slate-450">Focus:</strong> {lawyer.focus}
             </p>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 pt-1.5 border-t border-dashed border-slate-100 dark:border-slate-800 text-[10px] font-mono select-all">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 pt-1.5 border-t border-dashed border-slate-100 dark:border-white/10 text-[10px] font-mono select-all">
               <div className="text-slate-500 dark:text-slate-400">
                 📞 <span className="font-bold text-slate-700 dark:text-slate-200">{lawyer.phone}</span>
               </div>

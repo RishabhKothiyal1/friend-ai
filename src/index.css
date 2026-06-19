@@ -12,7 +12,7 @@
 /* Custom premium variables for themes */
 :root {
   --theme-bg-daylight: linear-gradient(135deg, #f8fafc 0%, #eef2f6 100%);
-  --theme-bg-midnight: linear-gradient(135deg, #070a13 0%, #030509 100%);
+  --theme-bg-midnight: linear-gradient(135deg, #0a0a0a 0%, #000000 100%);
   --theme-bg-sepia: linear-gradient(135deg, #f7f3e9 0%, #ebdcb9 100%);
 }
 

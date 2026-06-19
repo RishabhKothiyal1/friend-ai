@@ -3,6 +3,9 @@ import path from "path";
 import dotenv from "dotenv";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+import { z } from "zod";
 
 dotenv.config();
 
@@ -10,6 +13,25 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+
+// Phase 7: Security Hardening (Helmet & Rate Limiting)
+app.use(
+  helmet({
+    contentSecurityPolicy: false, // Vite needs inline scripts for HMR
+    crossOriginEmbedderPolicy: false,
+  })
+);
+
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: { error: "Too many requests from this IP, please try again after 15 minutes." },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Apply rate limiting to all API routes
+app.use("/api/", apiLimiter);
 
 // Initialize server-side Gemini API client
 const apiKey = process.env.GEMINI_API_KEY;
@@ -383,11 +405,18 @@ Please make this a gentle boundary to slow your breathing, try the Interactive 4
 }
 
 // Chat interaction endpoint
+const chatSchema = z.object({
+  message: z.string().min(1, "Message content is required.").max(5000),
+  characterId: z.string().optional(),
+  chatHistory: z.array(z.any()).optional(),
+});
+
 app.post("/api/chat", async (req, res) => {
-  const { message, characterId, chatHistory } = req.body;
-  if (!message) {
-    return res.status(400).json({ error: "Message content is required." });
+  const parseResult = chatSchema.safeParse(req.body);
+  if (!parseResult.success) {
+    return res.status(400).json({ error: parseResult.error.issues[0].message });
   }
+  const { message, characterId, chatHistory } = parseResult.data;
 
   const cleanMsg = message.toLowerCase().trim();
   

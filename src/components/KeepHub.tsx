@@ -103,7 +103,7 @@ interface Note {
 type ExportType = "docs" | "tasks" | "calendar" | "gmail";
 
 const PASTEL_COLORS = [
-  { name: "Slate", class: "bg-white dark:bg-slate-900 border-black/10 text-slate-800 dark:text-slate-100" },
+  { name: "Slate", class: "bg-white dark:bg-black border-black/10 text-slate-800 dark:text-slate-100" },
   { name: "Rose", class: "bg-rose-50/55 dark:bg-rose-955/20 border-rose-200/60 text-slate-800 dark:text-slate-100" },
   { name: "Mint", class: "bg-emerald-50/50 dark:bg-emerald-955/20 border-emerald-200/60 text-slate-800 dark:text-slate-100" },
   { name: "Ocean", class: "bg-sky-50/50 dark:bg-sky-955/20 border-sky-200/60 text-slate-800 dark:text-slate-100" },
@@ -129,7 +129,7 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
   // New Note state
   const [noteTitle, setNoteTitle] = useState("");
   const [noteContent, setNoteContent] = useState("");
-  const [noteColor, setNoteColor] = useState("bg-white dark:bg-slate-900 border-black/10 text-slate-800 dark:text-slate-100");
+  const [noteColor, setNoteColor] = useState("bg-white dark:bg-black border-black/10 text-slate-800 dark:text-slate-100");
   const [noteTags, setNoteTags] = useState("");
 
   // Checklist specific draft states
@@ -181,7 +181,7 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
             id: d.id,
             title: data.title || "",
             content: data.content || "",
-            color: data.color || "bg-white dark:bg-slate-900 border-black/10 text-slate-800 dark:text-slate-100",
+            color: data.color || "bg-white dark:bg-black border-black/10 text-slate-800 dark:text-slate-100",
             pinned: !!data.pinned,
             tags: data.tags || [],
             updatedAt: data.updatedAt || new Date().toISOString(),
@@ -295,7 +295,7 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
       setNoteTags("");
       setDraftItems([]);
       setNewItemText("");
-      setNoteColor("bg-white dark:bg-slate-900 border-black/10 text-slate-800 dark:text-slate-100");
+      setNoteColor("bg-white dark:bg-black border-black/10 text-slate-800 dark:text-slate-100");
     } catch (err) {
       handleFirestoreError(err, OperationType.CREATE, path);
     }
@@ -597,7 +597,7 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
     <div className="space-y-6 font-sans">
       
       {/* Informative connection status notice */}
-      <div className="p-4 bg-indigo-50/60 dark:bg-slate-900 border border-indigo-150 rounded-2xl text-[11px] text-indigo-900 dark:text-indigo-200 text-left space-y-1">
+      <div className="p-4 bg-indigo-50/60 dark:bg-black border border-indigo-150 rounded-2xl text-[11px] text-indigo-900 dark:text-indigo-200 text-left space-y-1">
         <div className="flex items-center gap-1.5 font-bold">
           <Sparkles className="w-4 h-4 text-indigo-500 shrink-0" />
           <span>Interactive Keep Syncing & Workspace Workspace</span>
@@ -616,7 +616,7 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
             className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${
               viewSource === "firestore"
                 ? "bg-indigo-650 text-white shadow-sm"
-                : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-350 hover:bg-slate-200"
+                : "bg-slate-100 dark:bg-[#0a0a0a] text-slate-600 dark:text-slate-350 hover:bg-slate-200"
             }`}
           >
             <FolderOpen className="w-3.5 h-3.5" />
@@ -627,7 +627,7 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
             className={`px-3 py-1.5 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer ${
               viewSource === "google_keep"
                 ? "bg-indigo-650 text-white shadow-sm"
-                : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-350 hover:bg-slate-200"
+                : "bg-slate-100 dark:bg-[#0a0a0a] text-slate-600 dark:text-slate-350 hover:bg-slate-200"
             }`}
           >
             <Sparkles className="w-3.5 h-3.5 animate-pulse" />
@@ -659,7 +659,7 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
                     onClick={() => setNoteType("text")}
                     className={`px-3 py-1 text-[11px] font-bold rounded-lg transition-all cursor-pointer ${
                       noteType === "text" 
-                        ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900" 
+                        ? "bg-black text-white dark:bg-slate-100 dark:text-slate-900" 
                         : "text-slate-400 hover:text-slate-600"
                     }`}
                   >
@@ -670,7 +670,7 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
                     onClick={() => setNoteType("checklist")}
                     className={`px-3 py-1 text-[11px] font-bold rounded-lg transition-all cursor-pointer ${
                       noteType === "checklist" 
-                        ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900" 
+                        ? "bg-black text-white dark:bg-slate-100 dark:text-slate-900" 
                         : "text-slate-400 hover:text-slate-600"
                     }`}
                   >
@@ -738,7 +738,7 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
                       <button
                         type="button"
                         onClick={() => handleAddDraftItem()}
-                        className="p-1 px-2 bg-slate-100 dark:bg-slate-800 text-[10px] rounded hover:bg-slate-200 transition-colors cursor-pointer"
+                        className="p-1 px-2 bg-slate-100 dark:bg-[#0a0a0a] text-[10px] rounded hover:bg-slate-200 transition-colors cursor-pointer"
                       >
                         + Add
                       </button>
@@ -780,7 +780,7 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
                       ? (!noteTitle && !noteContent) 
                       : (!noteTitle && draftItems.length === 0)
                   }
-                  className="p-1.5 px-3 bg-slate-900 dark:bg-slate-100 dark:text-slate-900 text-white font-bold rounded-lg hover:bg-slate-850 transition-all cursor-pointer text-[11px] disabled:opacity-40"
+                  className="p-1.5 px-3 bg-black dark:bg-slate-100 dark:text-slate-900 text-white font-bold rounded-lg hover:bg-slate-850 transition-all cursor-pointer text-[11px] disabled:opacity-40"
                 >
                   Save Note
                 </button>
@@ -899,7 +899,7 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
 
                       <div className="flex flex-wrap gap-1 pt-1.5">
                         {note.tags.map((t) => (
-                          <span key={t} className="text-[9px] font-mono font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50/55 dark:bg-indigo-950/25 px-1.5 py-0.5 rounded">
+                          <span key={t} className="text-[9px] font-mono font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50/55 dark:bg-white/[0.02]/25 px-1.5 py-0.5 rounded">
                             {t}
                           </span>
                         ))}
@@ -919,7 +919,7 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
                               onClick={() => setPendingExport({ type: "docs", note })}
                               disabled={isExporting === note.id}
                               title="Create Google Doc"
-                              className="p-1 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-400 hover:text-indigo-600 rounded cursor-pointer transition-colors border border-black/5"
+                              className="p-1 bg-white dark:bg-[#0a0a0a] hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-400 hover:text-indigo-600 rounded cursor-pointer transition-colors border border-black/5"
                             >
                               <FileText className="w-3 h-3" />
                             </button>
@@ -929,7 +929,7 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
                               onClick={() => setPendingExport({ type: "tasks", note })}
                               disabled={isExporting === note.id}
                               title="Convert to Google Task"
-                              className="p-1 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-400 hover:text-indigo-600 rounded cursor-pointer transition-colors border border-black/5"
+                              className="p-1 bg-white dark:bg-[#0a0a0a] hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-400 hover:text-indigo-600 rounded cursor-pointer transition-colors border border-black/5"
                             >
                               <ListTodo className="w-3 h-3" />
                             </button>
@@ -939,7 +939,7 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
                               onClick={() => setPendingExport({ type: "calendar", note })}
                               disabled={isExporting === note.id}
                               title="Schedule self-care break"
-                              className="p-1 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-400 hover:text-indigo-600 rounded cursor-pointer transition-colors border border-black/5"
+                              className="p-1 bg-white dark:bg-[#0a0a0a] hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-400 hover:text-indigo-600 rounded cursor-pointer transition-colors border border-black/5"
                             >
                               <Calendar className="w-3 h-3" />
                             </button>
@@ -949,7 +949,7 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
                               onClick={() => setPendingExport({ type: "gmail", note })}
                               disabled={isExporting === note.id}
                               title="Send copy to my Gmail"
-                              className="p-1 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-400 hover:text-indigo-600 rounded cursor-pointer transition-colors border border-black/5"
+                              className="p-1 bg-white dark:bg-[#0a0a0a] hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-400 hover:text-indigo-600 rounded cursor-pointer transition-colors border border-black/5"
                             >
                               <Mail className="w-3 h-3" />
                             </button>
@@ -973,12 +973,12 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
       ) : (
         <div className="space-y-6">
           {apiLoading ? (
-            <div className="py-16 text-center text-xs text-slate-405 font-mono flex items-center justify-center gap-2 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl p-6">
+            <div className="py-16 text-center text-xs text-slate-405 font-mono flex items-center justify-center gap-2 bg-slate-50 dark:bg-black border border-slate-100 dark:border-white/10 rounded-2xl p-6">
               <span className="w-4 h-4 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
               <span>ESTABLISHING SECURE REST HANDSHAKE WITH GOOGLE KEEP SERVICE...</span>
             </div>
           ) : apiError === "enterprise_restricted" ? (
-            <div className="p-6 bg-slate-50 dark:bg-slate-900 border border-slate-150 rounded-2xl text-left space-y-4 max-w-xl mx-auto font-sans">
+            <div className="p-6 bg-slate-50 dark:bg-black border border-slate-150 rounded-2xl text-left space-y-4 max-w-xl mx-auto font-sans">
               <div className="flex items-start gap-3">
                 <div className="p-2.5 bg-amber-100 dark:bg-amber-955/20 text-amber-600 rounded-xl shrink-0">
                   <AlertTriangle className="w-5.5 h-5.5" />
@@ -993,7 +993,7 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
                   </p>
                 </div>
               </div>
-              <div className="p-4 bg-indigo-50/50 dark:bg-indigo-950/20 rounded-xl space-y-2.5 text-xs text-left border border-indigo-100/60">
+              <div className="p-4 bg-indigo-50/50 dark:bg-white/[0.02]/20 rounded-xl space-y-2.5 text-xs text-left border border-indigo-100/60">
                 <div className="flex items-center gap-1.5 font-bold text-indigo-900 dark:text-indigo-300">
                   <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                   <span>Beautiful Alternative Active: Project Friend Companion Database</span>
@@ -1025,7 +1025,7 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left">
               {keepApiNotes.map((note: any) => (
-                <div key={note.name} className="p-4 rounded-xl border flex flex-col justify-between bg-white dark:bg-slate-900 border-black/10 text-slate-800 dark:text-slate-100 transition-all hover:shadow-md">
+                <div key={note.name} className="p-4 rounded-xl border flex flex-col justify-between bg-white dark:bg-black border-black/10 text-slate-800 dark:text-slate-100 transition-all hover:shadow-md">
                   <div className="space-y-2">
                     <h4 className="text-xs font-bold">{note.title || "Untitled Keep Note"}</h4>
                     {note.body?.text?.text && (
@@ -1049,7 +1049,7 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 border border-black/10 shadow-2xl space-y-4 text-left"
+              className="bg-white dark:bg-black rounded-2xl max-w-md w-full p-6 border border-black/10 shadow-2xl space-y-4 text-left"
             >
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-amber-50 dark:bg-amber-950/30 rounded-xl text-amber-600 border border-amber-200">
@@ -1082,7 +1082,7 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
                         type="date"
                         value={calDate}
                         onChange={(e) => setCalDate(e.target.value)}
-                        className="w-full bg-white dark:bg-slate-900 border border-black/10 p-1.5 rounded outline-none font-bold"
+                        className="w-full bg-white dark:bg-black border border-black/10 p-1.5 rounded outline-none font-bold"
                       />
                     </div>
                     <div>
@@ -1091,7 +1091,7 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
                         type="time"
                         value={calTime}
                         onChange={(e) => setCalTime(e.target.value)}
-                        className="w-full bg-white dark:bg-slate-900 border border-black/10 p-1.5 rounded outline-none font-bold"
+                        className="w-full bg-white dark:bg-black border border-black/10 p-1.5 rounded outline-none font-bold"
                       />
                     </div>
                   </div>
@@ -1100,7 +1100,7 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
                     <select
                       value={calDuration}
                       onChange={(e) => setCalDuration(e.target.value)}
-                      className="w-full bg-white dark:bg-slate-900 border border-black/10 p-1.5 rounded outline-none"
+                      className="w-full bg-white dark:bg-black border border-black/10 p-1.5 rounded outline-none"
                     >
                       <option value="15">15 Minutes (Breathing Break)</option>
                       <option value="30">30 Minutes (Deep Grounding)</option>
@@ -1117,7 +1117,7 @@ export default function KeepHub({ token, themeClass }: KeepHubProps) {
                     type="date"
                     value={taskDue}
                     onChange={(e) => setTaskDue(e.target.value)}
-                    className="w-full bg-white dark:bg-slate-900 border border-black/10 p-1.5 rounded outline-none font-medium"
+                    className="w-full bg-white dark:bg-black border border-black/10 p-1.5 rounded outline-none font-medium"
                   />
                 </div>
               )}

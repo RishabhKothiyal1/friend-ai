@@ -155,7 +155,7 @@ export default function DocsHub({ token, themeClass }: DocsHubProps) {
               type="text" 
               value={docTitle} 
               onChange={(e) => setDocTitle(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 rounded-lg mt-1 outline-none font-bold text-slate-850 dark:text-slate-200"
+              className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 rounded-lg mt-1 outline-none font-bold text-slate-850 dark:text-slate-200"
               placeholder="e.g. My Stress Diary"
             />
           </div>
@@ -166,7 +166,7 @@ export default function DocsHub({ token, themeClass }: DocsHubProps) {
               value={journalText}
               onChange={(e) => setJournalText(e.target.value)}
               rows={6}
-              className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2.5 text-slate-705 dark:text-slate-300 rounded-lg mt-1 outline-none leading-relaxed"
+              className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2.5 text-slate-705 dark:text-slate-300 rounded-lg mt-1 outline-none leading-relaxed"
               placeholder="Write your reflection entry..."
             />
           </div>
@@ -203,7 +203,7 @@ export default function DocsHub({ token, themeClass }: DocsHubProps) {
           <button
             onClick={fetchDocuments}
             disabled={loading}
-            className="p-1 px-2.5 text-[10px] font-mono font-bold text-indigo-650 bg-indigo-50 dark:bg-indigo-950/40 rounded-lg cursor-pointer hover:bg-indigo-100/70 flex items-center gap-1.5 border border-indigo-150"
+            className="p-1 px-2.5 text-[10px] font-mono font-bold text-indigo-650 bg-indigo-50 dark:bg-white/[0.02]/40 rounded-lg cursor-pointer hover:bg-indigo-100/70 flex items-center gap-1.5 border border-indigo-150"
           >
             <RefreshCw className={`w-3 h-3 ${loading ? "animate-spin" : ""}`} />
             Sync List
@@ -263,7 +263,7 @@ export default function DocsHub({ token, themeClass }: DocsHubProps) {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 border border-black/10 shadow-2xl space-y-4 text-left"
+              className="bg-white dark:bg-black rounded-2xl max-w-md w-full p-6 border border-black/10 shadow-2xl space-y-4 text-left"
             >
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-amber-50 dark:bg-amber-950/30 rounded-xl text-amber-600 border border-amber-200">

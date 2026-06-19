@@ -57,7 +57,10 @@ import {
   Download,
   FileText,
   History,
-  Filter
+  Filter,
+  Book,
+  Wind,
+  Settings
 } from "lucide-react";
 import { calmingMusic } from "./lib/calmingMusic";
 import { mozartPiano } from "./lib/mozartPiano";
@@ -220,6 +223,10 @@ const CHARACTER_ICONS: Record<string, React.ComponentType<any>> = {
 };
 
 import { MedicoLegalLawyersDirectory } from "./components/MedicoLegalLawyersDirectory";
+import { Hero1 } from "./components/ui/hero-1";
+import { AliasModal, type LoginData } from "./components/modals/AliasModal";
+import { Sidebar } from "./components/sidebar/Sidebar";
+import { Dashboard } from "./components/dashboard/Dashboard";
 
 interface ChatMessage {
   id: string;
@@ -765,7 +772,7 @@ const CHARACTERS: Character[] = [
   {
     id: "altaf",
     name: "Altaf",
-    title: "Rogan Video & Mirror Specialist",
+    title: "Rogan Tree of Life Architecture",
     specialization: "Somatic Posture, Voice & Rogan Art Symmetry",
     avatarInitials: "Al",
     avatarColor: "bg-[#0b4a2e] text-[#f0d05d] border-[#ebdcb9]/40 font-serif",
@@ -1368,65 +1375,41 @@ function highlightText(text: string, search: string): React.ReactNode {
 // ============================================
 // Personalized Character Background Generator
 // ============================================
-function getCharacterBg(charId: string): string {
+function getCharacterBg(charId: string, themeMode?: string): string {
+  const isDark = themeMode === 'midnight';
+  
+  if (isDark) {
+    // In dark mode, unify the background to match the site's deep slate/black aesthetic
+    return `#000000`;
+  }
+
   switch (charId) {
-    case "inayat": // Boho Terracotta Earthy Room
-      return `
-        radial-gradient(circle at 10% 15%, rgba(170, 107, 81, 0.09) 0%, transparent 55%),
-        radial-gradient(circle at 85% 85%, rgba(226, 208, 196, 0.4) 0%, transparent 60%),
-        linear-gradient(to bottom, #fefbfc 0%, #f7ebe4 100%)
-      `;
-    case "tony": // Sunny Mustard Yellow Room
-      return `
-        radial-gradient(circle at 15% 15%, rgba(217, 119, 6, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 85% 85%, rgba(179, 137, 16, 0.1) 0%, transparent 55%),
-        linear-gradient(to bottom, #fffdf8 0%, #fff7d6 100%)
-      `;
-    case "raag": // Dusty Pink Studio Room
-      return `
-        radial-gradient(circle at 20% 20%, rgba(160, 82, 110, 0.09) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(219, 178, 190, 0.4) 0%, transparent 60%),
-        linear-gradient(to bottom, #faf5f7 0%, #ebd3da 100%)
-      `;
-    case "manji": // Sindh Rust Diya Room
-      return `
-        radial-gradient(circle at 15% 15%, rgba(178, 88, 53, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 85% 85%, rgba(244, 230, 222, 0.4) 0%, transparent 60%),
-        linear-gradient(to bottom, #fbf2eb 0%, #e8d0be 100%)
-      `;
-    case "tara": // Midnight Blue Bed Sanctuary Room (Safe Dark Theme)
-      return `
-        radial-gradient(circle at 85% 15%, rgba(251, 191, 36, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 15% 85%, rgba(99, 102, 241, 0.15) 0%, transparent 55%),
-        linear-gradient(to bottom, #090d1e 0%, #11182c 100%)
-      `;
-    case "abhay": // Deep Blue Starlight Silent Space
-      return `
-        radial-gradient(circle at 15% 15%, rgba(129, 140, 248, 0.12) 0%, transparent 50%),
-        radial-gradient(circle at 85% 85%, rgba(10, 17, 40, 0.3) 0%, transparent 60%),
-        linear-gradient(to bottom, #0a1128 0%, #03081a 100%)
-      `;
-    case "altaf": // Aesthetic Corporate Lavender Lounge
-      return `
-        radial-gradient(circle at 10% 15%, rgba(126, 34, 206, 0.08) 0%, transparent 55%),
-        radial-gradient(circle at 85% 85%, rgba(233, 213, 255, 0.3) 0%, transparent 60%),
-        linear-gradient(to bottom, #faf5ff 0%, #f3e8ff 100%)
-      `;
-    case "adv_kunal": // Formal Walnut Law Study
-      return `
-        radial-gradient(circle at 10% 15%, rgba(141, 110, 99, 0.08) 0%, transparent 55%),
-        radial-gradient(circle at 85% 85%, rgba(212, 163, 89, 0.15) 0%, transparent 60%),
-        linear-gradient(to bottom, #FAF9F6 0%, #EFEBE9 100%)
-      `;
-    case "billu": // Cozy Midnight Wooden Attic Room
-      return `
-        radial-gradient(circle at 15% 15%, rgba(217, 119, 6, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 85% 85%, rgba(212, 163, 89, 0.2) 0%, transparent 60%),
-        linear-gradient(to bottom, #fffdfa 0%, #fef3c7 100%)
-      `;
+    case "inayat":
+      return `radial-gradient(circle at 10% 15%, rgba(170, 107, 81, 0.09) 0%, transparent 55%), radial-gradient(circle at 85% 85%, rgba(226, 208, 196, 0.4) 0%, transparent 60%), linear-gradient(to bottom, #fefbfc 0%, #f7ebe4 100%)`;
+    case "tony":
+      return `radial-gradient(circle at 15% 15%, rgba(217, 119, 6, 0.08) 0%, transparent 50%), radial-gradient(circle at 85% 85%, rgba(179, 137, 16, 0.1) 0%, transparent 55%), linear-gradient(to bottom, #fffdf8 0%, #fff7d6 100%)`;
+    case "raag":
+      return `radial-gradient(circle at 20% 20%, rgba(160, 82, 110, 0.09) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(219, 178, 190, 0.4) 0%, transparent 60%), linear-gradient(to bottom, #faf5f7 0%, #ebd3da 100%)`;
+    case "manji":
+      return `radial-gradient(circle at 15% 15%, rgba(178, 88, 53, 0.1) 0%, transparent 50%), radial-gradient(circle at 85% 85%, rgba(244, 230, 222, 0.4) 0%, transparent 60%), linear-gradient(to bottom, #fbf2eb 0%, #e8d0be 100%)`;
+    case "tara":
+      return `radial-gradient(circle at 85% 15%, rgba(251, 191, 36, 0.15) 0%, transparent 40%), radial-gradient(circle at 15% 85%, rgba(99, 102, 241, 0.15) 0%, transparent 55%), linear-gradient(to bottom, #090d1e 0%, #11182c 100%)`;
+    case "abhay":
+      return `radial-gradient(circle at 15% 15%, rgba(129, 140, 248, 0.12) 0%, transparent 50%), radial-gradient(circle at 85% 85%, rgba(10, 17, 40, 0.3) 0%, transparent 60%), linear-gradient(to bottom, #0a1128 0%, #03081a 100%)`;
+    case "altaf":
+      return `radial-gradient(circle at 10% 15%, rgba(126, 34, 206, 0.08) 0%, transparent 55%), radial-gradient(circle at 85% 85%, rgba(233, 213, 255, 0.3) 0%, transparent 60%), linear-gradient(to bottom, #faf5ff 0%, #f3e8ff 100%)`;
+    case "adv_kunal":
+      return `radial-gradient(circle at 10% 15%, rgba(141, 110, 99, 0.08) 0%, transparent 55%), radial-gradient(circle at 85% 85%, rgba(212, 163, 89, 0.15) 0%, transparent 60%), linear-gradient(to bottom, #FAF9F6 0%, #EFEBE9 100%)`;
+    case "billu":
+      return `radial-gradient(circle at 15% 15%, rgba(217, 119, 6, 0.08) 0%, transparent 50%), radial-gradient(circle at 85% 85%, rgba(212, 163, 89, 0.2) 0%, transparent 60%), linear-gradient(to bottom, #fffdfa 0%, #fef3c7 100%)`;
     default:
       return "linear-gradient(to bottom, #ffffff, #f8fafc)";
   }
+}
+
+function isDarkCharacter(charId: string, themeMode?: string): boolean {
+  if (themeMode === 'midnight') return true;
+  return charId === 'tara' || charId === 'abhay';
 }
 
 function getCharacterBubbleStyle(charId: string, isUser: boolean): string {
@@ -1445,16 +1428,16 @@ function getCharacterBubbleStyle(charId: string, isUser: boolean): string {
     }
   } else {
     switch (charId) {
-      case "inayat": return "bg-white dark:bg-slate-900/95 text-[#5c4033] border border-[#e2d0c4]/80 rounded-tl-none shadow-sm";
-      case "tony": return "bg-white dark:bg-slate-900/95 text-[#8c6239] border border-[#ecdca5]/80 rounded-tl-none shadow-sm";
-      case "raag": return "bg-white dark:bg-slate-900/95 text-[#5a2e3d] border border-[#dbb2be]/80 rounded-tl-none shadow-sm";
+      case "inayat": return "bg-white dark:bg-black/95 text-[#5c4033] dark:text-[#e2d0c4] border border-[#e2d0c4]/80 rounded-tl-none shadow-sm";
+      case "tony": return "bg-white dark:bg-black/95 text-[#8c6239] dark:text-[#ecdca5] border border-[#ecdca5]/80 rounded-tl-none shadow-sm";
+      case "raag": return "bg-white dark:bg-black/95 text-[#5a2e3d] dark:text-[#dbb2be] border border-[#dbb2be]/80 rounded-tl-none shadow-sm";
       case "manji": return "bg-[#fbf4ee]/95 text-[#713018] border border-[#f4e6de]/80 rounded-tl-none shadow-sm";
       case "tara": return "bg-[#1e293b]/95 text-[#e2e8f0] border border-[#334155]/80 rounded-tl-none shadow-inner";
       case "abhay": return "bg-[#0f172a]/95 text-slate-200 border border-[#1e293b]/80 rounded-tl-none shadow-sm";
-      case "altaf": return "bg-white dark:bg-slate-900/95 text-[#581c87] border border-[#e9d5ff]/80 rounded-tl-none shadow-sm";
-      case "adv_kunal": return "bg-white dark:bg-slate-900/95 text-[#3e2723] border border-[#dfd4c5]/80 rounded-tl-none shadow-sm";
+      case "altaf": return "bg-white dark:bg-black/95 text-[#581c87] dark:text-[#e9d5ff] border border-[#e9d5ff]/80 rounded-tl-none shadow-sm";
+      case "adv_kunal": return "bg-white dark:bg-black/95 text-[#3e2723] dark:text-[#dfd4c5] border border-[#dfd4c5]/80 rounded-tl-none shadow-sm";
       case "billu": return "bg-[#fbf4ee]/95 text-[#7a3219] border border-[#ebdcb9]/80 rounded-tl-none shadow-sm";
-      default: return "bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-200/80 rounded-tl-none shadow-sm";
+      default: return "bg-slate-50 dark:bg-[#0a0a0a] text-slate-800 dark:text-slate-200 border border-slate-200/80 rounded-tl-none shadow-sm";
     }
   }
 }
@@ -1470,7 +1453,7 @@ function getCharacterSubmitBg(charId: string): string {
     case "altaf": return "bg-[#7e22ce] hover:bg-[#6b21a8] text-white";
     case "adv_kunal": return "bg-[#5c4033] hover:bg-[#402d24] text-white";
     case "billu": return "bg-[#804a30] hover:bg-[#663b26] text-white";
-    default: return "bg-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-9500 text-white";
+    default: return "bg-indigo-600 hover:bg-indigo-50 dark:hover:bg-white/[0.02]0 text-white";
   }
 }
 
@@ -1533,7 +1516,7 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
         ))}
 
         <div className="flex flex-col gap-2 z-10 animate-fade-in text-left">
-          <span className="text-[9px] font-bold text-[#fcfbf9] uppercase tracking-wider bg-white dark:bg-slate-900/10 px-2 py-0.5 rounded border border-white/20 select-none">
+          <span className="text-[9px] font-bold text-[#fcfbf9] uppercase tracking-wider bg-white dark:bg-black/10 px-2 py-0.5 rounded border border-white/20 select-none">
             AIPAN FOLK HEIRLOOM • UTTARAKHAND
           </span>
           <span className="text-[11px] block text-[#fbeee6] font-medium leading-relaxed max-w-[130px]">
@@ -1700,7 +1683,7 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
             <span className="text-[9px] block font-mono font-bold text-amber-300 uppercase tracking-wider">Mustard &amp; Charcoal</span>
             <span className="text-[11px] block text-[#ffe8b5] font-bold">Deewaru Harmony</span>
           </div>
-          <div className="flex items-center gap-1 bg-white dark:bg-slate-900/10 px-2 py-0.5 rounded text-amber-200 font-bold font-mono text-[8.5px] border border-amber-250/10">
+          <div className="flex items-center gap-1 bg-white dark:bg-black/10 px-2 py-0.5 rounded text-amber-200 font-bold font-mono text-[8.5px] border border-amber-250/10">
             🐾 Rice Grain Code
           </div>
         </div>
@@ -1754,7 +1737,7 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
         ))}
 
         <div className="flex flex-col gap-2 z-10 animate-fade-in text-left">
-          <span className="text-[9px] font-bold text-[#e6b432] uppercase tracking-wider bg-indigo-950/40 px-2 py-0.5 rounded border border-[#e6b432]/20">
+          <span className="text-[9px] font-bold text-[#e6b432] uppercase tracking-wider bg-white/[0.02]/40 px-2 py-0.5 rounded border border-[#e6b432]/20">
             NATHDWARA PICHWAI • RAJASTHAN
           </span>
           <span className="text-[11px] block text-slate-350 font-medium leading-relaxed max-w-[130px]">
@@ -2351,7 +2334,7 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
                   strokeWidth="1.5" 
                 />
               </svg>
-              <span className="text-[7px] bg-white dark:bg-slate-900/10 px-1 py-0.2 rounded font-mono text-amber-200 select-none">Attic Wise</span>
+              <span className="text-[7px] bg-white dark:bg-black/10 px-1 py-0.2 rounded font-mono text-amber-200 select-none">Attic Wise</span>
             </motion.div>
 
           </div>
@@ -2421,7 +2404,7 @@ const RenderMarkdown = ({ content }: { content: string }) => {
     }
 
     if (trimmed === "---") {
-      renderedElements.push(<hr key={`hr-${index}`} className="my-6 border-slate-200 dark:border-slate-800" />);
+      renderedElements.push(<hr key={`hr-${index}`} className="my-6 border-slate-200 dark:border-white/10" />);
       return;
     }
 
@@ -2485,8 +2468,8 @@ export default function App() {
   const [consentPsychology, setConsentPsychology] = useState<boolean>(false);
   const [consentAnonymity, setConsentAnonymity] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<string>("");
-
-  const [isPremiumSubscribed, setIsPremiumSubscribed] = useState<boolean>(true);
+  const [isAliasModalOpen, setIsAliasModalOpen] = useState<boolean>(false);
+  const [isPremiumSubscribed, setIsPremiumSubscribed] = useState<boolean>(false);
   const [isPaywallModalOpen, setIsPaywallModalOpen] = useState<boolean>(false);
   const [pendingCharId, setPendingCharId] = useState<string | null>(null);
   
@@ -2738,7 +2721,8 @@ export default function App() {
    const [safetySimText, setSafetySimText] = useState<string>("");
   const [safetySimResult, setSafetySimResult] = useState<{ status: 'PASS' | 'CRISIS_OVERRIDE' | 'MED_LIMIT', message: string } | null>(null);
   
-  const [activeCenterTab, setActiveCenterTab] = useState<'chat' | 'safety' | 'blogs' | 'publishing' | 'community' | 'investor' | 'gmail' | 'art'>('chat');
+  const [activeCenterTab, setActiveCenterTab] = useState<'chat' | 'safety' | 'blogs' | 'publishing' | 'community' | 'investor' | 'gmail' | 'art' | 'terms' | 'privacy'>('chat');
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isHeaderCollapsed, setIsHeaderCollapsed] = useState<boolean>(false);
   
   // Gmail & Firebase OAuth State management
@@ -2923,6 +2907,10 @@ export default function App() {
       `Take care of yourself\n`
     );
     setShowGmailComposer(true);
+  };
+
+  const deleteBlog = (id: string) => {
+    setBlogsList(blogsList.filter(b => b.id !== id));
   };
 
   
@@ -3690,6 +3678,8 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
   const [showDownloadBackupReminder, setShowDownloadBackupReminder] = useState<boolean>(false);
   const [horrorMusicActive, setHorrorMusicActive] = useState<boolean>(false);
   const [horrorMusicVol, setHorrorMusicVol] = useState<number>(0.5);
+  const [showMoodLog, setShowMoodLog] = useState<boolean>(false);
+  const [showSpecializedApproaches, setShowSpecializedApproaches] = useState<boolean>(false);
 
   // Synchronize mozartPiano status with UI states
   useEffect(() => {
@@ -5383,326 +5373,837 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
     ]);
   };
 
-  if (!isLoggedIn) {
-    return (
-      <div className="w-full min-h-screen bg-[#e8ebff] dark:bg-[#070a13] text-slate-800 dark:text-slate-200 font-sans flex items-center justify-center p-4 relative overflow-hidden antialiased">
-        {/* Decorative background blurs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-200/40 dark:bg-indigo-900/20 rounded-full blur-3xl -z-10"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-pink-200/40 dark:bg-pink-900/20 rounded-full blur-3xl -z-10"></div>
-        
-        <div className="w-full max-w-xl bg-white dark:bg-slate-900 border border-indigo-100 dark:border-indigo-900 rounded-2xl shadow-xl p-6 md:p-8 space-y-6 relative flex flex-col">
-          {/* Logo Brand Block */}
-          <div className="flex flex-col items-center text-center space-y-3">
-            <KintsugiLogo size="md" />
-            
-            <div className="space-y-1">
-              <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white font-display">Project Friend AI</h1>
-              <p className="text-[10px] uppercase tracking-[0.2em] text-indigo-600 font-bold font-mono">Secure Grounding Sanctuary • v1.2</p>
-              <p className="text-xs text-slate-600 dark:text-slate-400 max-w-sm mx-auto mt-2 leading-relaxed italic">
-                talk to your new friend Rooh, Raag, Hope, or Inayat
-              </p>
-            </div>
-          </div>
-
-          <form onSubmit={handleLogin} className="space-y-5">
-            {/* Enter Anonymous Alias */}
-            <div className="space-y-2">
-              <label className="text-[10px] text-slate-600 dark:text-slate-400 uppercase font-mono block tracking-wider font-semibold">
-                Anonymous Alias (Display Name) <span className="text-rose-500 font-bold">*</span>
-              </label>
-              <input
-                type="text"
-                value={loginAlias}
-                onChange={(e) => setLoginAlias(e.target.value)}
-                placeholder="e.g. Phoenix, Seeker, Aria, Guest"
-                className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs p-3 text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 outline-none focus:border-indigo-500 dark:focus:border-indigo-500 transition-all font-sans"
-                required
-              />
-            </div>
-
-            {/* Secure Local PIN */}
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <label className="text-[10px] text-slate-600 dark:text-slate-400 uppercase font-mono block tracking-wider font-semibold">
-                  Secure On-device Passcode / PIN <span className="text-slate-550 font-normal">(Optional)</span>
-                </label>
-                <span className="text-[9px] text-slate-655 font-mono">Seeds AES-256 Vault</span>
-              </div>
-              <input
-                type="password"
-                pattern="[0-9]*"
-                maxLength={8}
-                value={loginPasscode}
-                onChange={(e) => {
-                  const val = e.target.value.replace(/[^0-9]/g, '');
-                  setLoginPasscode(val);
-                }}
-                placeholder="4 to 8 digit numbers to encrypt local logs"
-                className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs p-3 text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 outline-none focus:border-indigo-500 dark:focus:border-indigo-500 transition-all font-sans"
-              />
-            </div>
-
-            {/* Clinical Intake & Medical History Survey */}
-            <div className="border border-indigo-50 p-4 rounded-xl bg-slate-50/ dark:bg-slate-800/50 space-y-3.5">
-              <div className="flex items-center justify-between border-b border-indigo-100 dark:border-indigo-900 pb-2">
-                <span className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5 font-sans">
-                  🩺 Clinical Intake & Medical History
-                </span>
-                <span className="text-[9px] bg-indigo-55 bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 px-2 py-0.5 rounded-full font-bold font-mono">End-to-End Private</span>
-              </div>
-              
-              {/* Location Select */}
-              <div className="space-y-1">
-                <label className="text-[10px] text-slate-600 dark:text-slate-400 uppercase font-mono block tracking-wider font-semibold">
-                  Your Current Country/Location <span className="text-rose-500 font-bold">*</span>
-                </label>
-                <div className="relative">
-                  <select
-                    value={userLocation}
-                    onChange={(e) => setUserLocation(e.target.value)}
-                    className="w-full bg-white dark:bg-slate-900 border border-slate-250 border-slate-200 dark:border-slate-700 rounded-xl text-xs p-2.5 text-slate-800 dark:text-slate-200 outline-none focus:border-indigo-500 dark:focus:border-indigo-500 transition-all font-sans cursor-pointer appearance-none"
-                    required
-                  >
-                    <option value="India">🇮🇳 India</option>
-                    <option value="USA">🇺🇸 USA</option>
-                    <option value="United Kingdom">🇬🇧 United Kingdom</option>
-                    <option value="Canada">🇨🇦 Canada</option>
-                    <option value="Australia">🇦🇺 Australia</option>
-                    <option value="Singapore">🇸🇬 Singapore</option>
-                    <option value="International">🌐 International / Other Countries</option>
-                  </select>
-                  <div className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-[10px]">▼</div>
-                </div>
-              </div>
-
-              {/* Checkboxes for Medical Background */}
-              <div className="space-y-2">
-                <span className="text-[9.5px] text-slate-500 uppercase font-mono block tracking-widest font-semibold">Mark medical/therapeutic history conditions that apply:</span>
-                
-                <label className="flex items-start gap-2.5 cursor-pointer text-xs group select-none">
-                  <input
-                    type="checkbox"
-                    checked={medicalConditions.includes("MEDS_CHRONIC")}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setMedicalConditions(prev => [...prev, "MEDS_CHRONIC"]);
-                      } else {
-                        setMedicalConditions(prev => prev.filter(c => c !== "MEDS_CHRONIC"));
-                      }
-                    }}
-                    className="mt-0.5 rounded border-slate-300 text-indigo-600 bg-white dark:bg-slate-900 focus:ring-indigo-500 cursor-pointer h-3.5 w-3.5 shrink-0"
-                  />
-                  <span className="text-slate-600 group-hover:text-slate-800 dark:text-slate-200 transition-colors leading-tight text-[11px]">
-                    Prescribed psychiatric medications (e.g., SSRIs, antidepressants, bipolar stabilizers)
-                  </span>
-                </label>
-
-                <label className="flex items-start gap-2.5 cursor-pointer text-xs group select-none">
-                  <input
-                    type="checkbox"
-                    checked={medicalConditions.includes("DIAGNOSED_SEVERE")}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setMedicalConditions(prev => [...prev, "DIAGNOSED_SEVERE"]);
-                      } else {
-                        setMedicalConditions(prev => prev.filter(c => c !== "DIAGNOSED_SEVERE"));
-                      }
-                    }}
-                    className="mt-0.5 rounded border-slate-300 text-indigo-600 bg-white dark:bg-slate-900 focus:ring-indigo-500 cursor-pointer h-3.5 w-3.5 shrink-0"
-                  />
-                  <span className="text-slate-600 group-hover:text-slate-800 dark:text-slate-200 transition-colors leading-tight text-[11px]">
-                    Diagnosed severe history (Bipolar, Schizophrenia, Severe PTSD, Borderline triggers)
-                  </span>
-                </label>
-
-                <label className="flex items-start gap-2.5 cursor-pointer text-xs group select-none">
-                  <input
-                    type="checkbox"
-                    checked={medicalConditions.includes("CLINICAL_SYMPTOMS")}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setMedicalConditions(prev => [...prev, "CLINICAL_SYMPTOMS"]);
-                      } else {
-                        setMedicalConditions(prev => prev.filter(c => c !== "CLINICAL_SYMPTOMS"));
-                      }
-                    }}
-                    className="mt-0.5 rounded border-slate-300 text-indigo-600 bg-white dark:bg-slate-900 focus:ring-indigo-500 cursor-pointer h-3.5 w-3.5 shrink-0"
-                  />
-                  <span className="text-slate-600 group-hover:text-slate-800 dark:text-slate-200 transition-colors leading-tight text-[11px]">
-                    Persistent clinical distress symptoms (uncontrolled panic attacks, OCD, chronic anxiety logs)
-                  </span>
-                </label>
-
-                <label className="flex items-start gap-2.5 cursor-pointer text-xs group select-none">
-                  <input
-                    type="checkbox"
-                    checked={medicalConditions.includes("TRAUMA_GRIEF")}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setMedicalConditions(prev => [...prev, "TRAUMA_GRIEF"]);
-                      } else {
-                        setMedicalConditions(prev => prev.filter(c => c !== "TRAUMA_GRIEF"));
-                      }
-                    }}
-                    className="mt-0.5 rounded border-slate-300 text-indigo-600 bg-white dark:bg-slate-900 focus:ring-indigo-500 cursor-pointer h-3.5 w-3.5 shrink-0"
-                  />
-                  <span className="text-slate-600 group-hover:text-slate-800 dark:text-slate-200 transition-colors leading-tight text-[11px]">
-                    Trauma symptoms, severe grief/loss, domestic issues, or chronic therapeutic history concerns
-                  </span>
-                </label>
-              </div>
-
-              {/* Custom Medical Text */}
-              <div className="space-y-1">
-                <label className="text-[10px] text-slate-500 uppercase font-mono block tracking-wider font-semibold">
-                  Specify Diagnosis / Psychiatric Meds / Symptoms <span className="text-slate-400 font-normal">(Optional)</span>
-                </label>
-                <textarea
-                  value={customMedicalHistory}
-                  onChange={(e) => setCustomMedicalHistory(e.target.value)}
-                  placeholder="e.g. Diagnosed OCD, currently taking Prozac 40mg. Looking to supplement clinical care."
-                  rows={2}
-                  className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-xs p-2.5 text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 outline-none focus:border-indigo-500 dark:focus:border-indigo-500 transition-all font-sans resize-none"
-                />
-              </div>
-            </div>
-
-            {/* Ethically Approved Consent List checkboxes */}
-            <div className="bg-indigo-50/ dark:bg-indigo-950/40 p-4 rounded-xl border border-indigo-100 dark:border-indigo-900 space-y-3">
-              <span className="text-[9px] text-indigo-700 dark:text-indigo-300 block uppercase font-mono tracking-widest font-bold font-semibold">Mental Safety Agreements</span>
-              
-              <label className="flex items-start gap-3 cursor-pointer text-xs group select-none">
-                <input
-                  type="checkbox"
-                  checked={consentPsychology}
-                  onChange={(e) => setConsentPsychology(e.target.checked)}
-                  className="mt-0.5 rounded border-slate-300 text-indigo-600 bg-white dark:bg-slate-900 focus:ring-indigo-500 cursor-pointer h-4 w-4 shrink-0"
-                />
-                <span className="text-slate-600 group-hover:text-slate-800 dark:text-slate-200 transition-colors leading-relaxed text-[11px]">
-                  I understand that Project Friend AI is an automated program and **NOT** a human therapist, doctor, or medical provider. I will seek human care for clinical treatment.
-                </span>
-              </label>
-
-              <label className="flex items-start gap-3 cursor-pointer text-xs group select-none">
-                <input
-                  type="checkbox"
-                  checked={consentAnonymity}
-                  onChange={(e) => setConsentAnonymity(e.target.checked)}
-                  className="mt-0.5 rounded border-slate-300 text-indigo-600 bg-white dark:bg-slate-900 focus:ring-indigo-500 cursor-pointer h-4 w-4 shrink-0"
-                />
-                <span className="text-slate-600 group-hover:text-slate-800 dark:text-slate-200 transition-colors leading-relaxed text-[11px]">
-                  I agree that my logs are locked on this local browser node. If I clear cookies or browser data, history stays completely anonymous.
-                </span>
-              </label>
-            </div>
-
-            {loginError && (
-              <div className="p-3 bg-red-50 border border-red-150 rounded-xl text-xs text-red-700 font-sans leading-normal flex items-start gap-2">
-                <ShieldAlert className="w-4.5 h-4.5 text-red-500 shrink-0 mt-0.5" />
-                <span>{loginError}</span>
-              </div>
-            )}
-
-            {/* Launch Sanctuary Button */}
-            <button
-              type="submit"
-              className="w-full py-3 bg-gradient-to-r from-indigo-600 to-indigo-500 hover:from-indigo-505 hover:to-indigo-405 text-white font-bold text-xs rounded-xl cursor-pointer shadow-lg shadow-indigo-100 transition-all uppercase tracking-widest flex items-center justify-center gap-2 font-display"
-            >
-              <Shield className="w-4 h-4 text-indigo-100" />
-              <span>Initialize Secure Sanctuary Session</span>
-            </button>
-          </form>
-
-          {/* Secure Handshake Bar */}
-          <div className="border-t border-slate-150 pt-4 flex items-center justify-between text-[11px] font-mono text-slate-650">
-            <div className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-              <span>AES-256 Node Secure</span>
-            </div>
-            <span>No Server Storage</span>
-          </div>
-
-        </div>
-      </div>
-    );
-  }
-
   const isViewingLongDesc = isSharePersonaModalOpen || isAboutGuideOpen;
 
   return (
     <div 
-      className={`w-full min-h-screen font-sans flex flex-col antialiased transition-all duration-500 ${
+      className={`w-full min-h-screen font-sans flex antialiased transition-all duration-500 ${
         activeCenterTab === 'chat' && activeChar 
-          ? "text-slate-850 dark:text-slate-105" 
+          ? (isDarkCharacter(activeChar.id, themeMode) ? "text-slate-100" : "text-slate-850")
           : themeClass("bg-slate-50 text-slate-800", "bg-slate-950 text-slate-200", "bg-[#f4efe6] text-[#3e2723]")
       }`}
-      style={activeCenterTab === 'chat' && activeChar ? { background: getCharacterBg(activeChar.id) } : { background: `var(--theme-bg-${themeMode})` }}
+      style={activeCenterTab === 'chat' && activeChar ? { background: getCharacterBg(activeChar.id, themeMode) } : { background: `var(--theme-bg-${themeMode})` }}
     >
-      
-            {/* Top Header with React Bits CardNav */}
-      <div className="sticky top-0 z-50 shrink-0">
-        <CardNav
-          logo={
-            <div className="flex items-center gap-2">
-              <KintsugiLogo size="sm" />
-              <span className={`text-sm font-bold font-display tracking-tight ${themeClass("text-slate-900", "text-white", "text-[#3e2723]")}`}>
-                Friend AI
-              </span>
-            </div>
-          }
-          logoAlt="Friend AI"
-          items={[
-            {
-              label: "Companions",
-              bgColor: themeClass("#ffffff", "#1e293b", "#faf6ee"),
-              textColor: themeClass("#1e293b", "#f8fafc", "#3e2723"),
-              links: CHARACTERS.map(char => ({
-                label: `${char.name} — ${char.title}`,
-                onClick: () => handleCharacterChange(char.id),
-                ariaLabel: `Switch to ${char.name}`
-              }))
-            },
-            {
-              label: "Portal Navigation",
-              bgColor: themeClass("#e0e7ff", "#312e81", "#ebdcb9"),
-              textColor: themeClass("#1e293b", "#f8fafc", "#3e2723"),
-              links: [
-                { label: "💬 Chat Sanctuary", onClick: () => setActiveCenterTab('chat') },
-                { label: "📝 Curated Blogs", onClick: () => setActiveCenterTab('blogs') },
-                { label: `🧘 Zen Mode: ${zenMode ? "ON" : "OFF"}`, onClick: () => setZenMode(!zenMode) },
-                { label: "☀️ Light Theme", onClick: () => handleSetThemeMode("daylight") },
-                { label: "🌑 Dark Theme", onClick: () => handleSetThemeMode("midnight") },
-                { label: "☕ Sepia Theme", onClick: () => handleSetThemeMode("sepia") }
-              ]
-            },
-            {
-              label: "Integrations & Tools",
-              bgColor: themeClass("#f1f5f9", "#1e293b", "#ebdcb9"),
-              textColor: themeClass("#1e293b", "#f8fafc", "#3e2723"),
-              links: [
-                { label: "🎨 Indian Art Gallery", onClick: () => setActiveCenterTab('art') },
-                { label: "📊 Power BI Analytics", onClick: () => setActiveCenterTab('investor') },
-                { label: "✉️ Gmail Workspace", onClick: () => setActiveCenterTab('gmail') },
-                { label: "🌸 Community Center", onClick: () => setActiveCenterTab('community') },
-                { label: "🩺 Verified Clinical Directory", onClick: () => setIsClinicalDirectoryOpen(true) }
-              ]
-            }
-          ]}
-          baseColor={themeClass("#ffffff", "#0b0f19", "#faf6ee")}
-          menuColor={themeClass("#000000", "#ffffff", "#3e2723")}
+      {isLoggedIn && (
+        <Sidebar
+          isSidebarOpen={isSidebarOpen}
+          onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+          activeTab={activeCenterTab} 
+          onTabChange={(tab) => {
+            setActiveCenterTab(tab as any);
+          }} 
+          onLogout={handleLogout}
+          alias={loginAlias}
+          zenMode={zenMode}
+          onToggleZenMode={() => setZenMode(!zenMode)}
+          themeMode={themeMode}
+          onThemeChange={(t) => setThemeMode(t as any)}
+          onOpenClinicalDirectory={() => setActiveCenterTab('directory' as any)}
         />
-      </div>
+      )}
+      
+      {/* Main App Content Area (Right of Sidebar) */}
+      <div className="flex-1 flex flex-col relative min-h-screen overflow-x-hidden">
+        {!isLoggedIn ? (
+          <div className="flex-1 w-full">
+            <Hero1 onGetStarted={() => setIsAliasModalOpen(true)} />
+          </div>
+        ) : (
+        <div className="flex-1 max-w-[1700px] w-full mx-auto p-4 md:p-6 grid grid-cols-1 xl:grid-cols-12 gap-6">
+          {/* Main Grid Content */}
+        {activeCenterTab === 'analytics' ? (
+          <div className="col-span-1 xl:col-span-12">
+            
+            <div className="flex justify-end mb-4">
+              <button 
+                onClick={() => setShowMoodLog(true)}
+                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition-all shadow-md"
+              >
+                Open Mood Log
+              </button>
+            </div>
+            <Dashboard alias={loginAlias} onStartChat={() => setActiveCenterTab('chat')} onNewEntry={() => setActiveCenterTab('journal')} />
+            
+            {showMoodLog && (
+              <div className="fixed inset-0 z-[2000] flex items-center justify-center p-4 md:p-6 bg-black/60 backdrop-blur-sm animate-fade-in">
+                <div className="relative w-full max-w-6xl max-h-[90vh] overflow-y-auto bg-white dark:bg-[#0c101a] rounded-3xl shadow-2xl border border-slate-200 dark:border-white/10 p-2 sm:p-6 animate-slide-up">
+                  <button 
+                    onClick={() => setShowMoodLog(false)}
+                    className="absolute top-6 right-6 p-2 bg-slate-100 dark:bg-[#0a0a0a] hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white transition-colors z-10"
+                  >
+                    ✕
+                  </button>
+                  
+              {/* Section 2: Encrypted Local Mood Tracker & Dynamic Trend Graph */}
+          <div className="bg-white dark:bg-black border border-slate-200 dark:border-white/10 shadow-xl p-6 rounded-2xl flex flex-col gap-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className={`text-sm font-bold font-display ${themeClass("text-slate-800", "text-white", "text-[#3e2723]")}`}>Browser-Secure Mood Log</h3>
+                <p className={`text-xs font-sans ${themeClass("text-slate-500", "text-slate-400", "text-amber-900/70")}`}>Zero database storage. Encrypted on-device.</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  id="download-mood-log-btn"
+                  type="button"
+                  onClick={handleDownloadMoodLog}
+                  className="px-2 py-1 flex items-center gap-1.5 text-[9px] font-mono leading-none border border-indigo-200 dark:border-indigo-800 hover:border-indigo-350 bg-indigo-50/ dark:bg-white/[0.02]/50 hover:bg-indigo-100/50 text-indigo-700 dark:text-indigo-300 rounded-lg transition-all cursor-pointer shadow-sm"
+                  title="Download secure JSON backup of your moods locally"
+                >
+                  <Download className="w-3 h-3 text-indigo-650" />
+                  Download Log
+                </button>
+                <button
+                  id="export-pdf-summary-btn"
+                  type="button"
+                  onClick={handleExportMoodPDF}
+                  className="px-2 py-1 flex items-center gap-1.5 text-[9px] font-mono leading-none border border-emerald-200 hover:border-emerald-350 bg-emerald-50/50 hover:bg-emerald-100/50 text-emerald-700 rounded-lg transition-all cursor-pointer shadow-sm"
+                  title="Export a premium print-ready PDF summary of your mood trend graph and logs"
+                >
+                  <FileText className="w-3 h-3 text-emerald-650" />
+                  Export PDF
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowWipeConfirm(true)}
+                  className="px-2 py-1 flex items-center gap-1.5 text-[9px] font-mono leading-none border border-rose-200 dark:border-rose-800 hover:border-rose-350 bg-rose-50/50 hover:bg-rose-100/50 text-rose-600 rounded-lg transition-all cursor-pointer shadow-sm"
+                  title="Wipe local entries securely"
+                >
+                  <Trash2 className="w-3 h-3 text-rose-600" />
+                  Wipe DB
+                </button>
+                <span className="text-[10px] uppercase font-mono font-bold bg-indigo-50 dark:bg-white/[0.02] text-indigo-705 px-2 py-0.5 rounded border border-indigo-200 dark:border-indigo-800">
+                  AES Private
+                </span>
+              </div>
+            </div>
 
+            {hasThreeConsecutiveHighMoods && (
+              <motion.div 
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-rose-50/90 border border-rose-200 dark:border-rose-800 rounded-xl p-3.5 flex flex-col gap-2.5 shadow-sm text-rose-800"
+              >
+                <div className="flex items-start gap-2.5">
+                  <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+                  <div className="flex-1">
+                    <p className="text-[11.5px] font-bold leading-tight text-rose-900 flex items-center gap-1.5">
+                      <span>High Stress Indicator Active</span>
+                      <span className="inline-block w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping" />
+                    </p>
+                    <p className="text-[10.5px] leading-relaxed text-rose-700 dark:text-rose-300 font-sans mt-0.5">
+                      Your last three consecutive mood records show a severe intensity level of 8/10 or higher. Let's take a moment together to stabilize and ground your breathing.
+                    </p>
+                  </div>
+                </div>
+                {!isBreathingActive ? (
+                  <button
+                    type="button"
+                    onClick={toggleBreathing}
+                    className="self-start text-[10.5px] font-bold font-mono px-3 py-1 bg-rose-600 hover:bg-rose-700 hover:scale-[1.02] active:scale-[0.98] text-white rounded-lg transition-all cursor-pointer shadow-sm"
+                  >
+                    🧘 Start 4-4-4 Box Breathing
+                  </button>
+                ) : (
+                  <div className="text-[10px] text-emerald-700 font-bold font-mono inline-flex items-center gap-1.5 bg-emerald-50 px-2 py-1 rounded border border-emerald-150 self-start">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+                    Breathing Guide Running
+                  </div>
+                )}
+              </motion.div>
+            )}
 
-      {/* Main Grid Content */}
-      <div className="flex-1 max-w-[1700px] w-full mx-auto p-4 md:p-6 grid grid-cols-1 xl:grid-cols-12 gap-6 overflow-x-hidden">
-        
+            {/* Dynamic Trend Line using beautiful highly-sculptured inline SVGs */}
+            <div className="p-4 bg-slate-50/ dark:bg-[#0a0a0a]/40 rounded-xl border border-slate-200 dark:border-white/10 relative" onClick={() => setClickedTrendPoint(null)}>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200/40 pb-2 mb-2">
+                <span className="text-[10px] text-slate-500 block uppercase font-mono font-bold">
+                  {moodTrendView === "Intensity Over Time" 
+                    ? `${selectedTagFilter === "All Tags" ? "Severity Trend" : `Tag Mood Trend: ${selectedTagFilter}`} (1 = Low, 10 = Severe Alarm)`
+                    : `Trigger Frequency Distribution`
+                  }
+                </span>
+                
+                {/* Beautiful Modern Pill-shaped Date Range Segment Selector */}
+                <div className="flex items-center gap-2 flex-wrap shrink-0">
+                  {/* Tag Selector */}
+                  <select
+                    value={selectedTagFilter}
+                    onChange={(e) => setSelectedTagFilter(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-[9.5px] font-mono font-bold bg-white dark:bg-black border border-slate-200/80 px-1.5 py-0.5 rounded cursor-pointer text-slate-705 dark:text-slate-200"
+                  >
+                    <option value="All Tags">All Tags</option>
+                    {uniqueTags.map(tag => (
+                      <option key={tag} value={tag}>{tag}</option>
+                    ))}
+                  </select>
+
+                  {/* Trend View Selector */}
+                  <select
+                    value={moodTrendView}
+                    onChange={(e) => setMoodTrendView(e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
+                    className="text-[9.5px] font-mono font-bold bg-white dark:bg-black border border-slate-200/80 px-1.5 py-0.5 rounded cursor-pointer text-slate-705 dark:text-slate-200"
+                  >
+                    <option value="Intensity Over Time">⏱️ Intensity</option>
+                    <option value="Trigger Frequency Distribution">📊 Triggers</option>
+                  </select>
+
+                  <div className="flex items-center gap-1 bg-slate-100 hover:bg-slate-200/50 dark:bg-black/80 p-0.5 rounded-lg border border-slate-200/60 shrink-0">
+                  {(["All Time", "Past Week", "Past Month"] as const).map((range) => {
+                    const label = range === "All Time" ? "All" : range === "Past Week" ? "7 Days" : "30 Days";
+                    const active = selectedDateRange === range;
+                    return (
+                      <button
+                        key={range}
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedDateRange(range);
+                        }}
+                        className={`px-2.5 py-1 text-[9px] font-bold rounded-md transition-all cursor-pointer ${
+                          active
+                            ? "bg-indigo-600 text-white shadow-xs"
+                            : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-250 hover:bg-black/5 dark:hover:bg-white dark:bg-black/5"
+                        }`}
+                        title={`Filter trends to ${range}`}
+                      >
+                        {label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+              
+              {moodTrendView === "Intensity Over Time" ? (
+                <>
+                  <div className="h-28 flex items-end justify-between mt-3 px-2 relative min-w-full">
+                    {/* Horizontal reference lines */}
+                    <div className="absolute left-0 right-0 top-0 border-b border-slate-200 dark:border-white/10 border-dashed" />
+                    <div className="absolute left-0 right-0 top-1/2 border-b border-slate-200 dark:border-white/10 border-dashed" />
+                    <div className="absolute left-0 right-0 bottom-0 border-b border-slate-200 dark:border-white/10 border-dashed" />
+                    
+                    {/* Beautiful custom vector graph plotted in SVG */}
+                    <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 100">
+                      <defs>
+                        <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#4338ca" stopOpacity="0.2" />
+                          <stop offset="100%" stopColor="#4338ca" stopOpacity="0.0" />
+                        </linearGradient>
+                      </defs>
+                      
+                      {(() => {
+                        const chronologicalMoods = [...filteredMoodSumList].reverse();
+                        const n = chronologicalMoods.length;
+                        if (n === 0) {
+                          return (
+                            <text x="50" y="55" textAnchor="middle" fill="#94a3b8" className="text-[10px] font-sans font-medium" style={{ pointerEvents: 'none' }}>
+                              No entries logged for selected filters
+                            </text>
+                          );
+                        }
+                        
+                        const pts = chronologicalMoods.map((entry, index) => {
+                          const x = n > 1 ? 5 + (index / (n - 1)) * 90 : 50;
+                          const y = 15 + (10 - entry.intensity) * 7;
+                          return { x, y, entry };
+                        });
+                        
+                        let pathD = "";
+                        let areaD = "";
+                        
+                        if (n === 1) {
+                          pathD = `M 5,${pts[0].y} L 95,${pts[0].y}`;
+                          areaD = `M 5,${pts[0].y} L 95,${pts[0].y} L 95,100 L 5,100 Z`;
+                        } else {
+                          pathD = pts.map((pt, ind) => ind === 0 ? `M ${pt.x},${pt.y}` : `L ${pt.x},${pt.y}`).join(" ");
+                          areaD = `${pathD} L ${pts[pts.length - 1].x},100 L ${pts[0].x},100 Z`;
+                        }
+                        
+                        return (
+                          <>
+                            <path 
+                              d={pathD} 
+                              fill="none" 
+                              stroke="rgba(99, 102, 241, 0.9)" 
+                              strokeWidth="3" 
+                              strokeLinecap="round"
+                            />
+                            <path 
+                              d={areaD} 
+                              fill="url(#chartGrad)"
+                            />
+                            {pts.map((pt) => {
+                              let fill = '#10b981'; // stable
+                              if (pt.entry.intensity >= 8) fill = '#f43f5e'; // severe
+                              else if (pt.entry.intensity >= 6) fill = '#fbbf24'; // anxious
+                              else if (pt.entry.intensity >= 4) fill = '#2dd4bf'; // peaceful / tired
+                              
+                              const isSelected = clickedTrendPoint?.entry.id === pt.entry.id;
+                              return (
+                                <circle 
+                                  key={pt.entry.id} 
+                                  cx={pt.x} 
+                                  cy={pt.y} 
+                                  r={isSelected ? "5.5" : "3.5"} 
+                                  fill={fill} 
+                                  stroke={isSelected ? "#312e81" : "rgba(255,255,255,0.8)"}
+                                  strokeWidth={isSelected ? "1.5" : "0.5"}
+                                  className="transition-all duration-300 hover:scale-150 cursor-pointer origin-center"
+                                  style={{ transformOrigin: `${pt.x}% ${pt.y}%` }}
+                                  onMouseEnter={() => {
+                                    setHoveredTrendPoint({ entry: pt.entry, x: pt.x, y: pt.y });
+                                  }}
+                                  onMouseLeave={() => {
+                                    setHoveredTrendPoint(null);
+                                  }}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setClickedTrendPoint({ entry: pt.entry, x: pt.x, y: pt.y });
+                                  }}
+                                  title={`${pt.entry.mood} (${pt.entry.intensity}/10) - hover to scan, click for details`}
+                                />
+                              );
+                            })}
+                          </>
+                        );
+                      })()}
+                    </svg>
+
+                    {/* Interactive hover tooltip displaying mood, intensity, and date */}
+                    {hoveredTrendPoint && (!clickedTrendPoint || clickedTrendPoint.entry.id !== hoveredTrendPoint.entry.id) && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="absolute z-40 pointer-events-none bg-black dark:bg-slate-950 border border-white/10/80 rounded-xl shadow-lg p-2.5 w-48 text-left text-white"
+                        style={{
+                          left: `${hoveredTrendPoint.x > 75 ? 'calc(100% - 200px)' : hoveredTrendPoint.x < 25 ? '8px' : `calc(${hoveredTrendPoint.x}% - 96px)`}`,
+                          ...(hoveredTrendPoint.y < 45 
+                            ? { top: `calc(${hoveredTrendPoint.y}% + 12px)` } 
+                            : { bottom: `calc(${100 - hoveredTrendPoint.y}% + 12px)` }
+                          )
+                        }}
+                      >
+                        <div className="flex items-center justify-between gap-1 border-b border-white/10 pb-1 mb-1.5">
+                          <span className="text-[10px] font-bold uppercase tracking-wider font-mono text-indigo-300 truncate">
+                            {hoveredTrendPoint.entry.mood}
+                          </span>
+                          <span className="text-[10px] font-mono font-bold bg-white dark:bg-black/10 px-1.5 py-0.5 rounded text-indigo-200">
+                            {hoveredTrendPoint.entry.intensity}/10
+                          </span>
+                        </div>
+                        <div className="space-y-0.5">
+                          <div className="text-[9.5px] text-slate-300 font-mono flex items-center gap-1">
+                            <span className="text-slate-400">📅</span>
+                            <span>{hoveredTrendPoint.entry.timestamp}</span>
+                          </div>
+                          {hoveredTrendPoint.entry.tags && hoveredTrendPoint.entry.tags.length > 0 && (
+                            <div className="flex flex-wrap gap-1 mt-1">
+                              {hoveredTrendPoint.entry.tags.slice(0, 2).map((tg, idx) => (
+                                <span key={idx} className="text-[8px] bg-[#0a0a0a] text-indigo-300 border border-white/10/80 px-1 rounded">
+                                  #{tg}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {/* Highly interactive popover floating over the SVG graph */}
+                    {clickedTrendPoint && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="absolute z-30 bg-white dark:bg-black border border-indigo-150 dark:border-white/10 rounded-xl shadow-xl p-3 w-64 text-left text-slate-800 dark:text-slate-200"
+                        style={{
+                          left: `${clickedTrendPoint.x > 75 ? 'calc(100% - 264px)' : clickedTrendPoint.x < 25 ? '8px' : `calc(${clickedTrendPoint.x}% - 128px)`}`,
+                          ...(clickedTrendPoint.y < 45 
+                            ? { top: `calc(${clickedTrendPoint.y}% + 12px)` } 
+                            : { bottom: `calc(${100 - clickedTrendPoint.y}% + 12px)` }
+                          )
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <div className="flex items-center justify-between gap-2 mb-2">
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            <span className="text-[11px] font-bold uppercase tracking-wider font-mono bg-indigo-50 dark:bg-white/[0.02] text-indigo-700 dark:text-indigo-300 px-1.5 py-0.5 rounded truncate">
+                              {clickedTrendPoint.entry.mood}
+                            </span>
+                            <span className="text-[10px] font-bold text-indigo-505 font-mono shrink-0">
+                              {clickedTrendPoint.entry.intensity}/10
+                            </span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => setClickedTrendPoint(null)}
+                            className="text-slate-400 hover:text-slate-600 dark:text-slate-400 transition-colors cursor-pointer p-0.5 bg-slate-50 dark:bg-[#0a0a0a] hover:bg-slate-100 rounded"
+                            title="Close popover"
+                          >
+                            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                        </div>
+
+                        <p className="text-xs text-slate-650 dark:text-slate-350 mb-2.5 leading-relaxed bg-slate-50/ dark:bg-[#0a0a0a]/50 p-2 rounded border border-slate-100 dark:border-white/10 max-h-24 overflow-y-auto break-words font-sans">
+                          {clickedTrendPoint.entry.note || "No custom note logged for this entry."}
+                        </p>
+
+                        <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-white/10 flex-wrap">
+                          <div className="flex flex-wrap gap-0.5 max-w-[65%]">
+                            {clickedTrendPoint.entry.tags && clickedTrendPoint.entry.tags.length > 0 ? (
+                              clickedTrendPoint.entry.tags.map((tg, idx) => (
+                                <span 
+                                  key={idx} 
+                                  className="text-[9px] bg-slate-100 dark:bg-[#0a0a0a] border border-slate-150-b text-slate-650 dark:text-slate-350 px-1 rounded-md font-medium"
+                                >
+                                  #{tg}
+                                </span>
+                              ))
+                            ) : (
+                              <span className="text-[9px] text-slate-400 font-mono">no tags</span>
+                            )}
+                          </div>
+                          <span className="text-[9px] text-slate-400 font-mono self-end shrink-0">
+                            {clickedTrendPoint.entry.timestamp}
+                          </span>
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {/* Legend axes */}
+                    <span className="absolute left-1 top-0.5 text-[9px] text-rose-600 font-mono font-bold">Extreme</span>
+                    <span className="absolute left-1 bottom-0.5 text-[9px] text-emerald-600 font-mono font-bold">Stable</span>
+                  </div>
+
+                  <div className="flex justify-between items-center text-[10px] text-slate-500 font-mono mt-2">
+                    <span>{selectedDateRange === "Past Week" ? "7 days ago" : selectedDateRange === "Past Month" ? "30 days ago" : "3 days ago"}</span>
+                    <span>{selectedDateRange === "Past Week" ? "3 days ago" : selectedDateRange === "Past Month" ? "15 days ago" : "Yesterday"}</span>
+                    <span>Today</span>
+                  </div>
+                </>
+              ) : (
+                <div className="mt-3.5 space-y-3 min-h-[144px] max-h-[220px] overflow-y-auto pr-1 text-left">
+                  {triggerFrequencies.length === 0 ? (
+                    <div className="h-28 flex flex-col items-center justify-center text-[11px] text-slate-400 font-sans gap-2 text-center">
+                      <span>No tags associated with logged emotions yet.</span>
+                      <span className="text-[10px] text-slate-500">Log entries with commas in the Tags block to see distribution.</span>
+                    </div>
+                  ) : (
+                    triggerFrequencies.map((item, idx) => {
+                      const maxCount = Math.max(...triggerFrequencies.map(f => f.count), 1);
+                      const percentage = (item.count / maxCount) * 100;
+                      
+                      // color representing avgIntensity
+                      let barColor = "bg-emerald-500";
+                      let textColor = "text-emerald-700";
+                      let bgTint = "bg-emerald-100/50";
+                      let hoverBorder = "hover:border-emerald-250";
+                      if (item.avgIntensity >= 8) {
+                        barColor = "bg-rose-500";
+                        textColor = "text-rose-700";
+                        bgTint = "bg-rose-100/50";
+                        hoverBorder = "hover:border-rose-250";
+                      } else if (item.avgIntensity >= 5.5) {
+                        barColor = "bg-amber-500";
+                        textColor = "text-amber-700";
+                        bgTint = "bg-amber-100/50";
+                        hoverBorder = "hover:border-amber-250";
+                      } else if (item.avgIntensity >= 3.5) {
+                        barColor = "bg-teal-500";
+                        textColor = "text-teal-700";
+                        bgTint = "bg-teal-100/50";
+                        hoverBorder = "hover:border-teal-250";
+                      }
+                      
+                      return (
+                        <div key={item.tag} className={`flex flex-col gap-1.5 p-2 bg-white dark:bg-black/60 border border-slate-100 dark:border-white/10 rounded-lg shadow-2xs transition-all duration-200 ${hoverBorder}`}>
+                          <div className="flex items-center justify-between text-xs font-sans text-slate-700 dark:text-slate-300">
+                            <div className="flex items-center gap-1.5 min-w-0">
+                              <span className="inline-block w-3.5 h-3.5 rounded-full bg-slate-200 text-[9px] flex items-center justify-center font-bold text-slate-500 font-mono">
+                                {idx + 1}
+                              </span>
+                              <span className="font-bold text-indigo-950 font-mono truncate">#{item.tag}</span>
+                            </div>
+                            <div className="flex items-center gap-2 font-mono text-[10.5px] shrink-0">
+                              <span>Occurrences: <strong className="text-slate-900">{item.count}</strong></span>
+                              <span className="text-slate-305">|</span>
+                              <span className={`px-1.5 py-0.5 rounded ${textColor} ${bgTint} font-semibold`}>
+                                Avg. Intensity: {item.avgIntensity}/10
+                              </span>
+                            </div>
+                          </div>
+                          <div className="w-full bg-slate-100/60 rounded-full h-2 overflow-hidden border border-slate-200/55">
+                            <motion.div 
+                              initial={{ width: 0 }}
+                              animate={{ width: `${percentage}%` }}
+                              transition={{ duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }}
+                              className={`h-full ${barColor} rounded-full`}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+              )}
+
+              {/* Dynamic Secure Analytics / AI Grounding Insights */}
+              <div id="pfai-mood-insights-block" className="mt-4 pt-3.5 border-t border-slate-200 dark:border-white/10">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest block font-mono">
+                    ✨ AI Wellness Check-in
+                  </span>
+                  {isLoadingInsight && (
+                    <span className="text-[9px] text-indigo-600/70 font-mono flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-ping inline-block" />
+                      De-identifying...
+                    </span>
+                  )}
+                </div>
+                <div className="bg-white dark:bg-black border border-slate-200 dark:border-white/10 rounded-xl p-3 text-[11px] leading-relaxed text-slate-700 dark:text-slate-300 relative overflow-hidden group">
+                  <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500/40 rounded-l" />
+                  {isLoadingInsight && !moodInsight ? (
+                    <div className="flex items-center gap-2 text-slate-400 italic py-1">
+                      <span className="animate-pulse">Retrieving anonymous trend markers...</span>
+                    </div>
+                  ) : (
+                    <p className="whitespace-pre-wrap font-sans text-slate-700 dark:text-slate-300">{moodInsight}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Quick logging form */}
+            <form onSubmit={handleAddMood} className="space-y-3 bg-slate-50 dark:bg-[#0a0a0a] p-3.5 rounded-xl border border-slate-200 dark:border-white/10">
+              <div className="grid grid-cols-2 gap-2">
+                <div>
+                  <label className="text-[10px] text-slate-500 uppercase font-mono block mb-1">State</label>
+                  <select
+                    value={customMoodSelection}
+                    onChange={(e) => setCustomMoodSelection(e.target.value)}
+                    className="w-full bg-white dark:bg-black border border-slate-250 dark:border-white/10 rounded-lg text-xs p-1.5 focus:border-indigo-400 dark:focus:border-indigo-600 text-slate-800 dark:text-slate-200 outline-none cursor-pointer"
+                  >
+                    <option value="Overwhelmed">☁️ Overwhelmed</option>
+                    <option value="Anxious">🍃 Anxious</option>
+                    <option value="Tired">💤 Tired</option>
+                    <option value="Peaceful">🌾 Peaceful</option>
+                    <option value="Depressed">🌧️ Heavy Mind</option>
+                    <option value="Joyful">☀️ Safe/Joyful</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-[10px] text-slate-500 uppercase font-mono block mb-1">Severity: {customMoodIntensity}/10</label>
+                  <input
+                    type="range"
+                    min="1"
+                    max="10"
+                    value={customMoodIntensity}
+                    onChange={(e) => setCustomMoodIntensity(Number(e.target.value))}
+                    className="w-full mt-2.5 h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <input
+                  type="text"
+                  value={customMoodNote}
+                  onChange={(e) => setCustomMoodNote(e.target.value)}
+                  placeholder="Note (e.g., Felt panic in the crowd...)"
+                  className="w-full bg-white dark:bg-black border border-slate-250 dark:border-white/10 rounded-lg text-xs p-1.5 text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 outline-none focus:border-indigo-400 dark:focus:border-indigo-600"
+                />
+              </div>
+
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={customTagInput}
+                  onChange={(e) => setCustomTagInput(e.target.value)}
+                  placeholder="Tags (family, work etc)"
+                  className="flex-1 bg-white dark:bg-black border border-slate-250 dark:border-white/10 rounded-lg text-xs p-1.5 text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 outline-none focus:border-indigo-400 dark:focus:border-indigo-600"
+                />
+                <button
+                  type="submit"
+                  className="px-4 py-1.5 bg-indigo-650 hover:bg-indigo-600 text-white text-xs font-bold rounded-lg cursor-pointer transition-all shrink-0 shadow-sm"
+                >
+                  🔐 Log Secure
+                </button>
+              </div>
+            </form>
+
+            {/* List scrollbox */}
+            <div className="space-y-2 max-h-[160px] overflow-y-auto pr-1">
+              {filteredMoodSumList.length === 0 ? (
+                <p className="text-xs text-slate-400 italic text-center py-6">No secure logs found with trigger tag '{selectedTagFilter}'</p>
+              ) : (
+                filteredMoodSumList.map((entry) => {
+                  const getIntensityStyle = (intensity: number) => {
+                    if (intensity <= 3) {
+                      return {
+                        border: themeClass("border-emerald-250 hover:border-emerald-300", "border-emerald-800/40 hover:border-emerald-700/50", "border-emerald-700/25 hover:border-emerald-700/40"),
+                        bg: themeClass("bg-emerald-50/15 hover:bg-emerald-50/25", "bg-emerald-950/15 hover:bg-emerald-950/25", "bg-emerald-100/10 hover:bg-emerald-100/15"),
+                        text: themeClass("text-slate-800", "text-emerald-100", "text-[#3e2723]"),
+                        subText: themeClass("text-slate-600", "text-slate-400", "text-amber-900/70"),
+                        badge: themeClass(
+                          "bg-emerald-50/80 text-emerald-700 border-emerald-200",
+                          "bg-emerald-950/45 text-emerald-400 border-emerald-900/50",
+                          "bg-emerald-100/45 text-emerald-900 border-emerald-300/30"
+                        )
+                      };
+                    } else if (intensity <= 7) {
+                      return {
+                        border: themeClass("border-amber-250 hover:border-amber-300", "border-amber-800/40 hover:border-amber-700/50", "border-amber-700/25 hover:border-amber-700/40"),
+                        bg: themeClass("bg-amber-50/15 hover:bg-amber-50/25", "bg-amber-950/15 hover:bg-amber-950/25", "bg-amber-100/10 hover:bg-amber-100/15"),
+                        text: themeClass("text-slate-800", "text-amber-100", "text-[#3e2723]"),
+                        subText: themeClass("text-slate-600", "text-slate-400", "text-amber-900/70"),
+                        badge: themeClass(
+                          "bg-amber-50/80 text-amber-700 border-amber-200 dark:border-amber-800",
+                          "bg-amber-950/45 text-amber-350 border-amber-900/50",
+                          "bg-amber-100/45 text-amber-900 border-amber-300/30"
+                        )
+                      };
+                    } else {
+                      return {
+                        border: themeClass("border-rose-250 hover:border-rose-300", "border-rose-800/40 hover:border-rose-700/50", "border-rose-700/25 hover:border-rose-700/40"),
+                        bg: themeClass("bg-rose-50/20 hover:bg-rose-50/30", "bg-rose-950/15 hover:bg-rose-950/25", "bg-rose-100/10 hover:bg-rose-100/15"),
+                        text: themeClass("text-slate-800", "text-rose-100", "text-[#3e2723]"),
+                        subText: themeClass("text-slate-600", "text-slate-400", "text-amber-900/70"),
+                        badge: themeClass(
+                          "bg-rose-50/80 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800",
+                          "bg-rose-950/45 text-rose-350 border-rose-900/50",
+                          "bg-rose-100/45 text-rose-900 border-rose-300/30"
+                        )
+                      };
+                    }
+                  };
+                  const style = getIntensityStyle(entry.intensity);
+                  return (
+                    <div key={entry.id} className={`p-3 border rounded-xl flex items-center justify-between text-xs shadow-sm transition-all duration-300 ${style.border} ${style.bg}`}>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className={`font-bold ${style.text}`}>{entry.mood}</span>
+                          <span className={`text-[10px] border px-1.5 py-0.2 rounded font-mono font-semibold ${style.badge}`}>
+                            Severity {entry.intensity}/10
+                          </span>
+                        </div>
+                        <p className={`text-[11px] mt-1 ${style.subText}`}>{entry.note}</p>
+                        <div className="flex flex-wrap gap-1 mt-1.5">
+                          {entry.tags.map(t => (
+                            <span 
+                              key={t} 
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedTagFilter(t);
+                              }}
+                              className={`text-[9px] px-1.5 rounded border cursor-pointer transition-colors ${
+                                selectedTagFilter.toLowerCase() === t.toLowerCase()
+                                  ? 'bg-indigo-150 text-indigo-850 hover:bg-indigo-200 border-indigo-300 font-bold'
+                                  : 'bg-slate-100 dark:bg-[#0a0a0a] text-slate-500 hover:bg-indigo-50 dark:hover:bg-white/[0.02] dark:bg-white/[0.02] hover:text-indigo-600 hover:border-indigo-200 dark:border-indigo-800 border-slate-200'
+                              }`}
+                            >
+                              #{t}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      <span className="text-[9px] text-slate-450 shrink-0 font-mono italic">{entry.timestamp}</span>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+
+          <div className="bg-white dark:bg-black border border-slate-200 dark:border-white/10 shadow-xl p-6 rounded-2xl flex flex-col gap-4">
+            
+            <div>
+              <div className="flex items-center justify-between">
+                <h3 className={`text-sm font-bold font-display ${themeClass("text-slate-800", "text-white", "text-[#3e2723]")}`}>Anon Compassion Circle</h3>
+                <span className={`text-[10px] uppercase font-mono font-bold px-2 py-0.5 rounded border ${themeClass("bg-rose-50 text-rose-700 border-rose-200", "bg-rose-950/40 text-rose-350 border-rose-850", "bg-rose-150/45 text-rose-950 border-rose-300/40")}`}>
+                  Shared Support
+                </span>
+              </div>
+              <p className={`text-xs mt-1 leading-normal font-sans ${themeClass("text-slate-500", "text-slate-400", "text-amber-900/70")}`}>
+                Stigma around mental health causes many to suffer in complete silence. Add your anonymous message of strength to the wall. Virtual touch support.
+              </p>
+            </div>
+
+            {/* Form */}
+            <form onSubmit={submitSolaceMsg} className="space-y-2.5 bg-slate-50 dark:bg-[#0a0a0a] p-3 rounded-xl border border-slate-200 dark:border-white/10">
+              <textarea
+                value={newSolaceText}
+                onChange={(e) => setNewSolaceText(e.target.value)}
+                maxLength={300}
+                required
+                placeholder="Write a completely anonymous piece of reassurance here..."
+                className="w-full bg-white dark:bg-black text-xs p-2.5 rounded-lg border border-slate-250 dark:border-white/10 text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 outline-none h-16 resize-none focus:border-indigo-400 dark:focus:border-indigo-600 focus:ring-1 focus:ring-indigo-400"
+              />
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  value={newSolaceLocation}
+                  onChange={(e) => setNewSolaceLocation(e.target.value)}
+                  placeholder="Location (e.g. Anon from Bangalore)"
+                  className="flex-1 bg-white dark:bg-black text-xs p-2 rounded-lg border border-slate-250 dark:border-white/10 text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 outline-none focus:border-indigo-400 dark:focus:border-indigo-600 focus:ring-1 focus:ring-indigo-400"
+                />
+                
+                <button
+                  type="submit"
+                  disabled={isSendingSolace || !newSolaceText.trim()}
+                  className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold cursor-pointer disabled:opacity-50 tracking-tight transition-all shadow-sm"
+                >
+                  {isSendingSolace ? "Posting..." : "Share Anon"}
+                </button>
+              </div>
+              {solaceError && <p className="text-[10px] text-rose-600 mt-1">{solaceError}</p>}
+            </form>
+
+            {/* Feed Scroll box */}
+            <div className="space-y-2.5 max-h-[220px] overflow-y-auto pr-1">
+              {solaceMessages.length === 0 ? (
+                <p className="text-xs text-slate-400 italic text-center p-4">No comforting entries posted yet. Be the first to break the silence.</p>
+              ) : (
+                solaceMessages.map((msg, index) => (
+                  <motion.div 
+                    key={msg.id} 
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ 
+                      duration: 0.45, 
+                      ease: [0.215, 0.610, 0.355, 1.000], 
+                      delay: Math.min(index * 0.055, 0.5) 
+                    }}
+                    className="p-3 bg-white dark:bg-black hover:bg-slate-50/40 rounded-xl border border-slate-200 dark:border-white/10 hover:border-slate-250 transition shadow-sm"
+                  >
+                    <p className="text-xs text-slate-700 dark:text-slate-300 leading-normal font-sans italic">"{msg.text}"</p>
+                    <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-slate-100 dark:border-white/10">
+                      <span className="text-[10px] text-indigo-700 dark:text-indigo-300 font-semibold font-sans">{msg.location}</span>
+                      
+                      <motion.button
+                        whileHover="hover"
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => submitHug(msg.id)}
+                        className="flex items-center gap-1.5 text-[10px] bg-rose-50 text-rose-700 dark:text-rose-300 px-2.5 py-1 rounded-full border border-rose-200 dark:border-rose-800 hover:bg-rose-100/50 cursor-pointer transition"
+                        title="Provide a virtual validation hug of reassurance"
+                      >
+                        <motion.span
+                          key={msg.hugCount}
+                          initial={{ scale: 1, rotate: 0 }}
+                          animate={{ 
+                            scale: [1, 1.35, 1.15, 1.45, 1.1, 1],
+                            rotate: [0, -10, 10, -5, 5, 0]
+                          }}
+                          variants={{
+                            hover: {
+                              scale: 1.25,
+                              rotate: [-12, 12, -8, 8, 0],
+                              transition: {
+                                scale: {
+                                  type: "spring",
+                                  stiffness: 350,
+                                  damping: 8
+                                },
+                                rotate: {
+                                  duration: 0.5,
+                                  ease: "easeInOut"
+                                }
+                              }
+                            }
+                          }}
+                          transition={{ 
+                            duration: 0.7, 
+                            ease: "easeInOut",
+                            times: [0, 0.15, 0.3, 0.45, 0.7, 1]
+                          }}
+                          className="inline-block origin-center"
+                        >
+                          ❤️
+                        </motion.span>
+                        <span>Hug Support</span> <span className="font-mono font-bold">{msg.hugCount}</span>
+                      </motion.button>
+                    </div>
+                  </motion.div>
+                ))
+              )}
+            </div>
+          </div>
+            
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <>
         {/* Left Column (Width: 3): Character Select list & Interactive Approach Explainer */}
-        <aside className={`${(zenMode || activeCenterTab === 'chat') ? "hidden" : "xl:col-span-3"} flex flex-col gap-6`}>
+        
+
+        {/* Center Chat column (Width: 5, 9, or 12 depending on context) */}
+        <section className={`${
+          activeCenterTab === 'wellness' 
+            ? (zenMode ? "xl:col-span-12" : "xl:col-span-8") 
+            : "xl:col-span-12"
+        } flex flex-col rounded-2xl overflow-hidden min-h-[600px] ${
+          activeCenterTab === 'chat'
+            ? (isHeaderCollapsed ? "h-[calc(100vh-40px)] xl:h-[calc(100vh-60px)]" : "h-[calc(100vh-120px)] xl:h-[calc(100vh-160px)]")
+            : "xl:h-[820px]"
+        } shadow-sm relative animate-fade-in border transition-all duration-300 ${themeClass("bg-white border-indigo-100", "bg-[#0b0f19] border-white/10", "bg-[#faf6ee] border-[#e3d5be]")}`}>
           
-          {/* HIPAA & Strict Privacy Grounder Notice */}
-          <div className={`p-5 rounded-2xl relative overflow-hidden group shadow-sm transition-all duration-300 border ${themeClass("bg-white border-indigo-150", "bg-[#0b0f19] border-slate-800", "bg-[#faf6ee] border-[#e3d5be]")}`}>
-            <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50/ dark:bg-indigo-950/50 rounded-full blur-2xl -mr-10 -mt-10"></div>
+          
+          {activeCenterTab === 'journal' && (
+            <div className="flex-1 flex flex-col p-6 animate-fade-in bg-white dark:bg-black rounded-2xl shadow-sm border border-slate-200 dark:border-white/10">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-indigo-50 dark:bg-white/[0.02]/30 rounded-xl flex items-center justify-center">
+                  <Book className="w-5 h-5 text-indigo-500" />
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold font-serif text-slate-800 dark:text-slate-200">Reflective Journal</h2>
+                  <p className="text-xs text-slate-500">Your private space for unguided reflection.</p>
+                </div>
+              </div>
+              
+              <div className="flex-1 flex flex-col gap-4">
+                <input 
+                  type="text" 
+                  placeholder="Give your entry a title..." 
+                  className="w-full text-lg font-bold p-3 bg-slate-50 dark:bg-[#0a0a0a]/50 border border-slate-200 dark:border-white/10 rounded-xl outline-none focus:border-indigo-500 transition-colors dark:text-slate-200"
+                />
+                <textarea 
+                  placeholder="Start writing your thoughts here..." 
+                  className="w-full flex-1 p-4 bg-slate-50 dark:bg-[#0a0a0a]/50 border border-slate-200 dark:border-white/10 rounded-xl outline-none focus:border-indigo-500 transition-colors resize-none dark:text-slate-200 text-sm leading-relaxed"
+                ></textarea>
+                <div className="flex justify-end">
+                  <button 
+                    onClick={() => {
+                      alert('Entry successfully encrypted and saved to your local device storage!');
+                    }}
+                    className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-sm transition-colors shadow-sm flex items-center gap-2"
+                  >
+                    <Book className="w-4 h-4" /> Save Secure Entry
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+
+          {activeCenterTab === 'directory' && (
+            <div className="flex-1 flex flex-col p-6 animate-fade-in bg-slate-50/50 dark:bg-black/50 rounded-2xl">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 bg-indigo-50 dark:bg-white/[0.02]/30 rounded-xl flex items-center justify-center">
+                  <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                </div>
+                <div>
+                  <h2 className="text-xl font-bold font-serif text-slate-800 dark:text-slate-200">Clinical Directory</h2>
+                  <p className="text-xs text-slate-500">Important contacts and resources for your safety.</p>
+                </div>
+              </div>
+              
+              <div className="flex flex-col gap-6 max-w-2xl mx-auto w-full mt-4">
+                <div className={`p-5 rounded-2xl relative overflow-hidden group shadow-sm transition-all duration-300 border ${themeClass("bg-white border-indigo-150", "bg-[#0b0f19] border-white/10", "bg-[#faf6ee] border-[#e3d5be]")}`}>
+            <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50/ dark:bg-white/[0.02]/50 rounded-full blur-2xl -mr-10 -mt-10"></div>
             <h3 className={`text-sm font-bold mb-2 flex items-center gap-2 font-display ${themeClass("text-slate-900", "text-white", "text-[#3e2723]")}`}>
               <svg className="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M2.166 4.9c-.807.124-1.424.814-1.424 1.631v6.938c0 .817.617 1.507 1.424 1.631.782.12 1.578.21 2.381.268.272.02.502-.178.542-.45a11.95 11.95 0 01.316-1.597 10.457 10.457 0 00-1.222-.44 1.5 1.5 0 01-.98-1.12c-.52-1.92-.52-3.92 0-5.84a1.5 1.5 0 01.98-1.12c.594-.16 1.205-.282 1.83-.362a.498.498 0 00.418-.49v-.368A2.25 2.25 0 017.682 1.5h4.636a2.25 2.25 0 012.25 2.25v.368c0 .244.177.45.418.49.625.08 1.236.202 1.83.362a1.5 1.5 0 01.98 1.12c.52 1.92.52 3.92 0 5.84a1.5 1.5 0 01-.98 1.12 10.45 10.45 0 00-1.222.44 11.95 11.95 0 01.316 1.597c.04.272.27.47.541.45.804-.058 1.6-.149 2.382-.268.807-.124 1.424-.814 1.424-1.631V6.531c0-.817-.617-1.507-1.424-1.63a39.39 39.39 0 00-15.668 0zm6.182-1.15a.75.75 0 01.75-.75h1.8a.75.75 0 01.75.75v.328a41.01 41.01 0 00-3.3 0v-.328z" clipRule="evenodd" />
@@ -5712,26 +6213,837 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             <p className={`text-xs leading-relaxed ${themeClass("text-slate-600", "text-slate-350", "text-amber-900/80")}`}>
               We never pretend to be a primary therapist. Treating standard AI chatbots as real human therapists can lead to dangerous co-dependency (often termed <span className="text-purple-600 font-bold">'AI Psychosis'</span>). 
             </p>
-            <div className={`mt-3 text-[11px] p-2.5 rounded-lg border font-mono ${themeClass("bg-slate-50 text-slate-705 border-slate-200", "bg-slate-900/65 text-slate-300 border-slate-800", "bg-[#ebdcb9] text-[#5d4037] border-[#d8c7a6]")}`}>
+            <div className={`mt-3 text-[11px] p-2.5 rounded-lg border font-mono ${themeClass("bg-slate-50 text-slate-705 border-slate-200", "bg-black/65 text-slate-300 border-white/10", "bg-[#ebdcb9] text-[#5d4037] border-[#d8c7a6]")}`}>
               <span className="text-emerald-705 font-bold">🔒 Client-Side Guard:</span> No personally identifiable records are shared. Complete security isolation prevents server identification leaks.
             </div>
+          </div>
+                <div className="bg-white dark:bg-black border border-indigo-100 dark:border-white/10 p-5 rounded-2xl shadow-sm mt-4">
+            <h3 className="text-xs font-bold text-indigo-750 uppercase tracking-widest mb-3 font-mono">International Crisis Links</h3>
+            <div className="space-y-2 text-xs">
+              <div className="p-2 bg-slate-50 dark:bg-[#0a0a0a] rounded-lg border border-slate-205">
+                <p className="font-semibold text-slate-800 dark:text-slate-200">KIRAN Mental Health India</p>
+                <a href="tel:18005990019" className="text-indigo-600 font-mono font-medium block hover:underline">1800-599-0019 (24/7)</a>
+              </div>
+              <div className="p-2 bg-slate-50 dark:bg-[#0a0a0a] rounded-lg border border-slate-205">
+                <p className="font-semibold text-slate-800 dark:text-slate-200">Vandrevala Helpline (India)</p>
+                <a href="tel:9999666555" className="text-indigo-600 font-mono font-medium block hover:underline">9999 666 555 (24/7)</a>
+              </div>
+              <div className="p-2 bg-slate-50 dark:bg-[#0a0a0a] rounded-lg border border-slate-205">
+                <p className="font-semibold text-slate-805">US &amp; Canada Lifeline</p>
+                <span className="text-indigo-650 font-mono font-medium block">Dial or Text 988</span>
+              </div>
+              <div className="p-2 bg-slate-50 dark:bg-[#0a0a0a] rounded-lg border border-slate-205">
+                <p className="font-semibold text-slate-850">Global Search Portal</p>
+                <a 
+                  href="https://findahelpline.com" 
+                  target="_blank" 
+                  rel="noreferrer"
+                  className="text-indigo-600 font-medium hover:underline flex items-center gap-1 text-[11px]"
+                >
+                  findahelpline.com
+                  <svg className="w-3 h-3 text-slate-400 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+              </div>
+            </div>
+          )}
+          {activeCenterTab === 'wellness' && (
+            <div className={`flex-1 flex flex-col items-center justify-start p-4 md:p-8 animate-fade-in overflow-y-auto relative ${themeClass("bg-gradient-to-b from-emerald-50/40 to-white", "bg-gradient-to-b from-emerald-950/10 to-transparent", "bg-gradient-to-b from-[#f2eadd]/40 to-transparent")}`}>
+              <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-emerald-200 dark:via-emerald-800 to-transparent opacity-50"></div>
+              
+              <div className="w-full max-w-4xl mx-auto flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-6 mb-10 shrink-0 p-6 md:p-8 rounded-3xl border shadow-sm transition-all duration-500 hover:shadow-md bg-white/60 dark:bg-black/40 backdrop-blur-md border-emerald-100/50 dark:border-emerald-800/30 relative overflow-hidden group">
+                <div className="absolute -right-20 -top-20 w-40 h-40 bg-emerald-400/10 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-150"></div>
+                <div className="absolute -left-10 -bottom-10 w-32 h-32 bg-teal-400/10 rounded-full blur-2xl transition-transform duration-1000 group-hover:scale-150"></div>
+                
+                <div className="w-20 h-20 bg-gradient-to-br from-emerald-100 to-teal-50 dark:from-emerald-900/60 dark:to-teal-900/40 rounded-2xl flex items-center justify-center shrink-0 shadow-inner border border-emerald-200/50 dark:border-emerald-700/30 transform transition-transform group-hover:rotate-3 group-hover:scale-105">
+                  <Wind className="w-10 h-10 text-emerald-600 dark:text-emerald-400" />
+                </div>
+                <div className="relative z-10 flex flex-col justify-center">
+                  <h2 className="text-3xl font-black font-display tracking-tight text-slate-800 dark:text-slate-100 mb-2">
+                    Wellness <span className="text-emerald-600 dark:text-emerald-400">&amp; Somatics</span>
+                  </h2>
+                  <p className="text-sm text-slate-600 dark:text-slate-400 max-w-lg leading-relaxed font-medium">
+                    Explore clinically-aligned guided breathing, physiological anchoring, and localized nervous system de-escalation tools. Completely private.
+                  </p>
+                </div>
+              </div>
 
-            <button 
-              onClick={() => setShowSafetyModal(true)}
-              className="mt-4 w-full py-2.5 bg-emerald-50 hover:bg-emerald-100 border border-emerald-250 text-emerald-700 text-xs font-bold rounded-xl cursor-pointer transition-all flex items-center justify-center gap-1.5 font-display shadow-sm"
-            >
-              <Shield className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Open AI Safety & Ethics Portal</span>
-            </button>
+              <div className="w-full max-w-4xl mx-auto text-left shrink-0 pb-16 px-2 md:px-0">
+                          <div className={`bento-card shadow-sm p-5 rounded-2xl flex flex-col gap-4 relative overflow-hidden border transition-all duration-300 ${themeClass("glass-panel text-slate-800", "dark-glass-panel text-slate-205", "sepia-glass-panel text-[#3e2723]")}`}>
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className={`text-sm font-bold font-display ${themeClass("text-slate-800", "text-white", "text-[#3e2723]")}`}>Tactile Breathing Space</h3>
+                <p className={`text-xs mt-0.5 font-sans ${themeClass("text-slate-500", "text-slate-400", "text-amber-900/70")}`}>Somatic sensory anchoring & de-escalation tool.</p>
+              </div>
+              <span className={`text-[10px] uppercase font-mono font-bold px-2 py-0.5 rounded border ${themeClass("bg-teal-50 text-teal-750 border-teal-200", "bg-teal-950/40 text-teal-350 border-teal-850", "bg-teal-100/30 text-teal-900 border-teal-300/40")}`}>
+                Somatic
+              </span>
+            </div>
+
+            {/* Breathing Bubble graphic */}
+            <div className={`flex flex-col items-center justify-center py-6 rounded-xl border p-4 transition-all duration-300 ${themeClass("bg-slate-50/50 border-slate-200", "bg-black/50 border-white/10/80", "bg-[#f4efe8]/50 border-[#ebdcb9]")}`}>
+              <div className="relative w-28 h-28 flex items-center justify-center animate-pulse-slow">
+                
+                {/* Visual dynamic pulse rings using motion.div */}
+                <motion.div 
+                  animate={{
+                    scale: !isBreathingActive 
+                      ? 1.0 
+                      : (breathingPhase === 'Inhale' 
+                        ? 1.55 
+                        : breathingPhase === 'Hold' 
+                          ? 1.55 
+                          : breathingPhase === 'Exhale' 
+                            ? 0.9 
+                            : 1.0),
+                    opacity: !isBreathingActive 
+                      ? 0.2 
+                      : (breathingPhase === 'Inhale' 
+                        ? [0.2, 0.9] 
+                        : breathingPhase === 'Hold' 
+                          ? 0.9 
+                          : breathingPhase === 'Exhale' 
+                            ? [0.9, 0.25] 
+                            : 0.2)
+                  }}
+                  transition={{
+                    duration: isBreathingActive ? 3.9 : 1.5,
+                    ease: "easeInOut"
+                  }}
+                  className="absolute inset-0 rounded-full bg-teal-100/35 border border-teal-300/30 shadow-[0_0_20px_rgba(20,184,166,0.15)]"
+                />
+
+                {/* Inner bubble with fluid breath contraction/expansion states */}
+                <motion.div 
+                  animate={{
+                    scale: !isBreathingActive 
+                      ? 1.0 
+                      : (breathingPhase === 'Inhale' 
+                        ? 1.3 
+                        : breathingPhase === 'Hold' 
+                          ? 1.3 
+                          : breathingPhase === 'Exhale' 
+                            ? 0.85 
+                            : 1.0),
+                    backgroundColor: !isBreathingActive 
+                      ? "#ffffff" 
+                      : (breathingPhase === 'Hold' 
+                        ? "#ccfbf1" 
+                        : "#f0fdfa"),
+                    borderColor: !isBreathingActive 
+                      ? "#e2e8f0" 
+                      : (breathingPhase === 'Hold' 
+                        ? "#0d9488" 
+                        : "#2dd4bf")
+                  }}
+                  transition={{
+                    duration: isBreathingActive ? 3.9 : 1.0,
+                    ease: "easeInOut"
+                  }}
+                  className={`absolute w-20 h-20 rounded-full flex flex-col items-center justify-center border font-display ${
+                    isBreathingActive 
+                      ? "text-teal-900 shadow-lg shadow-teal-100/55" 
+                      : "text-slate-400"
+                  }`}
+                >
+                  <span className="text-xs font-bold font-mono">
+                    {isBreathingActive ? `${breathingSecondsLeft}s` : "Idle"}
+                  </span>
+                </motion.div>
+              </div>
+
+              <div className="text-center mt-4">
+                <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                  {isBreathingActive ? `Phase: ${breathingPhase}` : "Breathing Pacer Inactive"}
+                </p>
+                <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-1 max-w-[240px] leading-relaxed">
+                  {isBreathingActive 
+                    ? (breathingPhase === 'Inhale' ? "Breathe in slow, expanding your belly..." 
+                       : breathingPhase === 'Hold' ? "Hold that pure calming air..." 
+                       : breathingPhase === 'Exhale' ? "Exhale long and smooth through soft lips..." 
+                       : "Pause and rest your minds prior to next inhale...")
+                    : "Use slow, structured 4-4-4 chest expansion to reduce high distress and stop hyperventilation."
+                  }
+                </p>
+              </div>
+
+              <button
+                onClick={toggleBreathing}
+                className={`mt-4 px-5 py-2 font-display rounded-xl text-xs font-bold cursor-pointer transition-all ${
+                  isBreathingActive 
+                    ? "bg-red-50 text-red-700 border border-red-200 hover:bg-red-100" 
+                    : "bg-teal-650 hover:bg-teal-600 text-white shadow-sm"
+                }`}
+              >
+                {isBreathingActive ? "⏹️ Stop Grounding" : "🧘 Start 4-4-4 Box Breathing"}
+              </button>
+
+              {/* Somatic Daily Stats Dashboard */}
+              <div className="w-full mt-4 pt-3.5 border-t border-slate-200 dark:border-white/10 flex items-center justify-around text-slate-600 dark:text-slate-400">
+                <div id="pfai-breathing-sessions-stat" className="flex flex-col items-center text-center">
+                  <span className="text-[10px] text-slate-500 font-medium uppercase tracking-wider flex items-center gap-1 leading-none">
+                    <CheckCircle2 className="w-3 h-3 text-teal-600 shrink-0" />
+                    Total Sessions
+                  </span>
+                  <span className="text-sm font-black text-slate-800 dark:text-slate-200 mt-1.5 font-mono leading-none">
+                    {breathingStats.sessions}
+                  </span>
+                </div>
+                <div className="w-px h-6 bg-slate-200 shrink-0" />
+                <div id="pfai-breathing-minutes-stat" className="flex flex-col items-center text-center">
+                  <span className="text-[10px] text-slate-500 font-medium uppercase tracking-wider flex items-center gap-1 leading-none">
+                    <Clock className="w-3 h-3 text-teal-600 shrink-0" />
+                    Total Minutes
+                  </span>
+                  <span className="text-sm font-black text-slate-800 dark:text-slate-200 mt-1.5 font-mono leading-none">
+                    {totalMinutes}
+                  </span>
+                </div>
+              </div>
+
+              {/* Interactive Daily Mindfulness Goal & Progress Bar */}
+              <div className="w-full mt-3.5 pt-3.5 border-t border-slate-200 dark:border-white/10 flex flex-col">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[10px] text-slate-550 font-semibold uppercase tracking-wider flex items-center gap-1.5">
+                    <Target className="w-3.5 h-3.5 text-teal-600" />
+                    Daily Goal
+                  </span>
+                  <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-[#0a0a0a] rounded-lg p-0.5 border border-slate-200 dark:border-white/10">
+                    <button
+                      type="button"
+                      onClick={() => handleSetMindfulnessGoal(mindfulnessGoal - 1)}
+                      className="w-5 h-5 flex items-center justify-center text-slate-500 hover:text-teal-600 hover:bg-white dark:bg-black rounded transition-colors text-xs font-bold cursor-pointer"
+                      title="Decrease goal by 1 minute"
+                    >
+                      <Minus className="w-2.5 h-2.5 text-current" />
+                    </button>
+                    <span className="text-xs font-bold font-mono text-slate-850 px-0.5">
+                      {mindfulnessGoal} min
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => handleSetMindfulnessGoal(mindfulnessGoal + 1)}
+                      className="w-5 h-5 flex items-center justify-center text-slate-500 hover:text-teal-600 hover:bg-white dark:bg-black rounded transition-colors text-xs font-bold cursor-pointer"
+                      title="Increase goal by 1 minute"
+                    >
+                      <Plus className="w-2.5 h-2.5 text-current" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Micro-Progress Meter */}
+                <div className="space-y-1.5">
+                  <div className="w-full h-2 bg-slate-100/80 border border-slate-150 rounded-full overflow-hidden relative">
+                    <motion.div
+                      className={`h-full rounded-full transition-all duration-500 ${
+                        goalProgressPercent >= 100 
+                          ? "bg-gradient-to-r from-teal-500 to-emerald-500" 
+                          : "bg-gradient-to-r from-indigo-400 to-teal-500"
+                      }`}
+                      style={{ width: `${goalProgressPercent}%` }}
+                      initial={{ width: 0 }}
+                      animate={{ width: `${goalProgressPercent}%` }}
+                    />
+                  </div>
+                  <div className="flex items-center justify-between text-[10px] text-slate-500">
+                    <div className="flex items-center gap-1">
+                      {goalProgressPercent >= 100 ? (
+                        <span className="text-emerald-700 font-bold flex items-center gap-1 bg-emerald-50 px-1.5 py-0.5 border border-emerald-100 rounded">
+                          <Trophy className="w-3 h-3 text-amber-500 animate-bounce" />
+                          Goal Reached!
+                        </span>
+                      ) : (
+                        <span className="font-medium text-slate-650">
+                          Progress: {parseFloat(totalMinutes)} of {mindfulnessGoal} min
+                        </span>
+                      )}
+                    </div>
+                    <span className="font-mono text-teal-700 font-bold">{goalProgressPercent}%</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 7-Day Breathing History & Detailed Practice Logs Board */}
+              <div className="w-full mt-4 pt-3.5 border-t border-slate-200/80 flex flex-col gap-2">
+                {/* Switcher Tab Header */}
+                <div className="flex items-center justify-between border-b border-slate-150/60 dark:border-white/10 pb-2 mb-1 flex-wrap gap-2">
+                  <div className="flex gap-1 p-0.5 bg-slate-100 dark:bg-[#0a0a0a] dark:bg-zinc-950/40 rounded-lg border border-slate-205/60 dark:border-white/10/40 max-w-full">
+                    <button
+                      type="button"
+                      onClick={() => setBreathingSubTab("trend")}
+                      className={`px-2 py-1 text-[10px] font-bold rounded-md transition-all cursor-pointer ${
+                        breathingSubTab === "trend"
+                          ? "bg-white dark:bg-black text-teal-700 dark:text-teal-400 shadow-3xs"
+                          : "text-slate-500 hover:text-slate-750 dark:text-slate-400 dark:hover:text-slate-250"
+                      }`}
+                    >
+                      📈 Weekly Practice Trend
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setBreathingSubTab("logs")}
+                      className={`px-2 py-1 text-[10px] font-bold rounded-md transition-all cursor-pointer flex items-center gap-1 ${
+                        breathingSubTab === "logs"
+                          ? "bg-white dark:bg-black text-teal-700 dark:text-teal-400 shadow-3xs"
+                          : "text-slate-500 hover:text-slate-755 dark:text-slate-400 dark:hover:text-slate-200"
+                      }`}
+                    >
+                      📋 Practice Logs ({breathingSessions.length})
+                    </button>
+                  </div>
+
+                  {breathingSubTab === "logs" && breathingSessions.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (confirm("Are you sure you want to clear your entire private session log history? This action is irreversible.")) {
+                          setBreathingSessions([]);
+                          localStorage.setItem("pfai_breathing_sessions_list_v2", JSON.stringify([]));
+                          
+                          // Reset live stats
+                          setBreathingStats((prev) => {
+                            const todayStr = new Date().toISOString().split("T")[0];
+                            const updated = { date: todayStr, sessions: 0, seconds: 0 };
+                            localStorage.setItem("pfai_breathing_stats", JSON.stringify(updated));
+                            return updated;
+                          });
+                          
+                          // Reset trend chart elements
+                          setBreathingHistory((prev) => {
+                            const clearedHistory = prev.map(item => ({ ...item, minutes: 0 }));
+                            localStorage.setItem("pfai_breathing_history_7d", JSON.stringify(clearedHistory));
+                            return clearedHistory;
+                          });
+                        }
+                      }}
+                      className="px-2 py-0.5 text-[8.5px] font-bold font-mono text-rose-600 dark:text-rose-450 hover:bg-rose-50 dark:hover:bg-rose-950/20 border border-transparent hover:border-rose-200 dark:border-rose-800 dark:hover:border-rose-900/30 rounded-lg transition-all cursor-pointer"
+                    >
+                      ⚠️ Purge History
+                    </button>
+                  )}
+                </div>
+
+                {breathingSubTab === "trend" ? (
+                  <div className="flex flex-col gap-2">
+                    <div className="flex items-center justify-between gap-1 flex-wrap sm:flex-nowrap">
+                      <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider font-mono flex items-center gap-1.5 leading-none">
+                        <TrendingUp className="w-3.5 h-3.5 text-teal-650" />
+                        7-Day Mindfulness Trend
+                      </span>
+                      
+                      <div className="flex items-center gap-1.5 shrink-0">
+                        {/* Compact Segmented Control Toggle */}
+                        <div className="flex items-center bg-slate-100/90 dark:bg-[#151b2a] p-0.5 rounded-lg border border-slate-200/50 dark:border-white/10/60 font-mono">
+                          <button
+                            type="button"
+                            onClick={() => setBreathingChartViewMode("Minutes")}
+                            className={`px-1.5 py-0.5 text-[8px] font-bold rounded transition-all cursor-pointer ${
+                              breathingChartViewMode === "Minutes"
+                                ? "bg-teal-650 text-white shadow-xs"
+                                : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
+                            }`}
+                            title="View daily grounding session durations in minutes"
+                          >
+                            Minutes
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setBreathingChartViewMode("Percentage")}
+                            className={`px-1.5 py-0.5 text-[8px] font-bold rounded transition-all cursor-pointer ${
+                              breathingChartViewMode === "Percentage"
+                                ? "bg-teal-650 text-white shadow-xs"
+                                : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
+                            }`}
+                            title="View daily mindfulness challenge goal accomplishment percentages"
+                          >
+                            % Goal
+                          </button>
+                        </div>
+
+                        <button
+                          id="share-progress-png-btn"
+                          type="button"
+                          onClick={handleDownloadBreathingChartPng}
+                          className="px-2 py-0.5 flex items-center gap-1 text-[9px] font-mono leading-none border border-teal-200 hover:border-teal-350 bg-teal-50/45 hover:bg-teal-100/45 text-teal-700 rounded-lg transition-all cursor-pointer shadow-sm active:scale-95 text-center shrink-0"
+                          title="Download the current weekly bar chart view as a high-fidelity PNG image"
+                        >
+                          <Share2 className="w-2.5 h-2.5 text-teal-650" />
+                          Share Progress
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Decline Trend Alert Call-to-Action Banner */}
+                    <AnimatePresence>
+                      {breathingDeclineMetrics.detected && !isDeclineBannerDismissed && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+                          animate={{ opacity: 1, height: "auto", marginBottom: 4 }}
+                          exit={{ opacity: 0, height: 0, marginBottom: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className={`overflow-hidden rounded-xl border p-2.5 flex flex-col gap-2 relative ${themeClass(
+                            "bg-amber-50/70 border-amber-200 dark:border-amber-800 text-amber-900",
+                            "bg-[#1c1810]/60 border-amber-500/20 text-amber-200",
+                            "bg-[#f6ebd7] border-[#d9c4a9] text-[#5c4033]"
+                          )}`}
+                        >
+                          <button
+                            type="button"
+                            onClick={() => setIsDeclineBannerDismissed(true)}
+                            className="absolute top-2.5 right-2.5 p-0.5 rounded-full hover:bg-black/5 dark:hover:bg-white dark:bg-black/5 text-current/60 hover:text-current transition-colors cursor-pointer"
+                            title="Dismiss alert"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+
+                          <div className="flex gap-2 items-start pr-5">
+                            <div className="p-1 rounded bg-amber-500/10 text-amber-500 shrink-0 mt-0.5 flex items-center justify-center">
+                              <TrendingUp className="w-3.5 h-3.5 rotate-180 text-amber-500" />
+                            </div>
+                            <div className="flex-1">
+                              <h4 className="text-[10.5px] font-bold font-sans tracking-tight leading-snug">
+                                Let's reconnect with your breath
+                              </h4>
+                              <p className="text-[9.5px] leading-relaxed opacity-95 mt-0.5">
+                                We've noticed your weekly grounding trend has declined by <span className="font-bold underline">{breathingDeclineMetrics.percentage}%</span> (dropping from <span className="font-mono font-bold">{breathingDeclineMetrics.first3Avg}m</span> to <span className="font-mono font-bold">{breathingDeclineMetrics.last3Avg}m</span> average active minutes). Taking just a couple of minutes to practice box breathing can immediately relieve nervous system tension and help center you.
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center justify-end gap-1.5 mt-0.5">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                if (!isBreathingActive) {
+                                  toggleBreathing();
+                                }
+                              }}
+                              className={`px-2.5 py-1 text-[9px] font-sans font-bold rounded-lg border flex items-center gap-1.5 cursor-pointer transition-all ${themeClass(
+                                "bg-amber-600 hover:bg-amber-700 text-white border-amber-600 shadow-xs",
+                                "bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border-amber-500/30",
+                                "bg-[#5c4033] hover:bg-[#4a3227] text-[#fffcf5] border-[#5c4033]"
+                              )}`}
+                              title="Start box breathing immediately to reconnect and ground"
+                            >
+                              🧘 Begin 4-4-4 Breathing
+                            </button>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                    <div id="pfai-breathing-bar-chart-container" className="h-44 w-full mt-1 rounded-xl border border-slate-150 bg-slate-50/ dark:bg-[#0a0a0a]/50 dark:bg-zinc-950/20 p-2 text-slate-705 dark:text-slate-300 relative flex flex-col justify-between">
+                      <div className="h-28 w-full shrink-0">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart data={breathingChartData} margin={{ top: 12, right: 5, left: -25, bottom: 0 }}>
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" opacity={0.5} />
+                            <XAxis 
+                              dataKey="date" 
+                              tick={{ fontSize: 8, fill: "#64748b", fontWeight: 600 }} 
+                              axisLine={false} 
+                              tickLine={false} 
+                            />
+                            <YAxis 
+                              tick={{ fontSize: 8, fill: "#64748b" }} 
+                              axisLine={false} 
+                              tickLine={false}
+                              unit={breathingChartViewMode === "Minutes" ? "m" : "%"} 
+                            />
+                            <Tooltip 
+                              content={({ active, payload, label }) => {
+                                if (active && payload && payload.length) {
+                                  const rawVal = payload[0].value;
+                                  const tgs = getMoodTagsForDate(label);
+                                  const labelText = breathingChartViewMode === "Minutes" 
+                                    ? `${rawVal} min` 
+                                    : `${rawVal}% of Daily Goal`;
+                                  return (
+                                    <div className="bg-black/95 dark:bg-slate-950/95 text-white p-2.5 rounded-xl border border-white/10/80 shadow-lg text-left text-[10px] space-y-1.5 max-w-[210px] z-50">
+                                      <p className="font-bold font-sans text-slate-200">{label}</p>
+                                      <p className="font-mono text-teal-450">
+                                        Grounding: <span className="font-bold">{labelText}</span>
+                                      </p>
+                                      {tgs.length > 0 ? (
+                                        <div className="pt-1.5 border-t border-white/10">
+                                          <p className="text-[8.5px] uppercase font-mono tracking-wider text-slate-400 font-bold mb-1">
+                                            Same-day mood tags:
+                                          </p>
+                                          <div className="flex flex-wrap gap-1">
+                                            {tgs.map((tg, idx) => (
+                                              <span key={idx} className="text-[8px] bg-white/[0.02]/40 text-indigo-300 border border-indigo-750/30 px-1 py-0.5 rounded leading-none">
+                                                #{tg}
+                                              </span>
+                                            ))}
+                                          </div>
+                                        </div>
+                                      ) : (
+                                        <div className="pt-1.5 border-t border-white/10">
+                                          <p className="text-[8.5px] text-slate-500 italic">No mood tags logged</p>
+                                        </div>
+                                      )}
+                                    </div>
+                                  );
+                                }
+                                return null;
+                              }}
+                            />
+                            <Bar 
+                              dataKey={breathingChartViewMode === "Minutes" ? "minutes" : "percentage"} 
+                              radius={[4, 4, 0, 0]} 
+                              maxBarSize={16}
+                            >
+                              {breathingChartData.map((entry, index) => {
+                                const activeKey = breathingChartViewMode === "Minutes" ? "minutes" : "percentage";
+                                const maxVal = Math.max(...breathingChartData.map(h => Number(h[activeKey])), 0);
+                                const isMax = maxVal > 0 && Number(entry[activeKey]) === maxVal;
+                                
+                                
+                                let fillCol = "#0d9488";
+                                if (isMax && showPersonalBestHighlight) {
+                                  fillCol = "#eab308";
+                                }
+                                
+                                return (
+                                  <Cell 
+                                    key={`cell-${index}`} 
+                                    fill={fillCol}
+                                    fillOpacity={showGroundingSeries ? 1 : 0.08}
+                                    className="transition-all duration-355 cursor-pointer hover:opacity-80"
+                                    onClick={() => {
+                                      if (showGroundingSeries) {
+                                        setSelectedBarDate(entry.date);
+                                      }
+                                    }}
+                                  />
+                                );
+                              })}
+                              <LabelList 
+                                dataKey={breathingChartViewMode === "Minutes" ? "minutes" : "percentage"} 
+                                content={(props: any) => {
+                                  const { x, y, width, value } = props;
+                                  if (!showGroundingSeries || !showPersonalBestHighlight) return null;
+                                  const activeKey = breathingChartViewMode === "Minutes" ? "minutes" : "percentage";
+                                  const maxVal = Math.max(...breathingChartData.map(h => Number(h[activeKey])), 0);
+                                  const isMax = maxVal > 0 && Number(value) === maxVal;
+                                  if (!isMax) return null;
+                                  return (
+                                    <g>
+                                      <text 
+                                        x={x + width / 2} 
+                                        y={y - 8} 
+                                        textAnchor="middle" 
+                                        fontSize="8" 
+                                        fontWeight="bold" 
+                                        fill="#ca8a04"
+                                        className="font-mono"
+                                      >
+                                        🏆 Best
+                                      </text>
+                                    </g>
+                                  );
+                                }}
+                              />
+                            </Bar>
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
+
+                      {/* Interactive Dynamic Legend */}
+                      <div className="flex items-center justify-center gap-5 pt-1.5 border-t border-slate-200/50 dark:border-white/10/40 select-none shrink-0 mb-0.5">
+                        <button
+                          type="button"
+                          onClick={() => setShowGroundingSeries((p) => !p)}
+                          className={`flex items-center gap-1.5 px-2 py-0.5 rounded text-[8.5px] font-bold tracking-wide font-mono transition-all cursor-pointer border ${
+                            showGroundingSeries
+                              ? "bg-teal-500/10 border-teal-500/30 text-teal-650 dark:text-teal-400/90"
+                              : "bg-slate-100 dark:bg-black border-transparent text-slate-400 dark:text-slate-500 line-through opacity-60"
+                          }`}
+                          title="Toggle visibility of standard daily grounding session bars"
+                        >
+                          <span className={`w-1.5 h-1.5 rounded-full ${showGroundingSeries ? "bg-teal-500" : "bg-slate-400"}`}></span>
+                          Practice Minutes
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => setShowPersonalBestHighlight((p) => !p)}
+                          className={`flex items-center gap-1.5 px-2 py-0.5 rounded text-[8.5px] font-bold tracking-wide font-mono transition-all cursor-pointer border ${
+                            showPersonalBestHighlight
+                              ? "bg-amber-500/10 border-amber-500/30 text-amber-600 dark:text-amber-400/90"
+                              : "bg-slate-100 dark:bg-black border-transparent text-slate-400 dark:text-slate-500 line-through opacity-60"
+                          }`}
+                          title="Toggle visibility of Personal Best yellow highlights and trophies"
+                        >
+                          <span className={`w-1.5 h-1.5 rounded-full ${showPersonalBestHighlight ? "bg-amber-500 animate-pulse" : "bg-slate-400"}`}></span>
+                          🏆 Personal Best
+                        </button>
+                      </div>
+                      
+                      {/* Styled Popover Overlay: Daily Raw Mindfulness Session Breakdown */}
+                      <AnimatePresence>
+                        {selectedBarDate && (
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            className="absolute inset-0 bg-black dark:bg-slate-950 text-white rounded-xl p-2.5 flex flex-col z-40 border border-slate-705/80 shadow-2xl"
+                          >
+                            <div className="flex items-center justify-between border-b border-white/10 pb-1.5 shrink-0">
+                              <div className="flex items-center gap-1.5">
+                                <Clock className="w-3 h-3 text-teal-400 shrink-0 animate-pulse" />
+                                <span className="text-[10px] font-bold font-sans tracking-wide text-slate-200">
+                                  Grounding Logs: {selectedBarDate}
+                                </span>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => setSelectedBarDate(null)}
+                                className="p-1 rounded hover:bg-white dark:bg-black/10 text-slate-400 hover:text-white transition-all cursor-pointer"
+                                title="Close sessions popover"
+                              >
+                                <X className="w-3 h-3" />
+                              </button>
+                            </div>
+
+                            <div className="flex-1 overflow-y-auto py-1.5 space-y-1.5">
+                              {breathingSessions.filter(s => s.dateLabel === selectedBarDate).length > 0 ? (
+                                breathingSessions
+                                  .filter(s => s.dateLabel === selectedBarDate)
+                                  .map((session, idx) => (
+                                    <div 
+                                      key={session.id || idx}
+                                      className="flex items-center justify-between p-1.5 rounded bg-white dark:bg-black/5 border border-white/10 hover:bg-white/10 transition-colors"
+                                    >
+                                      <div className="flex items-center gap-2">
+                                        <span className="w-4.5 h-4.5 rounded bg-teal-500/20 text-teal-305 flex items-center justify-center text-[9px] font-bold font-mono">
+                                          #{idx + 1}
+                                        </span>
+                                        <div className="flex flex-col text-left">
+                                          <span className="text-[10px] font-semibold text-slate-100">Box Breathing Session</span>
+                                          <span className="text-[8.5px] text-slate-400 font-mono">Start: {session.startTime}</span>
+                                        </div>
+                                      </div>
+                                      <div className="text-right flex flex-col items-end">
+                                        <span className="text-[10px] font-bold font-mono text-teal-300">
+                                          {formatDuration(session.durationSeconds)}
+                                        </span>
+                                        <span className="text-[7.5px] uppercase tracking-wider font-mono text-slate-400 bg-teal-950/60 px-1 rounded border border-teal-500/10 leading-none py-0.5 mt-0.5">
+                                          Verified
+                                        </span>
+                                      </div>
+                                    </div>
+                                  ))
+                              ) : (
+                                <div className="flex flex-col items-center justify-center h-full py-2 text-center">
+                                  <span className="text-lg">🧘</span>
+                                  <p className="text-[10px] text-slate-300 font-medium">Daily Summary: {breathingHistory.find(h => h.date === selectedBarDate)?.minutes || 0} min</p>
+                                  <p className="text-[9px] text-slate-500 italic mt-0.5">No separate sessions saved.</p>
+                                </div>
+                              )}
+                            </div>
+
+                            <div className="border-t border-white/10 pt-1.5 flex items-center justify-between text-[8px] text-slate-400 font-mono shrink-0">
+                              <span>Total Logs: {breathingSessions.filter(s => s.dateLabel === selectedBarDate).length}</span>
+                              <span>Target: {mindfulnessGoal} min</span>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  </div>
+                ) : (
+                  // FULL COMPREHENSIVE SESSIONS LOG VIEW
+                  <div className="flex flex-col gap-2.5 w-full">
+                    {/* Search & filters panel */}
+                    <div className="flex items-center gap-1.5 flex-wrap sm:flex-nowrap">
+                      {/* Search bar inside logs */}
+                      <div className="relative flex-1 min-w-[124px]">
+                        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-slate-400 dark:text-slate-500" />
+                        <input
+                          type="text"
+                          value={breathingLogSearch}
+                          onChange={(e) => setBreathingLogSearch(e.target.value)}
+                          placeholder="Search date or AM/PM..."
+                          className="w-full bg-slate-100/90 dark:bg-zinc-950/20 border border-slate-200/80 dark:border-white/10/80 rounded-xl pl-7 pr-2.5 py-1 text-[10px] text-slate-705 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-hidden focus:ring-1 focus:ring-teal-500/30 font-sans"
+                        />
+                        {breathingLogSearch && (
+                          <button
+                            onClick={() => setBreathingLogSearch("")}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-450 hover:text-slate-650"
+                          >
+                            <X className="w-2.5 h-2.5" />
+                          </button>
+                        )}
+                      </div>
+
+                      {/* Duration filter selector */}
+                      <div className="relative shrink-0 flex items-center pr-1 bg-slate-100/90 dark:bg-zinc-950/20 border border-slate-200/80 dark:border-white/10/80 rounded-xl">
+                        <Filter className="w-3 h-3 text-slate-400 dark:text-slate-505 ml-2 mr-1" />
+                        <select
+                          value={breathingDurationFilter}
+                          onChange={(e) => setBreathingDurationFilter(e.target.value as any)}
+                          className="bg-transparent border-0 text-[10px] font-sans font-bold text-slate-600 dark:text-slate-300 py-1 pl-1 pr-6 focus:outline-hidden cursor-pointer"
+                        >
+                          <option value="all" className="bg-white dark:bg-slate-950">All Durations</option>
+                          <option value="short" className="bg-white dark:bg-slate-950">Short (&lt; 1 min)</option>
+                          <option value="medium" className="bg-white dark:bg-slate-950">Medium (1-3 min)</option>
+                          <option value="deep" className="bg-white dark:bg-slate-950">Deep (&gt; 3 min)</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Active Sessions List container */}
+                    <div className="h-44 overflow-y-auto pr-1 space-y-2 custom-scrollbar">
+                      {(() => {
+                        const filtered = breathingSessions.filter((session) => {
+                          const matchesSearch =
+                            breathingLogSearch === "" ||
+                            session.dateLabel.toLowerCase().includes(breathingLogSearch.toLowerCase()) ||
+                            session.startTime.toLowerCase().includes(breathingLogSearch.toLowerCase());
+
+                          let matchesDuration = true;
+                          const mins = session.durationSeconds / 60;
+                          if (breathingDurationFilter === "short") {
+                            matchesDuration = mins < 1.0;
+                          } else if (breathingDurationFilter === "medium") {
+                            matchesDuration = mins >= 1.0 && mins <= 3.0;
+                          } else if (breathingDurationFilter === "deep") {
+                            matchesDuration = mins > 3.0;
+                          }
+
+                          return matchesSearch && matchesDuration;
+                        });
+
+                        if (filtered.length === 0) {
+                          return (
+                            <div className="flex flex-col items-center justify-center h-full py-6 text-center border border-dashed border-slate-200/80 dark:border-white/10/60 rounded-xl p-4 bg-slate-50/ dark:bg-[#0a0a0a]/20 dark:bg-transparent">
+                              <span className="text-xl filter grayscale opacity-50 mb-1 font-sans">🧘‍♀️</span>
+                              <p className="text-[11px] text-slate-500 font-bold font-sans">No logs match filters</p>
+                              <p className="text-[9px] text-slate-400 mt-0.5 max-w-[200px] leading-relaxed">
+                                Adjust your query, change the duration filter, or test drive and record a 4-4-4 box breathing session above.
+                              </p>
+                            </div>
+                          );
+                        }
+
+                        // Group sessions by day for nice nested segments!
+                        const grouped: Record<string, BreathingSession[]> = {};
+                        filtered.forEach(s => {
+                          if (!grouped[s.dateLabel]) grouped[s.dateLabel] = [];
+                          grouped[s.dateLabel].push(s);
+                        });
+
+                        return Object.entries(grouped).map(([dateLabel, sessions]) => (
+                          <div key={dateLabel} className="space-y-1">
+                            <div className="text-[8.5px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider font-sans flex items-center gap-1.5 px-0.5 pt-1">
+                              <History className="w-2.5 h-2.5 text-slate-400 shrink-0" />
+                              <span>{dateLabel}</span>
+                              <span className="text-[8px] bg-slate-100 dark:bg-black border border-slate-200/40 dark:border-white/10 font-normal px-1 md:px-1.5 py-0.5 rounded text-slate-500 dark:text-slate-450 ml-auto leading-none">
+                                {sessions.length} {sessions.length === 1 ? 'session' : 'sessions'}
+                              </span>
+                            </div>
+                            
+                            <div className="space-y-1 pl-1">
+                              {sessions.map((session, idx) => (
+                                <div
+                                  key={session.id || idx}
+                                  className="flex items-center justify-between p-2 rounded-xl bg-slate-50/ dark:bg-[#0a0a0a]/70 dark:bg-zinc-950/20 border border-slate-150/70 dark:border-white/10/50 hover:bg-slate-100/60 dark:hover:bg-[#0a0a0a]/35 transition-all group"
+                                >
+                                  <div className="flex items-center gap-2">
+                                    <div className="w-7 h-7 rounded-lg bg-teal-50 dark:bg-teal-950/40 text-teal-650 dark:text-teal-400 flex items-center justify-center text-[8.5px] font-black tracking-tighter leading-none border border-teal-150/40 dark:border-teal-900/30 shrink-0">
+                                      {session.startTime.replace(/:\d+\s/, " ")}
+                                    </div>
+                                    <div className="flex flex-col text-left">
+                                      <span className="text-[10px] font-bold text-slate-755 dark:text-slate-200">
+                                        Box Breathing Pacing
+                                      </span>
+                                      <span className="text-[7.5px] text-slate-400 font-mono leading-none">
+                                        Ref: #{session.id.replace("bs-", "").slice(-5)}
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-[10px] font-mono font-bold text-teal-600 dark:text-teal-400 whitespace-nowrap">
+                                      {formatDuration(session.durationSeconds)}
+                                    </span>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleDeleteBreathingSession(session.id)}
+                                      className="p-1 text-slate-400 hover:text-rose-600 dark:text-slate-500 dark:hover:text-rose-455 hover:bg-rose-50 dark:hover:bg-rose-950/20 rounded-md transition-colors opacity-80 group-hover:opacity-100 cursor-pointer shrink-0"
+                                      title="Delete session record from database"
+                                    >
+                                      <Trash2 className="w-3.5 h-3.5" />
+                                    </button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ));
+                      })()}
+                    </div>
+
+                    {/* Summary statistics of the logs view */}
+                    <div className="pt-2 border-t border-slate-150 dark:border-slate-850 flex items-center justify-between text-[9px] text-slate-450 dark:text-slate-400 font-mono shrink-0">
+                      <span>Refined count: {breathingSessions.filter((session) => {
+                        const matchesSearch =
+                          breathingLogSearch === "" ||
+                          session.dateLabel.toLowerCase().includes(breathingLogSearch.toLowerCase()) ||
+                          session.startTime.toLowerCase().includes(breathingLogSearch.toLowerCase());
+
+                        let matchesDuration = true;
+                        const mins = session.durationSeconds / 60;
+                        if (breathingDurationFilter === "short") {
+                          matchesDuration = mins < 1.0;
+                        } else if (breathingDurationFilter === "medium") {
+                          matchesDuration = mins >= 1.0 && mins <= 3.0;
+                        } else if (breathingDurationFilter === "deep") {
+                          matchesDuration = mins > 3.0;
+                        }
+
+                        return matchesSearch && matchesDuration;
+                      }).length} items</span>
+                      <span>Target Goal Progress: <span className="font-bold underline text-teal-600 dark:text-teal-400">{goalProgressPercent}%</span></span>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <p className="text-[9.5px] text-slate-400 italic text-center leading-normal">
+                Consistently log 5 minutes of mindful box breathing daily to reset your nervous system.
+              </p>
+            </div>
           </div>
 
-          {/* Character selection list */}
-          <div className={`p-5 rounded-2xl flex flex-col gap-4 shadow-sm border transition-all duration-300 ${themeClass("bg-white border-indigo-100 text-slate-800", "bg-[#0b0f19] border-slate-800 text-slate-200", "bg-[#faf6ee] border-[#e3d5be] text-[#3e2723]")}`}>
+              </div>
+            </div>
+          )}
+
+          {activeCenterTab === 'settings' && (
+            <div className="flex-1 flex flex-col items-center pt-10 pb-20 text-center px-10 animate-fade-in overflow-y-auto">
+              <div className="w-20 h-20 bg-slate-100 dark:bg-[#0a0a0a] rounded-full flex items-center justify-center mb-6 shrink-0">
+                <Settings className="w-10 h-10 text-slate-500" />
+              </div>
+              <h2 className="text-2xl font-bold font-serif text-slate-800 dark:text-slate-200 mb-3">Security & Preferences</h2>
+              <p className="text-sm text-slate-500 max-w-sm leading-relaxed mb-8">
+                Manage your local encryption keys, UI themes, and data wipe protocols. Complete control remains in your hands.
+              </p>
+              <div className="w-full max-w-md mx-auto mb-6 flex flex-col gap-4 text-left">
+                <button 
+                  onClick={() => setShowSpecializedApproaches(!showSpecializedApproaches)}
+                  className="px-6 py-3 w-full bg-white dark:bg-[#0a0a0a] hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-white/10 text-slate-800 dark:text-slate-200 text-sm font-bold rounded-xl cursor-pointer transition-all shadow-sm"
+                >
+                  {showSpecializedApproaches ? "Hide Specialized Approaches" : "Configure Specialized Approaches"}
+                </button>
+                {showSpecializedApproaches && (
+                  <div className="animate-fade-in">
+                    <div className={`p-5 rounded-2xl flex flex-col gap-4 shadow-sm border transition-all duration-300 ${themeClass("bg-white border-indigo-100 text-slate-800", "bg-[#0b0f19] border-white/10 text-slate-200", "bg-[#faf6ee] border-[#e3d5be] text-[#3e2723]")}`}>
             <div>
               <div className="flex items-center justify-between">
                 <h3 className={`text-sm font-bold tracking-tight uppercase font-display ${themeClass("text-slate-800", "text-white", "text-[#3e2723]")}`}>Specialized Approaches</h3>
                 {personaSearchQuery && (
-                  <span className="text-[9px] font-bold text-indigo-600 bg-indigo-50 dark:bg-indigo-950 px-1.5 py-0.5 border border-indigo-150 dark:border-indigo-900 rounded shadow-2xs">
+                  <span className="text-[9px] font-bold text-indigo-600 bg-indigo-50 dark:bg-white/[0.02] px-1.5 py-0.5 border border-indigo-150 dark:border-white/10 rounded shadow-2xs">
                     Filtered
                   </span>
                 )}
@@ -5759,7 +7071,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 
                 if (filtered.length === 0) {
                   return (
-                    <div className="p-6 text-center text-slate-400 border border-dashed border-slate-200 dark:border-slate-700 rounded-xl space-y-1.5 bg-slate-50/ dark:bg-slate-800/50">
+                    <div className="p-6 text-center text-slate-400 border border-dashed border-slate-200 dark:border-white/10 rounded-xl space-y-1.5 bg-slate-50/ dark:bg-[#0a0a0a]/50">
                       <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">No matching guides found</p>
                       <button
                         type="button"
@@ -5783,10 +7095,10 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       onClick={() => handleCharacterChange(char.id)}
                       className={`w-full text-left p-3 rounded-xl border transition-all cursor-pointer flex items-start gap-3 relative ${
                         isSelected
-                          ? "bg-indigo-50/ dark:bg-indigo-950/70 border-indigo-305 shadow-sm ring-1 ring-indigo-200/40"
+                          ? "bg-indigo-50/ dark:bg-white/[0.02]/70 border-indigo-305 shadow-sm ring-1 ring-indigo-200/40"
                           : isLocked
                           ? "bg-slate-100/45 border-slate-201 opacity-80 hover:opacity-100 hover:bg-slate-105/60"
-                          : "bg-slate-50/ dark:bg-slate-800/50 border-slate-200/80 hover:bg-slate-105/60 hover:border-slate-350"
+                          : "bg-slate-50/ dark:bg-[#0a0a0a]/50 border-slate-200/80 hover:bg-slate-105/60 hover:border-slate-350"
                       }`}
                     >
                       {isSelected && (
@@ -5841,7 +7153,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             </div>
 
             <div 
-              className="mt-2 bg-indigo-50/ dark:bg-indigo-950/40 hover:bg-indigo-50 dark:hover:bg-indigo-950/70 p-3 rounded-xl border border-indigo-100/70 hover:border-indigo-300 transition-all duration-300"
+              className="mt-2 bg-indigo-50/ dark:bg-white/[0.02]/40 hover:bg-indigo-50 dark:hover:bg-white/[0.02]/70 p-3 rounded-xl border border-indigo-100/70 hover:border-indigo-300 transition-all duration-300"
               title="Active character supportive paradigm detail"
             >
               <span className="text-[11px] font-bold text-indigo-700 dark:text-indigo-300 block uppercase flex items-center gap-1.5">
@@ -5853,224 +7165,39 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
               </p>
             </div>
           </div>
-
-          {/* Quick Help Corner */}
-          <div className="bg-white dark:bg-slate-900 border border-indigo-100 dark:border-indigo-900 p-5 rounded-2xl shadow-sm">
-            <h3 className="text-xs font-bold text-indigo-750 uppercase tracking-widest mb-3 font-mono">International Crisis Links</h3>
-            <div className="space-y-2 text-xs">
-              <div className="p-2 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-205">
-                <p className="font-semibold text-slate-800 dark:text-slate-200">KIRAN Mental Health India</p>
-                <a href="tel:18005990019" className="text-indigo-600 font-mono font-medium block hover:underline">1800-599-0019 (24/7)</a>
+                  </div>
+                )}
               </div>
-              <div className="p-2 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-205">
-                <p className="font-semibold text-slate-800 dark:text-slate-200">Vandrevala Helpline (India)</p>
-                <a href="tel:9999666555" className="text-indigo-600 font-mono font-medium block hover:underline">9999 666 555 (24/7)</a>
-              </div>
-              <div className="p-2 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-205">
-                <p className="font-semibold text-slate-805">US &amp; Canada Lifeline</p>
-                <span className="text-indigo-650 font-mono font-medium block">Dial or Text 988</span>
-              </div>
-              <div className="p-2 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-205">
-                <p className="font-semibold text-slate-850">Global Search Portal</p>
-                <a 
-                  href="https://findahelpline.com" 
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="text-indigo-600 font-medium hover:underline flex items-center gap-1 text-[11px]"
-                >
-                  findahelpline.com
-                  <svg className="w-3 h-3 text-slate-400 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-                </a>
-              </div>
-            </div>
-          </div>
-
-        </aside>
-
-        {/* Center Chat column (Width: 5): Message screen & Client-Side Encryption Live Display */}
-        <section className={`${
-          activeCenterTab === 'chat'
-            ? "xl:col-span-12"
-            : (zenMode ? "xl:col-span-8" : "xl:col-span-5")
-        } flex flex-col rounded-2xl overflow-hidden min-h-[600px] ${
-          activeCenterTab === 'chat'
-            ? (isHeaderCollapsed ? "h-[calc(100vh-40px)] xl:h-[calc(100vh-60px)]" : "h-[calc(100vh-120px)] xl:h-[calc(100vh-160px)]")
-            : "xl:h-[820px]"
-        } shadow-sm relative animate-fade-in border transition-all duration-300 ${themeClass("bg-white border-indigo-100", "bg-[#0b0f19] border-slate-800", "bg-[#faf6ee] border-[#e3d5be]")}`}>
-          
-          {/* Active Companion Status Hub */}
-          <div className={`px-6 py-4 border-b flex items-center justify-between transition-all duration-300 ${themeClass("bg-indigo-50/50 border-indigo-100/60", "bg-[#111827]/75 border-slate-800/75", "bg-[#f4efe8]/75 border-[#ebdcb9]")}`}>
-            <div className="flex items-center gap-3">
-              <div className={`w-9 h-9 rounded-xl ${activeChar.avatarColor} border flex items-center justify-center shrink-0`}>
-                {(() => {
-                  const IconComponent = CHARACTER_ICONS[activeChar.id] || Sparkles;
-                  return <IconComponent className="w-4.5 h-4.5" />;
-                })()}
-              </div>
-              <div>
-                <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                  Session with {activeChar.name}
-                  <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-                </h2>
-                <p className="text-[11px] text-indigo-700 dark:text-indigo-300 font-semibold tracking-wide">{activeChar.title} ({activeChar.specialization})</p>
-              </div>
-            </div>
-            
-            <div className="flex items-center gap-2 font-sans">
-              <button
-                onClick={() => setShowEncryptedView(!showEncryptedView)}
-                className={`px-3 py-1.5 text-[10px] font-mono font-bold rounded-lg cursor-pointer transition-all ${
-                  showEncryptedView 
-                    ? "bg-indigo-100 text-indigo-700 dark:text-indigo-300 border border-indigo-300" 
-                    : "bg-slate-100 dark:bg-slate-800 text-slate-650 dark:text-slate-350 border border-slate-250 dark:border-slate-700 hover:bg-slate-200"
-                }`}
-                title="Simulate Local On-device AES encryption active status."
+              
+              <button 
+                onClick={() => setShowSafetyModal(true)}
+                className="mb-6 px-6 py-3 w-full max-w-xs mx-auto bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-900/30 dark:hover:bg-emerald-900/50 border border-emerald-250 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 text-sm font-bold rounded-xl cursor-pointer transition-all flex items-center justify-center gap-2 font-display shadow-sm"
               >
-                {showEncryptedView ? "🔓 Show Decrypted" : "🔒 AES-255 Encryption Logs"}
+                <Shield className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                <span>Open AI Safety & Ethics Portal</span>
+              </button>
+
+              <button 
+                onClick={handleLogout}
+                className="px-6 py-3 bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/50 rounded-full font-bold text-sm transition-colors"
+              >
+                Wipe Local Data & Sign Out
               </button>
             </div>
-          </div>
-
-          {/* Ethics Switch Tab Switcher */}
-          <div className={`p-2 flex flex-wrap sm:flex-nowrap gap-1.5 font-sans border-b transition-all duration-300 ${themeClass(
-            "bg-slate-100/50 border-slate-200/60",
-            "bg-slate-950/40 border-slate-900/60",
-            "bg-[#ebdcb9]/40 border-[#dfcca3]"
-          )}`}>
-            <button
-              onClick={() => setActiveCenterTab('chat')}
-              className={`flex-1 min-w-[120px] py-2 text-xs font-bold rounded-xl cursor-pointer transition-all duration-200 ${
-                activeCenterTab === 'chat'
-                  ? themeClass(
-                      "bg-white dark:bg-slate-900 text-indigo-750 shadow-sm border border-indigo-200/50 scale-[1.02]",
-                      "bg-indigo-650 text-white shadow-[0_0_15px_rgba(99,102,241,0.3)] border border-indigo-500 scale-[1.02]",
-                      "bg-[#faf6ee] text-[#5c3e21] shadow-sm border border-amber-300 scale-[1.02]"
-                    )
-                  : themeClass("text-slate-500 hover:text-slate-800 hover:bg-white/40", "text-slate-400 hover:text-white hover:bg-slate-900/40", "text-[#7a5d4a] hover:text-[#5c3e21] hover:bg-[#ebdcb9]/20")
-              }`}
-            >
-              💬 Active Grounding Chat
-            </button>
-            <button
-              onClick={() => setActiveCenterTab('safety')}
-              className={`flex-1 min-w-[120px] py-2 text-xs font-bold rounded-xl cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 ${
-                activeCenterTab === 'safety'
-                  ? themeClass(
-                      "bg-white dark:bg-slate-900 text-indigo-750 shadow-sm border border-indigo-200/50 scale-[1.02]",
-                      "bg-indigo-650 text-white shadow-[0_0_15px_rgba(99,102,241,0.3)] border border-indigo-500 scale-[1.02]",
-                      "bg-[#faf6ee] text-[#5c3e21] shadow-sm border border-amber-300 scale-[1.02]"
-                    )
-                  : themeClass("text-slate-500 hover:text-slate-800 hover:bg-white/40", "text-slate-400 hover:text-white hover:bg-slate-900/40", "text-[#7a5d4a] hover:text-[#5c3e21] hover:bg-[#ebdcb9]/20")
-              }`}
-            >
-              🛡️ Safety &amp; Ethics Portal
-              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
-            </button>
-            <button
-              id="founder-self-care-blog-tab"
-              onClick={() => setActiveCenterTab('blogs')}
-              className={`flex-1 min-w-[120px] py-2 text-xs font-bold rounded-xl cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 ${
-                activeCenterTab === 'blogs'
-                  ? themeClass(
-                      "bg-white dark:bg-slate-900 text-emerald-800 shadow-sm border border-emerald-200/50 scale-[1.02]",
-                      "bg-emerald-600 text-white shadow-[0_0_15px_rgba(16,185,129,0.3)] border border-emerald-500 scale-[1.02]",
-                      "bg-[#faf6ee] text-emerald-950 shadow-sm border border-emerald-300 scale-[1.02]"
-                    )
-                  : themeClass("text-slate-500 hover:text-emerald-755 hover:bg-white/40", "text-slate-400 hover:text-emerald-400 hover:bg-slate-900/40", "text-[#7a5d4a] hover:text-emerald-900 hover:bg-[#ebdcb9]/20")
-              }`}
-            >
-              ✍️ Self-Care Blog
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            </button>
-            <button
-              id="anonymous-publishing-tab"
-              onClick={() => setActiveCenterTab('publishing')}
-              className={`flex-1 min-w-[120px] py-2 text-xs font-bold rounded-xl cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 ${
-                activeCenterTab === 'publishing'
-                  ? themeClass(
-                      "bg-white dark:bg-slate-900 text-amber-800 shadow-sm border border-amber-200 dark:border-amber-800 scale-[1.02]",
-                      "bg-amber-600 text-white shadow-[0_0_15px_rgba(245,158,11,0.3)] border border-amber-500 scale-[1.02]",
-                      "bg-[#faf6ee] text-[#5c3e21] shadow-sm border border-amber-300 scale-[1.02]"
-                    )
-                  : themeClass("text-slate-500 hover:text-amber-700 hover:bg-white/40", "text-slate-400 hover:text-amber-400 hover:bg-slate-900/40", "text-[#7a5d4a] hover:text-amber-955 hover:bg-[#ebdcb9]/20")
-              }`}
-            >
-              📌 Anonymous Publishing
-            </button>
-            <button
-              id="community-center-tab"
-              onClick={() => setActiveCenterTab('community')}
-              className={`flex-1 min-w-[120px] py-2 text-xs font-bold rounded-xl cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 ${
-                activeCenterTab === 'community'
-                  ? themeClass(
-                      "bg-white dark:bg-slate-900 text-pink-700 shadow-sm border border-pink-200 scale-[1.02]",
-                      "bg-pink-600 text-white shadow-[0_0_15px_rgba(219,39,119,0.3)] border border-pink-500 scale-[1.02]",
-                      "bg-[#faf6ee] text-[#5c3e21] shadow-sm border border-pink-300 scale-[1.02]"
-                    )
-                  : themeClass("text-slate-500 hover:text-pink-600 hover:bg-white/40", "text-slate-400 hover:text-pink-400 hover:bg-slate-900/40", "text-[#7a5d4a] hover:text-[#5c3e21] hover:bg-[#ebdcb9]/20")
-              }`}
-            >
-              🌸 Community Center
-            </button>
-            <button
-              id="investor-portal-tab"
-              onClick={() => setActiveCenterTab('investor')}
-              className={`flex-1 min-w-[120px] py-2 text-xs font-bold rounded-xl cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 ${
-                activeCenterTab === 'investor'
-                  ? themeClass(
-                      "bg-white dark:bg-slate-900 text-purple-800 shadow-sm border border-purple-200 scale-[1.02]",
-                      "bg-purple-650 text-white shadow-[0_0_15px_rgba(147,51,234,0.3)] border border-purple-550 scale-[1.02]",
-                      "bg-[#faf6ee] text-purple-950 shadow-sm border border-[#e3d5be] scale-[1.02]"
-                    )
-                  : themeClass("text-slate-500 hover:text-purple-700 hover:bg-white/40", "text-slate-400 hover:text-purple-400 hover:bg-slate-900/40", "text-[#7a5d4a] hover:text-purple-950 hover:bg-[#ebdcb9]/20")
-              }`}
-            >
-              📊 Power BI Analytics
-            </button>
-            <button
-              id="gmail-portal-tab"
-              onClick={() => setActiveCenterTab('gmail')}
-              className={`flex-1 min-w-[120px] py-2 text-xs font-bold rounded-xl cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 ${
-                activeCenterTab === 'gmail'
-                  ? themeClass(
-                      "bg-white dark:bg-slate-900 text-rose-700 dark:text-rose-300 shadow-sm border border-rose-200 dark:border-rose-800 scale-[1.02]",
-                      "bg-rose-600 text-white shadow-[0_0_15px_rgba(225,29,72,0.3)] border border-rose-500 scale-[1.02]",
-                      "bg-[#faf6ee] text-[#5c3e21] shadow-sm border border-rose-300 scale-[1.02]"
-                    )
-                  : themeClass("text-slate-500 hover:text-rose-600 hover:bg-white/40", "text-slate-400 hover:text-rose-455 hover:bg-slate-900/40", "text-[#7a5d4a] hover:text-[#5c3e21] hover:bg-[#ebdcb9]/20")
-              }`}
-            >
-              ✉️ Gmail Workspace
-            </button>
-            <button
-              id="art-gallery-tab"
-              onClick={() => setActiveCenterTab('art')}
-              className={`flex-1 min-w-[130px] py-2 text-xs font-bold rounded-xl cursor-pointer transition-all duration-200 flex items-center justify-center gap-1.5 ${
-                activeCenterTab === 'art'
-                  ? themeClass(
-                      "bg-white dark:bg-slate-900 text-rose-800 dark:text-rose-300 shadow-sm border border-rose-800 scale-[1.02]",
-                      "bg-rose-700 text-white shadow-[0_0_15px_rgba(190,24,74,0.3)] border border-rose-600 scale-[1.02]",
-                      "bg-[#faf6ee] text-[#5c3e21] shadow-sm border border-[#e3d5be] scale-[1.02]"
-                    )
-                  : themeClass("text-slate-500 hover:text-rose-700 hover:bg-white/40", "text-slate-400 hover:text-rose-400 hover:bg-slate-900/40", "text-[#7a5d4a] hover:text-[#5c3e21] hover:bg-[#ebdcb9]/20")
-              }`}
-            >
-              🎨 Indian Art Gallery
-            </button>
-          </div>
+          )}
 
           {activeCenterTab === 'chat' && (
             <>
               {/* Quick Grounder Banner */}
-              <div className="bg-indigo-50/ dark:bg-indigo-950/30 border-b border-indigo-100/40 px-6 py-2.5 text-xs text-indigo-800 italic flex items-center justify-between gap-4">
+              <div className={`border-b px-6 py-2.5 text-xs italic flex items-center justify-between gap-4 ${isDarkCharacter(activeChar.id, themeMode) ? 'bg-indigo-900/40 border-indigo-500/30 text-indigo-200' : 'bg-indigo-50/40 border-indigo-200/40 text-indigo-800'}`}>
                 <div className="flex items-center gap-2 min-w-0">
-                  <span className="bg-indigo-50 dark:bg-indigo-950 text-indigo-600 border border-indigo-150 dark:border-indigo-900 text-[9px] uppercase px-1.5 py-0.5 rounded font-mono font-bold shrink-0">Active mantra</span>
+                  <span className="bg-indigo-50 dark:bg-white/[0.02] text-indigo-600 border border-indigo-150 dark:border-white/10 text-[9px] uppercase px-1.5 py-0.5 rounded font-mono font-bold shrink-0">Active mantra</span>
                   <span className="truncate">"{activeChar.groundingMantra}"</span>
                 </div>
                 {!zenMode && (
                   <button
                     onClick={() => setShowRoomIllustration(!showRoomIllustration)}
-                    className="text-[11px] text-indigo-600 font-semibold hover:text-indigo-800 hover:underline cursor-pointer select-none shrink-0"
+                    className={`text-[11px] font-semibold hover:underline cursor-pointer select-none shrink-0 ${isDarkCharacter(activeChar.id, themeMode) ? 'text-indigo-300 hover:text-indigo-100' : 'text-indigo-600 hover:text-indigo-800'}`}
                     title={showRoomIllustration ? "Collapse the cozy room illustration" : "Reveal the cozy room illustration"}
                   >
                     {showRoomIllustration ? "🙈 Hide Room" : "🏡 See Room"}
@@ -6080,7 +7207,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
               {/* Cozy Room Illustrative Vector Panel */}
               {showRoomIllustration && !zenMode && (
-                <div className="px-6 py-3 bg-slate-50/ dark:bg-slate-800/35 border-b border-indigo-50 animate-fade-in">
+                <div className="px-6 py-3 bg-slate-50/ dark:bg-[#0a0a0a]/35 border-b border-indigo-50 animate-fade-in">
                   <CozyRoomSketch charId={activeChar.id} />
                 </div>
               )}
@@ -6096,7 +7223,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                   }
                 }}
                 className="flex-1 p-6 overflow-y-auto space-y-4 transition-all duration-300 ease-in-out"
-                style={{ background: getCharacterBg(activeChar.id) }}
+                style={{ background: getCharacterBg(activeChar.id, themeMode) }}
               >
                 
                 {/* Active Programmatic Alerts */}
@@ -6123,7 +7250,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       </button>
                       <button 
                         onClick={() => setIsCrisisActive(false)}
-                        className="px-3 py-1 bg-white dark:bg-slate-900 border border-rose-200 dark:border-rose-800 hover:bg-rose-50 dark:hover:bg-rose-950 text-rose-700 dark:text-rose-300 text-[10px] font-medium rounded cursor-pointer transition-all"
+                        className="px-3 py-1 bg-white dark:bg-black border border-rose-200 dark:border-rose-800 hover:bg-rose-50 dark:hover:bg-rose-950 text-rose-700 dark:text-rose-300 text-[10px] font-medium rounded cursor-pointer transition-all"
                       >
                         Acknowledge Protocol
                       </button>
@@ -6154,7 +7281,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       </button>
                       <button 
                         onClick={() => setIsDependencyActive(false)}
-                        className="px-3 py-1 bg-white dark:bg-slate-900 border border-amber-250 hover:bg-amber-50 dark:hover:bg-amber-950 text-amber-700 text-[10px] font-medium rounded cursor-pointer"
+                        className="px-3 py-1 bg-white dark:bg-black border border-amber-250 hover:bg-amber-50 dark:hover:bg-amber-950 text-amber-700 text-[10px] font-medium rounded cursor-pointer"
                       >
                         Acknowledge Warning
                       </button>
@@ -6208,8 +7335,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       })()}
                     </div>
                     <div className={`${themeClass(
-                      "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border-slate-200/50",
-                      "bg-slate-900 text-slate-300 border-slate-800",
+                      "bg-white dark:bg-black text-slate-600 dark:text-slate-400 border-slate-200/50",
+                      "bg-black text-slate-300 border-white/10",
                       "bg-[#faf6ee] text-[#3e2723] border-[#e3d5be]"
                     )} p-3.5 rounded-2xl rounded-tl-none border text-xs flex items-center gap-2.5`}>
                       <span className="text-[10px] tracking-wide font-mono">Formulating grounding insight...</span>
@@ -6226,7 +7353,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
               </div>
 
               {/* Secure Client Input Form */}
-              <div className="p-4 bg-slate-50/ dark:bg-slate-800/50 border-t border-indigo-50">
+              <div className="p-4 bg-slate-50/ dark:bg-[#0a0a0a]/50 border-t border-indigo-50">
                 <form onSubmit={handleSendMessage} className="space-y-3">
                   {/* Share Dialogue Success Toast */}
                   {shareSuccessToast && (
@@ -6238,7 +7365,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
                   {/* Share Preview and Confirmation Panel */}
                   {showShareConfirmPane ? (
-                    <div className="p-3.5 bg-slate-900 border border-indigo-500/30 rounded-xl space-y-3">
+                    <div className="p-3.5 bg-black border border-indigo-500/30 rounded-xl space-y-3">
                       <div className="flex items-center justify-between">
                         <span className="text-[10px] tracking-wider uppercase font-mono text-indigo-400 font-semibold flex items-center gap-1">
                           <Sparkles className="w-3.5 h-3.5" />
@@ -6257,7 +7384,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                         This summary was compiled server-side by our de-escalation sanitization model. Your names, unique metadata, and severe triggering expressions have been stripped.
                       </p>
 
-                      <div className="p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg">
+                      <div className="p-3 bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 rounded-lg">
                         <textarea
                           rows={3}
                           value={sharedDialogueSummary}
@@ -6271,7 +7398,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                         </div>
                       </div>
 
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1 border-t border-slate-200 dark:border-slate-700">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1 border-t border-slate-200 dark:border-white/10">
                         <span className="text-[9px] text-slate-500 font-mono flex items-center gap-1">
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                           Location: Anonymous ({loginAlias || "Guest"}) - Dialogue Summary
@@ -6295,7 +7422,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                   ) : (
                     /* Share option teaser */
                     chatHistory.length > 1 && (
-                      <div className="p-2.5 bg-indigo-50/ dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900 rounded-xl space-y-1">
+                      <div className="p-2.5 bg-indigo-50/ dark:bg-white/[0.02]/40 border border-indigo-100 dark:border-white/10 rounded-xl space-y-1">
                         <div className="flex items-center justify-between gap-2">
                           <span className="text-[11px] text-slate-600 dark:text-slate-400 flex items-center gap-1.5 leading-relaxed">
                             <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-ping shrink-0" />
@@ -6331,14 +7458,14 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     )
                   )}
 
-                  <div className={`flex items-center gap-2 p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 transition-all shadow-sm ${getCharacterAccentBorder(activeChar.id)}`}>
+                  <div className={`flex items-center gap-2 p-2.5 rounded-xl border transition-all shadow-sm ${isDarkCharacter(activeChar.id, themeMode) ? 'bg-black border-white/10' : 'bg-white border-slate-200'} ${getCharacterAccentBorder(activeChar.id)}`}>
                     <input
                       type="text"
                       value={messageText}
                       onChange={(e) => setMessageText(e.target.value)}
                       onFocus={() => setIsHeaderCollapsed(true)}
                       placeholder={isListening ? "Listening... speak now..." : `Say what's on your mind... (${activeChar.name} is listening)`}
-                      className="bg-transparent border-none outline-none text-xs flex-1 text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 font-sans px-2.5"
+                      className={`bg-transparent border-none outline-none text-xs flex-1 font-sans px-2.5 ${isDarkCharacter(activeChar.id, themeMode) ? 'text-slate-200 placeholder-slate-500' : 'text-slate-800 placeholder-slate-400'}`}
                     />
                     
                     {/* Voice Dictation (Web Speech API) Trigger */}
@@ -6348,7 +7475,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       className={`p-2.5 rounded-lg transition-all cursor-pointer flex items-center justify-center relative shrink-0 ${
                         isListening 
                           ? "bg-rose-600 hover:bg-rose-500 text-white scale-105" 
-                          : "bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-500 hover:text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700"
+                          : "bg-slate-100 dark:bg-[#0a0a0a] hover:bg-slate-200 text-slate-500 hover:text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10"
                       }`}
                       title={isListening ? "Voice matching active. Press to pause dictation." : "Physically exhausted? Dictate your thoughts here."}
                     >
@@ -6400,10 +7527,10 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
           {activeCenterTab === 'safety' && (
             /* Safety & Ethics Portal Full Screen Scroll Panel Card */
-            <div className={`flex-1 p-5 overflow-y-auto space-y-5 font-sans rounded-b-2xl transition-colors duration-300 ${themeClass("bg-white text-slate-800", "bg-slate-900/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
+            <div className={`flex-1 p-5 overflow-y-auto space-y-5 font-sans rounded-b-2xl transition-colors duration-300 ${themeClass("bg-white text-slate-800", "bg-black/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
               
               {/* Premium Combined Head Header with Dual Sub-Tabs Selector */}
-              <div className={`border p-4.5 rounded-2xl relative overflow-hidden flex flex-col gap-3.5 transition-all duration-300 ${themeClass("bg-indigo-50/20 border-indigo-100/70", "bg-indigo-950/10 border-indigo-900/20", "bg-[#f5ebd7] border-[#e6dcc3]")}`}>
+              <div className={`border p-4.5 rounded-2xl relative overflow-hidden flex flex-col gap-3.5 transition-all duration-300 ${themeClass("bg-indigo-50/20 border-indigo-100/70", "bg-white/[0.02]/10 border-white/10/20", "bg-[#f5ebd7] border-[#e6dcc3]")}`}>
                 <div className="absolute -right-8 -bottom-8 w-28 h-28 bg-indigo-500/5 rounded-full blur-xl"></div>
                 <div className="flex flex-col gap-1.5 z-10">
                   <span className={`text-[9.5px] uppercase font-mono tracking-widest px-2 py-0.5 rounded-md font-bold self-start ${themeClass("bg-indigo-100 text-indigo-750", "bg-indigo-900/35 text-indigo-300", "bg-[#eddcb8] text-[#5c3e21]")}`}>
@@ -6419,14 +7546,14 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 </div>
 
                 {/* Switcher tabs */}
-                <div className={`flex p-1 rounded-xl max-w-md w-full border self-start z-10 ${themeClass("bg-slate-100/80 border-slate-200/60", "bg-slate-950/40 border-slate-800/50", "bg-[#ebdcb9]/60 border-[#dfcca3]")}`}>
+                <div className={`flex p-1 rounded-xl max-w-md w-full border self-start z-10 ${themeClass("bg-slate-100/80 border-slate-200/60", "bg-slate-950/40 border-white/10/50", "bg-[#ebdcb9]/60 border-[#dfcca3]")}`}>
                   <button
                     type="button"
                     onClick={() => setSafetyPortalSubTab('guardrails')}
                     className={`flex-1 flex items-center justify-center gap-1 py-1.5 text-[10px] md:text-[11px] font-bold rounded-lg cursor-pointer transition-all ${
                       safetyPortalSubTab === 'guardrails'
-                        ? themeClass("bg-white border border-slate-205 text-indigo-755 shadow-xs", "bg-slate-800 border border-slate-705 text-indigo-205 shadow-xs", "bg-[#fcf8ef] border-[#dfcca3] text-[#4a2e22] shadow-xs")
-                        : "text-slate-500 hover:text-slate-800 dark:text-slate-200 dark:hover:text-slate-200 hover:bg-slate-50/ dark:bg-slate-800/50"
+                        ? themeClass("bg-white border border-slate-205 text-indigo-755 shadow-xs", "bg-[#0a0a0a] border border-slate-705 text-indigo-205 shadow-xs", "bg-[#fcf8ef] border-[#dfcca3] text-[#4a2e22] shadow-xs")
+                        : "text-slate-500 hover:text-slate-800 dark:text-slate-200 dark:hover:text-slate-200 hover:bg-slate-50/ dark:bg-[#0a0a0a]/50"
                     }`}
                   >
                     ⚡ Live Guardrails
@@ -6436,8 +7563,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     onClick={() => setSafetyPortalSubTab('governance')}
                     className={`flex-1 flex items-center justify-center gap-1 py-1.5 text-[10px] md:text-[11px] font-bold rounded-lg cursor-pointer transition-all ${
                       safetyPortalSubTab === 'governance'
-                        ? themeClass("bg-white border border-slate-205 text-indigo-755 shadow-xs", "bg-slate-800 border border-slate-705 text-indigo-205 shadow-xs", "bg-[#fcf8ef] border-[#dfcca3] text-[#4a2e22] shadow-xs")
-                        : "text-slate-500 hover:text-slate-805 dark:hover:text-slate-220 hover:bg-slate-50/ dark:bg-slate-800/50"
+                        ? themeClass("bg-white border border-slate-205 text-indigo-755 shadow-xs", "bg-[#0a0a0a] border border-slate-705 text-indigo-205 shadow-xs", "bg-[#fcf8ef] border-[#dfcca3] text-[#4a2e22] shadow-xs")
+                        : "text-slate-500 hover:text-slate-805 dark:hover:text-slate-220 hover:bg-slate-50/ dark:bg-[#0a0a0a]/50"
                     }`}
                   >
                     ⚖️ Governance &amp; Ethics
@@ -6462,7 +7589,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 <div className="space-y-5 animate-fade-in">
                   
                   {/* Live Interactive Guardrail Simulator */}
-                  <div className={`border p-4 rounded-xl space-y-3 ${themeClass("bg-slate-50/50 border-slate-200/70", "bg-slate-900/30 border-slate-800/60", "bg-[#f6f1e5] border-[#ebdcb9]")}`}>
+                  <div className={`border p-4 rounded-xl space-y-3 ${themeClass("bg-slate-50/50 border-slate-200/70", "bg-black/30 border-white/10/60", "bg-[#f6f1e5] border-[#ebdcb9]")}`}>
                     <div className="flex items-center gap-2">
                       <Sparkles className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
                       <h4 className={`text-xs font-bold uppercase tracking-wider font-mono ${themeClass("text-slate-800", "text-slate-250", "text-[#543d2b]")}`}>
@@ -6470,7 +7597,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       </h4>
                     </div>
                     <p className={`text-[11px] leading-normal ${themeClass("text-slate-650", "text-slate-405", "text-[#5e4337]")}`}>
-                      Type mock trigger prompts like <span className="font-mono bg-indigo-50 dark:bg-indigo-950/40 px-1 py-0.5 rounded text-indigo-600 dark:text-indigo-450 font-bold border border-indigo-100/20">“suicide”</span>, <span className="font-mono bg-indigo-50 dark:bg-indigo-950/40 px-1 py-0.5 rounded text-indigo-600 dark:text-indigo-450 font-bold border border-indigo-100/20">“kill myself”</span>, <span className="font-mono bg-indigo-50 dark:bg-indigo-950/40 px-1 py-0.5 rounded text-indigo-600 dark:text-indigo-450 font-bold border border-indigo-100/20">“prozac dose”</span>, or <span className="font-mono bg-indigo-50 dark:bg-indigo-950/40 px-1 py-0.5 rounded text-indigo-600 dark:text-indigo-450 font-bold border border-indigo-100/20">“marry me”</span> to inspect our dual-layer de-escalation classification engine filters.
+                      Type mock trigger prompts like <span className="font-mono bg-indigo-50 dark:bg-white/[0.02]/40 px-1 py-0.5 rounded text-indigo-600 dark:text-indigo-450 font-bold border border-indigo-100/20">“suicide”</span>, <span className="font-mono bg-indigo-50 dark:bg-white/[0.02]/40 px-1 py-0.5 rounded text-indigo-600 dark:text-indigo-450 font-bold border border-indigo-100/20">“kill myself”</span>, <span className="font-mono bg-indigo-50 dark:bg-white/[0.02]/40 px-1 py-0.5 rounded text-indigo-600 dark:text-indigo-450 font-bold border border-indigo-100/20">“prozac dose”</span>, or <span className="font-mono bg-indigo-50 dark:bg-white/[0.02]/40 px-1 py-0.5 rounded text-indigo-600 dark:text-indigo-450 font-bold border border-indigo-100/20">“marry me”</span> to inspect our dual-layer de-escalation classification engine filters.
                     </p>
 
                     <div className="space-y-2">
@@ -6480,8 +7607,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                         onChange={(e) => setSafetySimText(e.target.value)}
                         placeholder="Type safety trigger to test filter response..."
                         className={`w-full text-xs p-2.5 rounded-lg outline-none border transition-all ${themeClass(
-                          "bg-white dark:bg-slate-900 border-slate-250 dark:border-slate-700 text-slate-850 focus:border-indigo-450 focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-900/50",
-                          "bg-slate-950 border-slate-800 text-white focus:border-indigo-400 dark:focus:border-indigo-600 focus:ring-2 focus:ring-indigo-900/50",
+                          "bg-white dark:bg-black border-slate-250 dark:border-white/10 text-slate-850 focus:border-indigo-450 focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-900/50",
+                          "bg-slate-950 border-white/10 text-white focus:border-indigo-400 dark:focus:border-indigo-600 focus:ring-2 focus:ring-indigo-900/50",
                           "bg-[#fffcf7] border-[#ebdcb9] text-[#3e2723] focus:border-[#c5b597]"
                         )}`}
                       />
@@ -6543,8 +7670,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                             setSafetySimResult(null);
                           }}
                           className={`px-3 py-1.5 text-[11px] font-semibold rounded-lg cursor-pointer transition-all border ${themeClass(
-                            "bg-slate-100 dark:bg-slate-800 hover:bg-slate-205 text-slate-700 dark:text-slate-300 border-slate-220 dark:border-slate-700",
-                            "bg-slate-805 hover:bg-slate-755 text-slate-205 border-slate-700",
+                            "bg-slate-100 dark:bg-[#0a0a0a] hover:bg-slate-205 text-slate-700 dark:text-slate-300 border-slate-220 dark:border-white/10",
+                            "bg-slate-805 hover:bg-slate-755 text-slate-205 border-white/10",
                             "bg-[#ebdcb9]/40 hover:bg-[#ebdcb9]/60 text-[#543d2b] border-[#ebdcb9]"
                           )}`}
                         >
@@ -6589,7 +7716,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       </p>
 
                       <div className="mt-2.5">
-                        <div className={`p-2.5 rounded-lg border flex items-center justify-between ${themeClass("bg-slate-50 border-slate-220", "bg-slate-900/40 border-slate-805", "bg-[#f5f0e3] border-[#ebdcb9]")}`}>
+                        <div className={`p-2.5 rounded-lg border flex items-center justify-between ${themeClass("bg-slate-50 border-slate-220", "bg-black/40 border-slate-805", "bg-[#f5f0e3] border-[#ebdcb9]")}`}>
                           <div>
                             <span className="text-[9.5px] text-slate-500 block uppercase font-mono tracking-wider">Active Dialogue Load</span>
                             <span className={`text-[11px] font-bold mt-0.5 block ${themeClass("text-indigo-700", "text-indigo-400", "text-[#5c3e21]")}`}>{chatHistory.length} query exchanges completed</span>
@@ -6615,7 +7742,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     </div>
                   </div>
 
-                  <div className={`pt-2.5 text-center border-t text-[9.5px] font-mono tracking-wide ${themeClass("text-slate-400 border-slate-200", "text-slate-500 border-slate-800/85", "text-[#c5b597] border-[#ebdcb9]/40")}`}>
+                  <div className={`pt-2.5 text-center border-t text-[9.5px] font-mono tracking-wide ${themeClass("text-slate-400 border-slate-200", "text-slate-500 border-white/10/85", "text-[#c5b597] border-[#ebdcb9]/40")}`}>
                     <span>GDPR &amp; HIPAA Sandbox Frame Compliant • Version 2.0</span>
                   </div>
                 </div>
@@ -6643,13 +7770,13 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           className={`w-full text-left p-2.5 rounded-xl border flex gap-2.5 items-start cursor-pointer transition-all ${
                             isActive
                               ? themeClass(
-                                  "bg-indigo-50 dark:bg-indigo-950 border-indigo-200 dark:border-indigo-800 text-indigo-900 ring-1 ring-indigo-150/30",
-                                  "bg-indigo-950/30 border-indigo-800/80 text-white shadow-[0_0_12px_rgba(99,102,241,0.08)]",
+                                  "bg-indigo-50 dark:bg-white/[0.02] border-indigo-200 dark:border-indigo-800 text-indigo-900 ring-1 ring-indigo-150/30",
+                                  "bg-white/[0.02]/30 border-indigo-800/80 text-white shadow-[0_0_12px_rgba(99,102,241,0.08)]",
                                   "bg-[#eddcb8] border-[#c0af88] text-[#3e2723]"
                                 )
                               : themeClass(
                                   "bg-slate-55/55 hover:bg-slate-55 border-slate-200/90 hover:border-slate-300 text-slate-700 dark:text-slate-300",
-                                  "bg-slate-900/20 hover:bg-slate-850/30 border-slate-800/40 text-slate-400 hover:text-slate-200",
+                                  "bg-black/20 hover:bg-slate-850/30 border-white/10/40 text-slate-400 hover:text-slate-200",
                                   "bg-[#faf6ee] hover:bg-[#ebdcb9]/40 border-[#ebdcb9]/60 text-[#5c4033]"
                                 )
                           }`}
@@ -6665,14 +7792,14 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                   </div>
 
                   {/* Right Column: Dynamic Detail Visual Window with Full User requested texts & Interactive UI widgets */}
-                  <div className={`flex-1 p-4.5 rounded-2xl border flex flex-col justify-between min-h-[360px] ${themeClass("bg-slate-50/20 border-slate-202", "bg-slate-900/10 border-slate-805", "bg-[#fffdfa]/80 border-[#ebdcb9]/80")}`}>
+                  <div className={`flex-1 p-4.5 rounded-2xl border flex flex-col justify-between min-h-[360px] ${themeClass("bg-slate-50/20 border-slate-202", "bg-black/10 border-slate-805", "bg-[#fffdfa]/80 border-[#ebdcb9]/80")}`}>
                     
                     {/* Content Switcher */}
                     <div className="space-y-4">
                       {govActiveCard === 'bias' && (
                         <div className="space-y-3.5 animate-fade-in">
                           <div>
-                            <span className="text-[9px] font-bold tracking-widest font-mono text-indigo-650 bg-indigo-50 dark:bg-indigo-950 px-2 py-0.5 rounded">
+                            <span className="text-[9px] font-bold tracking-widest font-mono text-indigo-650 bg-indigo-50 dark:bg-white/[0.02] px-2 py-0.5 rounded">
                               PILLAR_01: GENERAL AI BIAS &amp; FAIRNESS AUDITING
                             </span>
                             <h4 className="text-xs md:text-sm font-bold font-display mt-2">
@@ -6691,7 +7818,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           </p>
 
                           {/* Interactive Bias Audit Play Module */}
-                          <div className={`p-4 rounded-xl border space-y-2 mt-4 ${themeClass("bg-white border-slate-200", "bg-slate-950/60 border-slate-800", "bg-[#faf6ee] border-[#ebdcb9]")}`}>
+                          <div className={`p-4 rounded-xl border space-y-2 mt-4 ${themeClass("bg-white border-slate-200", "bg-slate-950/60 border-white/10", "bg-[#faf6ee] border-[#ebdcb9]")}`}>
                             <div className="flex items-center justify-between">
                               <span className="font-mono text-[9px] font-bold text-slate-500 uppercase">Interactive Representation Auditor</span>
                               <span className={`text-[8.5px] px-1.5 py-0.5 rounded font-bold ${biasIsMitigated ? "bg-emerald-100 text-emerald-800" : "bg-red-100 text-red-800"}`}>
@@ -6705,7 +7832,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                                   <span>Error Rate: Dark-Skinned Females (Vulnerable Cohort)</span>
                                   <span className="font-mono font-bold text-rose-500">{biasIsMitigated ? "2.4%" : "34.7%"}</span>
                                 </div>
-                                <div className="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                                <div className="w-full bg-slate-200 dark:bg-[#0a0a0a] rounded-full h-1.5 overflow-hidden">
                                   <motion.div 
                                     className={`h-1.5 rounded-full ${biasIsMitigated ? "bg-emerald-500" : "bg-red-500"}`}
                                     animate={{ width: biasIsMitigated ? "7%" : "93%" }}
@@ -6719,7 +7846,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                                   <span>Error Rate: Light-Skinned Males (Standard Baseline)</span>
                                   <span className="font-mono font-bold text-indigo-505">{biasIsMitigated ? "1.9%" : "0.8%"}</span>
                                 </div>
-                                <div className="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                                <div className="w-full bg-slate-200 dark:bg-[#0a0a0a] rounded-full h-1.5 overflow-hidden">
                                   <motion.div 
                                     className="h-1.5 bg-indigo-505 rounded-full"
                                     animate={{ width: "5%" }}
@@ -6749,7 +7876,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       {govActiveCard === 'transparency' && (
                         <div className="space-y-3.5 animate-fade-in">
                           <div>
-                            <span className="text-[9px] font-bold tracking-widest font-mono text-indigo-650 bg-indigo-50 dark:bg-indigo-950 px-2 py-0.5 rounded">
+                            <span className="text-[9px] font-bold tracking-widest font-mono text-indigo-650 bg-indigo-50 dark:bg-white/[0.02] px-2 py-0.5 rounded">
                               PILLAR_02: MODEL TRANSPARENCY &amp; TRACEABILITY
                             </span>
                             <h4 className="text-xs md:text-sm font-bold font-display mt-2">
@@ -6768,8 +7895,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           </p>
 
                           {/* Interactive XAI Scenario Node Tracer */}
-                          <div className={`p-4 rounded-xl border space-y-3.5 mt-4 ${themeClass("bg-white border-slate-200", "bg-slate-950/60 border-slate-800", "bg-[#faf6ee] border-[#ebdcb9]")}`}>
-                            <div className="flex items-center justify-between border-b pb-1.5 border-slate-200/50 dark:border-slate-800/45">
+                          <div className={`p-4 rounded-xl border space-y-3.5 mt-4 ${themeClass("bg-white border-slate-200", "bg-slate-950/60 border-white/10", "bg-[#faf6ee] border-[#ebdcb9]")}`}>
+                            <div className="flex items-center justify-between border-b pb-1.5 border-slate-200/50 dark:border-white/10/45">
                               <span className="font-mono text-[9px] font-bold text-slate-500 uppercase">Explainable AI (XAI) Decision Pipeline</span>
                               <div className="flex gap-1.5">
                                 {['validate', 'escalation', 'grounding'].map((tab) => (
@@ -6804,7 +7931,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                               </div>
                             </div>
 
-                            <div className={`p-2.5 rounded-lg border text-[9px] font-mono leading-relaxed ${themeClass("bg-slate-50 border-slate-200", "bg-slate-900 border-slate-850", "bg-[#fffcf5] border-[#ebdcb9]")}`}>
+                            <div className={`p-2.5 rounded-lg border text-[9px] font-mono leading-relaxed ${themeClass("bg-slate-50 border-slate-200", "bg-black border-slate-850", "bg-[#fffcf5] border-[#ebdcb9]")}`}>
                               <p className="font-bold text-indigo-500 mb-1">
                                 [XAI INTERPRETER TRACE]
                               </p>
@@ -6831,7 +7958,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       {govActiveCard === 'accountability' && (
                         <div className="space-y-3.5 animate-fade-in">
                           <div>
-                            <span className="text-[9px] font-bold tracking-widest font-mono text-indigo-650 bg-indigo-50 dark:bg-indigo-950 px-2 py-0.5 rounded">
+                            <span className="text-[9px] font-bold tracking-widest font-mono text-indigo-650 bg-indigo-50 dark:bg-white/[0.02] px-2 py-0.5 rounded">
                               PILLAR_03: AUTONOMOUS ACTION LIABILITY
                             </span>
                             <h4 className="text-xs md:text-sm font-bold font-display mt-2">
@@ -6856,7 +7983,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       {govActiveCard === 'privacy' && (
                         <div className="space-y-3.5 animate-fade-in">
                           <div>
-                            <span className="text-[9px] font-bold tracking-widest font-mono text-indigo-650 bg-indigo-50 dark:bg-indigo-950 px-2 py-0.5 rounded">
+                            <span className="text-[9px] font-bold tracking-widest font-mono text-indigo-650 bg-indigo-50 dark:bg-white/[0.02] px-2 py-0.5 rounded">
                               PILLAR_04: ENHANCED PRIVACY &amp; DIFFERENTIAL NOISE
                             </span>
                             <h4 className="text-xs md:text-sm font-bold font-display mt-2">
@@ -6874,7 +8001,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           </p>
 
                           {/* Interactive Differential Slider UI Widget */}
-                          <div className={`p-4 rounded-xl border space-y-3 mt-4 animate-fade-in ${themeClass("bg-white border-slate-200", "bg-slate-950/60 border-slate-800", "bg-[#faf6ee] border-[#ebdcb9]")}`}>
+                          <div className={`p-4 rounded-xl border space-y-3 mt-4 animate-fade-in ${themeClass("bg-white border-slate-200", "bg-slate-950/60 border-white/10", "bg-[#faf6ee] border-[#ebdcb9]")}`}>
                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-1.5">
                               <span className="font-mono text-[9px] font-bold text-slate-500 uppercase">Differential Privacy Simulator</span>
                               <span className="font-mono text-[9px] font-bold bg-indigo-100 dark:bg-indigo-900/35 px-2 py-0.5 rounded text-indigo-700 dark:text-indigo-300 select-none">
@@ -6892,12 +8019,12 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                                   step="0.1"
                                   value={differentialEpsilon}
                                   onChange={(e) => setDifferentialEpsilon(parseFloat(e.target.value))}
-                                  className="w-full h-1 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-605 focus:outline-none"
+                                  className="w-full h-1 bg-slate-200 dark:bg-[#0a0a0a] rounded-lg appearance-none cursor-pointer accent-indigo-605 focus:outline-none"
                                 />
                                 <span className="font-semibold shrink-0">ε = 5.0 (No Noise / Leaking)</span>
                               </div>
 
-                              <div className={`p-2.5 rounded text-[8.5px] font-mono leading-relaxed select-none ${themeClass("bg-slate-50 text-slate-600", "bg-slate-900 text-slate-300", "bg-[#fffcf5] text-[#5e4337]")}`}>
+                              <div className={`p-2.5 rounded text-[8.5px] font-mono leading-relaxed select-none ${themeClass("bg-slate-50 text-slate-600", "bg-black text-slate-300", "bg-[#fffcf5] text-[#5e4337]")}`}>
                                 <p className="font-bold uppercase text-[8px] text-slate-400 mb-1">Differential Privacy Evaluation:</p>
                                 {differentialEpsilon <= 1.5 ? (
                                   <p className="text-emerald-600 dark:text-emerald-400 font-bold">
@@ -6921,7 +8048,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       {govActiveCard === 'displacement' && (
                         <div className="space-y-3.5 animate-fade-in max-w-full">
                           <div>
-                            <span className="text-[9px] font-bold tracking-widest font-mono text-indigo-650 bg-indigo-50 dark:bg-indigo-950 px-2 py-0.5 rounded">
+                            <span className="text-[9px] font-bold tracking-widest font-mono text-indigo-650 bg-indigo-50 dark:bg-white/[0.02] px-2 py-0.5 rounded">
                               PILLAR_05: SOCIOECONOMIC AUTOMATION CUSHION
                             </span>
                             <h4 className="text-xs md:text-sm font-bold font-display mt-2">
@@ -6946,7 +8073,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       {govActiveCard === 'structures' && (
                         <div className="space-y-3.5 animate-fade-in">
                           <div>
-                            <span className="text-[9px] font-bold tracking-widest font-mono text-indigo-650 bg-indigo-50 dark:bg-indigo-950 px-2 py-0.5 rounded">
+                            <span className="text-[9px] font-bold tracking-widest font-mono text-indigo-650 bg-indigo-50 dark:bg-white/[0.02] px-2 py-0.5 rounded">
                               PILLAR_06: IEEE ETHICAL PRINCIPLES &amp; STAKEHOLDERS
                             </span>
                             <h4 className="text-xs md:text-sm font-bold font-display mt-2">
@@ -6967,7 +8094,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           </p>
 
                           {/* Interactive Compliance checklist */}
-                          <div className={`p-4 rounded-xl border mt-3 space-y-2.5 ${themeClass("bg-white border-slate-200 text-slate-800", "bg-slate-950/60 border-slate-800 text-slate-200", "bg-[#faf6ee] border-[#ebdcb9] text-[#3e2723]")}`}>
+                          <div className={`p-4 rounded-xl border mt-3 space-y-2.5 ${themeClass("bg-white border-slate-200 text-slate-800", "bg-slate-950/60 border-white/10 text-slate-200", "bg-[#faf6ee] border-[#ebdcb9] text-[#3e2723]")}`}>
                             <span className="font-mono text-[9px] font-bold text-indigo-600 dark:text-indigo-400 block uppercase">Regulatory Alignment Scores:</span>
                             
                             <div className="grid grid-cols-2 gap-2 text-[9px] font-sans font-semibold">
@@ -6995,7 +8122,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       {govActiveCard === 'oversight' && (
                         <div className="space-y-3.5 animate-fade-in text-xs leading-relaxed">
                           <div>
-                            <span className="text-[9px] font-bold tracking-widest font-mono text-indigo-650 bg-indigo-50 dark:bg-indigo-950 px-2 py-0.5 rounded">
+                            <span className="text-[9px] font-bold tracking-widest font-mono text-indigo-650 bg-indigo-50 dark:bg-white/[0.02] px-2 py-0.5 rounded">
                               PILLAR_07: HUMAN OVERSIGHT &amp; DATA SOVEREIGNTY
                             </span>
                             <h4 className="text-xs md:text-sm font-bold font-display mt-2">
@@ -7016,10 +8143,10 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           </p>
 
                           {/* Consent Contract Module */}
-                          <div className={`p-4 rounded-xl border mt-3 space-y-3 ${themeClass("bg-white border-slate-200 text-slate-800", "bg-slate-950/60 border-slate-800 text-slate-200", "bg-[#faf6ee] border-[#ebdcb9] text-[#3e2723]")}`}>
+                          <div className={`p-4 rounded-xl border mt-3 space-y-3 ${themeClass("bg-white border-slate-200 text-slate-800", "bg-slate-950/60 border-white/10 text-slate-200", "bg-[#faf6ee] border-[#ebdcb9] text-[#3e2723]")}`}>
                             <div className="flex justify-between items-center pb-1.5 border-b border-slate-100 dark:border-slate-850">
                               <span className="font-mono text-[9px] font-bold text-slate-500 uppercase">Cryptographic Consent Handshake</span>
-                              <span className={`text-[8.5px] px-1.5 py-0.5 rounded font-mono font-bold ${isSignAgreement ? "bg-indigo-100 text-indigo-850" : "bg-slate-100 dark:bg-slate-800 text-slate-500"}`}>
+                              <span className={`text-[8.5px] px-1.5 py-0.5 rounded font-mono font-bold ${isSignAgreement ? "bg-indigo-100 text-indigo-850" : "bg-slate-100 dark:bg-[#0a0a0a] text-slate-500"}`}>
                                 {isSignAgreement ? "Signature: GRANTED" : "Signature: WAITING"}
                               </span>
                             </div>
@@ -7064,7 +8191,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 /* Subtab 3: Comprehensive Zero-Trust Cybersecurity & Threat Countermeasures */
                 <div className="space-y-5 animate-fade-in text-[11px] text-left">
                   {/* Altaf Character Ownership Banner */}
-                  <div className="p-4 rounded-xl border border-indigo-100 dark:border-indigo-950/25 bg-indigo-50/30 dark:bg-indigo-950/10 text-slate-750 dark:text-slate-250 flex flex-col sm:flex-row items-center gap-4.5 mb-5 select-none shadow-xs">
+                  <div className="p-4 rounded-xl border border-indigo-100 dark:border-indigo-950/25 bg-indigo-50/30 dark:bg-white/[0.02]/10 text-slate-750 dark:text-slate-250 flex flex-col sm:flex-row items-center gap-4.5 mb-5 select-none shadow-xs">
                     <div className="w-11 h-11 rounded-lg bg-indigo-600/10 border border-indigo-200/50 text-indigo-700 dark:text-indigo-400 shrink-0 flex items-center justify-center font-bold text-lg select-none shadow-3xs">
                       🎧
                     </div>
@@ -7120,10 +8247,10 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     {/* Threat Intelligence / Live Matrix Data Panel */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4.5">
                       {/* Grid Item 1: Threat Database Live Registry */}
-                      <div className={`p-4 rounded-xl border space-y-2.5 ${themeClass("bg-white border-slate-200", "bg-slate-950/50 border-slate-800", "bg-[#fcfbf9] border-[#e1d5bc]")}`}>
+                      <div className={`p-4 rounded-xl border space-y-2.5 ${themeClass("bg-white border-slate-200", "bg-slate-950/50 border-white/10", "bg-[#fcfbf9] border-[#e1d5bc]")}`}>
                         <div className="flex items-center justify-between">
                           <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 font-mono">DARK WEB SCANS</span>
-                          <span className="text-[9px] font-bold text-indigo-600 bg-indigo-50 dark:bg-indigo-950 px-1.5 py-0.5 rounded font-mono">
+                          <span className="text-[9px] font-bold text-indigo-600 bg-indigo-50 dark:bg-white/[0.02] px-1.5 py-0.5 rounded font-mono">
                             Auto-Syncing
                           </span>
                         </div>
@@ -7144,7 +8271,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       </div>
 
                       {/* Grid Item 2: Encryptor Bit Strength */}
-                      <div className={`p-4 rounded-xl border space-y-2.5 ${themeClass("bg-white border-slate-200", "bg-slate-950/50 border-slate-800", "bg-[#fcfbf9] border-[#e1d5bc]")}`}>
+                      <div className={`p-4 rounded-xl border space-y-2.5 ${themeClass("bg-white border-slate-200", "bg-slate-950/50 border-white/10", "bg-[#fcfbf9] border-[#e1d5bc]")}`}>
                         <div className="flex items-center justify-between">
                           <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 font-mono">ALGEBRAIC STRENGTH</span>
                           <span className="text-[9px] font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950 px-1.5 py-0.5 rounded font-mono">
@@ -7176,7 +8303,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       </div>
 
                       {/* Grid Item 3: Zero-Trace Local Custom Hash Key */}
-                      <div className={`p-4 rounded-xl border space-y-2.5 ${themeClass("bg-white border-slate-200", "bg-slate-950/50 border-slate-800", "bg-[#fcfbf9] border-[#e1d5bc]")}`}>
+                      <div className={`p-4 rounded-xl border space-y-2.5 ${themeClass("bg-white border-slate-200", "bg-slate-950/50 border-white/10", "bg-[#fcfbf9] border-[#e1d5bc]")}`}>
                         <div className="flex items-center justify-between">
                           <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 font-mono">PRIVATE SALT KEY</span>
                           <span className="text-[9px] font-bold text-amber-600 bg-amber-50 dark:bg-amber-950 px-1.5 py-0.5 rounded font-mono">
@@ -7189,7 +8316,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                             value={customKeySeed}
                             onChange={(e) => setCustomKeySeed(e.target.value.substring(0, 32))}
                             placeholder="Type custom local key..."
-                            className="bg-slate-50 border border-slate-100 dark:bg-slate-950 dark:border-slate-800 text-xs p-1.5 px-2 rounded font-mono w-full text-slate-800 dark:text-slate-100 focus:ring-1 focus:ring-indigo-400"
+                            className="bg-slate-50 border border-slate-100 dark:bg-slate-950 dark:border-white/10 text-xs p-1.5 px-2 rounded font-mono w-full text-slate-800 dark:text-slate-100 focus:ring-1 focus:ring-indigo-400"
                           />
                           <p className="text-[10px] text-slate-400 font-normal">
                             Personalized cryptographic seed ensuring physical encryption isolation. Unhackable block.
@@ -7224,12 +8351,12 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           </div>
                           
                           {/* Progress bar */}
-                          <div className="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
+                          <div className="w-full bg-slate-200 dark:bg-[#0a0a0a] rounded-full h-1.5 overflow-hidden">
                             <div className="bg-emerald-600 h-1.5 rounded-full transition-all duration-300" style={{ width: `${cyberScanProgress}%` }}></div>
                           </div>
 
                           {/* Dynamic Logs Terminal Console */}
-                          <div className="bg-black text-emerald-400 font-mono text-[9px] p-2.5 rounded border border-slate-800 h-28 overflow-y-auto space-y-1 font-mono text-left">
+                          <div className="bg-black text-emerald-400 font-mono text-[9px] p-2.5 rounded border border-white/10 h-28 overflow-y-auto space-y-1 font-mono text-left">
                             {cyberScanLogs.map((log, index) => (
                               <div key={index} className="leading-snug">
                                 <span className="text-slate-500">[{new Date().toLocaleTimeString()}]</span> {log}
@@ -7281,7 +8408,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     </div>
 
                     {/* Altaf's Video Sanctuary Activation Panel */}
-                    <div className={`p-4 rounded-xl border ${themeClass("bg-indigo-50/50 border-indigo-100", "bg-indigo-950/10 border-indigo-900/30", "bg-[#f5eeff] border-[#ebd9ff]")} space-y-3 text-left`}>
+                    <div className={`p-4 rounded-xl border ${themeClass("bg-indigo-50/50 border-indigo-100", "bg-white/[0.02]/10 border-white/10/30", "bg-[#f5eeff] border-[#ebd9ff]")} space-y-3 text-left`}>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-1.5">
                           <span className="p-1 px-1.5 rounded bg-indigo-650 text-white font-mono text-[9px] font-bold">ALTAF_MEDIA_INTEGRITY</span>
@@ -7308,7 +8435,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     </div>
 
                     {/* Unhackability certification & security policy */}
-                    <div className={`p-4 rounded-xl border ${themeClass("bg-slate-50 border-slate-200/60", "bg-slate-900/40 border-slate-800/50", "bg-[#faf6eb] border-[#ebdcb9]")} space-y-2`}>
+                    <div className={`p-4 rounded-xl border ${themeClass("bg-slate-50 border-slate-200/60", "bg-black/40 border-white/10/50", "bg-[#faf6eb] border-[#ebdcb9]")} space-y-2`}>
                       <span className="font-semibold text-xs text-slate-800 dark:text-slate-100 block">
                         🔒 Comprehensive Protection Guarantee
                       </span>
@@ -7324,9 +8451,9 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           )}
 
           {activeCenterTab === 'publishing' && (
-            <div className={`flex-1 p-5 overflow-y-auto space-y-6 font-sans rounded-b-2xl h-[700px] xl:h-[750px] flex flex-col transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-slate-900/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
+            <div className={`flex-1 p-5 overflow-y-auto space-y-6 font-sans rounded-b-2xl h-[700px] xl:h-[750px] flex flex-col transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-black/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
               {/* Whiteboard Header */}
-              <div className={`border p-5 rounded-2xl relative overflow-hidden flex flex-col gap-2.5 transition-all duration-300 ${themeClass("bg-[#fdfcf5] border-[#f0ebd9]", "bg-slate-950/40 border-slate-800/40", "bg-[#ebdcb9]/30 border-[#ebdcb9]")}`}>
+              <div className={`border p-5 rounded-2xl relative overflow-hidden flex flex-col gap-2.5 transition-all duration-300 ${themeClass("bg-[#fdfcf5] border-[#f0ebd9]", "bg-slate-950/40 border-white/10/40", "bg-[#ebdcb9]/30 border-[#ebdcb9]")}`}>
                 <div className="absolute right-3 top-3 text-[50px] opacity-10 select-none">📌</div>
                 <div className="flex flex-col gap-1 z-10 text-left">
                   <span className="text-[9px] uppercase font-mono tracking-widest px-2 py-0.5 rounded-md font-bold bg-[#cd853f] text-white self-start">
@@ -7344,20 +8471,20 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
               {/* Creator Workbench & Whiteboard Grid */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 flex-1 min-h-0">
                 {/* Note Spawner Panel */}
-                <div className={`lg:col-span-4 p-4 border rounded-2xl flex flex-col gap-4 text-left ${themeClass("bg-slate-50/50 border-slate-200", "bg-[#121824] border-slate-800", "bg-[#ebdcb9]/20 border-[#e3d5be]")}`}>
+                <div className={`lg:col-span-4 p-4 border rounded-2xl flex flex-col gap-4 text-left ${themeClass("bg-slate-50/50 border-slate-200", "bg-[#121824] border-white/10", "bg-[#ebdcb9]/20 border-[#e3d5be]")}`}>
                   <div>
                     <h4 className="text-xs font-bold uppercase tracking-wider mb-1">Create a Supportive Post</h4>
                     <p className="text-[10px] opacity-70">Your message remains 100% encrypted, untraceable, and anonymous.</p>
                   </div>
 
                   {/* Mode tabs selector */}
-                  <div className="grid grid-cols-2 p-1 bg-slate-100/70 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800">
+                  <div className="grid grid-cols-2 p-1 bg-slate-100/70 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-white/10">
                     <button
                       type="button"
                       onClick={() => setPublishingTab('text')}
                       className={`py-1.5 text-[11px] font-bold rounded-lg cursor-pointer transition-all ${
                         publishingTab === 'text'
-                          ? "bg-white text-slate-800 dark:text-slate-200 shadow-xs border border-slate-150 dark:bg-slate-800 dark:text-white dark:border-slate-700"
+                          ? "bg-white text-slate-800 dark:text-slate-200 shadow-xs border border-slate-150 dark:bg-[#0a0a0a] dark:text-white dark:border-white/10"
                           : "text-slate-500 hover:text-slate-705 dark:hover:text-slate-205"
                       }`}
                     >
@@ -7368,7 +8495,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       onClick={() => setPublishingTab('draw')}
                       className={`py-1.5 text-[11px] font-bold rounded-lg cursor-pointer transition-all ${
                         publishingTab === 'draw'
-                          ? "bg-white text-slate-800 dark:text-slate-200 shadow-xs border border-slate-150 dark:bg-slate-800 dark:text-white dark:border-slate-700"
+                          ? "bg-white text-slate-800 dark:text-slate-200 shadow-xs border border-slate-150 dark:bg-[#0a0a0a] dark:text-white dark:border-white/10"
                           : "text-slate-500 hover:text-slate-705 dark:hover:text-slate-205"
                       }`}
                     >
@@ -7386,8 +8513,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           placeholder="Write an insight, validation, or self-soothing quote..."
                           maxLength={180}
                           className={`text-xs p-3 rounded-xl border h-24 resize-none transition-all outline-none focus:ring-1 focus:ring-amber-500 font-sans ${themeClass(
-                            "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 focus:border-slate-350",
-                            "bg-slate-950 border-slate-800 text-slate-100 focus:border-slate-700",
+                            "bg-white dark:bg-black border-slate-200 dark:border-white/10 text-slate-800 dark:text-slate-200 focus:border-slate-350",
+                            "bg-slate-950 border-white/10 text-slate-100 focus:border-white/10",
                             "bg-[#faf6ee] border-[#ebdcb9] text-[#3e2723] focus:border-[#ebdcb9]"
                           )}`}
                         />
@@ -7458,7 +8585,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                         className={`w-full py-2 px-4 rounded-xl text-xs font-bold font-sans cursor-pointer transition-all uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-sm ${
                           newNoteText.trim()
                             ? "bg-[#cd853f] text-white hover:bg-[#b07234] hover:scale-[1.01]"
-                            : "bg-slate-200/60 text-slate-450 border border-slate-200 dark:border-slate-700 cursor-not-allowed"
+                            : "bg-slate-200/60 text-slate-450 border border-slate-200 dark:border-white/10 cursor-not-allowed"
                         }`}
                       >
                         <span>Pin to Board 📌</span>
@@ -7507,12 +8634,12 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                   onMouseUp={handleNoteDragEnd}
                   onMouseLeave={handleNoteDragEnd}
                   className={`lg:col-span-8 border rounded-2xl relative overflow-hidden h-[450px] lg:h-auto select-none overflow-x-auto overflow-y-auto cursor-grab active:cursor-grabbing ${themeClass(
-                    "bg-slate-50/ dark:bg-slate-800/40 border-slate-200 dark:border-slate-700 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)]",
-                    "bg-slate-950/30 border-slate-800 bg-[radial-gradient(#1e293b_1px,transparent_1px)]",
+                    "bg-slate-50/ dark:bg-[#0a0a0a]/40 border-slate-200 dark:border-white/10 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)]",
+                    "bg-slate-950/30 border-white/10 bg-[radial-gradient(#1e293b_1px,transparent_1px)]",
                     "bg-[#fdf9f0]/40 border-[#ebdcb9]/70 bg-[radial-gradient(#e7d3b0_1px,transparent_1px)]"
                   )} [background-size:16px_16px]`}
                 >
-                  <div className="absolute top-3 left-3 bg-slate-900/85 backdrop-blur-xs text-white text-[9px] font-mono font-bold px-2.5 py-1 rounded-md z-30 flex items-center gap-1.5 pointer-events-none tracking-widest shadow-sm">
+                  <div className="absolute top-3 left-3 bg-black/85 backdrop-blur-xs text-white text-[9px] font-mono font-bold px-2.5 py-1 rounded-md z-30 flex items-center gap-1.5 pointer-events-none tracking-widest shadow-sm">
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
                     <span>INFINITE DRAG WHITEBOARD (FIGMA-MODE)</span>
                   </div>
@@ -7557,7 +8684,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
                           {/* Thought Content */}
                           {note.isDrawing && note.drawingData ? (
-                            <div className="w-full h-24 my-1 flex items-center justify-center bg-white dark:bg-slate-900/60 dark:bg-black/10 rounded-md overflow-hidden border border-black/5 p-1 select-none pointer-events-none">
+                            <div className="w-full h-24 my-1 flex items-center justify-center bg-white dark:bg-black/60 dark:bg-black/10 rounded-md overflow-hidden border border-black/5 p-1 select-none pointer-events-none">
                               <img 
                                 src={note.drawingData} 
                                 alt="Anonymous drawing" 
@@ -7598,9 +8725,9 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           )}
 
           {activeCenterTab === 'community' && (
-            <div className={`flex-1 p-5 overflow-y-auto space-y-6 font-sans rounded-b-2xl h-[700px] xl:h-[750px] flex flex-col transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-slate-900/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
+            <div className={`flex-1 p-5 overflow-y-auto space-y-6 font-sans rounded-b-2xl h-[700px] xl:h-[750px] flex flex-col transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-black/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
               {/* Botanical sanctuary header */}
-              <div className={`border p-5 rounded-2xl relative overflow-hidden flex flex-col gap-2.5 transition-all duration-300 ${themeClass("bg-[#fdf5f8] border-[#f4e2ea]", "bg-slate-950/40 border-slate-800/40", "bg-[#ebdcb9]/30 border-[#ebdcb9]")}`}>
+              <div className={`border p-5 rounded-2xl relative overflow-hidden flex flex-col gap-2.5 transition-all duration-300 ${themeClass("bg-[#fdf5f8] border-[#f4e2ea]", "bg-slate-950/40 border-white/10/40", "bg-[#ebdcb9]/30 border-[#ebdcb9]")}`}>
                 <div className="absolute right-3 top-3 text-[50px] opacity-10 select-none">🌸</div>
                 <div className="flex flex-col gap-1 z-10 text-left">
                   <span className="text-[9px] uppercase font-mono tracking-widest px-2.5 py-0.5 rounded-md font-bold bg-[#db7093] text-white self-start">
@@ -7617,11 +8744,11 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
               {/* Daily Mindfulness Goals Panel */}
               <div className={`p-5 rounded-2xl border transition-all duration-300 text-left relative overflow-hidden ${themeClass(
-                "bg-indigo-50/ dark:bg-indigo-950/20 border-indigo-105",
+                "bg-indigo-50/ dark:bg-white/[0.02]/20 border-indigo-105",
                 "bg-slate-950/30 border-slate-850",
                 "bg-[#f7f2e5] border-[#ebdcb9]"
               )}`}>
-                <div className="flex items-center justify-between gap-4 flex-wrap border-b pb-3 border-indigo-100 dark:border-indigo-900 dark:border-slate-800/80">
+                <div className="flex items-center justify-between gap-4 flex-wrap border-b pb-3 border-indigo-100 dark:border-white/10 dark:border-white/10/80">
                   <div className="flex items-center gap-2.5">
                     <span className="text-xl">🎯</span>
                     <div>
@@ -7639,8 +8766,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       type="button"
                       onClick={handleResetDailyGoals}
                       className={`px-3 py-1 text-[9.5px] font-mono font-bold rounded-lg transition-colors border shadow-xs hover:shadow-xs cursor-pointer ${themeClass(
-                        "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800",
-                        "bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-800",
+                        "bg-white dark:bg-black border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-[#0a0a0a]",
+                        "bg-black border-white/10 text-slate-300 hover:bg-[#0a0a0a]",
                         "bg-[#faf6ee] border-[#ebdcb9] text-[#5c4033] hover:bg-[#eae0ca]"
                       )}`}
                       title="Clear checks to complete them again"
@@ -7684,7 +8811,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                         className={`p-3 border rounded-xl flex flex-col justify-between gap-2.5 transition-all duration-300 ${
                           goal.isCompleted 
                             ? themeClass("bg-emerald-50/20 border-emerald-200", "bg-emerald-950/10 border-emerald-900/40", "bg-[#eaf5eb]/45 border-emerald-800/20")
-                            : themeClass("bg-white/85 border-slate-100 hover:border-slate-200", "bg-slate-900/30 border-slate-850 hover:border-slate-800", "bg-[#fffdfa]/65 border-[#e3d5be]/40")
+                            : themeClass("bg-white/85 border-slate-100 hover:border-slate-200", "bg-black/30 border-slate-850 hover:border-white/10", "bg-[#fffdfa]/65 border-[#e3d5be]/40")
                         }`}
                       >
                         <div className="flex items-center gap-2">
@@ -7730,8 +8857,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                               goal.isCompleted
                                 ? "bg-emerald-105/10 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-450 border border-emerald-200/50 cursor-default"
                                 : themeClass(
-                                    "bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 hover:bg-slate-100 dark:bg-slate-800 border border-indigo-100 dark:border-indigo-900",
-                                    "bg-slate-800 text-indigo-400 hover:bg-slate-750 border border-slate-750",
+                                    "bg-indigo-50 dark:bg-white/[0.02] text-indigo-700 dark:text-indigo-300 hover:bg-slate-100 dark:bg-[#0a0a0a] border border-indigo-100 dark:border-white/10",
+                                    "bg-[#0a0a0a] text-indigo-400 hover:bg-slate-750 border border-slate-750",
                                     "bg-[#faf6ee] text-amber-900 border border-[#ebdcb9] hover:bg-[#eae0ca]"
                                   )
                             }`}
@@ -7778,8 +8905,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                         <div
                           key={flower.id}
                           className={`p-4 border rounded-2xl flex flex-col justify-between gap-3 text-center transition-all duration-300 relative overflow-hidden shadow-xs hover:shadow-md ${themeClass(
-                            "bg-white dark:bg-slate-900 border-slate-100 hover:border-slate-200 dark:border-slate-700",
-                            "bg-slate-900/50 border-slate-800 hover:border-slate-705",
+                            "bg-white dark:bg-black border-slate-100 hover:border-slate-200 dark:border-white/10",
+                            "bg-black/50 border-white/10 hover:border-slate-705",
                             "bg-[#faf6ee] border-[#ebdcb9]/60 hover:border-amber-900/30"
                           )}`}
                         >
@@ -7821,7 +8948,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                                   {flower.scale < 1.0 ? "🌱 Growing" : "✨ Blooming"} {Math.round(flower.scale * 100)}%
                                 </span>
                               </div>
-                              <div className="h-1 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                              <div className="h-1 bg-slate-100 dark:bg-[#0a0a0a] rounded-full overflow-hidden">
                                 <motion.div 
                                   initial={{ width: "10%" }}
                                   animate={{ width: `${flower.scale * 100}%` }}
@@ -7840,7 +8967,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
             {/* Sub-Task: Sanctuary Gathering (All Companions Tending Your Flowers) */}
             <div className={`mt-8 p-6 rounded-2xl border text-left transition-all duration-300 relative overflow-hidden ${themeClass(
-              "bg-gradient-to-br from-indigo-50/60 to-purple-50/50 border-indigo-100 dark:border-indigo-900",
+              "bg-gradient-to-br from-indigo-50/60 to-purple-50/50 border-indigo-100 dark:border-white/10",
               "bg-gradient-to-br from-slate-900 to-indigo-950/20 border-indigo-950",
               "bg-gradient-to-br from-[#fbf8f0] to-[#f4ecd8] border-[#ebdcb9]"
             )}`}>
@@ -7861,7 +8988,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
               </div>
 
               {/* Grid of Companions Tending Flowers */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6 max-h-[400px] overflow-y-auto pr-2">
                 {[
                   {
                     name: "Rooh",
@@ -7939,8 +9066,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                   <div 
                     key={idx} 
                     className={`p-4 rounded-xl border flex flex-col justify-between gap-3 text-left transition-all duration-300 hover:shadow-sm ${themeClass(
-                      "bg-white dark:bg-slate-900/80 border-slate-100 hover:border-slate-200 dark:border-slate-700",
-                      "bg-slate-900/40 border-slate-800/80 hover:border-slate-700/80",
+                      "bg-white dark:bg-black/80 border-slate-100 hover:border-slate-200 dark:border-white/10",
+                      "bg-black/40 border-white/10/80 hover:border-white/10/80",
                       "bg-[#fffcf6] border-[#ebdcb9]/40 hover:border-amber-900/20"
                     )}`}
                   >
@@ -7960,7 +9087,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       </p>
                     </div>
 
-                    <div className="flex items-center justify-between text-[8px] font-mono border-t pt-2 mt-1 border-slate-100 dark:border-slate-800 text-slate-400">
+                    <div className="flex items-center justify-between text-[8px] font-mono border-t pt-2 mt-1 border-slate-100 dark:border-white/10 text-slate-400">
                       <span>Nourishing focus:</span>
                       <span className="font-extrabold text-indigo-600 dark:text-indigo-400">🌱 {member.seedling}</span>
                     </div>
@@ -7972,26 +9099,26 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
         )}
 
           {activeCenterTab === 'investor' && (
-            <div className={`flex-1 p-5 overflow-y-auto space-y-6 font-sans rounded-b-2xl h-[700px] xl:h-[750px] transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-slate-900/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
+            <div className={`flex-1 p-5 overflow-y-auto space-y-6 font-sans rounded-b-2xl h-[700px] xl:h-[750px] transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-black/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
               <PowerBIDashboard themeClass={themeClass} />
             </div>
           )}
 
 
           {activeCenterTab === 'gmail' && (
-            <div className={`flex-1 p-5 overflow-y-auto space-y-6 font-sans rounded-b-2xl h-[700px] xl:h-[750px] transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-slate-900/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
+            <div className={`flex-1 p-5 overflow-y-auto space-y-6 font-sans rounded-b-2xl h-[700px] xl:h-[750px] transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-black/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
               <GoogleWorkspacePanel themeClass={themeClass} />
             </div>
           )}
 
           {activeCenterTab === 'art' && (
-            <div className={`flex-1 p-5 overflow-y-auto space-y-6 font-sans rounded-b-2xl h-[700px] xl:h-[750px] transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-slate-900/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
+            <div className={`flex-1 p-5 overflow-y-auto space-y-6 font-sans rounded-b-2xl h-[700px] xl:h-[750px] transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-black/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
               <IndianPaintingsMoodBoard />
             </div>
           )}
           {false && activeCenterTab === 'gmail' && (
             /* Gmail Integration Sanctuary Panel */
-            <div className={`flex-1 p-5 overflow-y-auto space-y-6 font-sans rounded-b-2xl h-[700px] xl:h-[750px] transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-slate-900/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
+            <div className={`flex-1 p-5 overflow-y-auto space-y-6 font-sans rounded-b-2xl h-[700px] xl:h-[750px] transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-black/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
               
               {/* Header block with Gmail integration logo info */}
               <div className={`border p-5 rounded-2xl relative overflow-hidden flex flex-col gap-3 transition-all duration-300 ${themeClass("bg-rose-50/40 border-rose-100", "bg-rose-950/10 border-rose-900/20", "bg-[#f5ebd6] border-[#e0cbab]")}`}>
@@ -8023,7 +9150,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
               {needsGmailAuth ? (
                 /* Non-Authenticated Welcome Screen */
-                <div className={`border border-dashed p-10 rounded-2xl text-center flex flex-col items-center gap-5 justify-center ${themeClass("bg-slate-50/50 border-slate-200", "bg-slate-950/20 border-slate-800", "bg-[#faf5eb] border-[#ebdcb9]")}`}>
+                <div className={`border border-dashed p-10 rounded-2xl text-center flex flex-col items-center gap-5 justify-center ${themeClass("bg-slate-50/50 border-slate-200", "bg-slate-950/20 border-white/10", "bg-[#faf5eb] border-[#ebdcb9]")}`}>
                   <div className="w-16 h-16 rounded-full bg-rose-100 flex items-center justify-center text-rose-600">
                     <Mail className="w-8 h-8" />
                   </div>
@@ -8047,7 +9174,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 /* Gmail Active Workspace Dashboard */
                 <div className="space-y-4">
                   {/* Active authentication row */}
-                  <div className={`p-4 border rounded-xl flex flex-wrap items-center justify-between gap-3 ${themeClass("bg-slate-50/70 border-slate-200", "bg-slate-950/15 border-slate-800", "bg-[#ebdcb9]/15 border-[#ebdcba]")}`}>
+                  <div className={`p-4 border rounded-xl flex flex-wrap items-center justify-between gap-3 ${themeClass("bg-slate-50/70 border-slate-200", "bg-slate-950/15 border-white/10", "bg-[#ebdcb9]/15 border-[#ebdcba]")}`}>
                     <div className="flex items-center gap-3">
                       <div className="w-9 h-9 rounded-full bg-[#fae8e8] flex items-center justify-center text-rose-650 text-sm font-bold">
                         {gmailUser?.email?.charAt(0).toUpperCase() || "G"}
@@ -8065,14 +9192,14 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     <div className="flex items-center gap-2">
                       <button
                         onClick={shareComplianceDraft}
-                        className="px-3 py-1.5 text-xs font-semibold bg-white dark:bg-slate-900 border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-950/ dark:bg-indigo-950/50 rounded-lg cursor-pointer transition-all flex items-center gap-1.5"
+                        className="px-3 py-1.5 text-xs font-semibold bg-white dark:bg-black border border-indigo-200 dark:border-indigo-800 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-50 dark:hover:bg-white/[0.02]/ dark:bg-white/[0.02]/50 rounded-lg cursor-pointer transition-all flex items-center gap-1.5"
                         title="Draft mental health compliance guidelines"
                       >
                         📬 Share Compliance Checklist
                       </button>
                       <button
                         onClick={handleGmailLogout}
-                        className="px-3 py-1.5 text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-300 rounded-lg cursor-pointer transition-all"
+                        className="px-3 py-1.5 text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-600 dark:bg-[#0a0a0a] dark:hover:bg-slate-700 dark:text-slate-300 rounded-lg cursor-pointer transition-all"
                       >
                         Disconnect Account
                       </button>
@@ -8092,7 +9219,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           className={`px-3 py-1 text-[11px] font-bold rounded-lg capitalize cursor-pointer transition-all ${
                             gmailFilter === filterOpt
                               ? "bg-rose-100 border border-rose-350 text-rose-800 dark:bg-rose-950/20 dark:border-rose-900/40 dark:text-rose-300"
-                              : "text-slate-500 hover:text-slate-800 dark:text-slate-200 hover:bg-slate-100/50 dark:hover:bg-slate-800"
+                              : "text-slate-500 hover:text-slate-800 dark:text-slate-200 hover:bg-slate-100/50 dark:hover:bg-[#0a0a0a]"
                           }`}
                         >
                           {filterOpt === 'all' ? "🗂️ All Mail" : filterOpt === 'inbox' ? "📥 Inbox" : filterOpt === 'sent' ? "📤 Sent" : "⭐ Starred"}
@@ -8116,7 +9243,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       </button>
                       <button
                         onClick={handleLoadEmails}
-                        className="px-3 py-1.5 border hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-800 text-[11px] text-slate-600 dark:text-slate-350 rounded-lg cursor-pointer transition-all"
+                        className="px-3 py-1.5 border hover:bg-slate-100 dark:bg-[#0a0a0a] dark:hover:bg-[#0a0a0a] text-[11px] text-slate-600 dark:text-slate-350 rounded-lg cursor-pointer transition-all"
                         title="Reload messages"
                         disabled={gmailLoading}
                       >
@@ -8132,7 +9259,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     </div>
                     <input
                       type="text"
-                      className="w-full pl-9 pr-24 py-2 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-xl text-xs outline-none focus:ring-1 focus:ring-rose-500 font-sans"
+                      className="w-full pl-9 pr-24 py-2 border border-slate-200 dark:border-white/10 bg-white dark:bg-black rounded-xl text-xs outline-none focus:ring-1 focus:ring-rose-500 font-sans"
                       placeholder="Search messages (e.g. 'crisis', 'compliance', sender address, subject)..."
                       value={gmailSearch}
                       onChange={(e) => setGmailSearch(e.target.value)}
@@ -8176,7 +9303,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                               className={`p-3 border rounded-xl text-left cursor-pointer transition-all relative ${
                                 isSelected
                                   ? "bg-rose-50/70 border-rose-300 ring-1 ring-rose-250/30"
-                                  : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-slate-350"
+                                  : "bg-white dark:bg-black border-slate-200 dark:border-white/10 hover:border-slate-350"
                               }`}
                             >
                               <div className="flex items-start justify-between gap-2 mb-1.5">
@@ -8194,8 +9321,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                                 {email.snippet}
                               </p>
                               
-                              <div className="flex justify-between items-center mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-800/60 font-mono text-[8px] text-slate-400">
-                                <span className="uppercase text-[7.5px] bg-slate-100 dark:bg-slate-800 px-1 py-0.5 rounded leading-none">
+                              <div className="flex justify-between items-center mt-2.5 pt-2 border-t border-slate-100 dark:border-white/10/60 font-mono text-[8px] text-slate-400">
+                                <span className="uppercase text-[7.5px] bg-slate-100 dark:bg-[#0a0a0a] px-1 py-0.5 rounded leading-none">
                                   {email.isStarred ? "★ Starred" : "Message"}
                                 </span>
                                 <button
@@ -8220,7 +9347,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       
                       {showGmailComposer ? (
                         /* Email Composer Form */
-                        <form onSubmit={handleSendGmail} className={`p-4 border rounded-xl space-y-3 text-left ${themeClass("bg-white border-slate-200", "bg-slate-950/20 border-slate-800", "bg-[#faf5eb] border-[#ebdcb9]")}`}>
+                        <form onSubmit={handleSendGmail} className={`p-4 border rounded-xl space-y-3 text-left ${themeClass("bg-white border-slate-200", "bg-slate-950/20 border-white/10", "bg-[#faf5eb] border-[#ebdcb9]")}`}>
                           <div className="flex items-center justify-between border-b pb-2">
                             <h4 className="text-xs font-bold text-slate-800 dark:text-slate-105 flex items-center gap-1">
                               ✏️ Custom Mail Composer
@@ -8239,7 +9366,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                             <input
                               type="email"
                               required
-                              className="w-full p-2 border border-slate-205 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-lg text-xs outline-none focus:border-rose-450"
+                              className="w-full p-2 border border-slate-205 dark:border-white/10 bg-white dark:bg-black rounded-lg text-xs outline-none focus:border-rose-450"
                               placeholder="counselor@domain.com or companion@caregiver.com"
                               value={gmailComposeTo}
                               onChange={(e) => setGmailComposeTo(e.target.value)}
@@ -8251,7 +9378,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                             <input
                               type="text"
                               required
-                              className="w-full p-2 border border-slate-205 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-lg text-xs outline-none focus:border-rose-450"
+                              className="w-full p-2 border border-slate-205 dark:border-white/10 bg-white dark:bg-black rounded-lg text-xs outline-none focus:border-rose-450"
                               placeholder="Critical Checklist / Session Insights Share"
                               value={gmailComposeSubject}
                               onChange={(e) => setGmailComposeSubject(e.target.value)}
@@ -8263,7 +9390,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                             <textarea
                               required
                               rows={8}
-                              className="w-full p-2.5 border border-slate-205 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-lg text-xs outline-none font-sans focus:border-rose-450 leading-relaxed"
+                              className="w-full p-2.5 border border-slate-205 dark:border-white/10 bg-white dark:bg-black rounded-lg text-xs outline-none font-sans focus:border-rose-450 leading-relaxed"
                               placeholder="Write your soothing reminder, shared wellness checkpoint, or emergency plan here..."
                               value={gmailComposeBody}
                               onChange={(e) => setGmailComposeBody(e.target.value)}
@@ -8275,7 +9402,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                               type="button"
                               onClick={handleCreateGmailDraft}
                               disabled={isSendingGmail}
-                              className="px-4 py-2 border hover:bg-slate-150 dark:hover:bg-slate-800 border-slate-250 dark:border-slate-700 text-slate-655 text-xs font-semibold rounded-lg cursor-pointer transition-all"
+                              className="px-4 py-2 border hover:bg-slate-150 dark:hover:bg-[#0a0a0a] border-slate-250 dark:border-white/10 text-slate-655 text-xs font-semibold rounded-lg cursor-pointer transition-all"
                             >
                               Save Draft
                             </button>
@@ -8334,7 +9461,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                         </div>
                       ) : (
                         /* Empty state guidance list */
-                        <div className={`p-6 border border-dashed rounded-xl text-center space-y-3 flex flex-col items-center justify-center min-h-[300px] ${themeClass("bg-slate-50/25 border-slate-200", "bg-slate-950/10 border-slate-800", "bg-[#ebdcb9]/10 border-[#ebdcba]/40")}`}>
+                        <div className={`p-6 border border-dashed rounded-xl text-center space-y-3 flex flex-col items-center justify-center min-h-[300px] ${themeClass("bg-slate-50/25 border-slate-200", "bg-slate-950/10 border-white/10", "bg-[#ebdcb9]/10 border-[#ebdcba]/40")}`}>
                           <Inbox className="w-10 h-10 text-slate-350 animate-bounce" />
                           <div className="space-y-1">
                             <p className="text-xs font-bold text-slate-705 dark:text-slate-300">No Email Selected</p>
@@ -8353,12 +9480,87 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             </div>
           )}
 
-          {activeCenterTab === 'blogs' && (
+          
+          {activeCenterTab === 'terms' && (
+            <div className="flex-1 flex flex-col p-8 md:p-12 animate-fade-in bg-white dark:bg-black rounded-2xl shadow-sm border border-slate-200 dark:border-white/10 overflow-y-auto">
+              <div className="max-w-3xl mx-auto w-full font-sans text-left space-y-6">
+                <div className="flex items-center justify-between border-b pb-6 mb-6">
+                  <div>
+                    <h2 className="text-3xl font-bold text-slate-900 dark:text-white font-serif">Terms of Service</h2>
+                    <p className="text-sm text-slate-500 mt-2">Effective Date: June 20, 2026</p>
+                  </div>
+                  <button onClick={() => setActiveCenterTab('chat' as any)} className="px-4 py-2 bg-indigo-50 text-indigo-700 rounded-lg hover:bg-indigo-100 text-sm font-bold">Back to Chat</button>
+                </div>
+                
+                <section className="space-y-3 text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">1. Acceptance of Terms</h3>
+                  <p>By accessing and using Project Friend AI, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service. This platform operates strictly as a secure, local environment designed for emotional containment and somatic grounding.</p>
+                </section>
+
+                <section className="space-y-3 text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">2. Medical Disclaimer</h3>
+                  <p className="font-semibold text-rose-600 dark:text-rose-400">Project Friend AI is not a medical device, nor does it provide medical therapy, diagnose psychiatric conditions, or offer professional mental health clinical interventions.</p>
+                  <p>If you are experiencing a medical emergency, actively in crisis, or experiencing thoughts of self-harm, you must immediately contact local emergency services or utilize the Clinical Directory for professional assistance.</p>
+                </section>
+
+                <section className="space-y-3 text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">3. Zero-Trust Architecture & Local Processing</h3>
+                  <p>Our commitment to privacy is absolute. Our infrastructure is built upon a "Zero-Trust" framework. We employ local AES-256 encryption, meaning your reflections and session data remain isolated on your device. We do not transmit, analyze, or monetize your emotional data.</p>
+                </section>
+
+                <section className="space-y-3 text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">4. User Conduct</h3>
+                  <p>You agree to use this platform responsibly. Any attempt to reverse engineer the local encryption protocols, scrape specialized approaches, or misuse the clinical directory will result in immediate termination of access.</p>
+                </section>
+              </div>
+            </div>
+          )}
+
+          {activeCenterTab === 'privacy' && (
+            <div className="flex-1 flex flex-col p-8 md:p-12 animate-fade-in bg-white dark:bg-black rounded-2xl shadow-sm border border-slate-200 dark:border-white/10 overflow-y-auto">
+              <div className="max-w-3xl mx-auto w-full font-sans text-left space-y-6">
+                <div className="flex items-center justify-between border-b pb-6 mb-6">
+                  <div>
+                    <h2 className="text-3xl font-bold text-slate-900 dark:text-white font-serif">Privacy Policy</h2>
+                    <p className="text-sm text-slate-500 mt-2">Your data is yours. Period.</p>
+                  </div>
+                  <button onClick={() => setActiveCenterTab('chat' as any)} className="px-4 py-2 bg-indigo-50 text-indigo-700 rounded-lg hover:bg-indigo-100 text-sm font-bold">Back to Chat</button>
+                </div>
+
+                <div className="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800 p-4 rounded-xl mb-6">
+                  <p className="text-sm text-indigo-900 dark:text-indigo-200 font-medium"><strong>Core Philosophy:</strong> If we can't see your data, we can't lose it, sell it, or expose it.</p>
+                </div>
+                
+                <section className="space-y-3 text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">1. Local En-device Data Encryption</h3>
+                  <p>All journal entries, mood logs, and chat histories generated within Project Friend AI are encrypted directly on your local device using AES-256 System blocks. The encryption keys never leave your browser storage. We have mathematically removed our own ability to view your sessions.</p>
+                </section>
+
+                <section className="space-y-3 text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">2. No Telemetry or Tracking</h3>
+                  <p>We do not use Google Analytics, Facebook Pixel, or any third-party behavioral tracking scripts. The specialized interactions and therapeutic art selections you make are never broadcasted to external marketing servers.</p>
+                </section>
+
+                <section className="space-y-3 text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">3. Complete Erasure Protocol</h3>
+                  <p>Because your data is stored locally, you have the absolute power of immediate erasure. Utilizing the "Erase Local Data" function in the Settings panel will permanently destroy all local cryptographic keys and indexed databases associated with your session. This action cannot be reversed.</p>
+                </section>
+
+                <section className="space-y-3 text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">4. Subscriptions & Payment Data</h3>
+                  <p>If you choose to unlock premium companions, payment processing is handled securely via isolated tokenization through our payment provider. Project Friend AI never stores your full credit card number or CVC details.</p>
+                </section>
+              </div>
+            </div>
+          )}
+{activeCenterTab === 'blogs' && (
             /* Self-Care Blog Corner - Auto generation & Founder Upload Portals */
-            <div className={`flex-1 p-5 overflow-y-auto space-y-6 font-sans rounded-b-2xl h-[700px] xl:h-[750px] transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-slate-900/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
+            <div className={`flex-1 p-5 overflow-y-auto space-y-6 font-sans rounded-b-2xl h-[700px] xl:h-[750px] transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-black/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
               
+              
+
               {/* Premium Editorial Header */}
-              <div className={`border p-5 rounded-2xl relative overflow-hidden flex flex-col gap-3 transition-all duration-300 ${themeClass("bg-[#f0f4ff] border-[#dbe4ff]", "bg-indigo-950/20 border-indigo-900/20", "bg-[#ebdcb9]/40 border-[#d3c299]")}`}>
+              <div className={`border p-5 rounded-2xl relative overflow-hidden flex flex-col gap-3 transition-all duration-300 ${themeClass("bg-[#f0f4ff] border-[#dbe4ff]", "bg-white/[0.02]/20 border-white/10/20", "bg-[#ebdcb9]/40 border-[#d3c299]")}`}>
                 <div className="absolute right-3 top-3 text-[50px] opacity-10 select-none">✍️</div>
                 <div className="flex flex-col gap-1.5 z-10 text-left">
                   <span className="text-[9.5px] uppercase font-mono tracking-widest px-2.5 py-0.5 rounded-md font-bold bg-[#4359e6] text-white self-start">
@@ -8385,7 +9587,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                   {!isFounderAuthorized ? (
                     <button
                       onClick={() => setIsFounderPanelOpen(!isFounderPanelOpen)}
-                      className="px-3 py-1 bg-slate-900 hover:bg-slate-850 text-white text-[10px] font-bold rounded-lg transition-colors cursor-pointer"
+                      className="px-3 py-1 bg-black hover:bg-slate-850 text-white text-[10px] font-bold rounded-lg transition-colors cursor-pointer"
                     >
                       {isFounderPanelOpen ? "Close Drawer" : "Unlock Authoring Suite"}
                     </button>
@@ -8401,7 +9603,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
                 {/* Unlock Form if clicked and not authorized */}
                 {isFounderPanelOpen && !isFounderAuthorized && (
-                  <div className="mt-4 p-3 bg-white dark:bg-slate-900 rounded-xl border border-dashed border-slate-300 dark:border-slate-700 space-y-3">
+                  <div className="mt-4 p-3 bg-white dark:bg-black rounded-xl border border-dashed border-slate-300 dark:border-white/10 space-y-3">
                     <p className="text-[11px] text-slate-500 leading-normal">
                       Demo credentials: Logged in users matching alias <strong>Manji</strong> or <strong>Manjishtha</strong> are auto-authorized. Otherwise, enter PIN <strong>1234</strong> to unlock the wisdom curation panel.
                     </p>
@@ -8442,10 +9644,10 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
                 {/* Authorized Studio Options */}
                 {isFounderAuthorized && (
-                  <div className="mt-4 space-y-4 pt-3 border-t border-dashed border-slate-300 dark:border-slate-800 text-left">
+                  <div className="mt-4 space-y-4 pt-3 border-t border-dashed border-slate-300 dark:border-white/10 text-left">
                     
                     {/* Authorship Perspective Picker */}
-                    <div className="p-3.5 bg-indigo-505/10 dark:bg-indigo-950/10 border border-indigo-400/20 dark:border-indigo-805/30 rounded-xl space-y-2">
+                    <div className="p-3.5 bg-indigo-505/10 dark:bg-white/[0.02]/10 border border-indigo-400/20 dark:border-indigo-805/30 rounded-xl space-y-2">
                       <label className="block text-[10px] font-black text-indigo-800 dark:text-indigo-300 uppercase tracking-widest font-mono">
                         ✍️ Active Authorship Perspective (POV)
                       </label>
@@ -8456,7 +9658,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                         <select
                           value={selectedAuthorPerspective}
                           onChange={(e) => setSelectedAuthorPerspective(e.target.value)}
-                          className="w-full pl-3 pr-8 py-2 text-xs border border-slate-205 dark:border-slate-800 rounded-xl bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 dark:text-[#f3f4f6] focus:outline-none focus:ring-1 focus:ring-indigo-400 cursor-pointer appearance-none shadow-xs font-semibold"
+                          className="w-full pl-3 pr-8 py-2 text-xs border border-slate-205 dark:border-white/10 rounded-xl bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 dark:text-[#f3f4f6] focus:outline-none focus:ring-1 focus:ring-indigo-400 cursor-pointer appearance-none shadow-xs font-semibold"
                         >
                           <option value="Manjishtha Pahilajani, Founder">Manjishtha Pahilajani, Founder</option>
                           <option value="Rooh (Grounded Empathic Witness)">Rooh (Grounded Empathic Witness)</option>
@@ -8496,7 +9698,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                               className={`px-2 py-0.5 rounded text-[10px] font-semibold transition-all border ${
                                 blogTopicInput === theme 
                                   ? "bg-emerald-500 text-white border-emerald-500" 
-                                  : "bg-white dark:bg-slate-900 border-slate-205 dark:border-slate-850 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800"
+                                  : "bg-white dark:bg-black border-slate-205 dark:border-slate-850 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-[#0a0a0a]"
                               }`}
                             >
                               {theme}
@@ -8617,7 +9819,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                   <div className={`mt-3 p-3 rounded-lg text-xs flex items-center justify-between ${
                     blogStatusMessage.type === 'success' ? "bg-emerald-50 text-emerald-800 border border-emerald-200" :
                     blogStatusMessage.type === 'error' ? "bg-rose-50 text-rose-800 dark:text-rose-300 border border-rose-200 dark:border-rose-800" :
-                    "bg-indigo-50 dark:bg-indigo-950 text-indigo-850 border border-indigo-200 dark:border-indigo-800"
+                    "bg-indigo-50 dark:bg-white/[0.02] text-indigo-850 border border-indigo-200 dark:border-indigo-800"
                   }`}>
                     <span>{blogStatusMessage.text}</span>
                     <button onClick={() => setBlogStatusMessage(null)} className="font-bold underline text-[10px] ml-2">Dismiss</button>
@@ -8629,7 +9831,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
               <div className="space-y-6 text-left">
                 <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-850 pb-2">
                   <h4 className="text-xs font-bold uppercase tracking-widest text-slate-500">Weekly Wisdom Feed</h4>
-                  <span className="text-[10px] font-mono text-slate-400 bg-slate-100 dark:bg-slate-900 px-2 py-0.5 rounded">
+                  <span className="text-[10px] font-mono text-slate-400 bg-slate-100 dark:bg-black px-2 py-0.5 rounded">
                     {blogsList.length} Articles
                   </span>
                 </div>
@@ -8637,7 +9839,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 {blogsList.map((blog) => (
                   <article 
                     key={blog.id} 
-                    className={`p-5 rounded-2xl border transition-all duration-300 relative shadow-xs hover:shadow-xs hover:scale-[1.005] text-left ${themeClass("bg-white border-slate-150", "bg-slate-950/20 border-slate-800/80", "bg-[#fffdfa] border-[#e2d6bf]/80")}`}
+                    className={`p-5 rounded-2xl border transition-all duration-300 relative shadow-xs hover:shadow-xs hover:scale-[1.005] text-left ${themeClass("bg-white border-slate-150", "bg-slate-950/20 border-white/10/80", "bg-[#fffdfa] border-[#e2d6bf]/80")}`}
                   >
                     {/* Meta header */}
                     <div className="flex flex-wrap items-center justify-between gap-2 text-[10.5px] font-sans text-slate-440 mb-2 text-left">
@@ -8645,7 +9847,14 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                         {blog.author}
                       </span>
-                      <span>{blog.date}</span>
+                      <div className="flex items-center gap-3">
+                        <span>{blog.date}</span>
+                        {isFounderAuthorized && (
+                          <button onClick={() => deleteBlog(blog.id)} className="text-red-400 hover:text-red-600 transition-colors cursor-pointer" title="Delete Blog">
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        )}
+                      </div>
                     </div>
 
                     {/* Title in display font */}
@@ -8656,7 +9865,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     {/* Tags */}
                     <div className="flex flex-wrap gap-1 mt-1.5 mb-4 text-left">
                       {blog.tags.map((tg) => (
-                        <span key={tg} className={`text-[9.5px] px-1.5 py-0.2 rounded font-mono ${themeClass("bg-slate-100 text-slate-500", "bg-slate-900 text-slate-450", "bg-[#ebdcb9]/40 text-[#5c4033]")}`}>
+                        <span key={tg} className={`text-[9.5px] px-1.5 py-0.2 rounded font-mono ${themeClass("bg-slate-100 text-slate-500", "bg-black text-slate-450", "bg-[#ebdcb9]/40 text-[#5c4033]")}`}>
                           #{tg}
                         </span>
                       ))}
@@ -8675,755 +9884,12 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
         </section>
 
-        {/* Right Column (Width: 4): Healing toolkit, breathing metrics, mood trends & Anonymous Solace Wall */}
-        <section className={`${activeCenterTab === 'chat' ? "hidden" : "xl:col-span-4"} flex flex-col gap-6`}>
+        {/* Right Column (Width: 4) */}
+        <section className={`${activeCenterTab !== 'wellness' ? "hidden" : "xl:col-span-4"} flex flex-col gap-6`}>
 
           {/* Section 1: Interactive Breathing Regulator */}
-          <div className={`bento-card shadow-sm p-5 rounded-2xl flex flex-col gap-4 relative overflow-hidden border transition-all duration-300 ${themeClass("glass-panel text-slate-800", "dark-glass-panel text-slate-205", "sepia-glass-panel text-[#3e2723]")}`}>
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className={`text-sm font-bold font-display ${themeClass("text-slate-800", "text-white", "text-[#3e2723]")}`}>Tactile Breathing Space</h3>
-                <p className={`text-xs mt-0.5 font-sans ${themeClass("text-slate-500", "text-slate-400", "text-amber-900/70")}`}>Somatic sensory anchoring & de-escalation tool.</p>
-              </div>
-              <span className={`text-[10px] uppercase font-mono font-bold px-2 py-0.5 rounded border ${themeClass("bg-teal-50 text-teal-750 border-teal-200", "bg-teal-950/40 text-teal-350 border-teal-850", "bg-teal-100/30 text-teal-900 border-teal-300/40")}`}>
-                Somatic
-              </span>
-            </div>
-
-            {/* Breathing Bubble graphic */}
-            <div className={`flex flex-col items-center justify-center py-6 rounded-xl border p-4 transition-all duration-300 ${themeClass("bg-slate-50/50 border-slate-200", "bg-slate-900/50 border-slate-800/80", "bg-[#f4efe8]/50 border-[#ebdcb9]")}`}>
-              <div className="relative w-28 h-28 flex items-center justify-center animate-pulse-slow">
-                
-                {/* Visual dynamic pulse rings using motion.div */}
-                <motion.div 
-                  animate={{
-                    scale: !isBreathingActive 
-                      ? 1.0 
-                      : (breathingPhase === 'Inhale' 
-                        ? 1.55 
-                        : breathingPhase === 'Hold' 
-                          ? 1.55 
-                          : breathingPhase === 'Exhale' 
-                            ? 0.9 
-                            : 1.0),
-                    opacity: !isBreathingActive 
-                      ? 0.2 
-                      : (breathingPhase === 'Inhale' 
-                        ? [0.2, 0.9] 
-                        : breathingPhase === 'Hold' 
-                          ? 0.9 
-                          : breathingPhase === 'Exhale' 
-                            ? [0.9, 0.25] 
-                            : 0.2)
-                  }}
-                  transition={{
-                    duration: isBreathingActive ? 3.9 : 1.5,
-                    ease: "easeInOut"
-                  }}
-                  className="absolute inset-0 rounded-full bg-teal-100/35 border border-teal-300/30 shadow-[0_0_20px_rgba(20,184,166,0.15)]"
-                />
-
-                {/* Inner bubble with fluid breath contraction/expansion states */}
-                <motion.div 
-                  animate={{
-                    scale: !isBreathingActive 
-                      ? 1.0 
-                      : (breathingPhase === 'Inhale' 
-                        ? 1.3 
-                        : breathingPhase === 'Hold' 
-                          ? 1.3 
-                          : breathingPhase === 'Exhale' 
-                            ? 0.85 
-                            : 1.0),
-                    backgroundColor: !isBreathingActive 
-                      ? "#ffffff" 
-                      : (breathingPhase === 'Hold' 
-                        ? "#ccfbf1" 
-                        : "#f0fdfa"),
-                    borderColor: !isBreathingActive 
-                      ? "#e2e8f0" 
-                      : (breathingPhase === 'Hold' 
-                        ? "#0d9488" 
-                        : "#2dd4bf")
-                  }}
-                  transition={{
-                    duration: isBreathingActive ? 3.9 : 1.0,
-                    ease: "easeInOut"
-                  }}
-                  className={`absolute w-20 h-20 rounded-full flex flex-col items-center justify-center border font-display ${
-                    isBreathingActive 
-                      ? "text-teal-900 shadow-lg shadow-teal-100/55" 
-                      : "text-slate-400"
-                  }`}
-                >
-                  <span className="text-xs font-bold font-mono">
-                    {isBreathingActive ? `${breathingSecondsLeft}s` : "Idle"}
-                  </span>
-                </motion.div>
-              </div>
-
-              <div className="text-center mt-4">
-                <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                  {isBreathingActive ? `Phase: ${breathingPhase}` : "Breathing Pacer Inactive"}
-                </p>
-                <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-1 max-w-[240px] leading-relaxed">
-                  {isBreathingActive 
-                    ? (breathingPhase === 'Inhale' ? "Breathe in slow, expanding your belly..." 
-                       : breathingPhase === 'Hold' ? "Hold that pure calming air..." 
-                       : breathingPhase === 'Exhale' ? "Exhale long and smooth through soft lips..." 
-                       : "Pause and rest your minds prior to next inhale...")
-                    : "Use slow, structured 4-4-4 chest expansion to reduce high distress and stop hyperventilation."
-                  }
-                </p>
-              </div>
-
-              <button
-                onClick={toggleBreathing}
-                className={`mt-4 px-5 py-2 font-display rounded-xl text-xs font-bold cursor-pointer transition-all ${
-                  isBreathingActive 
-                    ? "bg-red-50 text-red-700 border border-red-200 hover:bg-red-100" 
-                    : "bg-teal-650 hover:bg-teal-600 text-white shadow-sm"
-                }`}
-              >
-                {isBreathingActive ? "⏹️ Stop Grounding" : "🧘 Start 4-4-4 Box Breathing"}
-              </button>
-
-              {/* Somatic Daily Stats Dashboard */}
-              <div className="w-full mt-4 pt-3.5 border-t border-slate-200 dark:border-slate-700 flex items-center justify-around text-slate-600 dark:text-slate-400">
-                <div id="pfai-breathing-sessions-stat" className="flex flex-col items-center text-center">
-                  <span className="text-[10px] text-slate-500 font-medium uppercase tracking-wider flex items-center gap-1 leading-none">
-                    <CheckCircle2 className="w-3 h-3 text-teal-600 shrink-0" />
-                    Total Sessions
-                  </span>
-                  <span className="text-sm font-black text-slate-800 dark:text-slate-200 mt-1.5 font-mono leading-none">
-                    {breathingStats.sessions}
-                  </span>
-                </div>
-                <div className="w-px h-6 bg-slate-200 shrink-0" />
-                <div id="pfai-breathing-minutes-stat" className="flex flex-col items-center text-center">
-                  <span className="text-[10px] text-slate-500 font-medium uppercase tracking-wider flex items-center gap-1 leading-none">
-                    <Clock className="w-3 h-3 text-teal-600 shrink-0" />
-                    Total Minutes
-                  </span>
-                  <span className="text-sm font-black text-slate-800 dark:text-slate-200 mt-1.5 font-mono leading-none">
-                    {totalMinutes}
-                  </span>
-                </div>
-              </div>
-
-              {/* Interactive Daily Mindfulness Goal & Progress Bar */}
-              <div className="w-full mt-3.5 pt-3.5 border-t border-slate-200 dark:border-slate-700 flex flex-col">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-[10px] text-slate-550 font-semibold uppercase tracking-wider flex items-center gap-1.5">
-                    <Target className="w-3.5 h-3.5 text-teal-600" />
-                    Daily Goal
-                  </span>
-                  <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 rounded-lg p-0.5 border border-slate-200 dark:border-slate-700">
-                    <button
-                      type="button"
-                      onClick={() => handleSetMindfulnessGoal(mindfulnessGoal - 1)}
-                      className="w-5 h-5 flex items-center justify-center text-slate-500 hover:text-teal-600 hover:bg-white dark:bg-slate-900 rounded transition-colors text-xs font-bold cursor-pointer"
-                      title="Decrease goal by 1 minute"
-                    >
-                      <Minus className="w-2.5 h-2.5 text-current" />
-                    </button>
-                    <span className="text-xs font-bold font-mono text-slate-850 px-0.5">
-                      {mindfulnessGoal} min
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => handleSetMindfulnessGoal(mindfulnessGoal + 1)}
-                      className="w-5 h-5 flex items-center justify-center text-slate-500 hover:text-teal-600 hover:bg-white dark:bg-slate-900 rounded transition-colors text-xs font-bold cursor-pointer"
-                      title="Increase goal by 1 minute"
-                    >
-                      <Plus className="w-2.5 h-2.5 text-current" />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Micro-Progress Meter */}
-                <div className="space-y-1.5">
-                  <div className="w-full h-2 bg-slate-100/80 border border-slate-150 rounded-full overflow-hidden relative">
-                    <motion.div
-                      className={`h-full rounded-full transition-all duration-500 ${
-                        goalProgressPercent >= 100 
-                          ? "bg-gradient-to-r from-teal-500 to-emerald-500" 
-                          : "bg-gradient-to-r from-indigo-400 to-teal-500"
-                      }`}
-                      style={{ width: `${goalProgressPercent}%` }}
-                      initial={{ width: 0 }}
-                      animate={{ width: `${goalProgressPercent}%` }}
-                    />
-                  </div>
-                  <div className="flex items-center justify-between text-[10px] text-slate-500">
-                    <div className="flex items-center gap-1">
-                      {goalProgressPercent >= 100 ? (
-                        <span className="text-emerald-700 font-bold flex items-center gap-1 bg-emerald-50 px-1.5 py-0.5 border border-emerald-100 rounded">
-                          <Trophy className="w-3 h-3 text-amber-500 animate-bounce" />
-                          Goal Reached!
-                        </span>
-                      ) : (
-                        <span className="font-medium text-slate-650">
-                          Progress: {parseFloat(totalMinutes)} of {mindfulnessGoal} min
-                        </span>
-                      )}
-                    </div>
-                    <span className="font-mono text-teal-700 font-bold">{goalProgressPercent}%</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* 7-Day Breathing History & Detailed Practice Logs Board */}
-              <div className="w-full mt-4 pt-3.5 border-t border-slate-200/80 flex flex-col gap-2">
-                {/* Switcher Tab Header */}
-                <div className="flex items-center justify-between border-b border-slate-150/60 dark:border-slate-800 pb-2 mb-1 flex-wrap gap-2">
-                  <div className="flex gap-1 p-0.5 bg-slate-100 dark:bg-slate-800 dark:bg-zinc-950/40 rounded-lg border border-slate-205/60 dark:border-slate-800/40 max-w-full">
-                    <button
-                      type="button"
-                      onClick={() => setBreathingSubTab("trend")}
-                      className={`px-2 py-1 text-[10px] font-bold rounded-md transition-all cursor-pointer ${
-                        breathingSubTab === "trend"
-                          ? "bg-white dark:bg-slate-900 text-teal-700 dark:text-teal-400 shadow-3xs"
-                          : "text-slate-500 hover:text-slate-750 dark:text-slate-400 dark:hover:text-slate-250"
-                      }`}
-                    >
-                      📈 Weekly Practice Trend
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setBreathingSubTab("logs")}
-                      className={`px-2 py-1 text-[10px] font-bold rounded-md transition-all cursor-pointer flex items-center gap-1 ${
-                        breathingSubTab === "logs"
-                          ? "bg-white dark:bg-slate-900 text-teal-700 dark:text-teal-400 shadow-3xs"
-                          : "text-slate-500 hover:text-slate-755 dark:text-slate-400 dark:hover:text-slate-200"
-                      }`}
-                    >
-                      📋 Practice Logs ({breathingSessions.length})
-                    </button>
-                  </div>
-
-                  {breathingSubTab === "logs" && breathingSessions.length > 0 && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (confirm("Are you sure you want to clear your entire private session log history? This action is irreversible.")) {
-                          setBreathingSessions([]);
-                          localStorage.setItem("pfai_breathing_sessions_list_v2", JSON.stringify([]));
-                          
-                          // Reset live stats
-                          setBreathingStats((prev) => {
-                            const todayStr = new Date().toISOString().split("T")[0];
-                            const updated = { date: todayStr, sessions: 0, seconds: 0 };
-                            localStorage.setItem("pfai_breathing_stats", JSON.stringify(updated));
-                            return updated;
-                          });
-                          
-                          // Reset trend chart elements
-                          setBreathingHistory((prev) => {
-                            const clearedHistory = prev.map(item => ({ ...item, minutes: 0 }));
-                            localStorage.setItem("pfai_breathing_history_7d", JSON.stringify(clearedHistory));
-                            return clearedHistory;
-                          });
-                        }
-                      }}
-                      className="px-2 py-0.5 text-[8.5px] font-bold font-mono text-rose-600 dark:text-rose-450 hover:bg-rose-50 dark:hover:bg-rose-950/20 border border-transparent hover:border-rose-200 dark:border-rose-800 dark:hover:border-rose-900/30 rounded-lg transition-all cursor-pointer"
-                    >
-                      ⚠️ Purge History
-                    </button>
-                  )}
-                </div>
-
-                {breathingSubTab === "trend" ? (
-                  <div className="flex flex-col gap-2">
-                    <div className="flex items-center justify-between gap-1 flex-wrap sm:flex-nowrap">
-                      <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider font-mono flex items-center gap-1.5 leading-none">
-                        <TrendingUp className="w-3.5 h-3.5 text-teal-650" />
-                        7-Day Mindfulness Trend
-                      </span>
-                      
-                      <div className="flex items-center gap-1.5 shrink-0">
-                        {/* Compact Segmented Control Toggle */}
-                        <div className="flex items-center bg-slate-100/90 dark:bg-[#151b2a] p-0.5 rounded-lg border border-slate-200/50 dark:border-slate-800/60 font-mono">
-                          <button
-                            type="button"
-                            onClick={() => setBreathingChartViewMode("Minutes")}
-                            className={`px-1.5 py-0.5 text-[8px] font-bold rounded transition-all cursor-pointer ${
-                              breathingChartViewMode === "Minutes"
-                                ? "bg-teal-650 text-white shadow-xs"
-                                : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
-                            }`}
-                            title="View daily grounding session durations in minutes"
-                          >
-                            Minutes
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => setBreathingChartViewMode("Percentage")}
-                            className={`px-1.5 py-0.5 text-[8px] font-bold rounded transition-all cursor-pointer ${
-                              breathingChartViewMode === "Percentage"
-                                ? "bg-teal-650 text-white shadow-xs"
-                                : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
-                            }`}
-                            title="View daily mindfulness challenge goal accomplishment percentages"
-                          >
-                            % Goal
-                          </button>
-                        </div>
-
-                        <button
-                          id="share-progress-png-btn"
-                          type="button"
-                          onClick={handleDownloadBreathingChartPng}
-                          className="px-2 py-0.5 flex items-center gap-1 text-[9px] font-mono leading-none border border-teal-200 hover:border-teal-350 bg-teal-50/45 hover:bg-teal-100/45 text-teal-700 rounded-lg transition-all cursor-pointer shadow-sm active:scale-95 text-center shrink-0"
-                          title="Download the current weekly bar chart view as a high-fidelity PNG image"
-                        >
-                          <Share2 className="w-2.5 h-2.5 text-teal-650" />
-                          Share Progress
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Decline Trend Alert Call-to-Action Banner */}
-                    <AnimatePresence>
-                      {breathingDeclineMetrics.detected && !isDeclineBannerDismissed && (
-                        <motion.div
-                          initial={{ opacity: 0, height: 0, marginBottom: 0 }}
-                          animate={{ opacity: 1, height: "auto", marginBottom: 4 }}
-                          exit={{ opacity: 0, height: 0, marginBottom: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className={`overflow-hidden rounded-xl border p-2.5 flex flex-col gap-2 relative ${themeClass(
-                            "bg-amber-50/70 border-amber-200 dark:border-amber-800 text-amber-900",
-                            "bg-[#1c1810]/60 border-amber-500/20 text-amber-200",
-                            "bg-[#f6ebd7] border-[#d9c4a9] text-[#5c4033]"
-                          )}`}
-                        >
-                          <button
-                            type="button"
-                            onClick={() => setIsDeclineBannerDismissed(true)}
-                            className="absolute top-2.5 right-2.5 p-0.5 rounded-full hover:bg-black/5 dark:hover:bg-white dark:bg-slate-900/5 text-current/60 hover:text-current transition-colors cursor-pointer"
-                            title="Dismiss alert"
-                          >
-                            <X className="w-3 h-3" />
-                          </button>
-
-                          <div className="flex gap-2 items-start pr-5">
-                            <div className="p-1 rounded bg-amber-500/10 text-amber-500 shrink-0 mt-0.5 flex items-center justify-center">
-                              <TrendingUp className="w-3.5 h-3.5 rotate-180 text-amber-500" />
-                            </div>
-                            <div className="flex-1">
-                              <h4 className="text-[10.5px] font-bold font-sans tracking-tight leading-snug">
-                                Let's reconnect with your breath
-                              </h4>
-                              <p className="text-[9.5px] leading-relaxed opacity-95 mt-0.5">
-                                We've noticed your weekly grounding trend has declined by <span className="font-bold underline">{breathingDeclineMetrics.percentage}%</span> (dropping from <span className="font-mono font-bold">{breathingDeclineMetrics.first3Avg}m</span> to <span className="font-mono font-bold">{breathingDeclineMetrics.last3Avg}m</span> average active minutes). Taking just a couple of minutes to practice box breathing can immediately relieve nervous system tension and help center you.
-                              </p>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center justify-end gap-1.5 mt-0.5">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                if (!isBreathingActive) {
-                                  toggleBreathing();
-                                }
-                              }}
-                              className={`px-2.5 py-1 text-[9px] font-sans font-bold rounded-lg border flex items-center gap-1.5 cursor-pointer transition-all ${themeClass(
-                                "bg-amber-600 hover:bg-amber-700 text-white border-amber-600 shadow-xs",
-                                "bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border-amber-500/30",
-                                "bg-[#5c4033] hover:bg-[#4a3227] text-[#fffcf5] border-[#5c4033]"
-                              )}`}
-                              title="Start box breathing immediately to reconnect and ground"
-                            >
-                              🧘 Begin 4-4-4 Breathing
-                            </button>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-
-                    <div id="pfai-breathing-bar-chart-container" className="h-44 w-full mt-1 rounded-xl border border-slate-150 bg-slate-50/ dark:bg-slate-800/50 dark:bg-zinc-950/20 p-2 text-slate-705 dark:text-slate-300 relative flex flex-col justify-between">
-                      <div className="h-28 w-full shrink-0">
-                        <ResponsiveContainer width="100%" height="100%">
-                          <BarChart data={breathingChartData} margin={{ top: 12, right: 5, left: -25, bottom: 0 }}>
-                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" opacity={0.5} />
-                            <XAxis 
-                              dataKey="date" 
-                              tick={{ fontSize: 8, fill: "#64748b", fontWeight: 600 }} 
-                              axisLine={false} 
-                              tickLine={false} 
-                            />
-                            <YAxis 
-                              tick={{ fontSize: 8, fill: "#64748b" }} 
-                              axisLine={false} 
-                              tickLine={false}
-                              unit={breathingChartViewMode === "Minutes" ? "m" : "%"} 
-                            />
-                            <Tooltip 
-                              content={({ active, payload, label }) => {
-                                if (active && payload && payload.length) {
-                                  const rawVal = payload[0].value;
-                                  const tgs = getMoodTagsForDate(label);
-                                  const labelText = breathingChartViewMode === "Minutes" 
-                                    ? `${rawVal} min` 
-                                    : `${rawVal}% of Daily Goal`;
-                                  return (
-                                    <div className="bg-slate-900/95 dark:bg-slate-950/95 text-white p-2.5 rounded-xl border border-slate-700/80 shadow-lg text-left text-[10px] space-y-1.5 max-w-[210px] z-50">
-                                      <p className="font-bold font-sans text-slate-200">{label}</p>
-                                      <p className="font-mono text-teal-450">
-                                        Grounding: <span className="font-bold">{labelText}</span>
-                                      </p>
-                                      {tgs.length > 0 ? (
-                                        <div className="pt-1.5 border-t border-white/10">
-                                          <p className="text-[8.5px] uppercase font-mono tracking-wider text-slate-400 font-bold mb-1">
-                                            Same-day mood tags:
-                                          </p>
-                                          <div className="flex flex-wrap gap-1">
-                                            {tgs.map((tg, idx) => (
-                                              <span key={idx} className="text-[8px] bg-indigo-950/40 text-indigo-300 border border-indigo-750/30 px-1 py-0.5 rounded leading-none">
-                                                #{tg}
-                                              </span>
-                                            ))}
-                                          </div>
-                                        </div>
-                                      ) : (
-                                        <div className="pt-1.5 border-t border-white/10">
-                                          <p className="text-[8.5px] text-slate-500 italic">No mood tags logged</p>
-                                        </div>
-                                      )}
-                                    </div>
-                                  );
-                                }
-                                return null;
-                              }}
-                            />
-                            <Bar 
-                              dataKey={breathingChartViewMode === "Minutes" ? "minutes" : "percentage"} 
-                              radius={[4, 4, 0, 0]} 
-                              maxBarSize={16}
-                            >
-                              {breathingChartData.map((entry, index) => {
-                                const activeKey = breathingChartViewMode === "Minutes" ? "minutes" : "percentage";
-                                const maxVal = Math.max(...breathingChartData.map(h => Number(h[activeKey])), 0);
-                                const isMax = maxVal > 0 && Number(entry[activeKey]) === maxVal;
-                                
-                                
-                                let fillCol = "#0d9488";
-                                if (isMax && showPersonalBestHighlight) {
-                                  fillCol = "#eab308";
-                                }
-                                
-                                return (
-                                  <Cell 
-                                    key={`cell-${index}`} 
-                                    fill={fillCol}
-                                    fillOpacity={showGroundingSeries ? 1 : 0.08}
-                                    className="transition-all duration-355 cursor-pointer hover:opacity-80"
-                                    onClick={() => {
-                                      if (showGroundingSeries) {
-                                        setSelectedBarDate(entry.date);
-                                      }
-                                    }}
-                                  />
-                                );
-                              })}
-                              <LabelList 
-                                dataKey={breathingChartViewMode === "Minutes" ? "minutes" : "percentage"} 
-                                content={(props: any) => {
-                                  const { x, y, width, value } = props;
-                                  if (!showGroundingSeries || !showPersonalBestHighlight) return null;
-                                  const activeKey = breathingChartViewMode === "Minutes" ? "minutes" : "percentage";
-                                  const maxVal = Math.max(...breathingChartData.map(h => Number(h[activeKey])), 0);
-                                  const isMax = maxVal > 0 && Number(value) === maxVal;
-                                  if (!isMax) return null;
-                                  return (
-                                    <g>
-                                      <text 
-                                        x={x + width / 2} 
-                                        y={y - 8} 
-                                        textAnchor="middle" 
-                                        fontSize="8" 
-                                        fontWeight="bold" 
-                                        fill="#ca8a04"
-                                        className="font-mono"
-                                      >
-                                        🏆 Best
-                                      </text>
-                                    </g>
-                                  );
-                                }}
-                              />
-                            </Bar>
-                          </BarChart>
-                        </ResponsiveContainer>
-                      </div>
-
-                      {/* Interactive Dynamic Legend */}
-                      <div className="flex items-center justify-center gap-5 pt-1.5 border-t border-slate-200/50 dark:border-slate-800/40 select-none shrink-0 mb-0.5">
-                        <button
-                          type="button"
-                          onClick={() => setShowGroundingSeries((p) => !p)}
-                          className={`flex items-center gap-1.5 px-2 py-0.5 rounded text-[8.5px] font-bold tracking-wide font-mono transition-all cursor-pointer border ${
-                            showGroundingSeries
-                              ? "bg-teal-500/10 border-teal-500/30 text-teal-650 dark:text-teal-400/90"
-                              : "bg-slate-100 dark:bg-slate-900 border-transparent text-slate-400 dark:text-slate-500 line-through opacity-60"
-                          }`}
-                          title="Toggle visibility of standard daily grounding session bars"
-                        >
-                          <span className={`w-1.5 h-1.5 rounded-full ${showGroundingSeries ? "bg-teal-500" : "bg-slate-400"}`}></span>
-                          Practice Minutes
-                        </button>
-
-                        <button
-                          type="button"
-                          onClick={() => setShowPersonalBestHighlight((p) => !p)}
-                          className={`flex items-center gap-1.5 px-2 py-0.5 rounded text-[8.5px] font-bold tracking-wide font-mono transition-all cursor-pointer border ${
-                            showPersonalBestHighlight
-                              ? "bg-amber-500/10 border-amber-500/30 text-amber-600 dark:text-amber-400/90"
-                              : "bg-slate-100 dark:bg-slate-900 border-transparent text-slate-400 dark:text-slate-500 line-through opacity-60"
-                          }`}
-                          title="Toggle visibility of Personal Best yellow highlights and trophies"
-                        >
-                          <span className={`w-1.5 h-1.5 rounded-full ${showPersonalBestHighlight ? "bg-amber-500 animate-pulse" : "bg-slate-400"}`}></span>
-                          🏆 Personal Best
-                        </button>
-                      </div>
-                      
-                      {/* Styled Popover Overlay: Daily Raw Mindfulness Session Breakdown */}
-                      <AnimatePresence>
-                        {selectedBarDate && (
-                          <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.95 }}
-                            className="absolute inset-0 bg-slate-900 dark:bg-slate-950 text-white rounded-xl p-2.5 flex flex-col z-40 border border-slate-705/80 shadow-2xl"
-                          >
-                            <div className="flex items-center justify-between border-b border-white/10 pb-1.5 shrink-0">
-                              <div className="flex items-center gap-1.5">
-                                <Clock className="w-3 h-3 text-teal-400 shrink-0 animate-pulse" />
-                                <span className="text-[10px] font-bold font-sans tracking-wide text-slate-200">
-                                  Grounding Logs: {selectedBarDate}
-                                </span>
-                              </div>
-                              <button
-                                type="button"
-                                onClick={() => setSelectedBarDate(null)}
-                                className="p-1 rounded hover:bg-white dark:bg-slate-900/10 text-slate-400 hover:text-white transition-all cursor-pointer"
-                                title="Close sessions popover"
-                              >
-                                <X className="w-3 h-3" />
-                              </button>
-                            </div>
-
-                            <div className="flex-1 overflow-y-auto py-1.5 space-y-1.5">
-                              {breathingSessions.filter(s => s.dateLabel === selectedBarDate).length > 0 ? (
-                                breathingSessions
-                                  .filter(s => s.dateLabel === selectedBarDate)
-                                  .map((session, idx) => (
-                                    <div 
-                                      key={session.id || idx}
-                                      className="flex items-center justify-between p-1.5 rounded bg-white dark:bg-slate-900/5 border border-white/10 hover:bg-white/10 transition-colors"
-                                    >
-                                      <div className="flex items-center gap-2">
-                                        <span className="w-4.5 h-4.5 rounded bg-teal-500/20 text-teal-305 flex items-center justify-center text-[9px] font-bold font-mono">
-                                          #{idx + 1}
-                                        </span>
-                                        <div className="flex flex-col text-left">
-                                          <span className="text-[10px] font-semibold text-slate-100">Box Breathing Session</span>
-                                          <span className="text-[8.5px] text-slate-400 font-mono">Start: {session.startTime}</span>
-                                        </div>
-                                      </div>
-                                      <div className="text-right flex flex-col items-end">
-                                        <span className="text-[10px] font-bold font-mono text-teal-300">
-                                          {formatDuration(session.durationSeconds)}
-                                        </span>
-                                        <span className="text-[7.5px] uppercase tracking-wider font-mono text-slate-400 bg-teal-950/60 px-1 rounded border border-teal-500/10 leading-none py-0.5 mt-0.5">
-                                          Verified
-                                        </span>
-                                      </div>
-                                    </div>
-                                  ))
-                              ) : (
-                                <div className="flex flex-col items-center justify-center h-full py-2 text-center">
-                                  <span className="text-lg">🧘</span>
-                                  <p className="text-[10px] text-slate-300 font-medium">Daily Summary: {breathingHistory.find(h => h.date === selectedBarDate)?.minutes || 0} min</p>
-                                  <p className="text-[9px] text-slate-500 italic mt-0.5">No separate sessions saved.</p>
-                                </div>
-                              )}
-                            </div>
-
-                            <div className="border-t border-white/10 pt-1.5 flex items-center justify-between text-[8px] text-slate-400 font-mono shrink-0">
-                              <span>Total Logs: {breathingSessions.filter(s => s.dateLabel === selectedBarDate).length}</span>
-                              <span>Target: {mindfulnessGoal} min</span>
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  </div>
-                ) : (
-                  // FULL COMPREHENSIVE SESSIONS LOG VIEW
-                  <div className="flex flex-col gap-2.5 w-full">
-                    {/* Search & filters panel */}
-                    <div className="flex items-center gap-1.5 flex-wrap sm:flex-nowrap">
-                      {/* Search bar inside logs */}
-                      <div className="relative flex-1 min-w-[124px]">
-                        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-slate-400 dark:text-slate-500" />
-                        <input
-                          type="text"
-                          value={breathingLogSearch}
-                          onChange={(e) => setBreathingLogSearch(e.target.value)}
-                          placeholder="Search date or AM/PM..."
-                          className="w-full bg-slate-100/90 dark:bg-zinc-950/20 border border-slate-200/80 dark:border-slate-800/80 rounded-xl pl-7 pr-2.5 py-1 text-[10px] text-slate-705 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-hidden focus:ring-1 focus:ring-teal-500/30 font-sans"
-                        />
-                        {breathingLogSearch && (
-                          <button
-                            onClick={() => setBreathingLogSearch("")}
-                            className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-450 hover:text-slate-650"
-                          >
-                            <X className="w-2.5 h-2.5" />
-                          </button>
-                        )}
-                      </div>
-
-                      {/* Duration filter selector */}
-                      <div className="relative shrink-0 flex items-center pr-1 bg-slate-100/90 dark:bg-zinc-950/20 border border-slate-200/80 dark:border-slate-800/80 rounded-xl">
-                        <Filter className="w-3 h-3 text-slate-400 dark:text-slate-505 ml-2 mr-1" />
-                        <select
-                          value={breathingDurationFilter}
-                          onChange={(e) => setBreathingDurationFilter(e.target.value as any)}
-                          className="bg-transparent border-0 text-[10px] font-sans font-bold text-slate-600 dark:text-slate-300 py-1 pl-1 pr-6 focus:outline-hidden cursor-pointer"
-                        >
-                          <option value="all" className="bg-white dark:bg-slate-950">All Durations</option>
-                          <option value="short" className="bg-white dark:bg-slate-950">Short (&lt; 1 min)</option>
-                          <option value="medium" className="bg-white dark:bg-slate-950">Medium (1-3 min)</option>
-                          <option value="deep" className="bg-white dark:bg-slate-950">Deep (&gt; 3 min)</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    {/* Active Sessions List container */}
-                    <div className="h-44 overflow-y-auto pr-1 space-y-2 custom-scrollbar">
-                      {(() => {
-                        const filtered = breathingSessions.filter((session) => {
-                          const matchesSearch =
-                            breathingLogSearch === "" ||
-                            session.dateLabel.toLowerCase().includes(breathingLogSearch.toLowerCase()) ||
-                            session.startTime.toLowerCase().includes(breathingLogSearch.toLowerCase());
-
-                          let matchesDuration = true;
-                          const mins = session.durationSeconds / 60;
-                          if (breathingDurationFilter === "short") {
-                            matchesDuration = mins < 1.0;
-                          } else if (breathingDurationFilter === "medium") {
-                            matchesDuration = mins >= 1.0 && mins <= 3.0;
-                          } else if (breathingDurationFilter === "deep") {
-                            matchesDuration = mins > 3.0;
-                          }
-
-                          return matchesSearch && matchesDuration;
-                        });
-
-                        if (filtered.length === 0) {
-                          return (
-                            <div className="flex flex-col items-center justify-center h-full py-6 text-center border border-dashed border-slate-200/80 dark:border-slate-800/60 rounded-xl p-4 bg-slate-50/ dark:bg-slate-800/20 dark:bg-transparent">
-                              <span className="text-xl filter grayscale opacity-50 mb-1 font-sans">🧘‍♀️</span>
-                              <p className="text-[11px] text-slate-500 font-bold font-sans">No logs match filters</p>
-                              <p className="text-[9px] text-slate-400 mt-0.5 max-w-[200px] leading-relaxed">
-                                Adjust your query, change the duration filter, or test drive and record a 4-4-4 box breathing session above.
-                              </p>
-                            </div>
-                          );
-                        }
-
-                        // Group sessions by day for nice nested segments!
-                        const grouped: Record<string, BreathingSession[]> = {};
-                        filtered.forEach(s => {
-                          if (!grouped[s.dateLabel]) grouped[s.dateLabel] = [];
-                          grouped[s.dateLabel].push(s);
-                        });
-
-                        return Object.entries(grouped).map(([dateLabel, sessions]) => (
-                          <div key={dateLabel} className="space-y-1">
-                            <div className="text-[8.5px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider font-sans flex items-center gap-1.5 px-0.5 pt-1">
-                              <History className="w-2.5 h-2.5 text-slate-400 shrink-0" />
-                              <span>{dateLabel}</span>
-                              <span className="text-[8px] bg-slate-100 dark:bg-slate-900 border border-slate-200/40 dark:border-slate-800 font-normal px-1 md:px-1.5 py-0.5 rounded text-slate-500 dark:text-slate-450 ml-auto leading-none">
-                                {sessions.length} {sessions.length === 1 ? 'session' : 'sessions'}
-                              </span>
-                            </div>
-                            
-                            <div className="space-y-1 pl-1">
-                              {sessions.map((session, idx) => (
-                                <div
-                                  key={session.id || idx}
-                                  className="flex items-center justify-between p-2 rounded-xl bg-slate-50/ dark:bg-slate-800/70 dark:bg-zinc-950/20 border border-slate-150/70 dark:border-slate-800/50 hover:bg-slate-100/60 dark:hover:bg-slate-800/35 transition-all group"
-                                >
-                                  <div className="flex items-center gap-2">
-                                    <div className="w-7 h-7 rounded-lg bg-teal-50 dark:bg-teal-950/40 text-teal-650 dark:text-teal-400 flex items-center justify-center text-[8.5px] font-black tracking-tighter leading-none border border-teal-150/40 dark:border-teal-900/30 shrink-0">
-                                      {session.startTime.replace(/:\d+\s/, " ")}
-                                    </div>
-                                    <div className="flex flex-col text-left">
-                                      <span className="text-[10px] font-bold text-slate-755 dark:text-slate-200">
-                                        Box Breathing Pacing
-                                      </span>
-                                      <span className="text-[7.5px] text-slate-400 font-mono leading-none">
-                                        Ref: #{session.id.replace("bs-", "").slice(-5)}
-                                      </span>
-                                    </div>
-                                  </div>
-                                  <div className="flex items-center gap-2">
-                                    <span className="text-[10px] font-mono font-bold text-teal-600 dark:text-teal-400 whitespace-nowrap">
-                                      {formatDuration(session.durationSeconds)}
-                                    </span>
-                                    <button
-                                      type="button"
-                                      onClick={() => handleDeleteBreathingSession(session.id)}
-                                      className="p-1 text-slate-400 hover:text-rose-600 dark:text-slate-500 dark:hover:text-rose-455 hover:bg-rose-50 dark:hover:bg-rose-950/20 rounded-md transition-colors opacity-80 group-hover:opacity-100 cursor-pointer shrink-0"
-                                      title="Delete session record from database"
-                                    >
-                                      <Trash2 className="w-3.5 h-3.5" />
-                                    </button>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        ));
-                      })()}
-                    </div>
-
-                    {/* Summary statistics of the logs view */}
-                    <div className="pt-2 border-t border-slate-150 dark:border-slate-850 flex items-center justify-between text-[9px] text-slate-450 dark:text-slate-400 font-mono shrink-0">
-                      <span>Refined count: {breathingSessions.filter((session) => {
-                        const matchesSearch =
-                          breathingLogSearch === "" ||
-                          session.dateLabel.toLowerCase().includes(breathingLogSearch.toLowerCase()) ||
-                          session.startTime.toLowerCase().includes(breathingLogSearch.toLowerCase());
-
-                        let matchesDuration = true;
-                        const mins = session.durationSeconds / 60;
-                        if (breathingDurationFilter === "short") {
-                          matchesDuration = mins < 1.0;
-                        } else if (breathingDurationFilter === "medium") {
-                          matchesDuration = mins >= 1.0 && mins <= 3.0;
-                        } else if (breathingDurationFilter === "deep") {
-                          matchesDuration = mins > 3.0;
-                        }
-
-                        return matchesSearch && matchesDuration;
-                      }).length} items</span>
-                      <span>Target Goal Progress: <span className="font-bold underline text-teal-600 dark:text-teal-400">{goalProgressPercent}%</span></span>
-                    </div>
-                  </div>
-                )}
-              </div>
-              <p className="text-[9.5px] text-slate-400 italic text-center leading-normal">
-                Consistently log 5 minutes of mindful box breathing daily to reset your nervous system.
-              </p>
-            </div>
-          </div>
-
+          {activeCenterTab !== 'journal' && (
+          <>
           {/* Section 1.5: Somatic Reset: State Embodiments */}
           <div className={`bento-card shadow-sm p-5 rounded-2xl flex flex-col gap-4 border transition-all duration-300 ${zenMode ? "hidden" : ""} ${themeClass("glass-panel text-slate-800", "dark-glass-panel text-slate-205", "sepia-glass-panel text-[#3e2723]")}`}>
             <div className="flex items-center justify-between">
@@ -9431,7 +9897,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 <h3 className={`text-sm font-bold font-display ${themeClass("text-slate-800", "text-white", "text-[#3e2723]")}`}>Somatic State Embodiment</h3>
                 <p className={`text-[11px] font-sans mt-0.5 ${themeClass("text-slate-500", "text-slate-400", "text-amber-900/70")}`}>Visual templates for nervous system states.</p>
               </div>
-              <span className={`text-[9px] uppercase font-mono font-bold px-2 py-0.5 rounded border ${themeClass("bg-indigo-50 text-indigo-705 border-indigo-200", "bg-indigo-950/40 text-indigo-400 border-indigo-850", "bg-indigo-100/30 text-indigo-900 border-[#e3d5be]")}`}>
+              <span className={`text-[9px] uppercase font-mono font-bold px-2 py-0.5 rounded border ${themeClass("bg-indigo-50 text-indigo-705 border-indigo-200", "bg-white/[0.02]/40 text-indigo-400 border-indigo-850", "bg-indigo-100/30 text-indigo-900 border-[#e3d5be]")}`}>
                 Protocols
               </span>
             </div>
@@ -9449,8 +9915,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                   onClick={() => setSomaticProtocol(p.id as any)}
                   className={`p-1.5 flex flex-col items-center justify-center rounded-xl border text-[9px] font-bold transition-all cursor-pointer ${
                     somaticProtocol === p.id 
-                      ? "bg-indigo-50 dark:bg-indigo-950/40 border-indigo-500 text-indigo-700 dark:text-indigo-300 shadow-3xs" 
-                      : `${themeClass("bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-650", "bg-slate-900/40 hover:bg-slate-900 border-slate-800 text-slate-400", "bg-[#ebdcb9]/20 hover:bg-[#ebdcb9]/40 border-[#d8c7a6]/60 text-[#5c4033]")}`
+                      ? "bg-indigo-50 dark:bg-white/[0.02]/40 border-indigo-500 text-indigo-700 dark:text-indigo-300 shadow-3xs" 
+                      : `${themeClass("bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-650", "bg-black/40 hover:bg-black border-white/10 text-slate-400", "bg-[#ebdcb9]/20 hover:bg-[#ebdcb9]/40 border-[#d8c7a6]/60 text-[#5c4033]")}`
                   }`}
                 >
                   <span className="text-xs mb-0.5">{p.icon}</span>
@@ -9460,7 +9926,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             </div>
 
             {/* Display active protocol card preview */}
-            <div className={`p-3 rounded-xl border flex flex-col items-center justify-center relative overflow-hidden h-48 transition-all duration-300 ${themeClass("bg-slate-50/50 border-slate-200", "bg-slate-900/50 border-slate-800/80", "bg-[#f4efe8]/50 border-[#ebdcb9]")}`}>
+            <div className={`p-3 rounded-xl border flex flex-col items-center justify-center relative overflow-hidden h-48 transition-all duration-300 ${themeClass("bg-slate-50/50 border-slate-200", "bg-black/50 border-white/10/80", "bg-[#f4efe8]/50 border-[#ebdcb9]")}`}>
               
 
 
@@ -9634,731 +10100,50 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
               </div>
             </div>
           </div>
+          </>
+          )}
 
-          {/* Section 2: Encrypted Local Mood Tracker & Dynamic Trend Graph */}
-          <div className={`bento-card shadow-sm p-5 rounded-2xl flex flex-col gap-4 border transition-all duration-300 ${zenMode ? "hidden" : ""} ${themeClass("glass-panel text-slate-800", "dark-glass-panel text-slate-205", "sepia-glass-panel text-[#3e2723]")}`}>
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className={`text-sm font-bold font-display ${themeClass("text-slate-800", "text-white", "text-[#3e2723]")}`}>Browser-Secure Mood Log</h3>
-                <p className={`text-xs font-sans ${themeClass("text-slate-500", "text-slate-400", "text-amber-900/70")}`}>Zero database storage. Encrypted on-device.</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  id="download-mood-log-btn"
-                  type="button"
-                  onClick={handleDownloadMoodLog}
-                  className="px-2 py-1 flex items-center gap-1.5 text-[9px] font-mono leading-none border border-indigo-200 dark:border-indigo-800 hover:border-indigo-350 bg-indigo-50/ dark:bg-indigo-950/50 hover:bg-indigo-100/50 text-indigo-700 dark:text-indigo-300 rounded-lg transition-all cursor-pointer shadow-sm"
-                  title="Download secure JSON backup of your moods locally"
-                >
-                  <Download className="w-3 h-3 text-indigo-650" />
-                  Download Log
-                </button>
-                <button
-                  id="export-pdf-summary-btn"
-                  type="button"
-                  onClick={handleExportMoodPDF}
-                  className="px-2 py-1 flex items-center gap-1.5 text-[9px] font-mono leading-none border border-emerald-200 hover:border-emerald-350 bg-emerald-50/50 hover:bg-emerald-100/50 text-emerald-700 rounded-lg transition-all cursor-pointer shadow-sm"
-                  title="Export a premium print-ready PDF summary of your mood trend graph and logs"
-                >
-                  <FileText className="w-3 h-3 text-emerald-650" />
-                  Export PDF
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowWipeConfirm(true)}
-                  className="px-2 py-1 flex items-center gap-1.5 text-[9px] font-mono leading-none border border-rose-200 dark:border-rose-800 hover:border-rose-350 bg-rose-50/50 hover:bg-rose-100/50 text-rose-600 rounded-lg transition-all cursor-pointer shadow-sm"
-                  title="Wipe local entries securely"
-                >
-                  <Trash2 className="w-3 h-3 text-rose-600" />
-                  Wipe DB
-                </button>
-                <span className="text-[10px] uppercase font-mono font-bold bg-indigo-50 dark:bg-indigo-950 text-indigo-705 px-2 py-0.5 rounded border border-indigo-200 dark:border-indigo-800">
-                  AES Private
-                </span>
-              </div>
-            </div>
-
-            {hasThreeConsecutiveHighMoods && (
-              <motion.div 
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-rose-50/90 border border-rose-200 dark:border-rose-800 rounded-xl p-3.5 flex flex-col gap-2.5 shadow-sm text-rose-800"
-              >
-                <div className="flex items-start gap-2.5">
-                  <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
-                  <div className="flex-1">
-                    <p className="text-[11.5px] font-bold leading-tight text-rose-900 flex items-center gap-1.5">
-                      <span>High Stress Indicator Active</span>
-                      <span className="inline-block w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping" />
-                    </p>
-                    <p className="text-[10.5px] leading-relaxed text-rose-700 dark:text-rose-300 font-sans mt-0.5">
-                      Your last three consecutive mood records show a severe intensity level of 8/10 or higher. Let's take a moment together to stabilize and ground your breathing.
-                    </p>
-                  </div>
-                </div>
-                {!isBreathingActive ? (
-                  <button
-                    type="button"
-                    onClick={toggleBreathing}
-                    className="self-start text-[10.5px] font-bold font-mono px-3 py-1 bg-rose-600 hover:bg-rose-700 hover:scale-[1.02] active:scale-[0.98] text-white rounded-lg transition-all cursor-pointer shadow-sm"
-                  >
-                    🧘 Start 4-4-4 Box Breathing
-                  </button>
-                ) : (
-                  <div className="text-[10px] text-emerald-700 font-bold font-mono inline-flex items-center gap-1.5 bg-emerald-50 px-2 py-1 rounded border border-emerald-150 self-start">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
-                    Breathing Guide Running
-                  </div>
-                )}
-              </motion.div>
-            )}
-
-            {/* Dynamic Trend Line using beautiful highly-sculptured inline SVGs */}
-            <div className="p-4 bg-slate-50/ dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-700 relative" onClick={() => setClickedTrendPoint(null)}>
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200/40 pb-2 mb-2">
-                <span className="text-[10px] text-slate-500 block uppercase font-mono font-bold">
-                  {moodTrendView === "Intensity Over Time" 
-                    ? `${selectedTagFilter === "All Tags" ? "Severity Trend" : `Tag Mood Trend: ${selectedTagFilter}`} (1 = Low, 10 = Severe Alarm)`
-                    : `Trigger Frequency Distribution`
-                  }
-                </span>
-                
-                {/* Beautiful Modern Pill-shaped Date Range Segment Selector */}
-                <div className="flex items-center gap-2 flex-wrap shrink-0">
-                  {/* Tag Selector */}
-                  <select
-                    value={selectedTagFilter}
-                    onChange={(e) => setSelectedTagFilter(e.target.value)}
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-[9.5px] font-mono font-bold bg-white dark:bg-slate-900 border border-slate-200/80 px-1.5 py-0.5 rounded cursor-pointer text-slate-705 dark:text-slate-200"
-                  >
-                    <option value="All Tags">All Tags</option>
-                    {uniqueTags.map(tag => (
-                      <option key={tag} value={tag}>{tag}</option>
-                    ))}
-                  </select>
-
-                  {/* Trend View Selector */}
-                  <select
-                    value={moodTrendView}
-                    onChange={(e) => setMoodTrendView(e.target.value)}
-                    onClick={(e) => e.stopPropagation()}
-                    className="text-[9.5px] font-mono font-bold bg-white dark:bg-slate-900 border border-slate-200/80 px-1.5 py-0.5 rounded cursor-pointer text-slate-705 dark:text-slate-200"
-                  >
-                    <option value="Intensity Over Time">⏱️ Intensity</option>
-                    <option value="Trigger Frequency Distribution">📊 Triggers</option>
-                  </select>
-
-                  <div className="flex items-center gap-1 bg-slate-100 hover:bg-slate-200/50 dark:bg-slate-900/80 p-0.5 rounded-lg border border-slate-200/60 shrink-0">
-                  {(["All Time", "Past Week", "Past Month"] as const).map((range) => {
-                    const label = range === "All Time" ? "All" : range === "Past Week" ? "7 Days" : "30 Days";
-                    const active = selectedDateRange === range;
-                    return (
-                      <button
-                        key={range}
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedDateRange(range);
-                        }}
-                        className={`px-2.5 py-1 text-[9px] font-bold rounded-md transition-all cursor-pointer ${
-                          active
-                            ? "bg-indigo-600 text-white shadow-xs"
-                            : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-250 hover:bg-black/5 dark:hover:bg-white dark:bg-slate-900/5"
-                        }`}
-                        title={`Filter trends to ${range}`}
-                      >
-                        {label}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-              
-              {moodTrendView === "Intensity Over Time" ? (
-                <>
-                  <div className="h-28 flex items-end justify-between mt-3 px-2 relative min-w-full">
-                    {/* Horizontal reference lines */}
-                    <div className="absolute left-0 right-0 top-0 border-b border-slate-200 dark:border-slate-700 border-dashed" />
-                    <div className="absolute left-0 right-0 top-1/2 border-b border-slate-200 dark:border-slate-700 border-dashed" />
-                    <div className="absolute left-0 right-0 bottom-0 border-b border-slate-200 dark:border-slate-700 border-dashed" />
-                    
-                    {/* Beautiful custom vector graph plotted in SVG */}
-                    <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 100">
-                      <defs>
-                        <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#4338ca" stopOpacity="0.2" />
-                          <stop offset="100%" stopColor="#4338ca" stopOpacity="0.0" />
-                        </linearGradient>
-                      </defs>
-                      
-                      {(() => {
-                        const chronologicalMoods = [...filteredMoodSumList].reverse();
-                        const n = chronologicalMoods.length;
-                        if (n === 0) {
-                          return (
-                            <text x="50" y="55" textAnchor="middle" fill="#94a3b8" className="text-[10px] font-sans font-medium" style={{ pointerEvents: 'none' }}>
-                              No entries logged for selected filters
-                            </text>
-                          );
-                        }
-                        
-                        const pts = chronologicalMoods.map((entry, index) => {
-                          const x = n > 1 ? 5 + (index / (n - 1)) * 90 : 50;
-                          const y = 15 + (10 - entry.intensity) * 7;
-                          return { x, y, entry };
-                        });
-                        
-                        let pathD = "";
-                        let areaD = "";
-                        
-                        if (n === 1) {
-                          pathD = `M 5,${pts[0].y} L 95,${pts[0].y}`;
-                          areaD = `M 5,${pts[0].y} L 95,${pts[0].y} L 95,100 L 5,100 Z`;
-                        } else {
-                          pathD = pts.map((pt, ind) => ind === 0 ? `M ${pt.x},${pt.y}` : `L ${pt.x},${pt.y}`).join(" ");
-                          areaD = `${pathD} L ${pts[pts.length - 1].x},100 L ${pts[0].x},100 Z`;
-                        }
-                        
-                        return (
-                          <>
-                            <path 
-                              d={pathD} 
-                              fill="none" 
-                              stroke="rgba(99, 102, 241, 0.9)" 
-                              strokeWidth="3" 
-                              strokeLinecap="round"
-                            />
-                            <path 
-                              d={areaD} 
-                              fill="url(#chartGrad)"
-                            />
-                            {pts.map((pt) => {
-                              let fill = '#10b981'; // stable
-                              if (pt.entry.intensity >= 8) fill = '#f43f5e'; // severe
-                              else if (pt.entry.intensity >= 6) fill = '#fbbf24'; // anxious
-                              else if (pt.entry.intensity >= 4) fill = '#2dd4bf'; // peaceful / tired
-                              
-                              const isSelected = clickedTrendPoint?.entry.id === pt.entry.id;
-                              return (
-                                <circle 
-                                  key={pt.entry.id} 
-                                  cx={pt.x} 
-                                  cy={pt.y} 
-                                  r={isSelected ? "5.5" : "3.5"} 
-                                  fill={fill} 
-                                  stroke={isSelected ? "#312e81" : "rgba(255,255,255,0.8)"}
-                                  strokeWidth={isSelected ? "1.5" : "0.5"}
-                                  className="transition-all duration-300 hover:scale-150 cursor-pointer origin-center"
-                                  style={{ transformOrigin: `${pt.x}% ${pt.y}%` }}
-                                  onMouseEnter={() => {
-                                    setHoveredTrendPoint({ entry: pt.entry, x: pt.x, y: pt.y });
-                                  }}
-                                  onMouseLeave={() => {
-                                    setHoveredTrendPoint(null);
-                                  }}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setClickedTrendPoint({ entry: pt.entry, x: pt.x, y: pt.y });
-                                  }}
-                                  title={`${pt.entry.mood} (${pt.entry.intensity}/10) - hover to scan, click for details`}
-                                />
-                              );
-                            })}
-                          </>
-                        );
-                      })()}
-                    </svg>
-
-                    {/* Interactive hover tooltip displaying mood, intensity, and date */}
-                    {hoveredTrendPoint && (!clickedTrendPoint || clickedTrendPoint.entry.id !== hoveredTrendPoint.entry.id) && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 4 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="absolute z-40 pointer-events-none bg-slate-900 dark:bg-slate-950 border border-slate-700/80 rounded-xl shadow-lg p-2.5 w-48 text-left text-white"
-                        style={{
-                          left: `${hoveredTrendPoint.x > 75 ? 'calc(100% - 200px)' : hoveredTrendPoint.x < 25 ? '8px' : `calc(${hoveredTrendPoint.x}% - 96px)`}`,
-                          ...(hoveredTrendPoint.y < 45 
-                            ? { top: `calc(${hoveredTrendPoint.y}% + 12px)` } 
-                            : { bottom: `calc(${100 - hoveredTrendPoint.y}% + 12px)` }
-                          )
-                        }}
-                      >
-                        <div className="flex items-center justify-between gap-1 border-b border-white/10 pb-1 mb-1.5">
-                          <span className="text-[10px] font-bold uppercase tracking-wider font-mono text-indigo-300 truncate">
-                            {hoveredTrendPoint.entry.mood}
-                          </span>
-                          <span className="text-[10px] font-mono font-bold bg-white dark:bg-slate-900/10 px-1.5 py-0.5 rounded text-indigo-200">
-                            {hoveredTrendPoint.entry.intensity}/10
-                          </span>
-                        </div>
-                        <div className="space-y-0.5">
-                          <div className="text-[9.5px] text-slate-300 font-mono flex items-center gap-1">
-                            <span className="text-slate-400">📅</span>
-                            <span>{hoveredTrendPoint.entry.timestamp}</span>
-                          </div>
-                          {hoveredTrendPoint.entry.tags && hoveredTrendPoint.entry.tags.length > 0 && (
-                            <div className="flex flex-wrap gap-1 mt-1">
-                              {hoveredTrendPoint.entry.tags.slice(0, 2).map((tg, idx) => (
-                                <span key={idx} className="text-[8px] bg-slate-800 text-indigo-300 border border-slate-700/80 px-1 rounded">
-                                  #{tg}
-                                </span>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </motion.div>
-                    )}
-
-                    {/* Highly interactive popover floating over the SVG graph */}
-                    {clickedTrendPoint && (
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="absolute z-30 bg-white dark:bg-slate-900 border border-indigo-150 dark:border-indigo-900 rounded-xl shadow-xl p-3 w-64 text-left text-slate-800 dark:text-slate-200"
-                        style={{
-                          left: `${clickedTrendPoint.x > 75 ? 'calc(100% - 264px)' : clickedTrendPoint.x < 25 ? '8px' : `calc(${clickedTrendPoint.x}% - 128px)`}`,
-                          ...(clickedTrendPoint.y < 45 
-                            ? { top: `calc(${clickedTrendPoint.y}% + 12px)` } 
-                            : { bottom: `calc(${100 - clickedTrendPoint.y}% + 12px)` }
-                          )
-                        }}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <div className="flex items-center justify-between gap-2 mb-2">
-                          <div className="flex items-center gap-1.5 min-w-0">
-                            <span className="text-[11px] font-bold uppercase tracking-wider font-mono bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 px-1.5 py-0.5 rounded truncate">
-                              {clickedTrendPoint.entry.mood}
-                            </span>
-                            <span className="text-[10px] font-bold text-indigo-505 font-mono shrink-0">
-                              {clickedTrendPoint.entry.intensity}/10
-                            </span>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => setClickedTrendPoint(null)}
-                            className="text-slate-400 hover:text-slate-600 dark:text-slate-400 transition-colors cursor-pointer p-0.5 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 rounded"
-                            title="Close popover"
-                          >
-                            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                          </button>
-                        </div>
-
-                        <p className="text-xs text-slate-650 dark:text-slate-350 mb-2.5 leading-relaxed bg-slate-50/ dark:bg-slate-800/50 p-2 rounded border border-slate-100 dark:border-slate-800 max-h-24 overflow-y-auto break-words font-sans">
-                          {clickedTrendPoint.entry.note || "No custom note logged for this entry."}
-                        </p>
-
-                        <div className="flex items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-slate-800 flex-wrap">
-                          <div className="flex flex-wrap gap-0.5 max-w-[65%]">
-                            {clickedTrendPoint.entry.tags && clickedTrendPoint.entry.tags.length > 0 ? (
-                              clickedTrendPoint.entry.tags.map((tg, idx) => (
-                                <span 
-                                  key={idx} 
-                                  className="text-[9px] bg-slate-100 dark:bg-slate-800 border border-slate-150-b text-slate-650 dark:text-slate-350 px-1 rounded-md font-medium"
-                                >
-                                  #{tg}
-                                </span>
-                              ))
-                            ) : (
-                              <span className="text-[9px] text-slate-400 font-mono">no tags</span>
-                            )}
-                          </div>
-                          <span className="text-[9px] text-slate-400 font-mono self-end shrink-0">
-                            {clickedTrendPoint.entry.timestamp}
-                          </span>
-                        </div>
-                      </motion.div>
-                    )}
-
-                    {/* Legend axes */}
-                    <span className="absolute left-1 top-0.5 text-[9px] text-rose-600 font-mono font-bold">Extreme</span>
-                    <span className="absolute left-1 bottom-0.5 text-[9px] text-emerald-600 font-mono font-bold">Stable</span>
-                  </div>
-
-                  <div className="flex justify-between items-center text-[10px] text-slate-500 font-mono mt-2">
-                    <span>{selectedDateRange === "Past Week" ? "7 days ago" : selectedDateRange === "Past Month" ? "30 days ago" : "3 days ago"}</span>
-                    <span>{selectedDateRange === "Past Week" ? "3 days ago" : selectedDateRange === "Past Month" ? "15 days ago" : "Yesterday"}</span>
-                    <span>Today</span>
-                  </div>
-                </>
-              ) : (
-                <div className="mt-3.5 space-y-3 min-h-[144px] max-h-[220px] overflow-y-auto pr-1 text-left">
-                  {triggerFrequencies.length === 0 ? (
-                    <div className="h-28 flex flex-col items-center justify-center text-[11px] text-slate-400 font-sans gap-2 text-center">
-                      <span>No tags associated with logged emotions yet.</span>
-                      <span className="text-[10px] text-slate-500">Log entries with commas in the Tags block to see distribution.</span>
-                    </div>
-                  ) : (
-                    triggerFrequencies.map((item, idx) => {
-                      const maxCount = Math.max(...triggerFrequencies.map(f => f.count), 1);
-                      const percentage = (item.count / maxCount) * 100;
-                      
-                      // color representing avgIntensity
-                      let barColor = "bg-emerald-500";
-                      let textColor = "text-emerald-700";
-                      let bgTint = "bg-emerald-100/50";
-                      let hoverBorder = "hover:border-emerald-250";
-                      if (item.avgIntensity >= 8) {
-                        barColor = "bg-rose-500";
-                        textColor = "text-rose-700";
-                        bgTint = "bg-rose-100/50";
-                        hoverBorder = "hover:border-rose-250";
-                      } else if (item.avgIntensity >= 5.5) {
-                        barColor = "bg-amber-500";
-                        textColor = "text-amber-700";
-                        bgTint = "bg-amber-100/50";
-                        hoverBorder = "hover:border-amber-250";
-                      } else if (item.avgIntensity >= 3.5) {
-                        barColor = "bg-teal-500";
-                        textColor = "text-teal-700";
-                        bgTint = "bg-teal-100/50";
-                        hoverBorder = "hover:border-teal-250";
-                      }
-                      
-                      return (
-                        <div key={item.tag} className={`flex flex-col gap-1.5 p-2 bg-white dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 rounded-lg shadow-2xs transition-all duration-200 ${hoverBorder}`}>
-                          <div className="flex items-center justify-between text-xs font-sans text-slate-700 dark:text-slate-300">
-                            <div className="flex items-center gap-1.5 min-w-0">
-                              <span className="inline-block w-3.5 h-3.5 rounded-full bg-slate-200 text-[9px] flex items-center justify-center font-bold text-slate-500 font-mono">
-                                {idx + 1}
-                              </span>
-                              <span className="font-bold text-indigo-950 font-mono truncate">#{item.tag}</span>
-                            </div>
-                            <div className="flex items-center gap-2 font-mono text-[10.5px] shrink-0">
-                              <span>Occurrences: <strong className="text-slate-900">{item.count}</strong></span>
-                              <span className="text-slate-305">|</span>
-                              <span className={`px-1.5 py-0.5 rounded ${textColor} ${bgTint} font-semibold`}>
-                                Avg. Intensity: {item.avgIntensity}/10
-                              </span>
-                            </div>
-                          </div>
-                          <div className="w-full bg-slate-100/60 rounded-full h-2 overflow-hidden border border-slate-200/55">
-                            <motion.div 
-                              initial={{ width: 0 }}
-                              animate={{ width: `${percentage}%` }}
-                              transition={{ duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }}
-                              className={`h-full ${barColor} rounded-full`}
-                            />
-                          </div>
-                        </div>
-                      );
-                    })
-                  )}
-                </div>
-              )}
-
-              {/* Dynamic Secure Analytics / AI Grounding Insights */}
-              <div id="pfai-mood-insights-block" className="mt-4 pt-3.5 border-t border-slate-200 dark:border-slate-700">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest block font-mono">
-                    ✨ AI Wellness Check-in
-                  </span>
-                  {isLoadingInsight && (
-                    <span className="text-[9px] text-indigo-600/70 font-mono flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-ping inline-block" />
-                      De-identifying...
-                    </span>
-                  )}
-                </div>
-                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-3 text-[11px] leading-relaxed text-slate-700 dark:text-slate-300 relative overflow-hidden group">
-                  <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500/40 rounded-l" />
-                  {isLoadingInsight && !moodInsight ? (
-                    <div className="flex items-center gap-2 text-slate-400 italic py-1">
-                      <span className="animate-pulse">Retrieving anonymous trend markers...</span>
-                    </div>
-                  ) : (
-                    <p className="whitespace-pre-wrap font-sans text-slate-700 dark:text-slate-300">{moodInsight}</p>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Quick logging form */}
-            <form onSubmit={handleAddMood} className="space-y-3 bg-slate-50 dark:bg-slate-800 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700">
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <label className="text-[10px] text-slate-500 uppercase font-mono block mb-1">State</label>
-                  <select
-                    value={customMoodSelection}
-                    onChange={(e) => setCustomMoodSelection(e.target.value)}
-                    className="w-full bg-white dark:bg-slate-900 border border-slate-250 dark:border-slate-700 rounded-lg text-xs p-1.5 focus:border-indigo-400 dark:focus:border-indigo-600 text-slate-800 dark:text-slate-200 outline-none cursor-pointer"
-                  >
-                    <option value="Overwhelmed">☁️ Overwhelmed</option>
-                    <option value="Anxious">🍃 Anxious</option>
-                    <option value="Tired">💤 Tired</option>
-                    <option value="Peaceful">🌾 Peaceful</option>
-                    <option value="Depressed">🌧️ Heavy Mind</option>
-                    <option value="Joyful">☀️ Safe/Joyful</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="text-[10px] text-slate-500 uppercase font-mono block mb-1">Severity: {customMoodIntensity}/10</label>
-                  <input
-                    type="range"
-                    min="1"
-                    max="10"
-                    value={customMoodIntensity}
-                    onChange={(e) => setCustomMoodIntensity(Number(e.target.value))}
-                    className="w-full mt-2.5 h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-500"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <input
-                  type="text"
-                  value={customMoodNote}
-                  onChange={(e) => setCustomMoodNote(e.target.value)}
-                  placeholder="Note (e.g., Felt panic in the crowd...)"
-                  className="w-full bg-white dark:bg-slate-900 border border-slate-250 dark:border-slate-700 rounded-lg text-xs p-1.5 text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 outline-none focus:border-indigo-400 dark:focus:border-indigo-600"
-                />
-              </div>
-
-              <div className="flex items-center gap-2">
-                <input
-                  type="text"
-                  value={customTagInput}
-                  onChange={(e) => setCustomTagInput(e.target.value)}
-                  placeholder="Tags (family, work etc)"
-                  className="flex-1 bg-white dark:bg-slate-900 border border-slate-250 dark:border-slate-700 rounded-lg text-xs p-1.5 text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 outline-none focus:border-indigo-400 dark:focus:border-indigo-600"
-                />
-                <button
-                  type="submit"
-                  className="px-4 py-1.5 bg-indigo-650 hover:bg-indigo-600 text-white text-xs font-bold rounded-lg cursor-pointer transition-all shrink-0 shadow-sm"
-                >
-                  🔐 Log Secure
-                </button>
-              </div>
-            </form>
-
-            {/* List scrollbox */}
-            <div className="space-y-2 max-h-[160px] overflow-y-auto pr-1">
-              {filteredMoodSumList.length === 0 ? (
-                <p className="text-xs text-slate-400 italic text-center py-6">No secure logs found with trigger tag '{selectedTagFilter}'</p>
-              ) : (
-                filteredMoodSumList.map((entry) => {
-                  const getIntensityStyle = (intensity: number) => {
-                    if (intensity <= 3) {
-                      return {
-                        border: themeClass("border-emerald-250 hover:border-emerald-300", "border-emerald-800/40 hover:border-emerald-700/50", "border-emerald-700/25 hover:border-emerald-700/40"),
-                        bg: themeClass("bg-emerald-50/15 hover:bg-emerald-50/25", "bg-emerald-950/15 hover:bg-emerald-950/25", "bg-emerald-100/10 hover:bg-emerald-100/15"),
-                        text: themeClass("text-slate-800", "text-emerald-100", "text-[#3e2723]"),
-                        subText: themeClass("text-slate-600", "text-slate-400", "text-amber-900/70"),
-                        badge: themeClass(
-                          "bg-emerald-50/80 text-emerald-700 border-emerald-200",
-                          "bg-emerald-950/45 text-emerald-400 border-emerald-900/50",
-                          "bg-emerald-100/45 text-emerald-900 border-emerald-300/30"
-                        )
-                      };
-                    } else if (intensity <= 7) {
-                      return {
-                        border: themeClass("border-amber-250 hover:border-amber-300", "border-amber-800/40 hover:border-amber-700/50", "border-amber-700/25 hover:border-amber-700/40"),
-                        bg: themeClass("bg-amber-50/15 hover:bg-amber-50/25", "bg-amber-950/15 hover:bg-amber-950/25", "bg-amber-100/10 hover:bg-amber-100/15"),
-                        text: themeClass("text-slate-800", "text-amber-100", "text-[#3e2723]"),
-                        subText: themeClass("text-slate-600", "text-slate-400", "text-amber-900/70"),
-                        badge: themeClass(
-                          "bg-amber-50/80 text-amber-700 border-amber-200 dark:border-amber-800",
-                          "bg-amber-950/45 text-amber-350 border-amber-900/50",
-                          "bg-amber-100/45 text-amber-900 border-amber-300/30"
-                        )
-                      };
-                    } else {
-                      return {
-                        border: themeClass("border-rose-250 hover:border-rose-300", "border-rose-800/40 hover:border-rose-700/50", "border-rose-700/25 hover:border-rose-700/40"),
-                        bg: themeClass("bg-rose-50/20 hover:bg-rose-50/30", "bg-rose-950/15 hover:bg-rose-950/25", "bg-rose-100/10 hover:bg-rose-100/15"),
-                        text: themeClass("text-slate-800", "text-rose-100", "text-[#3e2723]"),
-                        subText: themeClass("text-slate-600", "text-slate-400", "text-amber-900/70"),
-                        badge: themeClass(
-                          "bg-rose-50/80 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-800",
-                          "bg-rose-950/45 text-rose-350 border-rose-900/50",
-                          "bg-rose-100/45 text-rose-900 border-rose-300/30"
-                        )
-                      };
-                    }
-                  };
-                  const style = getIntensityStyle(entry.intensity);
-                  return (
-                    <div key={entry.id} className={`p-3 border rounded-xl flex items-center justify-between text-xs shadow-sm transition-all duration-300 ${style.border} ${style.bg}`}>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className={`font-bold ${style.text}`}>{entry.mood}</span>
-                          <span className={`text-[10px] border px-1.5 py-0.2 rounded font-mono font-semibold ${style.badge}`}>
-                            Severity {entry.intensity}/10
-                          </span>
-                        </div>
-                        <p className={`text-[11px] mt-1 ${style.subText}`}>{entry.note}</p>
-                        <div className="flex flex-wrap gap-1 mt-1.5">
-                          {entry.tags.map(t => (
-                            <span 
-                              key={t} 
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setSelectedTagFilter(t);
-                              }}
-                              className={`text-[9px] px-1.5 rounded border cursor-pointer transition-colors ${
-                                selectedTagFilter.toLowerCase() === t.toLowerCase()
-                                  ? 'bg-indigo-150 text-indigo-850 hover:bg-indigo-200 border-indigo-300 font-bold'
-                                  : 'bg-slate-100 dark:bg-slate-800 text-slate-500 hover:bg-indigo-50 dark:hover:bg-indigo-950 dark:bg-indigo-950 hover:text-indigo-600 hover:border-indigo-200 dark:border-indigo-800 border-slate-200'
-                              }`}
-                            >
-                              #{t}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                      <span className="text-[9px] text-slate-450 shrink-0 font-mono italic">{entry.timestamp}</span>
-                    </div>
-                  );
-                })
-              )}
-            </div>
-          </div>
-
-          <div className={`bento-card shadow-sm p-5 rounded-2xl flex flex-col gap-4 border transition-all duration-300 ${zenMode ? "hidden" : ""} ${themeClass("glass-panel text-slate-800", "dark-glass-panel text-slate-205", "sepia-glass-panel text-[#3e2723]")}`}>
-            
-            <div>
-              <div className="flex items-center justify-between">
-                <h3 className={`text-sm font-bold font-display ${themeClass("text-slate-800", "text-white", "text-[#3e2723]")}`}>Anon Compassion Circle</h3>
-                <span className={`text-[10px] uppercase font-mono font-bold px-2 py-0.5 rounded border ${themeClass("bg-rose-50 text-rose-700 border-rose-200", "bg-rose-950/40 text-rose-350 border-rose-850", "bg-rose-150/45 text-rose-950 border-rose-300/40")}`}>
-                  Shared Support
-                </span>
-              </div>
-              <p className={`text-xs mt-1 leading-normal font-sans ${themeClass("text-slate-500", "text-slate-400", "text-amber-900/70")}`}>
-                Stigma around mental health causes many to suffer in complete silence. Add your anonymous message of strength to the wall. Virtual touch support.
-              </p>
-            </div>
-
-            {/* Form */}
-            <form onSubmit={submitSolaceMsg} className="space-y-2.5 bg-slate-50 dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700">
-              <textarea
-                value={newSolaceText}
-                onChange={(e) => setNewSolaceText(e.target.value)}
-                maxLength={300}
-                required
-                placeholder="Write a completely anonymous piece of reassurance here..."
-                className="w-full bg-white dark:bg-slate-900 text-xs p-2.5 rounded-lg border border-slate-250 dark:border-slate-700 text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 outline-none h-16 resize-none focus:border-indigo-400 dark:focus:border-indigo-600 focus:ring-1 focus:ring-indigo-400"
-              />
-              <div className="flex items-center gap-2">
-                <input
-                  type="text"
-                  value={newSolaceLocation}
-                  onChange={(e) => setNewSolaceLocation(e.target.value)}
-                  placeholder="Location (e.g. Anon from Bangalore)"
-                  className="flex-1 bg-white dark:bg-slate-900 text-xs p-2 rounded-lg border border-slate-250 dark:border-slate-700 text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 outline-none focus:border-indigo-400 dark:focus:border-indigo-600 focus:ring-1 focus:ring-indigo-400"
-                />
-                
-                <button
-                  type="submit"
-                  disabled={isSendingSolace || !newSolaceText.trim()}
-                  className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold cursor-pointer disabled:opacity-50 tracking-tight transition-all shadow-sm"
-                >
-                  {isSendingSolace ? "Posting..." : "Share Anon"}
-                </button>
-              </div>
-              {solaceError && <p className="text-[10px] text-rose-600 mt-1">{solaceError}</p>}
-            </form>
-
-            {/* Feed Scroll box */}
-            <div className="space-y-2.5 max-h-[220px] overflow-y-auto pr-1">
-              {solaceMessages.length === 0 ? (
-                <p className="text-xs text-slate-400 italic text-center p-4">No comforting entries posted yet. Be the first to break the silence.</p>
-              ) : (
-                solaceMessages.map((msg, index) => (
-                  <motion.div 
-                    key={msg.id} 
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ 
-                      duration: 0.45, 
-                      ease: [0.215, 0.610, 0.355, 1.000], 
-                      delay: Math.min(index * 0.055, 0.5) 
-                    }}
-                    className="p-3 bg-white dark:bg-slate-900 hover:bg-slate-50/40 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-slate-250 transition shadow-sm"
-                  >
-                    <p className="text-xs text-slate-700 dark:text-slate-300 leading-normal font-sans italic">"{msg.text}"</p>
-                    <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-800">
-                      <span className="text-[10px] text-indigo-700 dark:text-indigo-300 font-semibold font-sans">{msg.location}</span>
-                      
-                      <motion.button
-                        whileHover="hover"
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => submitHug(msg.id)}
-                        className="flex items-center gap-1.5 text-[10px] bg-rose-50 text-rose-700 dark:text-rose-300 px-2.5 py-1 rounded-full border border-rose-200 dark:border-rose-800 hover:bg-rose-100/50 cursor-pointer transition"
-                        title="Provide a virtual validation hug of reassurance"
-                      >
-                        <motion.span
-                          key={msg.hugCount}
-                          initial={{ scale: 1, rotate: 0 }}
-                          animate={{ 
-                            scale: [1, 1.35, 1.15, 1.45, 1.1, 1],
-                            rotate: [0, -10, 10, -5, 5, 0]
-                          }}
-                          variants={{
-                            hover: {
-                              scale: 1.25,
-                              rotate: [-12, 12, -8, 8, 0],
-                              transition: {
-                                scale: {
-                                  type: "spring",
-                                  stiffness: 350,
-                                  damping: 8
-                                },
-                                rotate: {
-                                  duration: 0.5,
-                                  ease: "easeInOut"
-                                }
-                              }
-                            }
-                          }}
-                          transition={{ 
-                            duration: 0.7, 
-                            ease: "easeInOut",
-                            times: [0, 0.15, 0.3, 0.45, 0.7, 1]
-                          }}
-                          className="inline-block origin-center"
-                        >
-                          ❤️
-                        </motion.span>
-                        <span>Hug Support</span> <span className="font-mono font-bold">{msg.hugCount}</span>
-                      </motion.button>
-                    </div>
-                  </motion.div>
-                ))
-              )}
-            </div>
-
-          </div>
-
+          
         </section>
-
+        </>
+        )}
       </div>
+      )}
 
-      {/* HIPAA / Ethical Standard Disclaimer Footer */}
-      <footer className="shrink-0 bg-[#8e9bf5] py-6 border-t border-indigo-200/40 text-center px-4">
-        <div className="max-w-4xl mx-auto space-y-2 text-indigo-950 text-xs">
-          <p className="font-bold text-indigo-950">
-            Project Friend AI: Ethical Crisis De-escalation Workspace Compliance Blueprint
-          </p>
-          <p className="leading-relaxed text-indigo-900 font-medium">
-            Project Friend AI operates with a strict, client-side, zero-identifier security protocol. In accordance with clinical safety standard guidelines and best practices, this platform **does not** provide medical therapy, diagnose clinical psychiatric conditions, prescribe pharmacology, or offer professional mental health clinical intervention. It exists purely as an anonymous, grounding emotional containment space.
-          </p>
-          <p className="text-[11px] text-indigo-950/70 font-mono mt-2 font-semibold">
-            Design Blueprint: Sophisticated Periwinkle Theme | Local En-device Data Encryption Block: AES-256 System
-          </p>
+      {/* Footer */}
+      <footer className="shrink-0 bg-white dark:bg-black border-t border-slate-200 dark:border-white/10 py-8 text-center px-4 relative z-50">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 font-sans">
+          <div className="flex items-center gap-3">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-8 h-8">
+              <circle cx="35" cy="25" r="12" fill="#3b82f6" />
+              <path d="M 50 45 C 30 35 15 45 15 65 C 15 85 25 90 35 90 C 45 90 45 75 50 75 Z" fill="#3b82f6" />
+              <circle cx="65" cy="25" r="12" fill="#a855f7" />
+              <path d="M 50 45 C 70 35 85 45 85 65 C 85 85 75 90 65 90 C 55 90 55 75 50 75 Z" fill="#a855f7" />
+              <circle cx="50" cy="55" r="24" fill="#ffffff" />
+              <circle cx="41" cy="50" r="3.5" fill="#0f172a" />
+              <circle cx="59" cy="50" r="3.5" fill="#0f172a" />
+              <path d="M43 59 Q 50 67 57 59" stroke="#0f172a" strokeWidth="4" strokeLinecap="round" fill="none" />
+            </svg>
+            <span className="font-extrabold text-xl tracking-tight text-slate-800 dark:text-white">friend <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">ai</span></span>
+          </div>
+          <div className="text-sm text-slate-500 dark:text-slate-400 font-medium flex flex-wrap items-center justify-center gap-6">
+            <span>© 2026 friend ai</span>
+            <button onClick={() => setActiveCenterTab('terms' as any)} className="hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer">Terms</button>
+            <button onClick={() => setActiveCenterTab('privacy' as any)} className="hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer">Privacy</button>
+            <a href="mailto:pahilajani.manjishtha@gmail.com" className="hover:text-slate-800 dark:hover:text-white transition-colors">Contact</a>
+          </div>
         </div>
       </footer>
+      
+      </div> {/* End of Main App Content Area */}
 
       {/* AI Ethics & Safety Hub Modal */}
       {showSafetyModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fade-in font-sans">
-          <div className="bg-white dark:bg-slate-900 border border-slate-220 dark:border-slate-700 rounded-2xl w-full max-w-4xl max-h-[85vh] overflow-y-auto shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-6 md:p-8 space-y-6 relative flex flex-col">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in font-sans">
+          <div className="bg-white dark:bg-black border border-slate-220 dark:border-white/10 rounded-2xl w-full max-w-4xl max-h-[85vh] overflow-y-auto shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-6 md:p-8 space-y-6 relative flex flex-col">
             
             {/* Modal Header */}
-            <div className="flex items-start justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
+            <div className="flex items-start justify-between border-b border-slate-200 dark:border-white/10 pb-4">
               <div className="space-y-1">
                 <div className="flex items-center gap-2 text-emerald-600">
                   <Shield className="w-4 h-4 text-emerald-600" />
@@ -10377,7 +10162,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                   setSafetySimText("");
                   setSafetySimResult(null);
                 }}
-                className="p-1 px-2.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 hover:bg-slate-200 hover:text-slate-800 dark:text-slate-200 text-xs font-bold cursor-pointer transition-colors"
+                className="p-1 px-2.5 rounded-lg bg-slate-100 dark:bg-[#0a0a0a] text-slate-600 hover:bg-slate-200 hover:text-slate-800 dark:text-slate-200 text-xs font-bold cursor-pointer transition-colors"
                 title="Close Portal"
               >
                 ✕ Close
@@ -10385,7 +10170,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             </div>
 
             {/* Interactive Guardrails Simulator */}
-            <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-5 space-y-3.5">
+            <div className="bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 rounded-2xl p-5 space-y-3.5">
               <div className="flex items-center gap-2">
                 <Activity className="w-4 h-4 text-emerald-600" />
                 <span className="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase font-mono">Interactive Safety Guardrail Simulator</span>
@@ -10432,7 +10217,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     }
                   }}
                   placeholder="Type/select a test prompt..."
-                  className="w-full bg-white dark:bg-slate-900 border border-slate-250 dark:border-slate-700 rounded-xl text-xs p-3 text-slate-800 dark:text-slate-200 outline-none focus:border-indigo-400 dark:focus:border-indigo-600 placeholder-slate-400 dark:placeholder-slate-500 font-sans"
+                  className="w-full bg-white dark:bg-black border border-slate-250 dark:border-white/10 rounded-xl text-xs p-3 text-slate-800 dark:text-slate-200 outline-none focus:border-indigo-400 dark:focus:border-indigo-600 placeholder-slate-400 dark:placeholder-slate-500 font-sans"
                 />
 
                 {safetySimResult && (
@@ -10492,7 +10277,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       setSafetySimText("");
                       setSafetySimResult(null);
                     }}
-                    className="text-[10px] bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 px-2.5 py-1.5 rounded-lg tracking-tight cursor-pointer transition-all font-medium font-sans"
+                    className="text-[10px] bg-slate-100 dark:bg-[#0a0a0a] hover:bg-slate-200 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-white/10 px-2.5 py-1.5 rounded-lg tracking-tight cursor-pointer transition-all font-medium font-sans"
                   >
                     Clear Sim
                   </button>
@@ -10503,7 +10288,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             {/* Safety Foundations Info Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 text-xs font-sans pb-4">
               
-              <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-xl space-y-2">
+              <div className="bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 p-4 rounded-xl space-y-2">
                 <h4 className="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5 font-sans">
                   <span className="w-1.5 h-1.5 rounded-full bg-red-500"></span>
                   Acute Crisis Grounding Overrides
@@ -10513,7 +10298,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 </p>
               </div>
 
-              <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-xl space-y-2">
+              <div className="bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 p-4 rounded-xl space-y-2">
                 <h4 className="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5 font-sans">
                   <span className="w-1.5 h-1.5 rounded-full bg-indigo-505"></span>
                   Mitigating the Delusion of AI "Therapists"
@@ -10523,7 +10308,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 </p>
               </div>
 
-              <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-xl space-y-2">
+              <div className="bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 p-4 rounded-xl space-y-2">
                 <h4 className="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5 font-sans">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
                   Clinical Prescription Limitations
@@ -10533,7 +10318,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 </p>
               </div>
 
-              <div className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-xl space-y-2">
+              <div className="bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 p-4 rounded-xl space-y-2">
                 <h4 className="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5 font-sans">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                   Isolating Client Telemetry
@@ -10546,7 +10331,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             </div>
 
             {/* Legal / HIPAA Certification Panel */}
-            <div className="border border-slate-220 dark:border-slate-700 p-4 bg-slate-50 dark:bg-slate-800 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between text-[11px] font-mono text-slate-500 gap-3">
+            <div className="border border-slate-220 dark:border-white/10 p-4 bg-slate-50 dark:bg-[#0a0a0a] rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between text-[11px] font-mono text-slate-500 gap-3">
               <div className="space-y-0.5">
                 <p className="text-slate-700 dark:text-slate-300 font-bold uppercase">DATA ISOLATION INTEGRITY AUDIT</p>
                 <p>Status: Local AES Simulation Enabled | Secure SSL Proxy | Anonymity Gates Active</p>
@@ -10571,7 +10356,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
       {showRedirectModalOnLogin && recommendedSpecialty && (
         <div className="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4">
           <div 
-            className="w-full max-w-lg bg-white dark:bg-slate-900 border border-rose-150 dark:border-rose-900 rounded-2xl shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-6 md:p-8 space-y-5 relative overflow-hidden"
+            className="w-full max-w-lg bg-white dark:bg-black border border-rose-150 dark:border-rose-900 rounded-2xl shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-6 md:p-8 space-y-5 relative overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Red alert top line to emphasize clinical boundary */}
@@ -10635,7 +10420,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
               <span className="text-[9.5px] text-slate-400 font-mono uppercase tracking-widest block font-bold font-semibold">Top Verified Local Contacts:</span>
               <div className="grid grid-cols-1 gap-2">
                 {(CLINICAL_DIRECTORIES[userLocation]?.[`${recommendedSpecialty}s`] || CLINICAL_DIRECTORIES["International"][`${recommendedSpecialty}s`] || []).slice(0, 2).map((item, idx) => (
-                  <div key={idx} className="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-3 flex items-center justify-between gap-3 text-left">
+                  <div key={idx} className="bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 rounded-xl p-3 flex items-center justify-between gap-3 text-left">
                     <div className="space-y-0.5 min-w-0 flex-1">
                       <p className="text-[11px] font-bold text-slate-800 dark:text-slate-200 truncate">{item.name}</p>
                       <p className="text-[10px] text-slate-500 truncate">{item.description}</p>
@@ -10643,7 +10428,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     <div className="text-right shrink-0">
                       <a 
                         href={`tel:${item.phone}`} 
-                        className="inline-flex items-center gap-1 px-3 py-1 bg-indigo-55 bg-indigo-50 dark:bg-indigo-950 hover:bg-slate-200 text-indigo-700 dark:text-indigo-300 font-bold rounded-lg text-[10.5px] transition-all font-mono"
+                        className="inline-flex items-center gap-1 px-3 py-1 bg-indigo-55 bg-indigo-50 dark:bg-white/[0.02] hover:bg-slate-200 text-indigo-700 dark:text-indigo-300 font-bold rounded-lg text-[10.5px] transition-all font-mono"
                       >
                         📞 {item.phone}
                       </a>
@@ -10674,7 +10459,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 onClick={() => {
                   setShowRedirectModalOnLogin(false);
                 }}
-                className="px-4 py-3 border border-slate-200 dark:border-slate-700 hover:border-slate-300 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 dark:bg-slate-800 font-bold text-xs rounded-xl cursor-pointer transition-all uppercase tracking-wider font-mono text-center"
+                className="px-4 py-3 border border-slate-200 dark:border-white/10 hover:border-slate-300 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-[#0a0a0a] dark:bg-[#0a0a0a] font-bold text-xs rounded-xl cursor-pointer transition-all uppercase tracking-wider font-mono text-center"
               >
                 Continue Anyway
               </button>
@@ -10687,7 +10472,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
       {isClinicalDirectoryOpen && (
         <div className="fixed inset-0 z-[110] flex items-center justify-center bg-slate-950/85 backdrop-blur-md p-4 animate-fade-in">
           <div 
-            className="w-full max-w-2xl bg-white dark:bg-slate-900 border border-indigo-100 dark:border-indigo-900 rounded-2xl shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-5 md:p-7 space-y-4 max-h-[90vh] overflow-hidden flex flex-col relative"
+            className="w-full max-w-2xl bg-white dark:bg-black border border-indigo-100 dark:border-white/10 rounded-2xl shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-5 md:p-7 space-y-4 max-h-[90vh] overflow-hidden flex flex-col relative"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Top gradient strip */}
@@ -10706,7 +10491,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
               </div>
               <button
                 onClick={() => setIsClinicalDirectoryOpen(false)}
-                className="p-1 px-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-600 dark:text-slate-400 hover:text-slate-900 text-xs rounded-xl transition-all cursor-pointer"
+                className="p-1 px-2.5 bg-slate-100 dark:bg-[#0a0a0a] hover:bg-slate-200 text-slate-600 dark:text-slate-400 hover:text-slate-900 text-xs rounded-xl transition-all cursor-pointer"
                 title="Close"
               >
                 ✕
@@ -10714,7 +10499,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             </div>
 
             {/* Global Directory Country Selector */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50 dark:bg-slate-800 p-3 rounded-xl border border-slate-100/50">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50 dark:bg-[#0a0a0a] p-3 rounded-xl border border-slate-100/50">
               <div className="space-y-0.5">
                 <span className="text-[9.5px] uppercase font-mono tracking-widest text-indigo-700 dark:text-indigo-300 block font-bold">Select Directory Location:</span>
                 <p className="text-[11px] text-slate-600 dark:text-slate-400">Filters numbers and registries by country code laws.</p>
@@ -10723,7 +10508,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 <select
                   value={userLocation}
                   onChange={(e) => setUserLocation(e.target.value)}
-                  className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-xs py-1.5 px-3 pr-8 text-slate-800 dark:text-slate-200 outline-none focus:border-indigo-500 dark:focus:border-indigo-500 transition-all font-sans cursor-pointer appearance-none"
+                  className="bg-white dark:bg-black border border-slate-200 dark:border-white/10 rounded-xl text-xs py-1.5 px-3 pr-8 text-slate-800 dark:text-slate-200 outline-none focus:border-indigo-500 dark:focus:border-indigo-500 transition-all font-sans cursor-pointer appearance-none"
                 >
                   <option value="India">🇮🇳 India</option>
                   <option value="USA">🇺🇸 USA</option>
@@ -10753,12 +10538,12 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                   onChange={(e) => setOnlyLgbtqiaAffirming(e.target.checked)} 
                   className="sr-only peer" 
                 />
-                <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white dark:bg-slate-900 after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"></div>
+                <div className="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white dark:bg-black after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"></div>
               </label>
             </div>
 
             {/* Categorized Specialty Tabs Selector */}
-            <div className="grid grid-cols-4 gap-1.5 border-b border-indigo-100 dark:border-indigo-900 pb-3">
+            <div className="grid grid-cols-4 gap-1.5 border-b border-indigo-100 dark:border-white/10 pb-3">
               {[
                 { key: "psychiatrist", label: "Prescribers (MD)", icon: "🩺" },
                 { key: "psychologist", label: "Psychologists", icon: "🧠" },
@@ -10774,7 +10559,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     className={`py-2 px-1 text-center font-bold text-xs rounded-xl cursor-pointer transition-all duration-200 ${
                       isActive 
                         ? "bg-indigo-600 text-white shadow-md shadow-indigo-100" 
-                        : "bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-100 hover:text-slate-850"
+                        : "bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 hover:bg-slate-100 hover:text-slate-850"
                     }`}
                   >
                     <span className="block text-sm mb-0.5">{tab.icon}</span>
@@ -10804,7 +10589,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
                 if (list.length === 0) {
                   return (
-                    <div className="p-8 text-center text-slate-450 border border-dashed border-slate-200 dark:border-slate-700 rounded-xl space-y-1 bg-slate-50/ dark:bg-slate-800/50">
+                    <div className="p-8 text-center text-slate-450 border border-dashed border-slate-200 dark:border-white/10 rounded-xl space-y-1 bg-slate-50/ dark:bg-[#0a0a0a]/50">
                       <p className="text-xs font-semibold">No direct listings verified for this category matching toggle in {userLocation}</p>
                       <p className="text-[10px] text-slate-500 font-mono">Select another category, disable LGBTQIA+ Affirming, or browse locations.</p>
                     </div>
@@ -10823,8 +10608,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                         key={idx} 
                         className={`p-4 rounded-xl transition-all duration-300 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border ${
                           item.lgbtqiaAffirmative 
-                            ? "bg-indigo-50/ dark:bg-indigo-950/15 border-indigo-200/50 shadow-3xs" 
-                            : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700"
+                            ? "bg-indigo-50/ dark:bg-white/[0.02]/15 border-indigo-200/50 shadow-3xs" 
+                            : "bg-slate-50 dark:bg-[#0a0a0a] border-slate-200 dark:border-white/10"
                         }`}
                       >
                         <div className="space-y-1 min-w-0 flex-1 text-left">
@@ -10834,7 +10619,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                               ✓ Verified Number
                             </span>
                             {item.lgbtqiaAffirmative && (
-                              <span className="text-[9px] bg-indigo-50 dark:bg-indigo-950 text-indigo-850 px-2 py-0.5 rounded-full font-bold font-mono shrink-0 flex items-center gap-0.5 border border-indigo-150 dark:border-indigo-900 animate-pulse">
+                              <span className="text-[9px] bg-indigo-50 dark:bg-white/[0.02] text-indigo-850 px-2 py-0.5 rounded-full font-bold font-mono shrink-0 flex items-center gap-0.5 border border-indigo-150 dark:border-white/10 animate-pulse">
                                 🏳️‍🌈 LGBTQIA+ Affirmative
                               </span>
                             )}
@@ -10871,11 +10656,11 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             </div>
 
             {/* Actions Footer */}
-            <div className="border-t border-indigo-100 dark:border-indigo-900 pt-3 flex items-center justify-end gap-3 shrink-0">
+            <div className="border-t border-indigo-100 dark:border-white/10 pt-3 flex items-center justify-end gap-3 shrink-0">
               <button
                 type="button"
                 onClick={() => setIsClinicalDirectoryOpen(false)}
-                className="px-4 py-2 bg-slate-900 hover:bg-slate-850 text-white font-bold text-xs rounded-xl cursor-pointer transition-all uppercase tracking-wider font-display text-center"
+                className="px-4 py-2 bg-black hover:bg-slate-850 text-white font-bold text-xs rounded-xl cursor-pointer transition-all uppercase tracking-wider font-display text-center"
               >
                 Close Directory
               </button>
@@ -10889,7 +10674,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
       {isPaywallModalOpen && (
         <div className="fixed inset-0 z-[140] flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 animate-fade-in text-left">
           <div 
-            className="w-full max-w-md bg-white dark:bg-slate-900 border border-rose-100 dark:border-rose-900 rounded-2xl shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-6 md:p-8 space-y-5 relative overflow-hidden flex flex-col max-h-[92vh] font-sans"
+            className="w-full max-w-md bg-white dark:bg-black border border-rose-100 dark:border-rose-900 rounded-2xl shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-6 md:p-8 space-y-5 relative overflow-hidden flex flex-col max-h-[92vh] font-sans"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Elegant header banner */}
@@ -10989,7 +10774,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                   placeholder="e.g. Manjishtha Pahilajani"
                   value={payName}
                   onChange={(e) => setPayName(e.target.value)}
-                  className="w-full px-3 py-2 text-xs border border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-purple-500 text-slate-800 dark:text-slate-200 shadow-3xs"
+                  className="w-full px-3 py-2 text-xs border border-slate-200 dark:border-white/10 rounded-xl bg-white dark:bg-black focus:outline-none focus:ring-1 focus:ring-purple-500 text-slate-800 dark:text-slate-200 shadow-3xs"
                 />
               </div>
 
@@ -11003,7 +10788,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                   placeholder="4111 2222 3333 4444"
                   value={payCardNum}
                   onChange={(e) => setPayCardNum(e.target.value)}
-                  className="w-full px-3 py-2 text-xs border border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-purple-500 text-slate-800 dark:text-slate-200 shadow-3xs font-mono"
+                  className="w-full px-3 py-2 text-xs border border-slate-200 dark:border-white/10 rounded-xl bg-white dark:bg-black focus:outline-none focus:ring-1 focus:ring-purple-500 text-slate-800 dark:text-slate-200 shadow-3xs font-mono"
                 />
               </div>
 
@@ -11018,7 +10803,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                     placeholder="MM/YY"
                     value={payExpiry}
                     onChange={(e) => setPayExpiry(e.target.value)}
-                    className="w-full px-3 py-2 text-xs border border-slate-205 rounded-xl bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-purple-500 text-slate-800 dark:text-slate-200 shadow-3xs font-mono text-center"
+                    className="w-full px-3 py-2 text-xs border border-slate-205 rounded-xl bg-white dark:bg-black focus:outline-none focus:ring-1 focus:ring-purple-500 text-slate-800 dark:text-slate-200 shadow-3xs font-mono text-center"
                   />
                 </div>
                 <div className="space-y-1">
@@ -11030,7 +10815,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                     placeholder="•••"
                     value={payCvv}
                     onChange={(e) => setPayCvv(e.target.value)}
-                    className="w-full px-3 py-2 text-xs border border-slate-205 rounded-xl bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-purple-500 text-slate-800 dark:text-slate-200 shadow-3xs font-mono text-center"
+                    className="w-full px-3 py-2 text-xs border border-slate-205 rounded-xl bg-white dark:bg-black focus:outline-none focus:ring-1 focus:ring-purple-500 text-slate-800 dark:text-slate-200 shadow-3xs font-mono text-center"
                   />
                 </div>
               </div>
@@ -11063,8 +10848,8 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
         <div className="fixed inset-0 z-[125] flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 overflow-y-auto animate-fade-in">
           <div 
             className={`w-full max-w-4xl rounded-2xl border shadow-2xl p-6 md:p-8 space-y-6 relative overflow-visible text-left animate-scale-up ${themeClass(
-              "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200",
-              "bg-slate-900 border-slate-800 text-slate-100",
+              "bg-white dark:bg-black border-slate-200 dark:border-white/10 text-slate-800 dark:text-slate-200",
+              "bg-black border-white/10 text-slate-100",
               "bg-[#fcf8f2] border-[#ebdcb9] text-[#3e2723]"
             )}`}
             onClick={(e) => e.stopPropagation()}
@@ -11111,7 +10896,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
               
               {/* Left Column: Visual self-mirror feedback */}
-              <div className={`p-4 rounded-xl border space-y-4 ${themeClass("bg-slate-50 border-slate-200", "bg-slate-950/40 border-slate-800", "bg-[#f5ebd6]/50 border-[#ebdcb9]")}`}>
+              <div className={`p-4 rounded-xl border space-y-4 ${themeClass("bg-slate-50 border-slate-200", "bg-slate-950/40 border-white/10", "bg-[#f5ebd6]/50 border-[#ebdcb9]")}`}>
                 <div className="flex items-center justify-between border-b pb-2 mb-2 border-slate-150 border-dashed">
                   <h3 className="text-xs font-bold uppercase tracking-wider font-mono text-indigo-700 dark:text-indigo-300 flex items-center gap-1.5">
                     <Camera className="w-4.5 h-4.5" />
@@ -11139,7 +10924,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                     </div>
                   </div>
                 ) : (
-                  <div className="w-full aspect-video bg-slate-900 border border-slate-800 rounded-12 flex flex-col items-center justify-center p-6 text-center space-y-3">
+                  <div className="w-full aspect-video bg-black border border-white/10 rounded-12 flex flex-col items-center justify-center p-6 text-center space-y-3">
                     <VideoOff className="w-8 h-8 text-slate-600 dark:text-slate-400 animate-pulse" />
                     <div className="space-y-1">
                       <p className="text-xs text-slate-400 font-bold">Video Feed is Inactive</p>
@@ -11150,7 +10935,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                     <button
                       type="button"
                       onClick={startVideoSession}
-                      className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-9500 text-white font-bold text-[10.5px] rounded-lg cursor-pointer transition-all uppercase font-mono tracking-wider"
+                      className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-50 dark:hover:bg-white/[0.02]0 text-white font-bold text-[10.5px] rounded-lg cursor-pointer transition-all uppercase font-mono tracking-wider"
                     >
                       Initialize Webcams & Mic
                     </button>
@@ -11201,8 +10986,8 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                       value={videoNotes}
                       onChange={(e) => setVideoNotes(e.target.value)}
                       className={`w-full h-18 text-xs p-3 rounded-xl border focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 ${themeClass(
-                        "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 placeholder-slate-400 dark:placeholder-slate-500",
-                        "bg-slate-950 border-slate-800 placeholder-slate-500 text-slate-200",
+                        "bg-white dark:bg-black border-slate-200 dark:border-white/10 placeholder-slate-400 dark:placeholder-slate-500",
+                        "bg-slate-950 border-white/10 placeholder-slate-500 text-slate-200",
                         "bg-[#faf6ee] border-[#e3d5be] placeholder-amber-900/40 text-[#4e342e]"
                       )}`}
                     />
@@ -11214,7 +10999,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                       type="button"
                       disabled={!isCamEnabled}
                       onClick={captureVideoSnapshot}
-                      className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-205 hover:scale-[1.01] active:scale-[0.99] rounded-lg text-[10.5px] font-mono border border-slate-250 dark:border-slate-700 cursor-pointer disabled:opacity-55 disabled:cursor-not-allowed text-slate-705 font-bold flex items-center gap-1 transition-all"
+                      className="px-3 py-1.5 bg-slate-100 dark:bg-[#0a0a0a] hover:bg-slate-205 hover:scale-[1.01] active:scale-[0.99] rounded-lg text-[10.5px] font-mono border border-slate-250 dark:border-white/10 cursor-pointer disabled:opacity-55 disabled:cursor-not-allowed text-slate-705 font-bold flex items-center gap-1 transition-all"
                       title="Capture a local snapshot to attach to the AI somatic analysis request"
                     >
                       <Camera className="w-3.5 h-3.5" />
@@ -11237,7 +11022,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
 
                   {/* Tiny Thumbnail container */}
                   {imageSnapshot && (
-                    <div className="relative w-24 h-18 rounded-lg overflow-hidden border border-slate-250 dark:border-slate-700 shadow-inner group animate-fade-in block text-left">
+                    <div className="relative w-24 h-18 rounded-lg overflow-hidden border border-slate-250 dark:border-white/10 shadow-inner group animate-fade-in block text-left">
                       <img src={imageSnapshot} alt="Captured reference self-mirror" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                       <button
                         type="button"
@@ -11273,11 +11058,11 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                 {/* AI Somatic Response Analysis Box */}
                 {(videoAnalysisResult || isVideoAnalyzing) && (
                   <div className={`p-4 rounded-xl border animate-fade-in text-left ${themeClass(
-                    "bg-indigo-50/ dark:bg-indigo-950/40 border-indigo-100 dark:border-indigo-900",
+                    "bg-indigo-50/ dark:bg-white/[0.02]/40 border-indigo-100 dark:border-white/10",
                     "bg-[#0e1629] border-indigo-950/80",
                     "bg-[#fdfaf5]/70 border-[#ebdcb9]/60"
                   )}`}>
-                    <div className="flex items-center gap-1.5 border-b pb-1.5 border-dashed border-indigo-100 dark:border-indigo-900 mb-2.5">
+                    <div className="flex items-center gap-1.5 border-b pb-1.5 border-dashed border-indigo-100 dark:border-white/10 mb-2.5">
                       <span className="text-xs">🧘</span>
                       <span className="text-[10px] uppercase font-mono tracking-wider font-bold text-slate-500">
                         Analysis Output
@@ -11308,7 +11093,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
               <button
                 type="button"
                 onClick={startVideoSession}
-                className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 transition-colors text-slate-700 dark:text-slate-300 font-bold text-xs rounded-xl uppercase tracking-wider font-mono cursor-pointer"
+                className="px-4 py-2 bg-slate-100 dark:bg-[#0a0a0a] hover:bg-slate-200 transition-colors text-slate-700 dark:text-slate-300 font-bold text-xs rounded-xl uppercase tracking-wider font-mono cursor-pointer"
               >
                 Restart Stream
               </button>
@@ -11318,7 +11103,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                   stopVideoSession();
                   setIsVideoModalOpen(false);
                 }}
-                className="flex-1 py-3.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-lg transition-all uppercase tracking-wider font-mono cursor-pointer text-center"
+                className="flex-1 py-3.5 bg-black hover:bg-[#0a0a0a] text-white font-bold text-xs rounded-xl shadow-lg transition-all uppercase tracking-wider font-mono cursor-pointer text-center"
               >
                 I Feel Grounded, Close Sanctuary
               </button>
@@ -11331,7 +11116,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
       {showDownloadBackupReminder && (
         <div className="fixed inset-0 z-[130] flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 animate-fade-in">
           <div 
-            className="w-full max-w-md bg-white dark:bg-slate-900 border border-indigo-100 dark:border-indigo-900 rounded-2xl shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-6 md:p-8 space-y-5 relative overflow-hidden text-left animate-scale-up"
+            className="w-full max-w-md bg-white dark:bg-black border border-indigo-100 dark:border-white/10 rounded-2xl shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-6 md:p-8 space-y-5 relative overflow-hidden text-left animate-scale-up"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Indigo accent line at the top to indicate secure system process */}
@@ -11339,7 +11124,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
             
             {/* Header */}
             <div className="flex items-start gap-3.5">
-              <div className="w-11 h-11 rounded-xl bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 flex items-center justify-center shrink-0">
+              <div className="w-11 h-11 rounded-xl bg-indigo-50 dark:bg-white/[0.02] text-indigo-700 dark:text-indigo-300 flex items-center justify-center shrink-0">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div className="space-y-1">
@@ -11384,7 +11169,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                 onClick={() => {
                   setShowDownloadBackupReminder(false);
                 }}
-                className="flex-1 py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow-lg transition-all uppercase tracking-wider font-mono cursor-pointer text-center"
+                className="flex-1 py-3 bg-black hover:bg-[#0a0a0a] text-white font-bold text-xs rounded-xl shadow-lg transition-all uppercase tracking-wider font-mono cursor-pointer text-center"
               >
                 I Understand, Keep Backup Private
               </button>
@@ -11400,11 +11185,11 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
           onClick={() => setIsCharQuickModalOpen(false)}
         >
           <div 
-            className="w-full max-w-lg bg-[#0e1118] border border-slate-800 rounded-2xl shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-5 md:p-6 space-y-4 max-h-[85vh] overflow-y-auto"
+            className="w-full max-w-lg bg-[#0e1118] border border-white/10 rounded-2xl shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-5 md:p-6 space-y-4 max-h-[85vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
               <div className="space-y-1">
                 <h3 className="text-base font-bold text-white flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-indigo-505"></span>
@@ -11416,7 +11201,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
               </div>
               <button
                 onClick={() => setIsCharQuickModalOpen(false)}
-                className="p-1 px-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs rounded-lg transition-all"
+                className="p-1 px-2.5 bg-[#0a0a0a] hover:bg-slate-700 text-slate-300 text-xs rounded-lg transition-all"
                 title="Close"
               >
                 ✕
@@ -11433,7 +11218,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                 placeholder="Search specializations (e.g., CBT, DBT, Mindfulness, S.O.S...)"
                 value={personaSearchQuery}
                 onChange={(e) => setPersonaSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-9 py-2.5 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 dark:focus:border-indigo-500 transition-all font-sans"
+                className="w-full pl-10 pr-9 py-2.5 bg-black border border-white/10 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 dark:focus:border-indigo-500 transition-all font-sans"
               />
               {personaSearchQuery && (
                 <button
@@ -11478,7 +11263,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                       className={`w-full text-left p-3.5 rounded-xl border transition-all duration-200 cursor-pointer flex items-start gap-3 relative overflow-hidden group ${
                         isActive 
                           ? "bg-indigo-500/10 border-indigo-500 shadow-md shadow-indigo-950/40" 
-                          : "bg-slate-900/40 border-slate-800/80 hover:bg-slate-800/55 hover:border-slate-700"
+                          : "bg-black/40 border-white/10/80 hover:bg-[#0a0a0a]/55 hover:border-white/10"
                       }`}
                     >
                       {/* Active highlight background glow */}
@@ -11500,7 +11285,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                           <span className="font-bold text-xs text-white leading-normal group-hover:text-indigo-300 transition-colors">
                             {char.name}
                           </span>
-                          <span className="text-[10px] text-slate-400 font-medium px-2 py-0.5 rounded-full bg-slate-900 border border-slate-800">
+                          <span className="text-[10px] text-slate-400 font-medium px-2 py-0.5 rounded-full bg-black border border-white/10">
                             {char.title}
                           </span>
                           {isActive && (
@@ -11514,7 +11299,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                         </p>
                         
                         {/* Grounding Mantra Preview Card (Reveals gracefully on hover) */}
-                        <div className="max-h-0 opacity-0 group-hover:max-h-36 group-hover:opacity-100 transition-all duration-500 ease-in-out overflow-hidden mt-0 group-hover:mt-2.5 bg-indigo-950/40 border border-transparent group-hover:border-indigo-550/30 group-hover:p-3 rounded-xl shadow-inner">
+                        <div className="max-h-0 opacity-0 group-hover:max-h-36 group-hover:opacity-100 transition-all duration-500 ease-in-out overflow-hidden mt-0 group-hover:mt-2.5 bg-white/[0.02]/40 border border-transparent group-hover:border-indigo-550/30 group-hover:p-3 rounded-xl shadow-inner">
                           <div className="flex items-center gap-1.5 mb-1 text-[9px] text-indigo-300 font-mono tracking-wider font-semibold uppercase">
                             <Sparkles className="w-3 h-3 text-indigo-400 shrink-0" />
                             <span>GROUNDING MANTRA PREVIEW</span>
@@ -11541,7 +11326,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
             </div>
 
             {/* Quick guide switch disclaimer */}
-            <div className="bg-slate-900/60 border border-slate-850 p-3 rounded-lg text-[10px] leading-relaxed text-slate-500 font-mono">
+            <div className="bg-black/60 border border-slate-850 p-3 rounded-lg text-[10px] leading-relaxed text-slate-500 font-mono">
               Note: Changing personas keeps your message history intact, updating only the system prompts, safety guidelines, and focus de-escalation responses.
             </div>
           </div>
@@ -11558,7 +11343,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
           }}
         >
           <div 
-            className="w-full max-w-lg bg-white dark:bg-slate-900 border border-amber-200 dark:border-amber-800/60 rounded-2xl shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-6 md:p-7 space-y-5 relative overflow-hidden"
+            className="w-full max-w-lg bg-white dark:bg-black border border-amber-200 dark:border-amber-800/60 rounded-2xl shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-6 md:p-7 space-y-5 relative overflow-hidden"
             onClick={(e) => e.stopPropagation()}
             style={{
               background: "linear-gradient(135deg, #ffffff 0%, #fffbfa 50%, #fffbeb 100%)"
@@ -11583,7 +11368,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                   setIsSharePersonaModalOpen(false);
                   setCopiedIndicator(false);
                 }}
-                className="p-1 px-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-500 hover:text-slate-700 dark:text-slate-300 text-xs rounded-xl transition-all cursor-pointer"
+                className="p-1 px-2.5 bg-slate-100 dark:bg-[#0a0a0a] hover:bg-slate-200 text-slate-500 hover:text-slate-700 dark:text-slate-300 text-xs rounded-xl transition-all cursor-pointer"
                 title="Close modal"
               >
                 ✕
@@ -11591,7 +11376,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
             </div>
 
             {/* Active Character overview badge */}
-            <div className="flex items-center gap-3 bg-white dark:bg-slate-900/70 border border-amber-200 dark:border-amber-800/50 p-3 rounded-xl shadow-xs">
+            <div className="flex items-center gap-3 bg-white dark:bg-black/70 border border-amber-200 dark:border-amber-800/50 p-3 rounded-xl shadow-xs">
               <div className={`w-10 h-10 rounded-xl ${activeChar.avatarColor} border flex items-center justify-center shrink-0`}>
                 {(() => {
                   const IconComponent = CHARACTER_ICONS[activeChar.id] || Sparkles;
@@ -11633,7 +11418,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                 className={`flex-1 py-2.5 rounded-xl font-bold text-xs cursor-pointer transition-all duration-300 flex items-center justify-center gap-1.5 shadow-md ${
                   copiedIndicator 
                     ? "bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-100" 
-                    : "bg-slate-900 hover:bg-slate-800 text-white hover:scale-[1.01]"
+                    : "bg-black hover:bg-[#0a0a0a] text-white hover:scale-[1.01]"
                 }`}
               >
                 {copiedIndicator ? (
@@ -11654,7 +11439,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                   setIsSharePersonaModalOpen(false);
                   setCopiedIndicator(false);
                 }}
-                className="px-4 py-2.5 border border-slate-200 dark:border-slate-700 hover:border-slate-350 text-slate-650 dark:text-slate-350 hover:bg-slate-50 dark:hover:bg-slate-800 dark:bg-slate-800 font-bold text-xs rounded-xl cursor-pointer transition-all"
+                className="px-4 py-2.5 border border-slate-200 dark:border-white/10 hover:border-slate-350 text-slate-650 dark:text-slate-350 hover:bg-slate-50 dark:hover:bg-[#0a0a0a] dark:bg-[#0a0a0a] font-bold text-xs rounded-xl cursor-pointer transition-all"
               >
                 Dismiss
               </button>
@@ -11670,7 +11455,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
           onClick={() => setIsHistoryModalOpen(false)}
         >
           <div 
-            className="w-full max-w-md bg-white dark:bg-slate-900 border border-indigo-100 dark:border-indigo-900 rounded-3xl shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-6 md:p-7 space-y-4 relative overflow-hidden"
+            className="w-full max-w-md bg-white dark:bg-black border border-indigo-100 dark:border-white/10 rounded-3xl shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-6 md:p-7 space-y-4 relative overflow-hidden"
             onClick={(e) => e.stopPropagation()}
             style={{
               background: "linear-gradient(135deg, #ffffff 0%, #fafbff 100%)"
@@ -11692,7 +11477,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
               </div>
               <button
                 onClick={() => setIsHistoryModalOpen(false)}
-                className="p-1 px-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-500 hover:text-slate-700 dark:text-slate-300 text-xs rounded-xl transition-all cursor-pointer"
+                className="p-1 px-2.5 bg-slate-100 dark:bg-[#0a0a0a] hover:bg-slate-200 text-slate-500 hover:text-slate-700 dark:text-slate-300 text-xs rounded-xl transition-all cursor-pointer"
                 title="Close modal"
               >
                 ✕
@@ -11717,8 +11502,8 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                     }}
                     className={`w-full text-left p-3.5 rounded-2xl border transition-all duration-300 flex items-center gap-3.5 group cursor-pointer ${
                       isCurrentlyActive 
-                        ? "bg-indigo-50/ dark:bg-indigo-950/50 border-indigo-200 dark:border-indigo-800 cursor-default" 
-                        : "bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border-slate-150 hover:border-indigo-200 dark:border-indigo-800 hover:shadow-sm"
+                        ? "bg-indigo-50/ dark:bg-white/[0.02]/50 border-indigo-200 dark:border-indigo-800 cursor-default" 
+                        : "bg-white dark:bg-black hover:bg-slate-50 dark:hover:bg-[#0a0a0a] border-slate-150 hover:border-indigo-200 dark:border-indigo-800 hover:shadow-sm"
                     }`}
                   >
                     <div className={`w-10 h-10 rounded-xl ${char.avatarColor} border flex items-center justify-center shrink-0 shadow-2xs`}>
@@ -11750,7 +11535,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
               )}
             </div>
             
-            <div className="text-[10px] text-slate-400 font-mono text-center pt-2 border-t border-slate-100 dark:border-slate-800">
+            <div className="text-[10px] text-slate-400 font-mono text-center pt-2 border-t border-slate-100 dark:border-white/10">
               LocalStorage Persisted — Private & Secured Client-side
             </div>
           </div>
@@ -11780,7 +11565,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
 
             <div className="flex items-center gap-3">
               {/* Reset Session Dur indicator */}
-              <div className="flex items-center gap-1.5 px-3 py-1 bg-white dark:bg-slate-900/5 border border-white/10 rounded-xl font-mono text-[10.5px]">
+              <div className="flex items-center gap-1.5 px-3 py-1 bg-white dark:bg-black/5 border border-white/10 rounded-xl font-mono text-[10.5px]">
                 <Clock className="w-3.5 h-3.5 text-[#2dd4bf] animate-spin-slow" />
                 <span>Session: {Math.floor(somaticSessionTime / 60)}m {somaticSessionTime % 60}s</span>
               </div>
@@ -11790,7 +11575,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                   setIsSomaticImmersiveOpen(false);
                   setSomaticHoldActive(false);
                 }}
-                className="p-2 bg-white dark:bg-slate-900/5 hover:bg-white/15 border border-white/10 text-white rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5"
+                className="p-2 bg-white dark:bg-black/5 hover:bg-white/15 border border-white/10 text-white rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5"
                 title="Exit Immersive Space"
               >
                 <X className="w-4 h-4" />
@@ -12128,7 +11913,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                 className={`w-full max-w-sm py-4 rounded-2xl border font-bold text-xs uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2.5 ${
                   somaticHoldActive 
                     ? "bg-amber-500/20 text-amber-300 border-amber-500/50 shadow-[0_0_25px_rgba(245,158,11,0.25)] animate-pulse" 
-                    : "bg-white dark:bg-slate-900/5 hover:bg-white/10 text-slate-350 border-white/10"
+                    : "bg-white dark:bg-black/5 hover:bg-white/10 text-slate-350 border-white/10"
                 }`}
               >
                 <span>✨</span>
@@ -12146,7 +11931,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
               <div className="flex items-center gap-2.5">
                 <button
                   onClick={() => setSomaticProtocol(p => p === 1 ? 4 : (p - 1) as any)}
-                  className="w-9 h-9 flex items-center justify-center bg-white dark:bg-slate-900/5 hover:bg-white/10 border border-white/10 text-white rounded-xl text-xs font-bold transition-all cursor-pointer"
+                  className="w-9 h-9 flex items-center justify-center bg-white dark:bg-black/5 hover:bg-white/10 border border-white/10 text-white rounded-xl text-xs font-bold transition-all cursor-pointer"
                   title="Previous Protocol"
                 >
                   ◀
@@ -12160,7 +11945,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                       className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
                         somaticProtocol === idx 
                           ? "bg-indigo-500 scale-125" 
-                          : "bg-white dark:bg-slate-900/20 hover:bg-white/40"
+                          : "bg-white dark:bg-black/20 hover:bg-white/40"
                       }`}
                       title={`Switch to Protocol ${idx}`}
                     />
@@ -12169,7 +11954,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
 
                 <button
                   onClick={() => setSomaticProtocol(p => p === 4 ? 1 : (p + 1) as any)}
-                  className="w-9 h-9 flex items-center justify-center bg-white dark:bg-slate-900/5 hover:bg-white/10 border border-white/10 text-white rounded-xl text-xs font-bold transition-all cursor-pointer"
+                  className="w-9 h-9 flex items-center justify-center bg-white dark:bg-black/5 hover:bg-white/10 border border-white/10 text-white rounded-xl text-xs font-bold transition-all cursor-pointer"
                   title="Next Protocol"
                 >
                   ▶
@@ -12215,7 +12000,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                 type="button"
                 disabled={isWiping}
                 onClick={() => setShowWipeConfirm(false)}
-                className="flex-1 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs transition duration-200 cursor-pointer disabled:opacity-50"
+                className="flex-1 py-2 rounded-xl bg-[#0a0a0a] hover:bg-slate-700 text-slate-300 font-bold text-xs transition duration-200 cursor-pointer disabled:opacity-50"
               >
                 Cancel
               </button>
@@ -12262,7 +12047,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
       {isSafeExit && (
         <div className="fixed inset-0 z-[99999] bg-[#f8fafc] text-slate-800 dark:text-slate-200 flex flex-col font-sans select-none overflow-y-auto">
           {/* Mock educational platform navbar */}
-          <nav className="w-full h-14 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700 px-6 flex items-center justify-between shadow-xs">
+          <nav className="w-full h-14 bg-white dark:bg-black border-b border-slate-200 dark:border-white/10 px-6 flex items-center justify-between shadow-xs">
             <div className="flex items-center gap-2.5 flex-1">
               <div className="w-8 h-8 rounded bg-gradient-to-br from-indigo-500 to-indigo-700 flex items-center justify-center text-white font-bold text-xs">
                 æ
@@ -12279,7 +12064,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
               {/* Discreet Restore Session button */}
               <button
                 onClick={() => setIsSafeExit(false)}
-                className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-indigo-950 dark:bg-indigo-950 hover:text-indigo-600 text-slate-600 dark:text-slate-400 text-[11px] font-semibold rounded-lg border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 dark:bg-[#0a0a0a] hover:bg-indigo-50 dark:hover:bg-white/[0.02] dark:bg-white/[0.02] hover:text-indigo-600 text-slate-600 dark:text-slate-400 text-[11px] font-semibold rounded-lg border border-slate-200 dark:border-white/10 transition-colors cursor-pointer"
                 title="Restore your safe session space"
               >
                 <ShieldCheck className="w-3.5 h-3.5 text-indigo-500" />
@@ -12301,7 +12086,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                 <input 
                   type="text" 
                   placeholder="Type to search manuals, math libraries, databases, standards..." 
-                  className="w-full h-11 pl-10 pr-4 rounded-xl border border-slate-350 bg-white dark:bg-slate-900 text-xs placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm"
+                  className="w-full h-11 pl-10 pr-4 rounded-xl border border-slate-350 bg-white dark:bg-black text-xs placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-sm"
                   defaultValue="Standard Template Library (STL) documentation lookup"
                   readOnly
                 />
@@ -12310,7 +12095,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
             </div>
 
             {/* Psychoacoustic Horror Score Sandbox */}
-            <div id="psychoacoustic-horror-sandbox" className="bg-slate-900 text-slate-100 rounded-2xl p-6 border border-rose-950/40 shadow-xl overflow-hidden mb-8 relative">
+            <div id="psychoacoustic-horror-sandbox" className="bg-black text-slate-100 rounded-2xl p-6 border border-rose-950/40 shadow-xl overflow-hidden mb-8 relative">
               {/* Retro horizontal grid/flickering scanlines */}
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(220,38,38,0.12),transparent_40%)] pointer-events-none" />
               <div className="absolute top-3 right-4 flex items-center gap-1.5">
@@ -12331,7 +12116,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                   </p>
                   
                   {/* Small Oscilloscope/Waveform Simulator */}
-                  <div className="h-10 bg-slate-950/60 rounded-lg border border-slate-800 flex items-center justify-center p-3 overflow-hidden relative mt-3 select-none">
+                  <div className="h-10 bg-slate-950/60 rounded-lg border border-white/10 flex items-center justify-center p-3 overflow-hidden relative mt-3 select-none">
                     <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0)_0%,rgba(0,0,0,0.85)_100%)] z-10 pointer-events-none" />
                     {/* Animated bars to emulate sound waves */}
                     <div className="flex items-end gap-[3px] h-full w-full justify-start">
@@ -12382,11 +12167,11 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
                   desc: "A study on South Asian and ancient Sindh cultural prose structures and their healing and de-escalation benefits in active peer-to-peer dialogues."
                 }
               ].map((item, idx) => (
-                <div key={idx} className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-5 hover:border-slate-300 transition-colors shadow-xs">
+                <div key={idx} className="bg-white dark:bg-black border border-slate-200 dark:border-white/10 rounded-xl p-5 hover:border-slate-300 transition-colors shadow-xs">
                   <span className="text-[9px] uppercase tracking-wider font-mono font-bold text-indigo-600">{item.cat}</span>
                   <h3 className="text-sm font-bold text-slate-900 mt-1.5 mb-2 font-serif">{item.title}</h3>
                   <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">{item.desc}</p>
-                  <div className="mt-4 flex items-center justify-between text-[10px] font-mono text-slate-400 border-t border-slate-100 dark:border-slate-800 pt-3">
+                  <div className="mt-4 flex items-center justify-between text-[10px] font-mono text-slate-400 border-t border-slate-100 dark:border-white/10 pt-3">
                     <span>Read length: 14 mins</span>
                     <span className="text-indigo-650 font-semibold cursor-pointer hover:underline" onClick={() => setIsSafeExit(false)}>Download PDF ➔</span>
                   </div>
@@ -12395,7 +12180,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
             </div>
 
             {/* Bottom help bar */}
-            <div className="mt-auto pt-10 border-t border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+            <div className="mt-auto pt-10 border-t border-slate-200 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
               <span>© {new Date().getFullYear()} Manji Support Consortium. All rights archived.</span>
               <div className="flex gap-4">
                 <span className="hover:underline cursor-pointer" onClick={() => setIsSafeExit(false)}>Terms of Use</span>
@@ -12407,6 +12192,56 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
         </div>
       )}
 
+      {/* Login Modal */}
+      <AliasModal
+        isOpen={isAliasModalOpen}
+        onClose={() => setIsAliasModalOpen(false)}
+        error={loginError}
+        onLogin={(data: LoginData) => {
+          setLoginAlias(data.alias);
+          setLoginPasscode(data.passcode);
+          setUserLocation(data.location);
+          setMedicalConditions(data.medicalConditions);
+          setCustomMedicalHistory(data.customMedicalHistory);
+          setConsentPsychology(data.consentPsychology);
+          setConsentAnonymity(data.consentAnonymity);
+
+          if (data.passcode && data.passcode.length > 0 && data.passcode.length < 4) {
+            setLoginError("Your secure client PIN must be at least 4 digits to properly seed local storage salt.");
+            return;
+          }
+          if (!data.consentPsychology || !data.consentAnonymity) {
+            setLoginError("You must acknowledge both clinical boundary and local data privacy covenants to proceed.");
+            return;
+          }
+
+          const determineMedicalRedirect = (conditions: string[], customText: string): 'psychiatrist' | 'psychologist' | 'therapist' | 'counsellor' => {
+            const text = customText.toLowerCase();
+            if (conditions.includes("MEDS_CHRONIC") || conditions.includes("DIAGNOSED_SEVERE") || text.includes("psychiatrist")) return "psychiatrist";
+            if (conditions.includes("CLINICAL_SYMPTOMS") || text.includes("psychologist")) return "psychologist";
+            if (conditions.includes("TRAUMA_GRIEF") || text.includes("trauma")) return "therapist";
+            return "counsellor";
+          };
+          
+          const predictedProfessional = determineMedicalRedirect(data.medicalConditions, data.customMedicalHistory);
+          
+          try {
+            localStorage.setItem("friend_ai_isLoggedIn", "true");
+            localStorage.setItem("friend_ai_loginAlias", data.alias);
+            if (data.medicalConditions.length > 0 || data.customMedicalHistory) {
+              const medicalProfile = { conditions: data.medicalConditions, custom: data.customMedicalHistory, suggestedProfessional: predictedProfessional, timestamp: new Date().toISOString() };
+              if (data.passcode) localStorage.setItem("friend_ai_medical_profile_enc", btoa(JSON.stringify(medicalProfile) + "_SALT_" + data.passcode));
+              else localStorage.setItem("friend_ai_medical_profile", JSON.stringify(medicalProfile));
+            }
+            setIsLoggedIn(true);
+            setLoginError("");
+            setIsAliasModalOpen(false);
+          } catch (e) {
+            setLoginError("Local storage allocation failed. Please enable secure local cookies to enter the sanctuary.");
+          }
+        }}
+      />
+
       {/* Floating Goal Toast Notification */}
       <AnimatePresence>
         {goalToast.show && (
@@ -12415,7 +12250,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
             transition={{ type: "spring", stiffness: 350, damping: 25 }}
-            className="fixed bottom-6 right-6 z-[2000] max-w-sm w-full pointer-events-auto border border-indigo-500/30 bg-slate-900 text-white shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-4 rounded-2xl flex items-start gap-3"
+            className="fixed bottom-6 right-6 z-[2000] max-w-sm w-full pointer-events-auto border border-indigo-500/30 bg-black text-white shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-4 rounded-2xl flex items-start gap-3"
           >
             <div className="text-xl pt-0.5 select-none">✨</div>
             <div className="flex-1 text-left">

@@ -131,7 +131,7 @@ export default function FormsHub({ token, themeClass }: FormsHubProps) {
               type="text" 
               value={documentTitle} 
               onChange={(e) => setDocumentTitle(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 rounded-lg mt-1 outline-none font-bold"
+              className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 rounded-lg mt-1 outline-none font-bold"
               placeholder="e.g. Coping Log"
             />
           </div>
@@ -142,7 +142,7 @@ export default function FormsHub({ token, themeClass }: FormsHubProps) {
               type="text" 
               value={formTitle} 
               onChange={(e) => setFormTitle(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 rounded-lg mt-1 outline-none font-medium text-slate-800 dark:text-zinc-100"
+              className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 rounded-lg mt-1 outline-none font-medium text-slate-800 dark:text-zinc-100"
               placeholder="e.g. Daily Somatic Stress Inventory"
             />
           </div>
@@ -189,7 +189,7 @@ export default function FormsHub({ token, themeClass }: FormsHubProps) {
             <button
               onClick={() => fetchFormResponses(selectedFormId)}
               disabled={loadingResponses}
-              className="p-1 px-2.5 text-[10px] font-mono font-bold text-indigo-650 bg-indigo-50 dark:bg-indigo-950/40 rounded-lg cursor-pointer hover:bg-indigo-100 flex items-center gap-1.5 border border-indigo-150 animate-pulse hover:animate-none"
+              className="p-1 px-2.5 text-[10px] font-mono font-bold text-indigo-650 bg-indigo-50 dark:bg-white/[0.02]/40 rounded-lg cursor-pointer hover:bg-indigo-100 flex items-center gap-1.5 border border-indigo-150 animate-pulse hover:animate-none"
             >
               <RefreshCw className={`w-3 h-3 ${loadingResponses ? "animate-spin" : ""}`} />
               Sync Answers
@@ -213,7 +213,7 @@ export default function FormsHub({ token, themeClass }: FormsHubProps) {
                       onClick={() => setSelectedFormId(f.formId)}
                       className={`p-4 rounded-xl border cursor-pointer transition-all ${
                         isSel 
-                          ? "bg-indigo-50/20 dark:bg-indigo-950/15 border-indigo-250 ring-1 ring-indigo-200" 
+                          ? "bg-indigo-50/20 dark:bg-white/[0.02]/15 border-indigo-250 ring-1 ring-indigo-200" 
                           : "bg-white dark:bg-slate-950 border-black/5 hover:border-indigo-100"
                       }`}
                     >
@@ -257,7 +257,7 @@ export default function FormsHub({ token, themeClass }: FormsHubProps) {
                 ) : (
                   <div className="space-y-3 max-h-[220px] overflow-y-auto">
                     {responses.map((r, idx) => (
-                      <div key={idx} className="p-3 bg-slate-50 dark:bg-slate-900 border border-black/5 rounded-xl space-y-1">
+                      <div key={idx} className="p-3 bg-slate-50 dark:bg-black border border-black/5 rounded-xl space-y-1">
                         <p className="text-[10px] font-mono font-bold text-slate-500">Submission #{idx + 1} - {new Date(r.lastSubmittedTime).toLocaleDateString()}</p>
                         <p className="text-[11px] text-slate-650 leading-relaxed italic">Submitted responses are synchronized directly on your primary Google Drive sheets.</p>
                       </div>
@@ -279,7 +279,7 @@ export default function FormsHub({ token, themeClass }: FormsHubProps) {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 border border-black/10 shadow-2xl space-y-4 text-left"
+              className="bg-white dark:bg-black rounded-2xl max-w-md w-full p-6 border border-black/10 shadow-2xl space-y-4 text-left"
             >
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-amber-50 dark:bg-amber-950/30 rounded-xl text-amber-600 border border-amber-200">

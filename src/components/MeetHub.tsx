@@ -107,7 +107,7 @@ export default function MeetHub({ token, themeClass }: MeetHubProps) {
               type="text" 
               value={spaceTitle} 
               onChange={(e) => setSpaceTitle(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2.5 rounded-lg mt-1 outline-none font-bold text-slate-850 dark:text-slate-105"
+              className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2.5 rounded-lg mt-1 outline-none font-bold text-slate-850 dark:text-slate-105"
               placeholder="e.g. 1-on-1 Somatic Grounding Therapy"
             />
           </div>
@@ -117,7 +117,7 @@ export default function MeetHub({ token, themeClass }: MeetHubProps) {
             <select
               value={accessType}
               onChange={(e) => setAccessType(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-200"
+              className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-200"
             >
               <option value="OPEN">Open (Anyone with the link can join)</option>
               <option value="TRUSTED">Trusted (Members of organization or invited contacts)</option>
@@ -125,7 +125,7 @@ export default function MeetHub({ token, themeClass }: MeetHubProps) {
             </select>
           </div>
 
-          <div className="p-3 bg-indigo-50/50 dark:bg-indigo-950/20 rounded-xl space-y-1.5 text-[11px] text-indigo-805 dark:text-indigo-205 leading-relaxed">
+          <div className="p-3 bg-indigo-50/50 dark:bg-white/[0.02]/20 rounded-xl space-y-1.5 text-[11px] text-indigo-805 dark:text-indigo-205 leading-relaxed">
             <p className="font-bold flex items-center gap-1">
               <Laptop className="w-3.5 h-3.5 text-indigo-505" />
               Somatic Meet Guidelines:
@@ -204,7 +204,7 @@ export default function MeetHub({ token, themeClass }: MeetHubProps) {
                     href={s.meetingUri} 
                     target="_blank" 
                     rel="noreferrer"
-                    className="p-1 px-3 text-[10px] font-mono font-bold text-indigo-650 bg-indigo-50 dark:bg-indigo-950/40 rounded-lg cursor-pointer hover:bg-indigo-100/70 border border-indigo-150 flex items-center gap-1"
+                    className="p-1 px-3 text-[10px] font-mono font-bold text-indigo-650 bg-indigo-50 dark:bg-white/[0.02]/40 rounded-lg cursor-pointer hover:bg-indigo-100/70 border border-indigo-150 flex items-center gap-1"
                   >
                     Launch <ExternalLink className="w-3 h-3" />
                   </a>
@@ -223,7 +223,7 @@ export default function MeetHub({ token, themeClass }: MeetHubProps) {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 border border-black/10 shadow-2xl space-y-4 text-left"
+              className="bg-white dark:bg-black rounded-2xl max-w-md w-full p-6 border border-black/10 shadow-2xl space-y-4 text-left"
             >
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-amber-50 dark:bg-amber-950/30 rounded-xl text-amber-600 border border-amber-200">

@@ -215,7 +215,7 @@ export default function TasksHub({ token, themeClass }: TasksHubProps) {
               <select 
                 value={selectedListId} 
                 onChange={(e) => setSelectedListId(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-200 font-medium"
+                className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-200 font-medium"
               >
                 {taskLists.map(list => (
                   <option key={list.id} value={list.id}>{list.title}</option>
@@ -230,7 +230,7 @@ export default function TasksHub({ token, themeClass }: TasksHubProps) {
               type="text" 
               value={taskTitle} 
               onChange={(e) => setTaskTitle(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 rounded-lg mt-1 outline-none font-bold text-slate-850 dark:text-slate-200"
+              className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 rounded-lg mt-1 outline-none font-bold text-slate-850 dark:text-slate-200"
               placeholder="e.g. Meditate for 10 minutes"
             />
           </div>
@@ -241,7 +241,7 @@ export default function TasksHub({ token, themeClass }: TasksHubProps) {
               value={taskNotes}
               onChange={(e) => setTaskNotes(e.target.value)}
               rows={3}
-              className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 text-slate-705 dark:text-slate-300 rounded-lg mt-1 outline-none leading-relaxed"
+              className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 text-slate-705 dark:text-slate-300 rounded-lg mt-1 outline-none leading-relaxed"
               placeholder="Why is this helpful and what are the focus steps?"
             />
           </div>
@@ -252,7 +252,7 @@ export default function TasksHub({ token, themeClass }: TasksHubProps) {
               type="date" 
               value={dueDate} 
               onChange={(e) => setDueDate(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-200"
+              className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-200"
             />
           </div>
 
@@ -288,7 +288,7 @@ export default function TasksHub({ token, themeClass }: TasksHubProps) {
           <button
             onClick={() => fetchTasks(selectedListId)}
             disabled={loadingTasks || !selectedListId}
-            className="p-1 px-2.5 text-[10px] font-mono font-bold text-indigo-650 bg-indigo-50 dark:bg-indigo-950/40 rounded-lg cursor-pointer hover:bg-indigo-100/70 flex items-center gap-1.5 border border-indigo-150"
+            className="p-1 px-2.5 text-[10px] font-mono font-bold text-indigo-650 bg-indigo-50 dark:bg-white/[0.02]/40 rounded-lg cursor-pointer hover:bg-indigo-100/70 flex items-center gap-1.5 border border-indigo-150"
           >
             <RefreshCw className={`w-3 h-3 ${loadingTasks ? "animate-spin" : ""}`} />
             Sync Tasks
@@ -325,7 +325,7 @@ export default function TasksHub({ token, themeClass }: TasksHubProps) {
                     {isCompleted ? (
                       <CheckCircle className="w-5 h-5 text-emerald-500" />
                     ) : (
-                      <div className="w-5 h-5 border-2 border-slate-300 dark:border-slate-700 rounded-md hover:border-indigo-500 transition-colors" />
+                      <div className="w-5 h-5 border-2 border-slate-300 dark:border-white/10 rounded-md hover:border-indigo-500 transition-colors" />
                     )}
                   </button>
 
@@ -363,7 +363,7 @@ export default function TasksHub({ token, themeClass }: TasksHubProps) {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 border border-black/10 shadow-2xl space-y-4 text-left"
+              className="bg-white dark:bg-black rounded-2xl max-w-md w-full p-6 border border-black/10 shadow-2xl space-y-4 text-left"
             >
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-amber-50 dark:bg-amber-950/30 rounded-xl text-amber-600 border border-amber-200">

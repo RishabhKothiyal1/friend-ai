@@ -214,7 +214,7 @@ export default function SheetsHub({ token, themeClass }: SheetsHubProps) {
                 <select 
                   value={targetSpreadsheetId} 
                   onChange={(e) => setTargetSpreadsheetId(e.target.value)}
-                  className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-200"
+                  className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-200"
                 >
                   {spreadsheets.map(s => (
                     <option key={s.id} value={s.id}>{s.name}</option>
@@ -229,7 +229,7 @@ export default function SheetsHub({ token, themeClass }: SheetsHubProps) {
                 <select 
                   value={somaticState} 
                   onChange={(e) => setSomaticState(e.target.value)}
-                  className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-850 dark:text-slate-200"
+                  className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-850 dark:text-slate-200"
                 >
                   <option value="Calm & Grounded">Calm & Grounded</option>
                   <option value="Anxious / Restless">Anxious / Restless</option>
@@ -244,7 +244,7 @@ export default function SheetsHub({ token, themeClass }: SheetsHubProps) {
                   value={breathingPace} 
                   onChange={(e) => setBreathingPace(e.target.value)}
                   placeholder="e.g. 5 breaths/min"
-                  className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-200"
+                  className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-200"
                 />
               </div>
             </div>
@@ -255,7 +255,7 @@ export default function SheetsHub({ token, themeClass }: SheetsHubProps) {
                 value={userNotes}
                 onChange={(e) => setUserNotes(e.target.value)}
                 rows={3}
-                className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 text-slate-705 dark:text-slate-300 rounded-lg mt-1 outline-none leading-relaxed"
+                className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 text-slate-705 dark:text-slate-300 rounded-lg mt-1 outline-none leading-relaxed"
                 placeholder="How does your breathing make you feel under distress?"
               />
             </div>
@@ -286,7 +286,7 @@ export default function SheetsHub({ token, themeClass }: SheetsHubProps) {
                 type="text" 
                 value={newSheetTitle} 
                 onChange={(e) => setNewSheetTitle(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 rounded-lg mt-1 outline-none font-bold text-slate-800 dark:text-slate-200"
+                className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 rounded-lg mt-1 outline-none font-bold text-slate-800 dark:text-slate-200"
               />
               <p className="text-[10px] text-slate-400 mt-1.5 leading-normal">
                 This creates a blank tracking log spreadsheet table with secure structure headers, formatted automatically for peer-session reference.
@@ -326,7 +326,7 @@ export default function SheetsHub({ token, themeClass }: SheetsHubProps) {
           <button
             onClick={fetchSpreadsheets}
             disabled={loading}
-            className="p-1 px-2.5 text-[10px] font-mono font-bold text-indigo-650 bg-indigo-50 dark:bg-indigo-950/40 rounded-lg cursor-pointer hover:bg-indigo-100/70 flex items-center gap-1.5 border border-indigo-150"
+            className="p-1 px-2.5 text-[10px] font-mono font-bold text-indigo-650 bg-indigo-50 dark:bg-white/[0.02]/40 rounded-lg cursor-pointer hover:bg-indigo-100/70 flex items-center gap-1.5 border border-indigo-150"
           >
             <RefreshCw className={`w-3 h-3 ${loading ? "animate-spin" : ""}`} />
             Sync List
@@ -393,7 +393,7 @@ export default function SheetsHub({ token, themeClass }: SheetsHubProps) {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 border border-black/10 shadow-2xl space-y-4 text-left"
+              className="bg-white dark:bg-black rounded-2xl max-w-md w-full p-6 border border-black/10 shadow-2xl space-y-4 text-left"
             >
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-amber-50 dark:bg-amber-950/30 rounded-xl text-amber-600 border border-amber-200">
@@ -439,7 +439,7 @@ export default function SheetsHub({ token, themeClass }: SheetsHubProps) {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 border border-black/10 shadow-2xl space-y-4 text-left"
+              className="bg-white dark:bg-black rounded-2xl max-w-md w-full p-6 border border-black/10 shadow-2xl space-y-4 text-left"
             >
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-amber-50 dark:bg-amber-950/30 rounded-xl text-amber-600 border border-amber-200">

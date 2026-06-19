@@ -161,7 +161,7 @@ export const WhiteboardDrawingTool: React.FC<WhiteboardDrawingToolProps> = ({
       </div>
 
       {/* Toolbar controls */}
-      <div className={`p-2.5 rounded-lg border flex flex-col gap-2.5 text-xs text-left ${themeClass("bg-slate-100/65", "bg-slate-900/50", "bg-[#ebdcb9]/40")}`}>
+      <div className={`p-2.5 rounded-lg border flex flex-col gap-2.5 text-xs text-left ${themeClass("bg-slate-100/65", "bg-black/50", "bg-[#ebdcb9]/40")}`}>
         {/* Colors selector */}
         <div className="flex flex-col gap-1">
           <label className="text-[9.5px] font-bold font-mono uppercase tracking-wider text-slate-400">Brush Color</label>
@@ -201,8 +201,8 @@ export const WhiteboardDrawingTool: React.FC<WhiteboardDrawingToolProps> = ({
                   onClick={() => setBrushSize(size)}
                   className={`w-5 h-5 rounded-md flex items-center justify-center border text-[9.5px] font-mono font-bold transition-all ${
                     brushSize === size 
-                      ? "bg-slate-800 text-white border-slate-950 dark:bg-slate-250 dark:text-slate-900" 
-                      : "bg-white text-slate-600 border-slate-205 hover:bg-slate-50 dark:bg-slate-900 dark:text-slate-300"
+                      ? "bg-[#0a0a0a] text-white border-slate-950 dark:bg-slate-250 dark:text-slate-900" 
+                      : "bg-white text-slate-600 border-slate-205 hover:bg-slate-50 dark:bg-black dark:text-slate-300"
                   }`}
                 >
                   {size}
@@ -219,7 +219,7 @@ export const WhiteboardDrawingTool: React.FC<WhiteboardDrawingToolProps> = ({
               className={`p-1.5 rounded-lg border flex items-center gap-1 text-[10px] font-bold transition-colors cursor-pointer ${
                 isEraser 
                   ? "bg-amber-100 border-amber-305 text-amber-800" 
-                  : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50 dark:bg-slate-900/60 dark:border-slate-800 dark:text-slate-300"
+                  : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50 dark:bg-black/60 dark:border-white/10 dark:text-slate-300"
               }`}
               title="Eraser tool"
             >

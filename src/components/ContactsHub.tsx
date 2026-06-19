@@ -148,7 +148,7 @@ export default function ContactsHub({ token, themeClass }: ContactsHubProps) {
                 type="text" 
                 value={givenName} 
                 onChange={(e) => setGivenName(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 rounded-lg mt-1 outline-none font-bold text-slate-850 dark:text-slate-100"
+                className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 rounded-lg mt-1 outline-none font-bold text-slate-850 dark:text-slate-100"
                 placeholder="e.g. Rooh"
               />
             </div>
@@ -158,7 +158,7 @@ export default function ContactsHub({ token, themeClass }: ContactsHubProps) {
                 type="text" 
                 value={familyName} 
                 onChange={(e) => setFamilyName(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-205"
+                className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-205"
                 placeholder="e.g. Gupta"
               />
             </div>
@@ -170,7 +170,7 @@ export default function ContactsHub({ token, themeClass }: ContactsHubProps) {
               type="email" 
               value={emailValue} 
               onChange={(e) => setEmailValue(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-200"
+              className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-200"
               placeholder="e.g. uarvashi@example.com"
             />
           </div>
@@ -181,7 +181,7 @@ export default function ContactsHub({ token, themeClass }: ContactsHubProps) {
               type="tel" 
               value={phoneValue} 
               onChange={(e) => setPhoneValue(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-850 dark:text-slate-200"
+              className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-850 dark:text-slate-200"
               placeholder="e.g. +91 99999 88888"
             />
           </div>
@@ -191,7 +191,7 @@ export default function ContactsHub({ token, themeClass }: ContactsHubProps) {
             <select
               value={contactRole}
               onChange={(e) => setContactRole(e.target.value)}
-              className="w-full bg-slate-50 dark:bg-slate-900 border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-200 font-medium"
+              className="w-full bg-slate-50 dark:bg-black border border-black/10 p-2 rounded-lg mt-1 outline-none text-slate-800 dark:text-slate-200 font-medium"
             >
               <option value="Somatic Client">Somatic Client (Tracking Stress)</option>
               <option value="Clinical Guardian">Clinical Critical Guardian (Crisis Alert Target)</option>
@@ -232,7 +232,7 @@ export default function ContactsHub({ token, themeClass }: ContactsHubProps) {
             <button
               onClick={fetchContacts}
               disabled={loading}
-              className="p-1 px-2 text-[10px] font-mono font-bold text-indigo-650 bg-indigo-50 dark:bg-indigo-950/40 rounded-lg cursor-pointer hover:bg-indigo-100/70 border border-indigo-150 flex items-center gap-1.5"
+              className="p-1 px-2 text-[10px] font-mono font-bold text-indigo-650 bg-indigo-50 dark:bg-white/[0.02]/40 rounded-lg cursor-pointer hover:bg-indigo-100/70 border border-indigo-150 flex items-center gap-1.5"
             >
               <RefreshCw className={`w-3 h-3 ${loading ? "animate-spin" : ""}`} />
               Sync Contacts
@@ -284,7 +284,7 @@ export default function ContactsHub({ token, themeClass }: ContactsHubProps) {
                       className="w-9 h-9 rounded-full object-cover border border-black/5" 
                     />
                   ) : (
-                    <div className="w-9 h-9 rounded-full bg-indigo-50 dark:bg-indigo-950/20 text-indigo-500 flex items-center justify-center font-bold text-xs border border-indigo-150">
+                    <div className="w-9 h-9 rounded-full bg-indigo-50 dark:bg-white/[0.02]/20 text-indigo-500 flex items-center justify-center font-bold text-xs border border-indigo-150">
                       {name.substring(0, 2).toUpperCase()}
                     </div>
                   )}
@@ -294,7 +294,7 @@ export default function ContactsHub({ token, themeClass }: ContactsHubProps) {
                       <h4 className="text-xs font-bold text-slate-800 dark:text-slate-205">
                         {name}
                       </h4>
-                      <span className="text-[9.5px] font-mono text-slate-400 bg-slate-50 dark:bg-slate-900 border border-black/5 px-1.5 py-0.5 rounded">
+                      <span className="text-[9.5px] font-mono text-slate-400 bg-slate-50 dark:bg-black border border-black/5 px-1.5 py-0.5 rounded">
                         {contactRole}
                       </span>
                     </div>
@@ -329,7 +329,7 @@ export default function ContactsHub({ token, themeClass }: ContactsHubProps) {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 border border-black/10 shadow-2xl space-y-4 text-left"
+              className="bg-white dark:bg-black rounded-2xl max-w-md w-full p-6 border border-black/10 shadow-2xl space-y-4 text-left"
             >
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-amber-50 dark:bg-amber-950/30 rounded-xl text-amber-600 border border-amber-200">

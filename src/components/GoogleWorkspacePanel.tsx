@@ -438,7 +438,7 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
         {/* Profile Button / Connect Status */}
         <div className="flex items-center gap-2">
           {!needsAuth && user ? (
-            <div className="flex items-center gap-2.5 p-1.5 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-black/5 font-sans">
+            <div className="flex items-center gap-2.5 p-1.5 bg-slate-50 dark:bg-black/50 rounded-xl border border-black/5 font-sans">
               {user.photoURL && (
                 <img 
                   src={user.photoURL} 
@@ -476,7 +476,7 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
             className={`px-3 py-1.5 font-bold rounded-lg cursor-pointer transition-all flex items-center gap-1.5 whitespace-nowrap ${
               activeSubTab === 'gmail'
                 ? "bg-rose-50 text-rose-700 shadow-sm dark:shadow-slate-900/30 border border-rose-250"
-                : "text-slate-500 hover:bg-slate-100 dark:bg-slate-800 hover:text-slate-700 dark:text-slate-300"
+                : "text-slate-500 hover:bg-slate-100 dark:bg-[#0a0a0a] hover:text-slate-700 dark:text-slate-300"
             }`}
           >
             <Mail className="w-3.5 h-3.5 text-rose-500" />
@@ -487,7 +487,7 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
             className={`px-3 py-1.5 font-bold rounded-lg cursor-pointer transition-all flex items-center gap-1.5 whitespace-nowrap ${
               activeSubTab === 'calendar'
                 ? "bg-rose-50 text-rose-700 shadow-sm dark:shadow-slate-900/30 border border-rose-250"
-                : "text-slate-500 hover:bg-slate-100 dark:bg-slate-800 hover:text-slate-700 dark:text-slate-300"
+                : "text-slate-500 hover:bg-slate-100 dark:bg-[#0a0a0a] hover:text-slate-700 dark:text-slate-300"
             }`}
           >
             <Calendar className="w-3.5 h-3.5 text-blue-500" />
@@ -498,7 +498,7 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
             className={`px-3 py-1.5 font-bold rounded-lg cursor-pointer transition-all flex items-center gap-1.5 whitespace-nowrap ${
               activeSubTab === 'sheets'
                 ? "bg-rose-50 text-rose-700 shadow-sm dark:shadow-slate-900/30 border border-rose-250"
-                : "text-slate-500 hover:bg-slate-100 dark:bg-slate-800 hover:text-slate-700 dark:text-slate-300"
+                : "text-slate-500 hover:bg-slate-100 dark:bg-[#0a0a0a] hover:text-slate-700 dark:text-slate-300"
             }`}
           >
             <FileSpreadsheet className="w-3.5 h-3.5 text-emerald-500" />
@@ -509,7 +509,7 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
             className={`px-3 py-1.5 font-bold rounded-lg cursor-pointer transition-all flex items-center gap-1.5 whitespace-nowrap ${
               activeSubTab === 'docs'
                 ? "bg-rose-50 text-rose-700 shadow-sm dark:shadow-slate-900/30 border border-rose-250"
-                : "text-slate-500 hover:bg-slate-100 dark:bg-slate-800 hover:text-slate-700 dark:text-slate-300"
+                : "text-slate-500 hover:bg-slate-100 dark:bg-[#0a0a0a] hover:text-slate-700 dark:text-slate-300"
             }`}
           >
             <FileText className="w-3.5 h-3.5 text-indigo-505" />
@@ -520,7 +520,7 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
             className={`px-3 py-1.5 font-bold rounded-lg cursor-pointer transition-all flex items-center gap-1.5 whitespace-nowrap ${
               activeSubTab === 'slides'
                 ? "bg-rose-50 text-rose-700 shadow-sm dark:shadow-slate-900/30 border border-rose-250"
-                : "text-slate-500 hover:bg-slate-100 dark:bg-slate-800 hover:text-slate-700 dark:text-slate-300"
+                : "text-slate-500 hover:bg-slate-100 dark:bg-[#0a0a0a] hover:text-slate-700 dark:text-slate-300"
             }`}
           >
             <Layers className="w-3.5 h-3.5 text-pink-550" />
@@ -531,7 +531,7 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
             className={`px-3 py-1.5 font-bold rounded-lg cursor-pointer transition-all flex items-center gap-1.5 whitespace-nowrap ${
               activeSubTab === 'tasks'
                 ? "bg-rose-50 text-rose-700 shadow-sm dark:shadow-slate-900/30 border border-rose-250"
-                : "text-slate-500 hover:bg-slate-100 dark:bg-slate-800 hover:text-slate-700 dark:text-slate-300"
+                : "text-slate-500 hover:bg-slate-100 dark:bg-[#0a0a0a] hover:text-slate-700 dark:text-slate-300"
             }`}
           >
             <ListTodo className="w-3.5 h-3.5 text-rose-500" />
@@ -542,7 +542,7 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
             className={`px-3 py-1.5 font-bold rounded-lg cursor-pointer transition-all flex items-center gap-1.5 whitespace-nowrap ${
               activeSubTab === 'chat'
                 ? "bg-rose-50 text-rose-700 shadow-sm dark:shadow-slate-900/30 border border-rose-250"
-                : "text-slate-500 hover:bg-slate-100 dark:bg-slate-800 hover:text-slate-700 dark:text-slate-300"
+                : "text-slate-500 hover:bg-slate-100 dark:bg-[#0a0a0a] hover:text-slate-700 dark:text-slate-300"
             }`}
           >
             <MessageSquare className="w-3.5 h-3.5 text-orange-500" />
@@ -553,7 +553,7 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
             className={`px-3 py-1.5 font-bold rounded-lg cursor-pointer transition-all flex items-center gap-1.5 whitespace-nowrap ${
               activeSubTab === 'forms'
                 ? "bg-rose-50 text-rose-700 shadow-sm dark:shadow-slate-900/30 border border-rose-250"
-                : "text-slate-500 hover:bg-slate-100 dark:bg-slate-800 hover:text-slate-700 dark:text-slate-300"
+                : "text-slate-500 hover:bg-slate-100 dark:bg-[#0a0a0a] hover:text-slate-700 dark:text-slate-300"
             }`}
           >
             <ClipboardList className="w-3.5 h-3.5 text-purple-500" />
@@ -564,7 +564,7 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
             className={`px-3 py-1.5 font-bold rounded-lg cursor-pointer transition-all flex items-center gap-1.5 whitespace-nowrap ${
               activeSubTab === 'keep'
                 ? "bg-rose-50 text-rose-700 shadow-sm dark:shadow-slate-900/30 border border-rose-250"
-                : "text-slate-500 hover:bg-slate-100 dark:bg-slate-800 hover:text-slate-700 dark:text-slate-300"
+                : "text-slate-500 hover:bg-slate-100 dark:bg-[#0a0a0a] hover:text-slate-700 dark:text-slate-300"
             }`}
           >
             <Bookmark className="w-3.5 h-3.5 text-amber-500" />
@@ -575,7 +575,7 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
             className={`px-3 py-1.5 font-bold rounded-lg cursor-pointer transition-all flex items-center gap-1.5 whitespace-nowrap ${
               activeSubTab === 'meet'
                 ? "bg-rose-50 text-rose-700 shadow-sm dark:shadow-slate-900/30 border border-rose-250"
-                : "text-slate-500 hover:bg-slate-100 dark:bg-slate-800 hover:text-slate-700 dark:text-slate-300"
+                : "text-slate-500 hover:bg-slate-100 dark:bg-[#0a0a0a] hover:text-slate-700 dark:text-slate-300"
             }`}
           >
             <Video className="w-3.5 h-3.5 text-teal-605" />
@@ -586,7 +586,7 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
             className={`px-3 py-1.5 font-bold rounded-lg cursor-pointer transition-all flex items-center gap-1.5 whitespace-nowrap ${
               activeSubTab === 'contacts'
                 ? "bg-rose-50 text-rose-700 shadow-sm dark:shadow-slate-900/30 border border-rose-250"
-                : "text-slate-500 hover:bg-slate-100 dark:bg-slate-800 hover:text-slate-700 dark:text-slate-300"
+                : "text-slate-500 hover:bg-slate-100 dark:bg-[#0a0a0a] hover:text-slate-700 dark:text-slate-300"
             }`}
           >
             <Users className="w-3.5 h-3.5 text-blue-600" />
@@ -597,7 +597,7 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
             className={`px-3 py-1.5 font-bold rounded-lg cursor-pointer transition-all flex items-center gap-1.5 whitespace-nowrap ${
               activeSubTab === 'classroom'
                 ? "bg-rose-50 text-rose-700 shadow-sm dark:shadow-slate-900/30 border border-rose-250"
-                : "text-slate-500 hover:bg-slate-100 dark:bg-slate-800 hover:text-slate-700 dark:text-slate-300"
+                : "text-slate-500 hover:bg-slate-100 dark:bg-[#0a0a0a] hover:text-slate-700 dark:text-slate-300"
             }`}
           >
             <GraduationCap className="w-3.5 h-3.5 text-emerald-600" />
@@ -609,7 +609,7 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
       {/* Main Container */}
       {needsAuth ? (
         <div className="flex flex-col items-center justify-center py-12 px-6 max-w-md mx-auto text-center space-y-4 bg-slate-50/50 dark:bg-slate-950/20 rounded-2xl border border-dashed border-black/10">
-          <div className="w-12 h-12 bg-indigo-50 dark:bg-indigo-950/30 rounded-xl flex items-center justify-center border border-indigo-150">
+          <div className="w-12 h-12 bg-indigo-50 dark:bg-white/[0.02]/30 rounded-xl flex items-center justify-center border border-indigo-150">
             <Mail className="w-6 h-6 text-indigo-650" />
           </div>
           <div className="space-y-1.5">
@@ -653,7 +653,7 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
           <div className="lg:col-span-6 space-y-4">
             
             {/* Search and Action Bar */}
-            <div className="flex items-center gap-2 bg-slate-50 dark:bg-slate-900/60 p-2 rounded-xl border border-black/5">
+            <div className="flex items-center gap-2 bg-slate-50 dark:bg-black/60 p-2 rounded-xl border border-black/5">
               <div className="relative flex-1">
                 <Search className="absolute left-2.5 top-2.5 w-3.5 h-3.5 text-slate-400" />
                 <input 
@@ -661,13 +661,13 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
                   placeholder="Filter inbox (e.g. stress, support)..."
                   value={gmailSearch}
                   onChange={(e) => setGmailSearch(e.target.value)}
-                  className="w-full text-xs pl-8 pr-3 py-1.5 bg-white dark:bg-slate-950 rounded-lg border border-slate-200 dark:border-slate-800 outline-none focus:border-indigo-400 font-sans text-slate-800 dark:text-slate-205"
+                  className="w-full text-xs pl-8 pr-3 py-1.5 bg-white dark:bg-slate-950 rounded-lg border border-slate-200 dark:border-white/10 outline-none focus:border-indigo-400 font-sans text-slate-800 dark:text-slate-205"
                 />
               </div>
               <button
                 onClick={fetchGmailInbox}
                 disabled={gmailLoading}
-                className="p-2 text-indigo-650 bg-indigo-50 dark:bg-indigo-950/40 rounded-lg cursor-pointer hover:bg-indigo-100/70 border border-indigo-150"
+                className="p-2 text-indigo-650 bg-indigo-50 dark:bg-white/[0.02]/40 rounded-lg cursor-pointer hover:bg-indigo-100/70 border border-indigo-150"
                 title="Sync Live Gmail Inbox"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${gmailLoading ? "animate-spin" : ""}`} />
@@ -704,8 +704,8 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
                       onClick={() => handleSelectEmail(email)}
                       className={`w-full p-4 flex flex-col items-start gap-1 transition-all cursor-pointer text-left ${
                         isSelected 
-                          ? "bg-indigo-50/40 dark:bg-indigo-950/20 shadow-inner border-l-4 border-indigo-500" 
-                          : "hover:bg-slate-50/ dark:bg-slate-800/50"
+                          ? "bg-indigo-50/40 dark:bg-white/[0.02]/20 shadow-inner border-l-4 border-indigo-500" 
+                          : "hover:bg-slate-50/ dark:bg-[#0a0a0a]/50"
                       }`}
                     >
                       <div className="flex items-center justify-between gap-2 w-full text-[10px] font-mono text-slate-400">
@@ -731,7 +731,7 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
             {/* Google Picker Widget Actions */}
             <div className="bg-gradient-to-br from-indigo-50/35 to-indigo-100/10 dark:from-indigo-950/10 dark:to-indigo-900/5 border border-indigo-100/50 p-4 rounded-xl space-y-3">
               <div className="flex items-start gap-2.5">
-                <div className="p-2 bg-indigo-50 dark:bg-indigo-950/50 rounded-lg shrink-0 text-indigo-650 border border-indigo-200 dark:border-indigo-800">
+                <div className="p-2 bg-indigo-50 dark:bg-white/[0.02]/50 rounded-lg shrink-0 text-indigo-650 border border-indigo-200 dark:border-indigo-800">
                   <FileText className="w-4.5 h-4.5" />
                 </div>
                 <div className="text-left">
@@ -762,7 +762,7 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    className="p-3 bg-white dark:bg-slate-900 rounded-lg border border-black/5 space-y-2 mt-2"
+                    className="p-3 bg-white dark:bg-black rounded-lg border border-black/5 space-y-2 mt-2"
                   >
                     <div className="flex items-center justify-between text-xs">
                       <div className="flex items-center gap-1.5 font-bold text-slate-800 dark:text-slate-205">
@@ -790,7 +790,7 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
                         Analyzing file for somatic de-escalation tips...
                       </div>
                     ) : fileAnalysis ? (
-                      <div className="text-[11px] leading-relaxed p-2 bg-indigo-50/30 dark:bg-indigo-950/20 rounded border border-indigo-100/30 text-indigo-850 dark:text-indigo-200 whitespace-pre-wrap">
+                      <div className="text-[11px] leading-relaxed p-2 bg-indigo-50/30 dark:bg-white/[0.02]/20 rounded border border-indigo-100/30 text-indigo-850 dark:text-indigo-200 whitespace-pre-wrap">
                         {fileAnalysis}
                       </div>
                     ) : null}
@@ -803,7 +803,7 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
           </div>
 
           {/* Right Column: Active Email Detail & Compose (Width: 6) */}
-          <div className="lg:col-span-6 bg-slate-50/50 dark:bg-slate-900/10 border border-slate-100 dark:border-slate-850 p-5 rounded-2xl space-y-4">
+          <div className="lg:col-span-6 bg-slate-50/50 dark:bg-black/10 border border-slate-100 dark:border-slate-850 p-5 rounded-2xl space-y-4">
             
             {selectedEmail ? (
               <div className="space-y-4 text-left">
@@ -967,7 +967,7 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 border border-black/10 shadow-2xl space-y-4 text-left"
+              className="bg-white dark:bg-black rounded-2xl max-w-md w-full p-6 border border-black/10 shadow-2xl space-y-4 text-left"
             >
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-amber-50 dark:bg-amber-950/30 rounded-xl text-amber-600 border border-amber-200">
@@ -1000,7 +1000,7 @@ export default function GoogleWorkspacePanel({ themeClass }: GoogleWorkspacePane
                 <button
                   type="button"
                   onClick={() => setShowSendConfirmation(false)}
-                  className="px-4 py-2 text-xs font-bold text-slate-500 hover:text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 rounded-xl cursor-pointer"
+                  className="px-4 py-2 text-xs font-bold text-slate-500 hover:text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-[#0a0a0a] hover:bg-slate-200 rounded-xl cursor-pointer"
                 >
                   Cancel
                 </button>
