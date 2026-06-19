@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* Custom premium variables for themes */
+:root {
+  --theme-bg-daylight: linear-gradient(135deg, #f8fafc 0%, #eef2f6 100%);
+  --theme-bg-midnight: linear-gradient(135deg, #070a13 0%, #030509 100%);
+  --theme-bg-sepia: linear-gradient(135deg, #f7f3e9 0%, #ebdcb9 100%);
+}
+
+body {
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Glassmorphism utility classes */
+.glass-panel {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 20px -2px rgba(148, 163, 184, 0.08);
+}
+
+.dark .glass-panel {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+}
+
+.dark-glass-panel {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+}
+
+.sepia-glass-panel {
+  background: #faf6ee;
+  border: 1px solid #e3d5be;
+  box-shadow: 0 4px 20px -2px rgba(93, 64, 55, 0.04);
+}
+
+/* Premium bento-grid card wrappers */
+.bento-card {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+}
+
+.bento-card:hover {
+  transform: translateY(-2px);
+}
+
+/* Custom animations */
+@keyframes breathing {
+  0% { transform: scale(0.92); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.25); }
+  50% { transform: scale(1.08); box-shadow: 0 0 0 24px rgba(99, 102, 241, 0); }
+  100% { transform: scale(0.92); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.25); }
+}
+
+@keyframes breathing-warm {
+  0% { transform: scale(0.92); box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.25); }
+  50% { transform: scale(1.08); box-shadow: 0 0 0 24px rgba(217, 119, 6, 0); }
+  100% { transform: scale(0.92); box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.25); }
+}
+
+.breathing-bubble {
+  animation: breathing 5s ease-in-out infinite;
+}
+
+.breathing-bubble-warm {
+  animation: breathing-warm 5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.15);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.35);
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.2);
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.4);
+}
+
+/* Dark mode body */
+.dark body,
+.dark {
+  color-scheme: dark;
+}

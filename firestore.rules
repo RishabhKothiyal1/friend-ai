@@ -1,0 +1,57 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default safety deny rules
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    match /keep_notes/{noteId} {
+      
+      // Basic global helpers (Phase 3 primitives)
+      function isSignedIn() {
+        return request.auth != null;
+      }
+
+      function isOwner(resourceData) {
+        return isSignedIn() && resourceData.userId == request.auth.uid;
+      }
+
+      function isValidId(id) {
+        return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+      }
+
+      // Pillar 2: Validation Blueprints (The Anti-Update-Gap)
+      function isValidKeepNote(data) {
+        return data.title is string && data.title.size() <= 500 &&
+               data.color is string && data.color.size() <= 200 &&
+               data.pinned is bool &&
+               data.tags is list && data.tags.size() <= 20 &&
+               data.type in ['text', 'checklist'] &&
+               data.updatedAt is string &&
+               data.userId == request.auth.uid;
+      }
+
+      allow create: if isSignedIn() &&
+                    isValidKeepNote(request.resource.data) &&
+                    request.resource.data.userId == request.auth.uid;
+
+      allow get: if isOwner(resource.data);
+
+      allow list: if isSignedIn() && 
+                    resource.data.userId == request.auth.uid;
+
+      allow update: if isOwner(resource.data) &&
+                    isValidKeepNote(request.resource.data) &&
+                    request.resource.data.userId == resource.data.userId &&
+                    // Action-Based Update Pattern using affectedKeys()
+                    (
+                      request.resource.data.diff(resource.data).affectedKeys().hasOnly(['pinned', 'updatedAt']) ||
+                      request.resource.data.diff(resource.data).affectedKeys().hasOnly(['listItems', 'updatedAt']) ||
+                      request.resource.data.diff(resource.data).affectedKeys().hasOnly(['title', 'content', 'color', 'tags', 'type', 'listItems', 'updatedAt'])
+                    );
+
+      allow delete: if isOwner(resource.data);
+    }
+  }
+}

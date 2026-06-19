@@ -1,0 +1,6 @@
+{
+  "name": "Project Friend AI",
+  "description": "An anonymous, ethically audited mental health crisis de-escalation chatbot providing specialized psychological support personas, grounding guides, anonymous communities, and absolute client-side data privacy.",
+  "requestFramePermissions": ["camera", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
