@@ -166,10 +166,10 @@ export function AliasModal({ isOpen, onClose, onLogin, error }: AliasModalProps)
                     }}
                     className="w-full text-left flex items-center gap-3 p-3 rounded-lg border border-white/5 hover:border-white/20 bg-white/[0.02] cursor-pointer transition-all group"
                   >
-                    <div className={`w-4 h-4 rounded-sm border flex items-center justify-center shrink-0 transition-colors \${medicalConditions.includes(condition.id) ? 'bg-white border-white' : 'border-gray-600 group-hover:border-gray-400'}`}>
+                    <div className={`w-4 h-4 rounded-sm border flex items-center justify-center shrink-0 transition-colors ${medicalConditions.includes(condition.id) ? 'bg-white border-white' : 'border-gray-600 group-hover:border-gray-400'}`}>
                       {medicalConditions.includes(condition.id) && <Check className="w-3 h-3 text-black stroke-[3]" />}
                     </div>
-                    <span className={`text-xs transition-colors \${medicalConditions.includes(condition.id) ? 'text-white font-medium' : 'text-gray-400 group-hover:text-gray-200'}`}>
+                    <span className={`text-xs transition-colors ${medicalConditions.includes(condition.id) ? 'text-white font-medium' : 'text-gray-400 group-hover:text-gray-200'}`}>
                       {condition.label}
                     </span>
                   </button>
@@ -204,10 +204,10 @@ export function AliasModal({ isOpen, onClose, onLogin, error }: AliasModalProps)
                 onClick={() => setConsentPsychology(!consentPsychology)}
                 className="w-full text-left flex items-start gap-4 cursor-pointer group"
               >
-                <div className={`mt-0.5 w-4 h-4 rounded-sm border flex items-center justify-center shrink-0 transition-colors \${consentPsychology ? 'bg-white border-white' : 'border-gray-600 group-hover:border-gray-400'}`}>
+                <div className={`mt-0.5 w-4 h-4 rounded-sm border flex items-center justify-center shrink-0 transition-colors ${consentPsychology ? 'bg-white border-white' : 'border-gray-600 group-hover:border-gray-400'}`}>
                   {consentPsychology && <Check className="w-3 h-3 text-black stroke-[3]" />}
                 </div>
-                <span className={`text-xs leading-relaxed transition-colors \${consentPsychology ? 'text-gray-200' : 'text-gray-400 group-hover:text-gray-300'}`}>
+                <span className={`text-xs leading-relaxed transition-colors ${consentPsychology ? 'text-gray-200' : 'text-gray-400 group-hover:text-gray-300'}`}>
                   I understand that this is an automated program and <strong className="text-white">NOT</strong> a human therapist. I will seek human care for clinical treatment.
                 </span>
               </button>
@@ -217,10 +217,10 @@ export function AliasModal({ isOpen, onClose, onLogin, error }: AliasModalProps)
                 onClick={() => setConsentAnonymity(!consentAnonymity)}
                 className="w-full text-left flex items-start gap-4 cursor-pointer group"
               >
-                <div className={`mt-0.5 w-4 h-4 rounded-sm border flex items-center justify-center shrink-0 transition-colors \${consentAnonymity ? 'bg-white border-white' : 'border-gray-600 group-hover:border-gray-400'}`}>
+                <div className={`mt-0.5 w-4 h-4 rounded-sm border flex items-center justify-center shrink-0 transition-colors ${consentAnonymity ? 'bg-white border-white' : 'border-gray-600 group-hover:border-gray-400'}`}>
                   {consentAnonymity && <Check className="w-3 h-3 text-black stroke-[3]" />}
                 </div>
-                <span className={`text-xs leading-relaxed transition-colors \${consentAnonymity ? 'text-gray-200' : 'text-gray-400 group-hover:text-gray-300'}`}>
+                <span className={`text-xs leading-relaxed transition-colors ${consentAnonymity ? 'text-gray-200' : 'text-gray-400 group-hover:text-gray-300'}`}>
                   I agree that my logs are locked on this local browser node. If I clear browser data, my history is deleted forever.
                 </span>
               </button>
