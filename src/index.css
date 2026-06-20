@@ -32,6 +32,13 @@
   --primary-foreground: #09090b;
 }
 
+.sepia {
+  --background: #faf6ee;
+  --foreground: #433422;
+  --primary: #8b5a2b;
+  --primary-foreground: #faf6ee;
+}
+
 body {
   font-family: var(--font-sans);
   min-height: 100vh;

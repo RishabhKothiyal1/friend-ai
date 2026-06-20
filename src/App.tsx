@@ -60,7 +60,8 @@ import {
   Filter,
   Book,
   Wind,
-  Settings
+  Settings,
+  Palette
 } from "lucide-react";
 import { calmingMusic } from "./lib/calmingMusic";
 import { mozartPiano } from "./lib/mozartPiano";
@@ -224,6 +225,7 @@ const CHARACTER_ICONS: Record<string, React.ComponentType<any>> = {
 
 import { MedicoLegalLawyersDirectory } from "./components/MedicoLegalLawyersDirectory";
 import { Hero1 } from "./components/ui/hero-1";
+import MotionButton from "./components/ui/motion-button";
 import { AliasModal, type LoginData } from "./components/modals/AliasModal";
 import { Sidebar } from "./components/sidebar/Sidebar";
 import { Dashboard } from "./components/dashboard/Dashboard";
@@ -2711,10 +2713,11 @@ export default function App() {
 
   // Sync Tailwind dark: variant with themeMode
   useEffect(() => {
+    document.documentElement.classList.remove("dark", "sepia");
     if (themeMode === "midnight") {
       document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
+    } else if (themeMode === "sepia") {
+      document.documentElement.classList.add("sepia");
     }
   }, [themeMode]);
 
@@ -7167,6 +7170,78 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           </div>
                   </div>
                 )}
+              </div>
+
+              {/* UI Theme Selection Section */}
+              <div className="w-full max-w-md mx-auto mb-8 bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 p-6 rounded-2xl text-left shadow-sm">
+                <h3 className="text-sm font-bold tracking-tight uppercase text-slate-800 dark:text-slate-200 mb-4 flex items-center gap-2 font-display">
+                  <Palette className="w-4 h-4 text-indigo-500" />
+                  <span>Interface & Design Style</span>
+                </h3>
+                
+                <div className="grid grid-cols-3 gap-3 mb-6 font-sans">
+                  {/* Daylight Theme Button */}
+                  <button
+                    onClick={() => handleSetThemeMode("daylight")}
+                    className={`flex flex-col items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
+                      themeMode === "daylight"
+                        ? "bg-slate-50 dark:bg-white/[0.02] border-indigo-500 ring-2 ring-indigo-200/40"
+                        : "bg-transparent border-slate-250 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/[0.02]"
+                    }`}
+                  >
+                    <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 shadow-2xs">
+                      <Sun className="w-5 h-5 text-amber-500" />
+                    </div>
+                    <div className="text-center">
+                      <p className="text-xs font-bold text-slate-800 dark:text-slate-200">Daylight</p>
+                      <p className="text-[9px] text-slate-400 mt-0.5 font-medium">Clean & Bright</p>
+                    </div>
+                  </button>
+
+                  {/* Midnight Theme Button */}
+                  <button
+                    onClick={() => handleSetThemeMode("midnight")}
+                    className={`flex flex-col items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
+                      themeMode === "midnight"
+                        ? "bg-slate-50 dark:bg-white/[0.02] border-indigo-500 ring-2 ring-indigo-200/40"
+                        : "bg-transparent border-slate-250 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/[0.02]"
+                    }`}
+                  >
+                    <div className="w-10 h-10 rounded-full bg-slate-950 flex items-center justify-center border border-white/10 shadow-2xs">
+                      <Moon className="w-5 h-5 text-indigo-400" />
+                    </div>
+                    <div className="text-center">
+                      <p className="text-xs font-bold text-slate-800 dark:text-slate-200">Midnight</p>
+                      <p className="text-[9px] text-slate-400 mt-0.5 font-medium font-sans">Pitch Dark</p>
+                    </div>
+                  </button>
+
+                  {/* Sepia Theme Button */}
+                  <button
+                    onClick={() => handleSetThemeMode("sepia")}
+                    className={`flex flex-col items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
+                      themeMode === "sepia"
+                        ? "bg-slate-50 dark:bg-white/[0.02] border-indigo-500 ring-2 ring-indigo-200/40"
+                        : "bg-transparent border-slate-250 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/[0.02]"
+                    }`}
+                  >
+                    <div className="w-10 h-10 rounded-full bg-[#faf6ee] flex items-center justify-center border border-[#e3d5be] shadow-2xs">
+                      <Coffee className="w-5 h-5 text-amber-800" />
+                    </div>
+                    <div className="text-center">
+                      <p className="text-xs font-bold text-slate-800 dark:text-slate-200">Sepia</p>
+                      <p className="text-[9px] text-slate-400 mt-0.5 font-medium">Warm Vintage</p>
+                    </div>
+                  </button>
+                </div>
+
+                <div className="bg-slate-50/80 dark:bg-black/40 border border-slate-200/60 dark:border-white/5 rounded-2xl p-5 flex flex-col items-center gap-3 text-center">
+                  <span className="text-[10px] uppercase font-bold tracking-widest text-slate-400 font-mono">Live Button Preview</span>
+                  <MotionButton label="Get Started" onClick={() => {}} />
+                  <p className="text-[10px] text-slate-500 italic max-w-xs leading-normal">
+                    Hover over this button to test its slide animation. Its background, accent circle, and text dynamically adapt to your selected theme's design.
+                  </p>
+                </div>
               </div>
               
               <button 
