@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { Brain } from "lucide-react";
-import { Text3DFlip } from "./text-3d-flip";
+import { DiaTextReveal } from "./dia-text-reveal";
 
 interface Hero1Props {
   onGetStarted?: () => void;
@@ -44,29 +44,13 @@ const Hero1 = ({ onGetStarted }: Hero1Props) => {
               <path d="M43 59 Q 50 67 57 59" stroke="#0f172a" strokeWidth="4" strokeLinecap="round" fill="none" />
             </svg>
             <h1 className="text-6xl md:text-8xl font-black leading-none tracking-tighter text-white drop-shadow-sm">
-              <Text3DFlip
-                className="font-black text-6xl md:text-8xl tracking-tighter"
-                textClassName="text-white"
-                flipTextClassName="text-white"
-                rotateDirection="top"
-                staggerDuration={0.03}
-                staggerFrom="first"
-                transition={{ type: "spring", damping: 25, stiffness: 160 }}
-              >
-                friend
-              </Text3DFlip>
-              {" "}
-              <Text3DFlip
-                className="font-black text-6xl md:text-8xl tracking-tighter"
-                textClassName="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500"
-                flipTextClassName="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500"
-                rotateDirection="top"
-                staggerDuration={0.03}
-                staggerFrom="first"
-                transition={{ type: "spring", damping: 25, stiffness: 160 }}
-              >
-                ai
-              </Text3DFlip>
+              <DiaTextReveal
+                className="text-6xl md:text-8xl font-black tracking-tighter"
+                colors={["#3b82f6", "#8b5cf6", "#a855f7", "#3b82f6", "#ffffff"]}
+                delay={0.35}
+                duration={2.4}
+                text="friend ai"
+              />
             </h1>
           </div>
 
