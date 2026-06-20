@@ -10,9 +10,40 @@ import { z } from "zod";
 dotenv.config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
 app.use(express.json());
+
+// Enable CORS for frontend requests (e.g. Netlify)
+app.use((req, res, next) => {
+  const allowedOrigins = [
+    "https://friend-ai-app.netlify.app",
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "http://127.0.0.1:5173"
+  ];
+  const origin = req.headers.origin;
+  if (origin) {
+    if (allowedOrigins.includes(origin) || origin.endsWith(".netlify.app")) {
+      res.setHeader("Access-Control-Allow-Origin", origin);
+    }
+  } else {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+  }
+  
+  if (process.env.ALLOWED_ORIGIN) {
+    res.setHeader("Access-Control-Allow-Origin", process.env.ALLOWED_ORIGIN);
+  }
+  
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+  next();
+});
 
 // Phase 7: Security Hardening (Helmet & Rate Limiting)
 app.use(

@@ -2458,6 +2458,14 @@ const RenderMarkdown = ({ content }: { content: string }) => {
   return <div className="markdown-view select-text">{renderedElements}</div>;
 };
 
+const getApiUrl = (path: string): string => {
+  const envUrl = (import.meta as any).env?.VITE_API_URL;
+  if (envUrl) {
+    return `${envUrl.replace(/\/$/, "")}${path}`;
+  }
+  return path;
+};
+
 export default function App() {
   // Authentication & Secure Session States (inspired by the Wellness Bot login prototype UI request)
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
@@ -4107,7 +4115,7 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
       }
       setIsLoadingInsight(true);
       try {
-        const res = await fetch("/api/mood-insights", {
+        const res = await fetch(getApiUrl("/api/mood-insights"), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ moodsList })
@@ -4310,7 +4318,7 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
 
   const fetchSolaceMessages = async () => {
     try {
-      const res = await fetch("/api/solace-messages");
+      const res = await fetch(getApiUrl("/api/solace-messages"));
       if (res.ok) {
         const data = await res.json();
         setSolaceMessages(data);
@@ -4326,7 +4334,7 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
     setIsSendingSolace(true);
     setSolaceError("");
     try {
-      const res = await fetch("/api/solace-messages", {
+      const res = await fetch(getApiUrl("/api/solace-messages"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -4354,7 +4362,7 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
     setShareSuccessToast(null);
     try {
       // Send the current dialogue history to be securely summarized and anonymized on the backend
-      const res = await fetch("/api/summarize-chat", {
+      const res = await fetch(getApiUrl("/api/summarize-chat"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ chatHistory })
@@ -4379,7 +4387,7 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
     setShareError(null);
     try {
       const displayAlias = loginAlias ? loginAlias.trim() : "Anonymous";
-      const res = await fetch("/api/solace-messages", {
+      const res = await fetch(getApiUrl("/api/solace-messages"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -4413,7 +4421,7 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
       prev.map((m) => m.id === id ? { ...m, hugCount: m.hugCount + 1 } : m)
     );
     try {
-      await fetch(`/api/solace-messages/${id}/hug`, { method: "POST" });
+      await fetch(getApiUrl(`/api/solace-messages/${id}/hug`), { method: "POST" });
     } catch (e) {
       console.error("Failed to send virtual warmth hug:", e);
     }
@@ -4587,7 +4595,7 @@ I am an automated grounding AI companion, not a medical doctor, psychiatrist, or
     }
 
     try {
-      const response = await fetch("/api/chat", {
+      const response = await fetch(getApiUrl("/api/chat"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -5339,7 +5347,7 @@ I am an automated grounding AI companion, not a medical doctor, psychiatrist, or
     setVideoAnalysisResult(null);
 
     try {
-      const response = await fetch("/api/video-analysis", {
+      const response = await fetch(getApiUrl("/api/video-analysis"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -9951,7 +9959,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                               setIsGeneratingBlog(true);
                               setBlogStatusMessage({ type: 'info', text: `Antigravity system initializing. Synthesizing citations & POV of ${selectedAuthorPerspective}...` });
                               try {
-                                const response = await fetch("/api/generate-blog", {
+                                const response = await fetch(getApiUrl("/api/generate-blog"), {
                                   method: "POST",
                                   headers: { "Content-Type": "application/json" },
                                   body: JSON.stringify({ topic: blogTopicInput, perspective: selectedAuthorPerspective }),
