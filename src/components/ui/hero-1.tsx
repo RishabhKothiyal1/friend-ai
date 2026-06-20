@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { Brain } from "lucide-react";
+import { Text3DFlip } from "./text-3d-flip";
 
 interface Hero1Props {
   onGetStarted?: () => void;
@@ -43,7 +44,29 @@ const Hero1 = ({ onGetStarted }: Hero1Props) => {
               <path d="M43 59 Q 50 67 57 59" stroke="#0f172a" strokeWidth="4" strokeLinecap="round" fill="none" />
             </svg>
             <h1 className="text-6xl md:text-8xl font-black leading-none tracking-tighter text-white drop-shadow-sm">
-              friend <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">ai</span>
+              <Text3DFlip
+                className="font-black text-6xl md:text-8xl tracking-tighter"
+                textClassName="text-white"
+                flipTextClassName="text-white"
+                rotateDirection="top"
+                staggerDuration={0.03}
+                staggerFrom="first"
+                transition={{ type: "spring", damping: 25, stiffness: 160 }}
+              >
+                friend
+              </Text3DFlip>
+              {" "}
+              <Text3DFlip
+                className="font-black text-6xl md:text-8xl tracking-tighter"
+                textClassName="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500"
+                flipTextClassName="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500"
+                rotateDirection="top"
+                staggerDuration={0.03}
+                staggerFrom="first"
+                transition={{ type: "spring", damping: 25, stiffness: 160 }}
+              >
+                ai
+              </Text3DFlip>
             </h1>
           </div>
 
