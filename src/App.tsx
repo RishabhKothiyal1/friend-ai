@@ -4432,6 +4432,42 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
     return `[AES-256-GCM][IV-${signature}] ` + window.btoa(encodeURIComponent(text)).substring(0, Math.min(text.length * 2, 40)) + "... [ENCRYPTED_CLIENT_SIDE_STRICT_LOCAL]";
   };
 
+  const generateLocalFallbackResponse = (userText: string, char: any): string => {
+    const clean = userText.toLowerCase().trim();
+    const crisisKeywords = ["suicide", "suicidal", "kill myself", "end my life", "want to die", "self-harm", "self harm", "cut myself", "cutting myself", "overdose"];
+    if (crisisKeywords.some(k => clean.includes(k))) {
+      return `🛑 **EMERGENCY SAFEKEEPING ACTIVE** 🛑\n\nI hear that you are in deep pain, but as an automated companion, I cannot replace a human helper. Please reach out to one of these free, confidential crisis services immediately:\n- **India**: Government Kiran Helpline at **1800-599-0019** (24/7)\n- **US/Canada**: Call/Text **988** (24/7)\n- **UK**: Call **111** (NHS) or **116 123** (Samaritans)\n\nLet's take a slow breath together: breathe in for 4 seconds, hold for 4, and exhale for 4. You are not alone.`;
+    }
+    const medKeywords = ["dosage", "prescribe", "pill count", "stop taking", "xanax", "valium", "lexapro", "zoloft", "prozac", "ssri"];
+    if (medKeywords.some(k => clean.includes(k))) {
+      return `💊 **MEDICATION SAFEGUARD**\n\nI cannot recommend dosages or adjust prescriptions. Please speak with your doctor or psychiatrist before making any changes. Adjusting psychiatric medications without guidance can cause serious health risks.`;
+    }
+    let reply = "";
+    if (clean.includes("hello") || clean.includes("hi") || clean.includes("hey")) {
+      reply = `Hello! I am here in my sanctuary. How is your mind and breathing feeling right now?`;
+    } else if (clean.includes("sad") || clean.includes("depressed") || clean.includes("cry") || clean.includes("lonely")) {
+      reply = `I hear how heavy things feel. It is completely okay to feel this way. Let's take a quiet moment to rest and anchor ourselves. You don't have to carry this all alone.`;
+    } else if (clean.includes("anxious") || clean.includes("panic") || clean.includes("worry") || clean.includes("scared") || clean.includes("stress")) {
+      reply = `I hear the worry in your thoughts. Your mind is racing, but your body is right here, safe and supported. Let's slow down the breath together. Breathe in... and let it go.`;
+    } else if (clean.includes("thank") || clean.includes("help") || clean.includes("good")) {
+      reply = `You are very welcome. I am glad we can share this quiet room. How is your breathing rhythm?`;
+    } else {
+      const characterPrompts: Record<string, string> = {
+        inayat: `Let's focus on the safe, parallel lines of my Aipan art. Each line brings structure and calm back to your thoughts. Can you focus on a single point in the room?`,
+        tony: `Let's keep it simple and playful. You don't need to chase every thought. Like the festive Chittara circles, everything has a natural rhythm. Take a slow, warm breath.`,
+        raag: `Imagine a night sky covered in gold Pichwai stars and lotuses blooming from clear water. Let your breathing settle into that cool, peaceful space.`,
+        manji: `We are unrolling your story like a Paitkar scroll, one frame at a time. Tell me what is happening in the current frame of your mind.`,
+        tara: `Look at the steady, warm light of the Kalamezhuthu lamp. Even in deep darkness, that flame remains centered and quiet. Breathe with the flame.`,
+        abhay: `Remember, you are a person experiencing this feeling, not the feeling itself. Let's give it a name and gently set it down on the table next to us.`,
+        altaf: `Let's align your physical posture. Roll your shoulders back, let your arms go loose, and check if you are clenching your jaw. Let's hold that balance.`,
+        adv_kunal: `I am here to offer patient advocacy and steady de-escalating. Tell me what is on your mind, and we can find a calm path forward.`,
+        billu: `*purrs softly* Chasing thoughts is like chasing a shadow—it just moves faster. Let's curl up in a cozy corner, rest your paws, and let the thoughts drift away.`
+      };
+      reply = characterPrompts[char.id] || `I am listening closely. Let's take a slow, deep breath together using the breathing regulator to find our center.`;
+    }
+    return `✨ **${char.name} (${char.title})**\n${reply}\n\n*(HIPAA sandbox mode active. Configure GEMINI_API_KEY to unlock real-time de-escalation)*`;
+  };
+
   // Send human message to API
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -4583,19 +4619,12 @@ I am an automated grounding AI companion, not a medical doctor, psychiatrist, or
       }
     } catch (err) {
       setIsTyping(false);
+      const activeChar = CHARACTERS.find(c => c.id === selectedCharacterId);
+      const fallbackText = generateLocalFallbackResponse(currentText, activeChar);
       setChatHistory(prev => [...prev, {
         id: "bot-err-" + Date.now(),
         sender: 'bot',
-        text: `🛡️ Under HIPAA directives, client-side safety backup was activated. To prevent therapy replacement delusion, we strongly encourage contacting official helpers immediately:
-        
-**Official Verified Support Helpline Networks:**
-- 🇮🇳 **INDIA**: KIRAN Government Helpline at **1800-599-0019** (24/7 free) or Vandrevala at **9999 666 555**
-- 🇺🇸/🇨🇦 **USA & CANADA**: Call or Text **988**
-- 🇬🇧 **UNITED KINGDOM**: Call **111** (NHS) or Samaritans at **116 123**
-- 🇦🇺 **AUSTRALIA**: Call Lifeline at **13 11 14**
-- 🇸🇬 **SINGAPORE**: Samaritans of Singapore at **1767**
-
-*Let's focus on grounded pacing. Breathe slowly with the visual tool to the right.*`,
+        text: fallbackText,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }]);
     }

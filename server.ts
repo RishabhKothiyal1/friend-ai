@@ -404,6 +404,64 @@ Let's rest those busy hands. Unclench that jaw, let your ears drop, and listen t
 Please make this a gentle boundary to slow your breathing, try the Interactive 4-4-4 Box Breathing regulator on your right, or read the anonymous words of resilience on our solace wall. No rush—you are safe, verified, and respected here.`;
 }
 
+const generateLocalFallbackResponse = (userText: string, char: { name: string; title: string; prompt: string }): string => {
+  const clean = userText.toLowerCase().trim();
+  
+  // 1. Check for crisis keywords first
+  const crisisKeywords = [
+    "suicide", "suicidal", "kill myself", "end my life", "want to die", 
+    "self-harm", "self harm", "cut myself", "cutting myself", "overdose"
+  ];
+  if (crisisKeywords.some(k => clean.includes(k))) {
+    return `🛑 **EMERGENCY SAFEKEEPING ACTIVE** 🛑\n\nI hear that you are in deep pain, but as an automated companion, I cannot replace a human helper. Please reach out to one of these free, confidential crisis services immediately:\n- **India**: Government Helpline at **1800-599-0019** (24/7)\n- **US/Canada**: Call/Text **988** (24/7)\n- **UK**: Call **111** (NHS) or **116 123** (Samaritans)\n\nLet's take a slow breath together: breathe in for 4 seconds, hold for 4, and exhale for 4. You are not alone.`;
+  }
+
+  // 2. Check for medication questions
+  const medKeywords = ["dosage", "prescribe", "pill count", "stop taking", "xanax", "valium", "lexapro", "zoloft", "prozac", "ssri"];
+  if (medKeywords.some(k => clean.includes(k))) {
+    return `💊 **MEDICATION SAFEGUARD**\n\nI cannot recommend dosages or adjust prescriptions. Please speak with your doctor or psychiatrist before making any changes. Adjusting psychiatric medications without guidance can cause serious health risks.`;
+  }
+
+  let reply = "";
+  if (clean.includes("hello") || clean.includes("hi") || clean.includes("hey")) {
+    reply = `Hello! I am here in my sanctuary. How is your mind and breathing feeling right now?`;
+  } else if (clean.includes("sad") || clean.includes("depressed") || clean.includes("cry") || clean.includes("lonely")) {
+    reply = `I hear how heavy things feel. It is completely okay to feel this way. Let's take a quiet moment to rest and anchor ourselves. You don't have to carry this all alone.`;
+  } else if (clean.includes("anxious") || clean.includes("panic") || clean.includes("worry") || clean.includes("scared") || clean.includes("stress")) {
+    reply = `I hear the worry in your thoughts. Your mind is racing, but your body is right here, safe and supported. Let's slow down the breath together. Breathe in... and let it go.`;
+  } else if (clean.includes("thank") || clean.includes("help") || clean.includes("good")) {
+    reply = `You are very welcome. I am glad we can share this quiet room. How is your breathing rhythm?`;
+  } else {
+    const characterReplies: Record<string, string> = {
+      veer: `Let's focus strictly on physical grounding. Notice the surface beneath you, roll your shoulders back, and breathe in deeply. We are safe in the present moment.`,
+      uarvashi: `I hear you, and I am here as a compassionate witness. Your thoughts are valid, and there is no rush to fix anything. Take a slow, soft breath.`,
+      krishna: `Let's look at this with cognitive clarity. Sometimes our thoughts blow things out of proportion. Let's trace a gentle middle path together.`,
+      noor: `You are doing the best you can AND you can practice tiny de-escalation skills right now. Let's focus on slowing your heartbeat.`,
+      asha: `I am here with steady, calm containment. Follow the breathing pacer on the page: in... and out. We are grounding together.`,
+      vinod: `Let's break this down. What is the absolute next microscopic, manageable action we can plan? One small step is enough.`,
+      manjishtha: `You are a person experiencing anxiety, not anxiety itself. Let's separate your identity from this feeling and observe it quietly.`,
+      harsha: `Let's connect with your somatic presence. Drop your shoulders, unclench your jaw, and let the muscle tension release as we breathe.`,
+      eshan: `Eshan here. Your session is fully encrypted and private. I can answer any tech support or HIPAA design questions.`,
+      altaf: `*gentle purr* No need to run in circles chasing thoughts. Sit cozy with me, lick your paws, and let the mental noise settle down.`,
+      adv_kunal: `I am Adv Kunal. Because your message involves medico-legal concerns, I am directing you to the support directories below for pro-bono assistance.`
+    };
+    const activeId = char.name.toLowerCase();
+    let foundReply = "";
+    for (const key in characterReplies) {
+      if (activeId.includes(key)) {
+        foundReply = characterReplies[key];
+        break;
+      }
+    }
+    reply = foundReply || `I am listening closely. Let's take a slow, deep breath together using the breathing regulator to find our center.`;
+  }
+
+  return `🛡️ **${char.name} (${char.title})**  
+${reply}
+
+*(Safe Sandbox Mode active. Configure GEMINI_API_KEY to enable real-time AI de-escalation)*`;
+};
+
 // Chat interaction endpoint
 const chatSchema = z.object({
   message: z.string().min(1, "Message content is required.").max(5000),
@@ -541,16 +599,9 @@ Dear friend, I am **Adv Kunal**, your Medico-Legal & Patient Advocacy Counsel at
       }
 
       const activeChar = CHARACTERS[activeCharacterId] || CHARACTERS.abhay;
+      const fallbackText = generateLocalFallbackResponse(message, activeChar);
       return res.json({
-        text: `🛡️ [Safe Sandbox Mode] Please configure your \`GEMINI_API_KEY\` in your Secrets panel to enable the real-time Gemini de-escalation engine.
-
-In this fallback sandbox state, I am operating as a local model representative for **${activeChar.name || 'Friend AI'} (${activeChar.name ? activeChar.title : 'Empathetic Guide'})**.
-
-If you are dealing with an active emotional emergency, intense distress, or thoughts of suicide, please stop reading this immediately and connect with a trained professional who can help:
-- **India Crisis Line**: KIRAN Government Helpline at **1800-599-0019** (Available 24/7) or Vandrevala Foundation at **9999 666 555**.
-- **Global / US / Canada**: Call or text **988**.
-
-*You are completely anonymous. No data leaves your browser and your local logs are fully encrypted on-device. Please feel free to test the breathing tool, write on the anonymous help wall, or track your mood in the segments below.*`,
+        text: fallbackText,
         isMedicoLegal,
         safetyFlags: {
           isCrisis,
