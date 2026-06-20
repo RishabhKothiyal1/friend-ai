@@ -46,10 +46,8 @@ const Hero1 = ({ onGetStarted }: Hero1Props) => {
             <h1 className="text-6xl md:text-8xl font-black leading-none tracking-tighter text-white drop-shadow-sm">
               <DiaTextReveal
                 className="text-6xl md:text-8xl font-black tracking-tighter"
-                colors={["#3b82f6", "#8b5cf6", "#a855f7", "#3b82f6", "#ffffff"]}
-                delay={0.35}
-                duration={2.4}
                 text="friend ai"
+                colors={["#A97CF8", "#F38CB8", "#FDCC92"]}
               />
             </h1>
           </div>
