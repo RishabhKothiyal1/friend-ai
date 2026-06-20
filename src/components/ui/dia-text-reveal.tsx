@@ -70,12 +70,15 @@ export function DiaTextReveal({
       {/* Diagonal shine band */}
       <motion.span
         className="absolute inset-0 inline-block overflow-hidden pointer-events-none"
+        initial={{ opacity: 1 }}
+        animate={isInView ? { opacity: 0 } : { opacity: 1 }}
+        transition={{ duration: 0.3, delay: delay + duration * 0.8 }}
         aria-hidden
       >
         <motion.span
           className="absolute inset-0"
           style={{
-            background: `linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.5) 50%, transparent 60%)`,
+            background: `linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.4) 50%, transparent 60%)`,
             backgroundSize: "200% 100%",
           }}
           initial={{ backgroundPosition: "200% 0%" }}
