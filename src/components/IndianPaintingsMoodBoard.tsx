@@ -1028,13 +1028,19 @@ export default function IndianPaintingsMoodBoard() {
                   className="cursor-crosshair"
                   onClick={() => handleFillAction("swastika_symbol_center", "Sacred Swastika Core center")}
                 />
-                <g transform="translate(-14, 25) scale(0.65)" className="cursor-crosshair" onClick={() => handleFillAction("goddess_footprint_1", "Lakshmi entrance footprint (left)")}>
+                <g transform="translate(-14, 22) scale(0.65)" className="cursor-crosshair" onClick={() => handleFillAction("goddess_footprint_1", "Lakshmi entrance footprint (left)")}>
                   <path d="M4 12 C1 12 1 18 4 18 C7 18 7 12 4 12" fill={getFillColor("goddess_footprint_1", "#ffffff")} />
-                  <circle cx="3" cy="8" r="1.5" fill={getFillColor("goddess_footprint_1", "#ffffff")} />
+                  <circle cx="2.2" cy="9.5" r="1" fill={getFillColor("goddess_footprint_1", "#ffffff")} />
+                  <circle cx="3.8" cy="8" r="1.2" fill={getFillColor("goddess_footprint_1", "#ffffff")} />
+                  <circle cx="6" cy="8" r="1.2" fill={getFillColor("goddess_footprint_1", "#ffffff")} />
+                  <circle cx="7.8" cy="9.5" r="1" fill={getFillColor("goddess_footprint_1", "#ffffff")} />
                 </g>
-                <g transform="translate(4, 25) scale(0.65)" className="cursor-crosshair" onClick={() => handleFillAction("goddess_footprint_2", "Lakshmi entrance footprint (right)")}>
+                <g transform="translate(4, 22) scale(0.65)" className="cursor-crosshair" onClick={() => handleFillAction("goddess_footprint_2", "Lakshmi entrance footprint (right)")}>
                   <path d="M4 12 C1 12 1 18 4 18 C7 18 7 12 4 12" fill={getFillColor("goddess_footprint_2", "#ffffff")} />
-                  <circle cx="3" cy="8" r="1.5" fill={getFillColor("goddess_footprint_2", "#ffffff")} />
+                  <circle cx="2.2" cy="9.5" r="1" fill={getFillColor("goddess_footprint_2", "#ffffff")} />
+                  <circle cx="3.8" cy="8" r="1.2" fill={getFillColor("goddess_footprint_2", "#ffffff")} />
+                  <circle cx="6" cy="8" r="1.2" fill={getFillColor("goddess_footprint_2", "#ffffff")} />
+                  <circle cx="7.8" cy="9.5" r="1" fill={getFillColor("goddess_footprint_2", "#ffffff")} />
                 </g>
               </g>
             </motion.svg>
@@ -1043,73 +1049,500 @@ export default function IndianPaintingsMoodBoard() {
         );
 
       default:
-        const paletteRef = activeArt.colorPalette;
+        return renderTraditionalArtwork(id, isBig, true, getFillColor, handleFillAction);
+    }
+  };
+
+    const renderTraditionalArtwork = (id: string, isBig: boolean, isColoring: boolean, getFillColor?: (regionId: string, defaultColor: string) => string, handleFillAction?: (regionId: string, regionName: string) => void) => {
+    const sizeClasses = isBig ? "w-full h-full min-h-[300px] md:min-h-[420px]" : "w-full h-64 md:h-80";
+    const simSizeClasses = isBig ? "w-full h-full min-h-[300px] md:min-h-[420px]" : "w-full h-32";
+    const containerClasses = isColoring 
+      ? `relative flex items-center justify-center overflow-hidden rounded-2xl ${sizeClasses} transition-all border border-[#ebdcb9]/40 shadow-inner`
+      : `relative flex items-center justify-center overflow-hidden rounded-2xl ${simSizeClasses} transition-all`;
+
+    const getFill = (regionId: string, defaultFallback: string) => {
+      if (isColoring && getFillColor) {
+        return getFillColor(regionId, defaultFallback);
+      }
+      return defaultFallback;
+    };
+
+    const handleClick = (regionId: string, regionName: string) => {
+      if (isColoring && handleFillAction) {
+        handleFillAction(regionId, regionName);
+      }
+    };
+
+    const painting = INDIAN_PAINTINGS.find(p => p.id === id) || INDIAN_PAINTINGS[0];
+    const palette = painting.colorPalette;
+
+    switch (id) {
+      case "pattachitra":
         return (
-          <div className="relative flex flex-col items-center justify-center bg-[#422c1e] text-orange-200 overflow-hidden rounded-2xl w-full h-64 md:h-80 border border-orange-500/10 shadow-lg">
-            <motion.svg 
-              viewBox="0 0 100 100" 
-              className="w-48 h-48 drop-shadow-md z-10"
-              animate={animationPlaying ? { rotate: 360 } : {}}
-              transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
-            >
-              <circle 
-                cx="50" 
-                cy="50" 
-                r="48" 
-                fill={getFillColor("canvas_background", "#160f0a")} 
-                className="cursor-crosshair"
-                onClick={() => handleFillAction("canvas_background", "Traditional Mud Clay Core")}
-              />
-              <circle 
-                cx="50" 
-                cy="50" 
-                r="42" 
-                fill="none" 
-                stroke={getFillColor("outer_border", paletteRef[0] || "#991b1b")} 
-                strokeWidth="2.5" 
-                className="cursor-crosshair"
-                onClick={() => handleFillAction("outer_border", "Double-Line Border Frame")}
-              />
-              <circle 
-                cx="50" 
-                cy="50" 
-                r="30" 
-                fill="none" 
-                stroke={getFillColor("mandala_ring", paletteRef[2] || "#1e3a8a")} 
-                strokeWidth="1.5" 
-                strokeDasharray="3,3" 
-                className="cursor-crosshair"
-                onClick={() => handleFillAction("mandala_ring", "Symmetric Lotus Mandala Ring")}
-              />
-              <circle 
-                cx="50" 
-                cy="50" 
-                r="10" 
-                fill={getFillColor("pinnacle_circle", paletteRef[3] || "#ffffff")} 
-                stroke={paletteRef[0] || "#991b1b"} 
-                strokeWidth="1" 
-                className="cursor-crosshair"
-                onClick={() => handleFillAction("pinnacle_circle", "Sacred Core Pinnacle Bindu")}
-              />
-              {[45, 135, 225, 315].map((deg) => (
-                <line 
-                  key={deg} 
-                  x1="50" 
-                  y1="50" 
-                  x2={50 + 20 * Math.cos((deg * Math.PI) / 180)} 
-                  y2={50 + 20 * Math.sin((deg * Math.PI) / 180)} 
-                  stroke={getFillColor("corner_motifs", paletteRef[4] || paletteRef[0] || "#facd12")} 
-                  strokeWidth="1" 
+          <div className={containerClasses} style={{ backgroundColor: getFill("canvas_background", "#fbf6e8") }}>
+            <motion.svg viewBox="0 0 200 200" className="w-[85%] h-[85%] z-10 drop-shadow-md">
+              <rect x="5" y="5" width="190" height="190" fill="none" stroke={getFill("outer_border", palette[0] || "#852222")} strokeWidth="4" onClick={() => handleClick("outer_border", "Ornate Border Line")} />
+              <rect x="12" y="12" width="176" height="176" fill="none" stroke={getFill("mandala_ring", palette[1] || "#cf9d1a")} strokeWidth="2" strokeDasharray="3,3" onClick={() => handleClick("mandala_ring", "Dotted Inner Border")} />
+              
+              <path d="M30 180 V80 Q100 20 170 80 V180 Z" fill="none" stroke={getFill("outer_border", palette[0] || "#852222")} strokeWidth="3" onClick={() => handleClick("outer_border", "Sacred Temple Arch")} />
+              
+              <g transform="translate(100, 100)">
+                <circle cx="0" cy="-10" r="35" fill={getFill("pinnacle_circle", "#ffffff")} stroke={getFill("outer_border", palette[3] || "#000000")} strokeWidth="2.5" onClick={() => handleClick("pinnacle_circle", "Central Deity Halo")} />
+                
+                <ellipse cx="-15" cy="-10" rx="10" ry="6" fill={getFill("pinnacle_circle", "#ffffff")} stroke={getFill("outer_border", "#000000")} strokeWidth="2" onClick={() => handleClick("pinnacle_circle", "Lotus Eyes (Left)")} />
+                <circle cx="-15" cy="-10" r="4.5" fill={getFill("outer_border", "#000000")} />
+                <circle cx="-15" cy="-10" r="1.5" fill="#ffffff" />
+                
+                <ellipse cx="15" cy="-10" rx="10" ry="6" fill={getFill("pinnacle_circle", "#ffffff")} stroke={getFill("outer_border", "#000000")} strokeWidth="2" onClick={() => handleClick("pinnacle_circle", "Lotus Eyes (Right)")} />
+                <circle cx="15" cy="-10" r="4.5" fill={getFill("outer_border", "#000000")} />
+                <circle cx="15" cy="-10" r="1.5" fill="#ffffff" />
+                
+                <path d="M-4 -35 Q0 -25 4 -35 Q1 -15 0 0 Q-1 -15 -4 -35 Z" fill={getFill("corner_motifs", palette[2] || "#1050a5")} onClick={() => handleClick("corner_motifs", "Auspicious Tilak Mark")} />
+                
+                <path d="M-45 30 C-30 20 -15 40 0 30 C15 40 30 20 45 30 L40 45 H-40 Z" fill={getFill("corner_motifs", palette[0] || "#852222")} stroke={getFill("outer_border", "#000000")} strokeWidth="1.5" onClick={() => handleClick("corner_motifs", "Lotus Pedestal Seat")} />
+              </g>
+            </motion.svg>
+            <span className="absolute bottom-2 left-3 text-[8.5px] font-mono tracking-widest text-stone-550 dark:text-stone-400 uppercase z-10">Puri Pattachitra Temple Scroll</span>
+          </div>
+        );
+
+      case "kalamkari":
+        return (
+          <div className={containerClasses} style={{ backgroundColor: getFill("canvas_background", "#f3eeda") }}>
+            <motion.svg viewBox="0 0 200 200" className="w-[85%] h-[85%] z-10 drop-shadow-md">
+              <rect x="6" y="6" width="188" height="188" fill="none" stroke={getFill("outer_border", palette[0] || "#542518")} strokeWidth="3" onClick={() => handleClick("outer_border", "Srikalahasti Border Frame")} />
+              
+              <path d="M100 190 Q95 150 85 130 Q70 100 75 70 T105 30 T130 50" fill="none" stroke={getFill("mandala_ring", palette[0] || "#542518")} strokeWidth="6" strokeLinecap="round" onClick={() => handleClick("mandala_ring", "Tree of Life Trunk")} />
+              
+              <path d="M85 130 Q60 120 45 100 T50 70" fill="none" stroke={getFill("mandala_ring", palette[0] || "#542518")} strokeWidth="3.5" strokeLinecap="round" onClick={() => handleClick("mandala_ring", "Left Branch")} />
+              <path d="M78 95 Q110 80 125 70 T150 90" fill="none" stroke={getFill("mandala_ring", palette[0] || "#542518")} strokeWidth="3.5" strokeLinecap="round" onClick={() => handleClick("mandala_ring", "Right Branch")} />
+              
+              {[
+                { cx: 50, cy: 70, rx: 8, ry: 13, rot: -30, color: palette[1] || "#2d4530" },
+                { cx: 45, cy: 100, rx: 7, ry: 11, rot: -60, color: palette[2] || "#baa058" },
+                { cx: 105, cy: 30, rx: 9, ry: 14, rot: 15, color: palette[1] || "#2d4530" },
+                { cx: 130, cy: 50, rx: 8, ry: 12, rot: 45, color: palette[2] || "#baa058" },
+                { cx: 150, cy: 90, rx: 7, ry: 11, rot: 60, color: palette[1] || "#2d4530" },
+                { cx: 75, cy: 70, rx: 6, ry: 10, rot: -10, color: palette[2] || "#baa058" },
+                { cx: 125, cy: 70, rx: 6, ry: 10, rot: 20, color: palette[1] || "#2d4530" }
+              ].map((leaf, idx) => (
+                <ellipse 
+                  key={idx} 
+                  cx={leaf.cx} 
+                  cy={leaf.cy} 
+                  rx={leaf.rx} 
+                  ry={leaf.ry} 
+                  transform={`rotate(${leaf.rot}, ${leaf.cx}, ${leaf.cy})`}
+                  fill={getFill("pinnacle_circle", leaf.color)}
+                  stroke={palette[0]}
+                  strokeWidth="1.2"
                   className="cursor-crosshair"
-                  onClick={() => handleFillAction("corner_motifs", "Auspicious Corner Peacocks")}
+                  onClick={() => handleClick("pinnacle_circle", "Sacred Tree Leaf")}
+                />
+              ))}
+
+              <g transform="translate(110, 100) scale(0.65)" onClick={() => handleClick("corner_motifs", "Auspicious Peacock")} className="cursor-crosshair">
+                <path d="M 0 40 Q -15 30 -10 10 Q -5 0 -15 -10 Q -10 -25 5 -20 Q 20 -10 10 20 Q 25 30 30 50 Z" fill={getFill("corner_motifs", palette[3] || "#121d28")} stroke={palette[0]} strokeWidth="1.5" />
+                <path d="M -15 -10 Q -25 -20 -35 -15 M -12 -15 Q -22 -30 -30 -32" stroke={palette[0]} strokeWidth="2.5" strokeLinecap="round" />
+              </g>
+            </motion.svg>
+            <span className="absolute bottom-2 left-3 text-[8.5px] font-mono tracking-widest text-stone-550 dark:text-stone-400 uppercase z-10">Kalamkari Tree of Life</span>
+          </div>
+        );
+
+      case "bhil_art":
+        return (
+          <div className={containerClasses} style={{ backgroundColor: getFill("canvas_background", "#fdfaf2") }}>
+            <motion.svg viewBox="0 0 200 200" className="w-[85%] h-[85%] z-10 drop-shadow-md">
+              <rect x="5" y="5" width="190" height="190" fill="none" stroke={getFill("outer_border", palette[0] || "#ff5722")} strokeWidth="4.5" onClick={() => handleClick("outer_border", "Ochre Clay Border")} />
+              
+              <path 
+                d="M 40,110 C 50,110 65,95 70,80 C 72,70 65,55 70,45 C 75,35 85,35 90,45 C 92,55 82,75 88,85 C 105,85 130,80 150,95 C 160,102 165,115 160,125 C 150,135 125,130 110,132 C 85,135 55,130 40,110 Z" 
+                fill={getFill("mandala_ring", palette[1] || "#ffeb3b")} 
+                stroke={palette[0]} 
+                strokeWidth="2" 
+                className="cursor-crosshair"
+                onClick={() => handleClick("mandala_ring", "Ritual Horse Base Silhouette")} 
+              />
+              
+              <path d="M 50,110 L 40,165 M 65,108 L 58,165 M 130,118 L 132,165 M 150,123 L 158,165" stroke={palette[0]} strokeWidth="4" strokeLinecap="round" />
+              
+              <path d="M 82,40 Q 88,25 90,20 M 86,42 Q 95,30 96,25" stroke={palette[0]} strokeWidth="3.5" strokeLinecap="round" />
+              <path d="M 160,115 Q 175,135 180,160" stroke={palette[0]} strokeWidth="3" strokeLinecap="round" />
+
+              {[
+                { cx: 50, cy: 105 }, { cx: 62, cy: 98 }, { cx: 70, cy: 88 }, { cx: 72, cy: 75 }, 
+                { cx: 70, cy: 62 }, { cx: 73, cy: 50 }, { cx: 80, cy: 45 }, { cx: 88, cy: 52 },
+                { cx: 84, cy: 65 }, { cx: 82, cy: 78 }, { cx: 88, cy: 90 }, { cx: 100, cy: 90 },
+                { cx: 112, cy: 90 }, { cx: 125, cy: 92 }, { cx: 138, cy: 96 }, { cx: 148, cy: 102 },
+                { cx: 154, cy: 110 }, { cx: 150, cy: 120 }, { cx: 138, cy: 122 }, { cx: 125, cy: 124 },
+                { cx: 112, cy: 125 }, { cx: 100, cy: 125 }, { cx: 88, cy: 122 }, { cx: 75, cy: 120 },
+                { cx: 62, cy: 115 }, { cx: 100, cy: 108 }, { cx: 112, cy: 108 }, { cx: 125, cy: 110 }
+              ].map((dot, dIdx) => (
+                <circle 
+                  key={dIdx} 
+                  cx={dot.cx} 
+                  cy={dot.cy} 
+                  r="2.5" 
+                  fill={getFill("pinnacle_circle", palette[2 + (dIdx % 3)] || "#4caf50")} 
+                  className="cursor-crosshair"
+                  onClick={() => handleClick("pinnacle_circle", "Bhil Ancestral Seeds of Life Dots")}
                 />
               ))}
             </motion.svg>
-            <span className="absolute bottom-2 left-3 text-[8.5px] font-mono tracking-widest text-[#facd12]/50 uppercase z-10">Dynamic Guild Mandala Activity</span>
+            <span className="absolute bottom-2 left-3 text-[8.5px] font-mono tracking-widest text-stone-550 dark:text-stone-400 uppercase z-10">Bhil Rhythmic Dot Art</span>
+          </div>
+        );
+
+      case "phad":
+        return (
+          <div className={containerClasses} style={{ backgroundColor: getFill("canvas_background", "#ffeaa7") }}>
+            <motion.svg viewBox="0 0 200 200" className="w-[85%] h-[85%] z-10 drop-shadow-md">
+              <rect x="5" y="5" width="190" height="190" fill="none" stroke={getFill("outer_border", palette[0] || "#c62828")} strokeWidth="4.5" onClick={() => handleClick("outer_border", "Traditional Phad Frame")} />
+              
+              <path d="M20,30 L180,30 L160,45 L40,45 Z" fill={getFill("outer_border", palette[0] || "#c62828")} onClick={() => handleClick("outer_border", "Royal Canopy")} />
+              
+              <g transform="translate(20, 45) scale(0.85)">
+                <path d="M50,110 Q70,90 90,80 Q105,70 120,40 Q130,50 125,65 Q115,85 125,95 C145,95 160,105 170,120 C175,130 155,140 140,142 C110,145 70,140 50,110 Z" fill={getFill("mandala_ring", palette[3] || "#ffffff")} stroke="#c62828" strokeWidth="2.5" onClick={() => handleClick("mandala_ring", "Heroic Pabuji Steed")} />
+                
+                <g transform="translate(100, 50)" className="cursor-crosshair" onClick={() => handleClick("pinnacle_circle", "Folk Hero Pabuji")}>
+                  <path d="M-10,35 L10,35 L5,15 L-5,15 Z" fill={getFill("pinnacle_circle", palette[2] || "#2e7d32")} />
+                  <circle cx="0" cy="5" r="8" fill={getFill("pinnacle_circle", palette[1] || "#fcc02a")} />
+                  <path d="M-4,10 L-25,-10 L-21,-14 L0,5 Z" fill="#78350f" />
+                </g>
+                
+                <path d="M120,38 L145,20 L130,42 Z" fill={getFill("corner_motifs", palette[1] || "#fcc02a")} onClick={() => handleClick("corner_motifs", "Royal Standard Banner")} />
+              </g>
+            </motion.svg>
+            <span className="absolute bottom-2 left-3 text-[8.5px] font-mono tracking-widest text-stone-550 dark:text-stone-400 uppercase z-10">Rajasthani Phad Temple Scroll</span>
+          </div>
+        );
+
+      case "pithora":
+        return (
+          <div className={containerClasses} style={{ backgroundColor: getFill("canvas_background", "#fefdfa") }}>
+            <motion.svg viewBox="0 0 200 200" className="w-[85%] h-[85%] z-10 drop-shadow-md">
+              <rect x="8" y="8" width="184" height="184" fill="none" stroke={getFill("outer_border", palette[0] || "#e53935")} strokeWidth="3" onClick={() => handleClick("outer_border", "Baba Pithora Sacred Frame")} />
+              
+              {[
+                { tx: 25, ty: 45, color: palette[0] || "#e53935", name: "Red Holy Horse" },
+                { tx: 85, ty: 75, color: palette[1] || "#1e88e5", name: "Blue Holy Horse" },
+                { tx: 40, ty: 110, color: palette[3] || "#fdd835", name: "Yellow Holy Horse" }
+              ].map((horse, idx) => (
+                <g key={idx} transform={`translate(${horse.tx}, ${horse.ty}) scale(0.6)`} className="cursor-crosshair" onClick={() => handleClick("mandala_ring", horse.name)}>
+                  <path d="M10,40 Q30,25 45,15 Q55,5 60,18 Q55,30 60,35 C75,35 85,42 90,52 C95,58 85,65 75,66 C55,68 30,65 10,40 Z" fill={getFill("mandala_ring", horse.color)} stroke="#000000" strokeWidth="1.5" />
+                  <line x1="20" y1="40" x2="15" y2="75" stroke="#000000" strokeWidth="3" />
+                  <line x1="32" y1="42" x2="28" y2="75" stroke="#000000" strokeWidth="3" />
+                  <line x1="65" y1="46" x2="62" y2="75" stroke="#000000" strokeWidth="3" />
+                  <line x1="75" y1="48" x2="78" y2="75" stroke="#000000" strokeWidth="3" />
+                </g>
+              ))}
+
+              <circle cx="35" cy="30" r="10" fill={getFill("pinnacle_circle", palette[3] || "#fdd835")} onClick={() => handleClick("pinnacle_circle", "Sun Deity")} />
+              <path d="M155,25 Q165,25 170,35 Q160,38 155,25" fill={getFill("pinnacle_circle", palette[4] || "#ffffff")} onClick={() => handleClick("pinnacle_circle", "Moon Companion")} />
+            </motion.svg>
+            <span className="absolute bottom-2 left-3 text-[8.5px] font-mono tracking-widest text-stone-550 dark:text-stone-400 uppercase z-10">Rathwa Pithora Mural</span>
+          </div>
+        );
+
+      case "kalighat":
+        return (
+          <div className={containerClasses} style={{ backgroundColor: getFill("canvas_background", "#fafafa") }}>
+            <motion.svg viewBox="0 0 200 200" className="w-[85%] h-[85%] z-10 drop-shadow-md">
+              <rect x="5" y="5" width="190" height="190" fill="none" stroke={getFill("outer_border", palette[3] || "#64748b")} strokeWidth="2" onClick={() => handleClick("outer_border", "Fine Line Margin")} />
+              
+              <g transform="translate(100, 100) scale(0.9)" className="cursor-crosshair" onClick={() => handleClick("mandala_ring", "Babu Satirical Cat Body")}>
+                <path d="M-40,60 C-60,40 -50,-10 -20,-30 C-30,-45 -10,-55 0,-35 C15,-55 30,-45 20,-30 C50,-10 60,40 40,60 C35,68 -35,68 -40,60 Z" fill={getFill("mandala_ring", palette[0] || "#1e293b")} />
+                
+                <ellipse cx="-12" cy="-22" rx="6" ry="3" fill="#ffffff" />
+                <circle cx="-12" cy="-22" r="2.5" fill="#000000" />
+                <ellipse cx="12" cy="-22" rx="6" ry="3" fill="#ffffff" />
+                <circle cx="12" cy="-22" r="2.5" fill="#000000" />
+                
+                <g transform="translate(0, -5) scale(0.85)" onClick={(e) => { e.stopPropagation(); handleClick("pinnacle_circle", "Sacred Silver Fish"); }}>
+                  <path d="M-35,0 C-15,-10 15,-10 35,0 C15,10 -15,10 -35,0 Z" fill={getFill("pinnacle_circle", palette[2] || "#eab308")} stroke="#000000" strokeWidth="1.5" />
+                  <path d="M35,0 L48,-8 L42,0 L48,8 Z" fill={getFill("pinnacle_circle", palette[1] || "#ef4444")} />
+                  <circle cx="-25" cy="-2" r="2.5" fill="#ffffff" />
+                  <circle cx="-25" cy="-2" r="1" fill="#000000" />
+                </g>
+
+                <path d="M35,50 Q75,30 80,0 Q82,-20 70,-22" fill="none" stroke={getFill("mandala_ring", palette[0] || "#1e293b")} strokeWidth="8" strokeLinecap="round" />
+              </g>
+            </motion.svg>
+            <span className="absolute bottom-2 left-3 text-[8.5px] font-mono tracking-widest text-stone-550 dark:text-stone-400 uppercase z-10">Bazar Kalighat Cat Art</span>
+          </div>
+        );
+
+      case "cheriyal":
+        return (
+          <div className={containerClasses} style={{ backgroundColor: getFill("canvas_background", "#b91c1c") }}>
+            <motion.svg viewBox="0 0 200 200" className="w-[85%] h-[85%] z-10 drop-shadow-md">
+              <line x1="10" y1="100" x2="190" y2="100" stroke={getFill("outer_border", palette[3] || "#047857")} strokeWidth="4.5" onClick={() => handleClick("outer_border", "Scroll Panels Divider")} />
+              <rect x="5" y="5" width="190" height="190" fill="none" stroke={getFill("outer_border", palette[3] || "#047857")} strokeWidth="4.5" onClick={() => handleClick("outer_border", "Sacred Border Frame")} />
+              
+              <g transform="translate(100, 50) scale(0.85)" className="cursor-crosshair" onClick={() => handleClick("pinnacle_circle", "Epic Narrative King")}>
+                <circle cx="0" cy="0" r="28" fill={getFill("pinnacle_circle", palette[1] || "#fbbf24")} stroke="#000000" strokeWidth="2" />
+                <path d="M-15,-8 Q0,-15 15,-8" stroke="#000000" strokeWidth="3" fill="none" />
+                <ellipse cx="-10" cy="-2" rx="5" ry="3.5" fill="#ffffff" stroke="#000000" strokeWidth="1" />
+                <circle cx="-9" cy="-2" r="2" fill="#000000" />
+                <ellipse cx="10" cy="-2" rx="5" ry="3.5" fill="#ffffff" stroke="#000000" strokeWidth="1" />
+                <circle cx="9" cy="-2" r="2" fill="#000000" />
+                <path d="M-15,10 Q0,25 15,10" fill="none" stroke="#000000" strokeWidth="2.5" />
+                
+                <path d="M-22,-20 L-26,-40 L0,-30 L26,-40 L22,-20 Z" fill={getFill("corner_motifs", palette[2] || "#ffffff")} stroke="#000000" strokeWidth="1.5" />
+              </g>
+
+              <g transform="translate(100, 150) scale(0.65)" className="cursor-crosshair" onClick={() => handleClick("mandala_ring", "Folk Performers")}>
+                <g transform="translate(-40, 0)">
+                  <circle cx="0" cy="-24" r="8" fill={getFill("mandala_ring", "#ffffff")} />
+                  <path d="M-12,-12 L12,-12 L0,15 Z" fill={getFill("pinnacle_circle", palette[1] || "#fbbf24")} />
+                  <line x1="0" y1="15" x2="-8" y2="35" stroke="#ffffff" strokeWidth="2.5" />
+                  <line x1="0" y1="15" x2="8" y2="35" stroke="#ffffff" strokeWidth="2.5" />
+                </g>
+                <g transform="translate(40, 0)">
+                  <circle cx="0" cy="-24" r="8" fill={getFill("mandala_ring", "#ffffff")} />
+                  <path d="M-12,-12 L12,-12 L0,15 Z" fill={getFill("pinnacle_circle", palette[1] || "#fbbf24")} />
+                  <line x1="0" y1="15" x2="-8" y2="35" stroke="#ffffff" strokeWidth="2.5" />
+                  <line x1="0" y1="15" x2="8" y2="35" stroke="#ffffff" strokeWidth="2.5" />
+                </g>
+              </g>
+            </motion.svg>
+            <span className="absolute bottom-2 left-3 text-[8.5px] font-mono tracking-widest text-[#ffffff]/60 uppercase z-10">Cheriyal Story Scroll</span>
+          </div>
+        );
+
+      case "saura":
+        return (
+          <div className={containerClasses} style={{ backgroundColor: getFill("canvas_background", "#7c2d12") }}>
+            <motion.svg viewBox="0 0 200 200" className="w-[85%] h-[85%] z-10 drop-shadow-md">
+              <rect x="8" y="8" width="184" height="184" fill="none" stroke={getFill("outer_border", palette[0] || "#ffffff")} strokeWidth="4.5" onClick={() => handleClick("outer_border", "Fish-Bone Border Frame")} />
+              {[15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180].map((pos) => (
+                <g key={pos} stroke={getFill("outer_border", palette[0] || "#ffffff")} strokeWidth="1">
+                  <line x1={pos} y1="8" x2={pos + 5} y2="14" />
+                  <line x1={pos} y1="192" x2={pos + 5} y2="186" />
+                  <line x1="8" y1={pos} x2="14" y2={pos + 5} />
+                  <line x1="192" y1={pos} x2="186" y2={pos + 5} />
+                </g>
+              ))}
+              
+              <g transform="translate(100, 100)" className="cursor-crosshair" onClick={() => handleClick("pinnacle_circle", "Ancestral Spirit Ladder")}>
+                <line x1="-8" y1="-50" x2="-8" y2="50" stroke={getFill("pinnacle_circle", "#ffffff")} strokeWidth="2" />
+                <line x1="8" y1="-50" x2="8" y2="50" stroke={getFill("pinnacle_circle", "#ffffff")} strokeWidth="2" />
+                {[-40, -25, -10, 5, 20, 35].map((yVal) => (
+                  <line key={yVal} x1="-8" y1={yVal} x2="8" y2={yVal} stroke={getFill("pinnacle_circle", "#ffffff")} strokeWidth="1.8" />
+                ))}
+              </g>
+
+              {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
+                <g 
+                  key={deg} 
+                  transform={`translate(100, 100) rotate(${deg}) translate(0, -62)`}
+                  className="cursor-crosshair"
+                  onClick={() => handleClick("mandala_ring", "Ritual Circle Dancers")}
+                >
+                  <circle cx="0" cy="-8" r="3" fill={getFill("mandala_ring", "#ffffff")} />
+                  <path d="M-4,0 L4,0 L0,7 Z" fill={getFill("mandala_ring", "#ffffff")} />
+                  <path d="M-4,7 L4,7 L0,0 Z" fill={getFill("mandala_ring", "#ffffff")} />
+                  <line x1="-3" y1="7" x2="-5" y2="14" stroke={getFill("mandala_ring", "#ffffff")} strokeWidth="1" />
+                  <line x1="3" y1="7" x2="5" y2="14" stroke={getFill("mandala_ring", "#ffffff")} strokeWidth="1" />
+                </g>
+              ))}
+            </motion.svg>
+            <span className="absolute bottom-2 left-3 text-[8.5px] font-mono tracking-widest text-stone-300 uppercase z-10">Lanjia Saura Ancestral Mural</span>
+          </div>
+        );
+
+      case "sohrai_khovar":
+        return (
+          <div className={containerClasses} style={{ backgroundColor: getFill("canvas_background", "#1c1917") }}>
+            <motion.svg viewBox="0 0 200 200" className="w-[85%] h-[85%] z-10 drop-shadow-md">
+              <rect x="6" y="6" width="188" height="188" fill="none" stroke={getFill("outer_border", palette[2] || "#7c2d12")} strokeWidth="5.5" onClick={() => handleClick("outer_border", "Earthen Clay Outer Border")} />
+              
+              <path d="M20,35 Q60,10 100,30 T180,25" fill="none" stroke={getFill("corner_motifs", palette[3] || "#ca8a04")} strokeWidth="3" strokeLinecap="round" onClick={() => handleClick("corner_motifs", "Sacred Forest Vine")} />
+              
+              <g transform="translate(100, 115) scale(0.95)" className="cursor-crosshair" onClick={() => handleClick("mandala_ring", "Matrilineal Forest Elephant")}>
+                <path d="M-40,15 C-60,-5 -50,-40 -15,-45 C15,-48 30,-30 40,-15 C45,-5 40,22 15,25 C-10,24 -25,25 -40,15 Z" fill={getFill("mandala_ring", palette[1] || "#f9fafb")} />
+                
+                <rect x="-35" y="15" width="10" height="30" fill={getFill("mandala_ring", palette[1] || "#f9fafb")} />
+                <rect x="-15" y="18" width="9" height="28" fill={getFill("mandala_ring", palette[1] || "#f9fafb")} />
+                <rect x="5" y="18" width="9" height="28" fill={getFill("mandala_ring", palette[1] || "#f9fafb")} />
+                <rect x="22" y="15" width="10" height="30" fill={getFill("mandala_ring", palette[1] || "#f9fafb")} />
+
+                <path d="M40,-15 Q55,-10 60,10 Q62,25 54,28 Q48,22 52,15" fill="none" stroke={getFill("mandala_ring", palette[1] || "#f9fafb")} strokeWidth="10" strokeLinecap="round" />
+
+                <path d="M42,-6 Q58,-4 65,-8" fill="none" stroke={getFill("pinnacle_circle", "#ffffff")} strokeWidth="3.5" strokeLinecap="round" onClick={(e) => { e.stopPropagation(); handleClick("pinnacle_circle", "Sacred White Tusk"); }} />
+                <circle cx="28" cy="-22" r="2.5" fill={getFill("pinnacle_circle", "#1e1b4b")} />
+              </g>
+            </motion.svg>
+            <span className="absolute bottom-2 left-3 text-[8.5px] font-mono tracking-widest text-[#f9fafb]/50 uppercase z-10">Hazaribagh Sohrai Mud Mural</span>
+          </div>
+        );
+
+      case "manjusha":
+        return (
+          <div className={containerClasses} style={{ backgroundColor: getFill("canvas_background", "#fffbeb") }}>
+            <motion.svg viewBox="0 0 200 200" className="w-[85%] h-[85%] z-10 drop-shadow-md">
+              <rect x="5" y="5" width="190" height="190" fill="none" stroke={getFill("outer_border", palette[0] || "#ec4899")} strokeWidth="4.5" onClick={() => handleClick("outer_border", "Pink Clay Outer Border")} />
+              <rect x="12" y="12" width="176" height="176" fill="none" stroke={getFill("mandala_ring", palette[1] || "#22c55e")} strokeWidth="2.5" onClick={() => handleClick("mandala_ring", "Green Inner Border")} />
+              
+              <path d="M25,120 Q100,165 175,120 L168,135 Q100,175 32,135 Z" fill={getFill("outer_border", palette[0] || "#ec4899")} onClick={() => handleClick("outer_border", "Bihula Snake Boat")} />
+              
+              <g transform="translate(100, 75)" className="cursor-crosshair" onClick={() => handleClick("pinnacle_circle", "Sacred Snake Deities")}>
+                <path d="M-40,30 Q-65,0 -40,-30 T-40,-50" fill="none" stroke={getFill("pinnacle_circle", palette[1] || "#22c55e")} strokeWidth="4" strokeLinecap="round" />
+                <circle cx="-40" cy="-52" r="3.5" fill={getFill("outer_border", palette[0] || "#ec4899")} />
+                <path d="M40,30 Q65,0 40,-30 T 40,-50" fill="none" stroke={getFill("pinnacle_circle", palette[1] || "#22c55e")} strokeWidth="4" strokeLinecap="round" />
+                <circle cx="40" cy="-52" r="3.5" fill={getFill("outer_border", palette[0] || "#ec4899")} />
+              </g>
+
+              <circle cx="100" cy="80" r="16" fill={getFill("corner_motifs", palette[2] || "#eab308")} onClick={() => handleClick("corner_motifs", "Sacred Lotus Hub")} />
+            </motion.svg>
+            <span className="absolute bottom-2 left-3 text-[8.5px] font-mono tracking-widest text-[#ec4899] uppercase font-bold">Angika Manjusha Snake Art</span>
+          </div>
+        );
+
+      case "paitkar":
+        return (
+          <div className={containerClasses} style={{ backgroundColor: getFill("canvas_background", "#e7d8c0") }}>
+            <motion.svg viewBox="0 0 200 200" className="w-[85%] h-[85%] z-10 drop-shadow-md">
+              <rect x="7" y="7" width="186" height="186" fill="none" stroke={getFill("outer_border", palette[0] || "#78350f")} strokeWidth="4" onClick={() => handleClick("outer_border", "earthen border scroll")} />
+              
+              <path d="M25,180 Q100,-10 175,180" fill="none" stroke={getFill("corner_motifs", palette[2] || "#ca8a04")} strokeWidth="3" strokeDasharray="6,3" onClick={() => handleClick("corner_motifs", "jungle tree arch")} />
+              
+              <g transform="translate(100, 110) scale(0.85)" className="cursor-crosshair" onClick={() => handleClick("mandala_ring", "Santhal tribal assembly")}>
+                <g transform="translate(-25, 0)">
+                  <circle cx="0" cy="-22" r="6" fill={getFill("mandala_ring", palette[0] || "#78350f")} />
+                  <path d="M-6,-10 L6,-10 L3,25 L-3,25 Z" fill={getFill("pinnacle_circle", palette[3] || "#7f1d1d")} />
+                  <path d="M0,25 L-5,50 M0,25 L5,50" stroke={palette[0]} strokeWidth="2.5" />
+                </g>
+                <g transform="translate(25, 5)">
+                  <circle cx="0" cy="-22" r="6" fill={getFill("mandala_ring", palette[0] || "#78350f")} />
+                  <path d="M-6,-10 L6,-10 L3,25 L-3,25 Z" fill={getFill("pinnacle_circle", palette[2] || "#ca8a04")} />
+                  <path d="M0,25 L-5,45 M0,25 L5,45" stroke={palette[0]} strokeWidth="2.5" />
+                  <circle cx="12" cy="0" r="7" fill={getFill("pinnacle_circle", palette[3] || "#7f1d1d")} />
+                </g>
+              </g>
+            </motion.svg>
+            <span className="absolute bottom-2 left-3 text-[8.5px] font-mono tracking-widest text-stone-600 uppercase z-10">Santhal Paitkar Scroll</span>
+          </div>
+        );
+
+      case "chittara":
+        return (
+          <div className={containerClasses} style={{ backgroundColor: getFill("canvas_background", "#7f1d1d") }}>
+            <motion.svg viewBox="0 0 200 200" className="w-[85%] h-[85%] z-10 drop-shadow-md">
+              <rect x="10" y="10" width="180" height="180" fill="none" stroke={getFill("outer_border", "#ffffff")} strokeWidth="2" onClick={() => handleClick("outer_border", "White Outer Border")} />
+              <rect x="15" y="15" width="170" height="170" fill="none" stroke={getFill("outer_border", "#ffffff")} strokeWidth="1" />
+              
+              <g transform="translate(100, 100)" className="cursor-crosshair" onClick={() => handleClick("mandala_ring", "Geometric Wedding Mandapa")}>
+                <line x1="-70" y1="-70" x2="70" y2="70" stroke={getFill("mandala_ring", "#ffffff")} strokeWidth="1.5" />
+                <line x1="70" y1="-70" x2="-70" y2="70" stroke={getFill("mandala_ring", "#ffffff")} strokeWidth="1.5" />
+                
+                <polygon points="0,-72 72,0 0,72 -72,0" fill="none" stroke={getFill("mandala_ring", "#ffffff")} strokeWidth="2" />
+                <polygon points="0,-48 48,0 0,48 -48,0" fill="none" stroke={getFill("pinnacle_circle", palette[2] || "#ca8a04")} strokeWidth="1.8" onClick={(e) => { e.stopPropagation(); handleClick("pinnacle_circle", "Yellow Sacred Core"); }} />
+                
+                <line x1="-75" y1="0" x2="75" y2="0" stroke={getFill("mandala_ring", "#ffffff")} strokeWidth="2.5" />
+                <line x1="0" y1="-75" x2="0" y2="75" stroke={getFill("mandala_ring", "#ffffff")} strokeWidth="2.5" />
+              </g>
+
+              {[
+                { x: 30, y: 30 },
+                { x: 170, y: 30 },
+                { x: 30, y: 170 },
+                { x: 170, y: 170 }
+              ].map((pos, idx) => (
+                <circle 
+                  key={idx} 
+                  cx={pos.x} 
+                  cy={pos.y} 
+                  r="7" 
+                  fill={getFill("corner_motifs", palette[2] || "#ca8a04")} 
+                  className="cursor-crosshair"
+                  onClick={() => handleClick("corner_motifs", "Ears of Rice Motif")}
+                />
+              ))}
+            </motion.svg>
+            <span className="absolute bottom-2 left-3 text-[8.5px] font-mono tracking-widest text-[#ffffff]/60 uppercase">Deevaru Chittara Lattice</span>
+          </div>
+        );
+
+      case "kalamezhuthu":
+        return (
+          <div className={containerClasses} style={{ backgroundColor: getFill("canvas_background", "#111827") }}>
+            <motion.svg viewBox="0 0 200 200" className="w-[85%] h-[85%] z-10 drop-shadow-md">
+              <circle cx="100" cy="100" r="92" fill="none" stroke={getFill("outer_border", palette[3] || "#ca8a04")} strokeWidth="3" onClick={() => handleClick("outer_border", "Sacred Boundary Circle")} />
+              
+              <g transform="translate(100, 100) scale(0.9)" className="cursor-crosshair" onClick={() => handleClick("mandala_ring", "Bhadrakali Deity Face")}>
+                <path d="M-30,-20 L0,-75 L30,-20 Z" fill={getFill("corner_motifs", palette[3] || "#ca8a04")} stroke="#ffffff" strokeWidth="1.5" onClick={(e) => { e.stopPropagation(); handleClick("corner_motifs", "Gilded Kireedam Crown"); }} />
+                
+                <path d="M-30,-20 C-45,10 -35,50 0,55 C35,50 45,10 30,-20 Z" fill={getFill("mandala_ring", palette[1] || "#991b1b")} />
+                
+                <ellipse cx="0" cy="-2" rx="4" ry="7" fill={getFill("pinnacle_circle", "#ffffff")} stroke="#000000" strokeWidth="1.2" onClick={(e) => { e.stopPropagation(); handleClick("pinnacle_circle", "Goddess Third Eye"); }} />
+                <circle cx="0" cy="-2" r="2.2" fill={getFill("outer_border", "#991b1b")} />
+                
+                <path d="M-12,28 L0,42 L12,28 Z" fill={getFill("pinnacle_circle", "#ffffff")} />
+                <path d="M-6,28 V38 H6 V28 Z" fill={getFill("outer_border", "#991b1b")} />
+              </g>
+            </motion.svg>
+            <span className="absolute bottom-2 left-3 text-[8.5px] font-mono tracking-widest text-[#ca8a04] uppercase font-bold">Kerala Kalamezhuthu Floor Art</span>
+          </div>
+        );
+
+      case "rogan":
+        return (
+          <div className={containerClasses} style={{ backgroundColor: getFill("canvas_background", "#0a1931") }}>
+            <motion.svg viewBox="0 0 200 200" className="w-[85%] h-[85%] z-10 drop-shadow-md">
+              <path d="M25,180 A80,80 0 0,1 175,180" fill="none" stroke={getFill("outer_border", palette[1] || "#fdd835")} strokeWidth="4.5" onClick={() => handleClick("outer_border", "Gilded Rogan Arch")} />
+              
+              <g transform="translate(100, 180)" className="cursor-crosshair" onClick={() => handleClick("mandala_ring", "Symmetrical Rogan Tree")}>
+                <line x1="0" y1="0" x2="0" y2="-90" stroke={getFill("mandala_ring", palette[1] || "#fdd835")} strokeWidth="4" />
+                
+                {[
+                  { dLeft: "M0,-25 Q-30,-35 -40,-60", dRight: "M0,-25 Q30,-35 40,-60" },
+                  { dLeft: "M0,-50 Q-25,-55 -32,-80", dRight: "M0,-50 Q25,-55 32,-80" },
+                  { dLeft: "M0,-75 Q-15,-80 -20,-95", dRight: "M0,-75 Q15,-80 20,-95" }
+                ].map((branch, bIdx) => (
+                  <g key={bIdx} fill="none" stroke={getFill("mandala_ring", palette[1] || "#fdd835")} strokeWidth="2">
+                    <path d={branch.dLeft} />
+                    <path d={branch.dRight} />
+                    <circle cx={-40 + bIdx*8} cy={-60 - bIdx*10} r="3.5" fill={getFill("pinnacle_circle", palette[2] || "#e91e63")} onClick={(e) => { e.stopPropagation(); handleClick("pinnacle_circle", "Traditional Castor Oil Loop"); }} />
+                    <circle cx={40 - bIdx*8} cy={-60 - bIdx*10} r="3.5" fill={getFill("pinnacle_circle", palette[2] || "#e91e63")} onClick={(e) => { e.stopPropagation(); handleClick("pinnacle_circle", "Traditional Castor Oil Loop"); }} />
+                  </g>
+                ))}
+              </g>
+            </motion.svg>
+            <span className="absolute bottom-2 left-3 text-[8.5px] font-mono tracking-widest text-[#fdd835] uppercase font-bold">Kutch Rogan Silk Art</span>
+          </div>
+        );
+
+      case "thangka":
+        return (
+          <div className={containerClasses} style={{ backgroundColor: getFill("canvas_background", "#0f172a") }}>
+            <motion.svg viewBox="0 0 200 200" className="w-[85%] h-[85%] z-10 drop-shadow-md">
+              <rect x="5" y="5" width="190" height="190" fill="none" stroke={getFill("outer_border", palette[1] || "#dc2626")} strokeWidth="4" onClick={() => handleClick("outer_border", "Silk Brocade Border")} />
+              
+              <g transform="translate(100, 100)" className="cursor-crosshair" onClick={() => handleClick("mandala_ring", "Meditative Buddha Silhouette")}>
+                <circle cx="0" cy="-24" r="32" fill="none" stroke={getFill("corner_motifs", palette[4] || "#ca8a04")} strokeWidth="2.5" onClick={(e) => { e.stopPropagation(); handleClick("corner_motifs", "Golden Meditation Halo"); }} />
+                
+                <path d="M-30,40 L30,40 L0,-12 Z" fill={getFill("mandala_ring", palette[2] || "#d97706")} />
+                
+                <circle cx="0" cy="-22" r="10" fill={getFill("mandala_ring", palette[2] || "#d97706")} />
+                
+                <path d="M-40,40 C-20,32 -10,48 0,40 C10,48 20,32 40,40 L35,50 H-35 Z" fill={getFill("pinnacle_circle", palette[1] || "#dc2626")} stroke="#ffffff" strokeWidth="1" onClick={(e) => { e.stopPropagation(); handleClick("pinnacle_circle", "Lotus Seating Throne"); }} />
+              </g>
+            </motion.svg>
+            <span className="absolute bottom-2 left-3 text-[8.5px] font-mono tracking-widest text-[#ca8a04] uppercase font-bold">Himalayan Thangka Scroll</span>
+          </div>
+        );
+
+      default:
+        return (
+          <div className={containerClasses}>
+            <span>Traditional artwork</span>
           </div>
         );
     }
   };
+
 
   // Helper to render responsive, high-fidelity SVGs that capture the essence/style of each art
   const renderArtSimulation = (id: string, isBig = false) => {
@@ -1351,16 +1784,24 @@ export default function IndianPaintingsMoodBoard() {
                   />
                 ))}
 
-                <g transform="translate(-8, -8) scale(0.8)">
+                <path 
+                  d="M-10 0 H10 M0 -10 V10 M-10 -10 H0 V0 M10 10 H0 V0" 
+                  stroke="white" 
+                  strokeWidth="2.5" 
+                />
+                <g transform="translate(-14, 22) scale(0.65)">
                   <path d="M4 12 C1 12 1 18 4 18 C7 18 7 12 4 12" fill="white" />
-                  <circle cx="3" cy="8" r="1.5" fill="white" />
-                  <circle cx="5" cy="7" r="1.2" fill="white" />
-                  <circle cx="7" cy="8.2" r="1" fill="white" />
-
-                  <path d="M12 12 C9 12 9 18 12 18 C15 18 15 12 12 12" fill="white" />
-                  <circle cx="11" cy="8" r="1.5" fill="white" />
-                  <circle cx="13" cy="7" r="1.2" fill="white" />
-                  <circle cx="15" cy="8.2" r="1" fill="white" />
+                  <circle cx="2.2" cy="9.5" r="1" fill="white" />
+                  <circle cx="3.8" cy="8" r="1.2" fill="white" />
+                  <circle cx="6" cy="8" r="1.2" fill="white" />
+                  <circle cx="7.8" cy="9.5" r="1" fill="white" />
+                </g>
+                <g transform="translate(4, 22) scale(0.65)">
+                  <path d="M4 12 C1 12 1 18 4 18 C7 18 7 12 4 12" fill="white" />
+                  <circle cx="2.2" cy="9.5" r="1" fill="white" />
+                  <circle cx="3.8" cy="8" r="1.2" fill="white" />
+                  <circle cx="6" cy="8" r="1.2" fill="white" />
+                  <circle cx="7.8" cy="9.5" r="1" fill="white" />
                 </g>
               </g>
             </motion.svg>
@@ -1369,37 +1810,7 @@ export default function IndianPaintingsMoodBoard() {
         );
 
       default:
-        // Render beautiful, organic abstract geometric floral representation for other arts
-        return (
-          <div className="relative flex items-center justify-center bg-[#5c4033] overflow-hidden rounded-2xl w-full h-32">
-            <div className="absolute inset-x-0 top-0 h-1 bg-[#d97706]/40" />
-            <div className="absolute inset-x-0 bottom-0 h-1 bg-[#d97706]/40" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(253,186,116,0.1)_0%,transparent_65%)]" />
-            
-            <motion.svg 
-              viewBox="0 0 100 100" 
-              className="w-20 h-20 text-orange-200 z-10"
-              animate={animationPlaying ? { rotate: 360 } : {}}
-              transition={{ repeat: Infinity, duration: 40, ease: "linear" }}
-            >
-              <circle cx="50" cy="50" r="32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4,4" />
-              <circle cx="50" cy="50" r="24" fill="none" stroke="#d97706" strokeWidth="1" />
-              {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
-                <line 
-                  key={deg} 
-                  x1="50" 
-                  y1="50" 
-                  x2={50 + 24 * Math.cos((deg * Math.PI) / 180)} 
-                  y2={50 + 24 * Math.sin((deg * Math.PI) / 180)} 
-                  stroke="currentColor" 
-                  strokeWidth="0.8" 
-                />
-              ))}
-              <circle cx="50" cy="50" r="4.5" fill="#d97706" />
-            </motion.svg>
-            <span className="absolute bottom-1.5 right-2 text-[7px] font-mono uppercase text-orange-100/40">Organic Pigment Wash Layout</span>
-          </div>
-        );
+        return renderTraditionalArtwork(id, isBig, false);
     }
   };
 

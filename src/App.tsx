@@ -5758,7 +5758,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           </button>
                         </div>
 
-                        <p className="text-xs text-slate-650 dark:text-slate-350 mb-2.5 leading-relaxed bg-slate-50/ dark:bg-[#0a0a0a]/50 p-2 rounded border border-slate-100 dark:border-white/10 max-h-24 overflow-y-auto break-words font-sans">
+                        <p className="text-xs text-slate-650 dark:text-slate-350 mb-2.5 leading-relaxed bg-white/20 dark:bg-white/[0.01] p-2 rounded border border-slate-100 dark:border-white/10 max-h-24 overflow-y-auto break-words font-sans">
                           {clickedTrendPoint.entry.note || "No custom note logged for this entry."}
                         </p>
 
@@ -6650,7 +6650,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       )}
                     </AnimatePresence>
 
-                    <div id="pfai-breathing-bar-chart-container" className="h-44 w-full mt-1 rounded-xl border border-slate-150 bg-slate-50/ dark:bg-[#0a0a0a]/50 dark:bg-zinc-950/20 p-2 text-slate-705 dark:text-slate-300 relative flex flex-col justify-between">
+                    <div id="pfai-breathing-bar-chart-container" className="h-44 w-full mt-1 rounded-xl border border-slate-150 bg-white/20 dark:bg-white/[0.01] dark:bg-zinc-950/20 p-2 text-slate-705 dark:text-slate-300 relative flex flex-col justify-between">
                       <div className="h-28 w-full shrink-0">
                         <ResponsiveContainer width="100%" height="100%">
                           <BarChart data={breathingChartData} margin={{ top: 12, right: 5, left: -25, bottom: 0 }}>
@@ -7087,7 +7087,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 
                 if (filtered.length === 0) {
                   return (
-                    <div className="p-6 text-center text-slate-400 border border-dashed border-slate-200 dark:border-white/10 rounded-xl space-y-1.5 bg-slate-50/ dark:bg-[#0a0a0a]/50">
+                    <div className="p-6 text-center text-slate-400 border border-dashed border-slate-200 dark:border-white/10 rounded-xl space-y-1.5 bg-white/20 dark:bg-white/[0.01]">
                       <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">No matching guides found</p>
                       <button
                         type="button"
@@ -7114,7 +7114,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           ? "bg-indigo-50/ dark:bg-white/[0.02]/70 border-indigo-305 shadow-sm ring-1 ring-indigo-200/40"
                           : isLocked
                           ? "bg-slate-100/45 border-slate-201 opacity-80 hover:opacity-100 hover:bg-slate-105/60"
-                          : "bg-slate-50/ dark:bg-[#0a0a0a]/50 border-slate-200/80 hover:bg-slate-105/60 hover:border-slate-350"
+                          : "bg-white/20 dark:bg-white/[0.01] border-slate-200/80 hover:bg-slate-105/60 hover:border-slate-350"
                       }`}
                     >
                       {isSelected && (
@@ -7355,7 +7355,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
               </div>
 
               {/* Secure Client Input Form */}
-              <div className="p-4 bg-slate-50/ dark:bg-[#0a0a0a]/50 border-t border-indigo-50">
+              <div className="p-4 bg-white/20 dark:bg-white/[0.01] border-t border-indigo-50">
                 <form onSubmit={handleSendMessage} className="space-y-3">
                   {/* Share Dialogue Success Toast */}
                   {shareSuccessToast && (
@@ -7540,7 +7540,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     className={`flex-1 flex items-center justify-center gap-1 py-1.5 text-[10px] md:text-[11px] font-bold rounded-lg cursor-pointer transition-all ${
                       safetyPortalSubTab === 'guardrails'
                         ? themeClass("bg-white border border-slate-205 text-indigo-755 shadow-xs", "bg-[#0a0a0a] border border-slate-705 text-indigo-205 shadow-xs", "bg-[#fcf8ef] border-[#dfcca3] text-[#4a2e22] shadow-xs")
-                        : "text-slate-500 hover:text-slate-800 dark:text-slate-200 dark:hover:text-slate-200 hover:bg-slate-50/ dark:bg-[#0a0a0a]/50"
+                        : "text-slate-500 hover:text-slate-800 dark:text-slate-200 dark:hover:text-slate-200 hover:bg-white/20 dark:bg-white/[0.01]"
                     }`}
                   >
                     ⚡ Live Guardrails
@@ -7551,7 +7551,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     className={`flex-1 flex items-center justify-center gap-1 py-1.5 text-[10px] md:text-[11px] font-bold rounded-lg cursor-pointer transition-all ${
                       safetyPortalSubTab === 'governance'
                         ? themeClass("bg-white border border-slate-205 text-indigo-755 shadow-xs", "bg-[#0a0a0a] border border-slate-705 text-indigo-205 shadow-xs", "bg-[#fcf8ef] border-[#dfcca3] text-[#4a2e22] shadow-xs")
-                        : "text-slate-500 hover:text-slate-805 dark:hover:text-slate-220 hover:bg-slate-50/ dark:bg-[#0a0a0a]/50"
+                        : "text-slate-500 hover:text-slate-805 dark:hover:text-slate-220 hover:bg-white/20 dark:bg-white/[0.01]"
                     }`}
                   >
                     ⚖️ Governance &amp; Ethics
@@ -10453,22 +10453,22 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
       {/* 🩺 Verified Clinical Directories & Crisis Referrals Modal */}
       {isClinicalDirectoryOpen && (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center bg-slate-950/85 backdrop-blur-md p-4 animate-fade-in">
+        <div className="fixed inset-0 z-[110] flex items-center justify-center bg-slate-950/60 backdrop-blur-md p-4 animate-fade-in">
           <div 
-            className="w-full max-w-2xl bg-white dark:bg-black border border-indigo-100 dark:border-white/10 rounded-2xl shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-5 md:p-7 space-y-4 max-h-[90vh] overflow-hidden flex flex-col relative"
+            className="w-full max-w-2xl bg-white/75 dark:bg-[#0a0a0a]/65 backdrop-blur-xl border border-indigo-100/50 dark:border-white/10 rounded-2xl shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-5 md:p-7 space-y-4 max-h-[90vh] overflow-hidden flex flex-col relative"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Top gradient strip */}
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-indigo-505 via-rose-505 to-amber-550" />
 
             {/* Modal Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-indigo-50">
+            <div className="flex items-center justify-between pb-3 border-b border-indigo-50/20 dark:border-white/[0.05]">
               <div className="space-y-1">
-                <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse"></span>
                   Verified Medical & Clinical Directory
                 </h3>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   Official mental health prescribers, counselors, and trauma units. Checked and verified globally.
                 </p>
               </div>
@@ -10482,7 +10482,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             </div>
 
             {/* Global Directory Country Selector */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50 dark:bg-[#0a0a0a] p-3 rounded-xl border border-slate-100/50">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-100/30 dark:bg-white/[0.02] p-3 rounded-xl border border-slate-250/20 dark:border-white/[0.05] backdrop-blur-xs">
               <div className="space-y-0.5">
                 <span className="text-[9.5px] uppercase font-mono tracking-widest text-indigo-700 dark:text-indigo-300 block font-bold">Select Directory Location:</span>
                 <p className="text-[11px] text-slate-600 dark:text-slate-400">Filters numbers and registries by country code laws.</p>
@@ -10491,7 +10491,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 <select
                   value={userLocation}
                   onChange={(e) => setUserLocation(e.target.value)}
-                  className="bg-white dark:bg-black border border-slate-200 dark:border-white/10 rounded-xl text-xs py-1.5 px-3 pr-8 text-slate-800 dark:text-slate-200 outline-none focus:border-indigo-500 dark:focus:border-indigo-500 transition-all font-sans cursor-pointer appearance-none"
+                  className="bg-white/50 dark:bg-black/50 border border-slate-200/50 dark:border-white/10 rounded-xl text-xs py-1.5 px-3 pr-8 text-slate-800 dark:text-slate-200 outline-none focus:border-indigo-500 dark:focus:border-indigo-500 transition-all font-sans cursor-pointer appearance-none"
                 >
                   <option value="India">🇮🇳 India</option>
                   <option value="USA">🇺🇸 USA</option>
@@ -10506,7 +10506,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             </div>
 
             {/* LGBTQIA+ Affirming Toggle */}
-            <div className="flex items-center justify-between p-3.5 bg-gradient-to-r from-indigo-50/40 via-purple-50/20 to-teal-50/15 border border-indigo-100/50 rounded-xl">
+            <div className="flex items-center justify-between p-3.5 bg-gradient-to-r from-indigo-50/15 via-purple-50/10 to-teal-50/10 border border-indigo-100/20 dark:border-white/[0.05] rounded-xl backdrop-blur-xs">
               <div className="flex items-center gap-2.5">
                 <span className="text-sm select-none">🏳️‍🌈</span>
                 <div className="text-left">
@@ -10526,7 +10526,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             </div>
 
             {/* Categorized Specialty Tabs Selector */}
-            <div className="grid grid-cols-4 gap-1.5 border-b border-indigo-100 dark:border-white/10 pb-3">
+            <div className="grid grid-cols-4 gap-1.5 border-b border-indigo-100/30 dark:border-white/10 pb-3">
               {[
                 { key: "psychiatrist", label: "Prescribers (MD)", icon: "🩺" },
                 { key: "psychologist", label: "Psychologists", icon: "🧠" },
@@ -10541,8 +10541,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     onClick={() => setRecommendedSpecialty(tab.key as any)}
                     className={`py-2 px-1 text-center font-bold text-xs rounded-xl cursor-pointer transition-all duration-200 ${
                       isActive 
-                        ? "bg-indigo-600 text-white shadow-md shadow-indigo-100" 
-                        : "bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 hover:bg-slate-100 hover:text-slate-850"
+                        ? "bg-indigo-600 text-white shadow-md shadow-indigo-500/10" 
+                        : "bg-white/30 dark:bg-white/[0.02] border border-slate-200/20 dark:border-white/[0.05] text-slate-600 dark:text-slate-400 hover:bg-white/50 dark:hover:bg-white/[0.05]"
                     }`}
                   >
                     <span className="block text-sm mb-0.5">{tab.icon}</span>
@@ -10572,7 +10572,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
                 if (list.length === 0) {
                   return (
-                    <div className="p-8 text-center text-slate-450 border border-dashed border-slate-200 dark:border-white/10 rounded-xl space-y-1 bg-slate-50/ dark:bg-[#0a0a0a]/50">
+                    <div className="p-8 text-center text-slate-450 border border-dashed border-slate-200 dark:border-white/10 rounded-xl space-y-1 bg-white/20 dark:bg-white/[0.01]">
                       <p className="text-xs font-semibold">No direct listings verified for this category matching toggle in {userLocation}</p>
                       <p className="text-[10px] text-slate-500 font-mono">Select another category, disable LGBTQIA+ Affirming, or browse locations.</p>
                     </div>
@@ -10589,15 +10589,15 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     {list.map((item, idx) => (
                       <div 
                         key={idx} 
-                        className={`p-4 rounded-xl transition-all duration-300 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border ${
+                        className={`p-4 rounded-xl transition-all duration-300 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border backdrop-blur-xs ${
                           item.lgbtqiaAffirmative 
-                            ? "bg-indigo-50/ dark:bg-white/[0.02]/15 border-indigo-200/50 shadow-3xs" 
-                            : "bg-slate-50 dark:bg-[#0a0a0a] border-slate-200 dark:border-white/10"
+                            ? "bg-indigo-50/30 dark:bg-indigo-950/25 border-indigo-200/35 dark:border-indigo-800/30 shadow-3xs" 
+                            : "bg-white/45 dark:bg-white/[0.02] border-slate-200/40 dark:border-white/[0.05]"
                         }`}
                       >
                         <div className="space-y-1 min-w-0 flex-1 text-left">
                           <div className="flex flex-wrap items-center gap-1.5">
-                            <h4 className="text-xs font-bold text-slate-900 truncate">{item.name}</h4>
+                            <h4 className="text-xs font-bold text-slate-900 dark:text-white truncate">{item.name}</h4>
                             <span className="text-[9px] bg-emerald-50 text-emerald-850 px-2 py-0.5 rounded-full font-bold font-mono shrink-0 flex items-center gap-0.5 border border-emerald-100">
                               ✓ Verified Number
                             </span>
@@ -10608,7 +10608,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                             )}
                           </div>
                           <p className="text-slate-650 dark:text-slate-350 text-[11px] leading-relaxed">{item.description}</p>
-                          <div className="flex items-center gap-3.5 text-[10px] text-slate-500 font-mono mt-1">
+                          <div className="flex items-center gap-3.5 text-[10px] text-slate-505 dark:text-slate-400 font-mono mt-1">
                             <span>🕒 {item.hours}</span>
                           </div>
                         </div>
@@ -10629,8 +10629,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             </div>
 
             {/* Bottom guide notice */}
-            <div className="bg-amber-50/50 border border-amber-100 p-3.5 rounded-xl flex items-start gap-2.5">
-              <div className="w-5 h-5 rounded bg-amber-100 text-amber-700 flex items-center justify-center shrink-0 mt-0.5">
+            <div className="bg-amber-50/10 dark:bg-amber-950/10 border border-amber-150/30 dark:border-amber-900/30 p-3.5 rounded-xl flex items-start gap-2.5">
+              <div className="w-5 h-5 rounded bg-amber-100/20 text-amber-700 dark:text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
                 💡
               </div>
               <p className="text-[10.5px] leading-relaxed text-slate-600 dark:text-slate-400 text-left font-sans">
@@ -10639,7 +10639,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             </div>
 
             {/* Actions Footer */}
-            <div className="border-t border-indigo-100 dark:border-white/10 pt-3 flex items-center justify-end gap-3 shrink-0">
+            <div className="border-t border-indigo-100/30 dark:border-white/10 pt-3 flex items-center justify-end gap-3 shrink-0">
               <button
                 type="button"
                 onClick={() => setIsClinicalDirectoryOpen(false)}
@@ -11338,7 +11338,7 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
             {/* Modal Header */}
             <div className="flex items-center justify-between pb-3 border-b border-amber-100">
               <div className="space-y-1">
-                <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <Share2 className="w-4 h-4 text-amber-500" />
                   <span>Support Philosophy Transmitter</span>
                 </h3>
@@ -11448,9 +11448,9 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-400 via-rose-450 to-indigo-550" />
 
             {/* Modal Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-indigo-50">
+            <div className="flex items-center justify-between pb-3 border-b border-indigo-50/20 dark:border-white/[0.05]">
               <div className="space-y-1">
-                <h3 className="text-base font-bold text-slate-900 flex items-center gap-2">
+                <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <Clock className="w-4 h-4 text-indigo-500" />
                   <span>Persona Selection History</span>
                 </h3>
