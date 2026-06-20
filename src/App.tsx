@@ -3677,7 +3677,7 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
   };
 
   // Zen Mode state to minimize cognitive load by hiding non-essential widgets
-  const [zenMode, setZenMode] = useState<boolean>(false);
+  const [zenMode, setZenMode] = useState<boolean>(true);
   const [isSafeExit, setIsSafeExit] = useState<boolean>(false);
   const [showDownloadBackupReminder, setShowDownloadBackupReminder] = useState<boolean>(false);
   const [horrorMusicActive, setHorrorMusicActive] = useState<boolean>(false);
@@ -7271,23 +7271,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                   <span className="bg-indigo-50 dark:bg-white/[0.02] text-indigo-600 border border-indigo-150 dark:border-white/10 text-[9px] uppercase px-1.5 py-0.5 rounded font-mono font-bold shrink-0">Active mantra</span>
                   <span className="truncate">"{activeChar.groundingMantra}"</span>
                 </div>
-                {!zenMode && (
-                  <button
-                    onClick={() => setShowRoomIllustration(!showRoomIllustration)}
-                    className={`text-[11px] font-semibold hover:underline cursor-pointer select-none shrink-0 ${isDarkCharacter(activeChar.id, themeMode) ? 'text-indigo-300 hover:text-indigo-100' : 'text-indigo-600 hover:text-indigo-800'}`}
-                    title={showRoomIllustration ? "Collapse the cozy room illustration" : "Reveal the cozy room illustration"}
-                  >
-                    {showRoomIllustration ? "🙈 Hide Room" : "🏡 See Room"}
-                  </button>
-                )}
               </div>
-
-              {/* Cozy Room Illustrative Vector Panel */}
-              {showRoomIllustration && !zenMode && (
-                <div className="px-6 py-3 bg-slate-50/ dark:bg-[#0a0a0a]/35 border-b border-indigo-50 animate-fade-in">
-                  <CozyRoomSketch charId={activeChar.id} />
-                </div>
-              )}
 
               {/* Interactive Chat Board area */}
               <div 
