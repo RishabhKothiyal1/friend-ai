@@ -57,7 +57,6 @@ export function Sidebar({
     { id: 'blogs', label: 'Curated Blogs', icon: FileText },
     { id: 'art', label: 'Art Gallery', icon: Palette },
     { id: 'investor', label: 'Power BI Analytics', icon: Briefcase },
-    { id: 'gmail', label: 'Gmail Workspace', icon: Mail },
     { id: 'community', label: 'Community Center', icon: Users },
   ];
 

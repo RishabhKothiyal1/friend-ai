@@ -456,21 +456,6 @@ export default function IndianPaintingsMoodBoard() {
   const [unlockedCertificates, setUnlockedCertificates] = useState<string[]>([]);
   const [lastColoredRegionMessage, setLastColoredRegionMessage] = useState<string>("");
 
-  // Active Tab: "gallery" | "syllabus" | "pitch"
-  const [activeSubTab, setActiveSubTab] = useState<"gallery" | "syllabus" | "pitch">("gallery");
-
-  // Syllabus Tab Collapsible States
-  const [expandedSyllabus, setExpandedSyllabus] = useState<string | null>("ivc");
-
-  // Clickable UPSC practice questions state
-  const [answeredQuestion, setAnsweredQuestion] = useState<{ [key: string]: string }>({});
-  const [showUpscMainsFeedback, setShowUpscMainsFeedback] = useState(false);
-
-  // 4-Minute Presentation Carousel State
-  const [activePitchSlide, setActivePitchSlide] = useState<number>(0);
-  const [pitchTimerActive, setPitchTimerActive] = useState<boolean>(false);
-  const [pitchProgress, setPitchProgress] = useState<number>(0);
-
   // Sync brush color when active painting selection shifts
   useEffect(() => {
     const activeArtInfo = INDIAN_PAINTINGS.find((p) => p.id === activePaintingId);
@@ -498,24 +483,6 @@ export default function IndianPaintingsMoodBoard() {
     }
     return () => clearInterval(interval);
   }, [breathSync]);
-
-  // Startup Pitch Timer Player simulation
-  useEffect(() => {
-    let interval: any = null;
-    if (pitchTimerActive) {
-      interval = setInterval(() => {
-        setPitchProgress((prev) => {
-          if (prev >= 100) {
-            // Next Slide
-            setActivePitchSlide((s) => (s + 1) % PITCH_SLIDES.length);
-            return 0;
-          }
-          return prev + 1.66; // approx 60 seconds total loop per slide
-        });
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [pitchTimerActive]);
 
   const activeArt = INDIAN_PAINTINGS.find((p) => p.id === activePaintingId) || INDIAN_PAINTINGS[1];
 
@@ -1436,8 +1403,6 @@ export default function IndianPaintingsMoodBoard() {
     }
   };
 
-  const activePitchSlideContent = PITCH_SLIDES[activePitchSlide];
-
   return (
     <div className="flex flex-col gap-6 w-full text-left font-sans select-none animate-fade-in">
       
@@ -1453,400 +1418,354 @@ export default function IndianPaintingsMoodBoard() {
             Vedic Cultural Sanctuary
           </span>
           <h2 className="text-xl md:text-2xl font-bold font-serif text-[#3e2723] leading-tight">
-            Indian Art, Civilizational Study &amp; Startup Pitch
+            Traditional Folk Art &amp; Masterpieces Gallery
           </h2>
           <p className="text-xs text-stone-600 max-w-3xl leading-relaxed font-sans">
-            An elegant integration celebrating the 20 masterpiece folk paintings of India, historical UPSC academic studies ranging from the Indus Valley Civilization to modern eras, and Project Friend AI's 4-minute investor validation deck.
+            An elegant interactive gallery celebrating 20 masterpiece folk paintings of India. Explore tribal and traditional motifs, experiment with coloring workshops, or sync respiratory rhythms to match the organic pulse of folk symmetry.
           </p>
-        </div>
-
-        {/* 3 major sub tabs */}
-        <div className="flex flex-wrap items-center gap-2 mt-4 z-10 border-t pt-4 border-stone-200">
-          <button
-            onClick={() => setActiveSubTab("gallery")}
-            className={`px-3.5 py-1.5 text-xs font-bold rounded-xl cursor-pointer transition-all flex items-center gap-1.5 ${
-              activeSubTab === "gallery"
-                ? "bg-rose-800 hover:bg-rose-900 text-white shadow-sm dark:shadow-slate-900/30 font-serif"
-                : "text-slate-500 hover:bg-slate-100/60 hover:text-slate-800"
-            }`}
-          >
-            🎨 Interactive Folk Art Manuscript
-          </button>
-          
-          <button
-            onClick={() => setActiveSubTab("syllabus")}
-            className={`px-3.5 py-1.5 text-xs font-bold rounded-xl cursor-pointer transition-all flex items-center gap-1.5 ${
-              activeSubTab === "syllabus"
-                ? "bg-rose-800 hover:bg-rose-900 text-white shadow-sm dark:shadow-slate-900/30 font-serif"
-                : "text-slate-500 hover:bg-slate-100/60 hover:text-slate-800"
-            }`}
-          >
-            🏛️ Civilizational Chronicles (UPSC)
-          </button>
-
-          <button
-            onClick={() => setActiveSubTab("pitch")}
-            className={`px-3.5 py-1.5 text-xs font-bold rounded-xl cursor-pointer transition-all flex items-center gap-1.5 ${
-              activeSubTab === "pitch"
-                ? "bg-rose-800 hover:bg-rose-900 text-white shadow-sm dark:shadow-slate-900/30 font-serif"
-                : "text-slate-500 hover:bg-slate-100/60 hover:text-slate-800"
-            }`}
-          >
-            ⏱️ Startup Pitch (4-Min Presentation)
-          </button>
         </div>
       </div>
 
-      {/* RENDER ACTIVE SUBTAB CONTENT */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start font-sans">
+        
+        {/* Left Canvas Panel */}
+        <div className="lg:col-span-8 space-y-4">
+          <div className="p-5 bg-white dark:bg-black border border-[#ebdcb9] rounded-2xl shadow-xs flex flex-col gap-4 text-left">
+            {/* Header with selectors */}
+            <div className="flex flex-col gap-3 border-b pb-3 border-dashed border-[#ebdcb9]">
+              <div className="flex items-center justify-between">
+                <div className="space-y-0.5">
+                  <h4 className="text-xs font-extrabold tracking-tight text-neutral-800 dark:text-stone-305 uppercase font-mono">Guild Workshop Frame</h4>
+                  <p className="text-[10px] text-stone-500 font-sans">Symmetric geometries rendered as vector paths</p>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <button 
+                    onClick={() => setIsExpandedViewer(true)}
+                    className="p-1 px-1.5 text-stone-500 bg-stone-50 hover:bg-stone-100 dark:bg-stone-900 dark:text-stone-400 dark:hover:bg-stone-850 rounded-lg cursor-pointer flex items-center justify-center border border-stone-200/40"
+                    title="Fullscreen Immersion View"
+                  >
+                    <Maximize2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
 
-      {/* TAB 1: FOLK ART INTERACTIVE MANUSCRIPT */}
-      {activeSubTab === "gallery" && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start font-sans">
-          
-          {/* Left Canvas Panel */}
-          <div className="lg:col-span-5 space-y-4">
-            <div className="p-4 bg-white dark:bg-black border border-[#ebdcb9] rounded-2xl shadow-xs flex flex-col gap-4 text-left">
-              {/* Header with high fidelity selectors */}
-              <div className="flex flex-col gap-3 border-b pb-3 border-dashed border-[#ebdcb9]">
-                <div className="flex items-center justify-between">
-                  <div className="space-y-0.5">
-                    <h4 className="text-xs font-extrabold tracking-tight text-neutral-800 uppercase font-mono">Guild Workshop Frame</h4>
-                    <p className="text-[10px] text-stone-500 font-sans">Symmetric geometries rendered as vector paths</p>
-                  </div>
-                  <div className="flex items-center gap-1.5">
+              {/* Sub-mode selector */}
+              <div className="grid grid-cols-2 p-1 bg-stone-50 dark:bg-stone-950 rounded-xl border border-stone-200/50 dark:border-white/10">
+                <button
+                  onClick={() => setPaintingMode("simulator")}
+                  className={`py-1.5 text-[10.5px] font-bold rounded-lg cursor-pointer transition-all flex items-center justify-center gap-1.5 ${
+                    paintingMode === "simulator"
+                      ? "bg-stone-850 dark:bg-white dark:text-black text-white shadow-xs"
+                      : "text-stone-600 dark:text-stone-400 hover:text-stone-850 dark:hover:text-stone-200"
+                  }`}
+                >
+                  <span>💫 Living Breath</span>
+                </button>
+                <button
+                  onClick={() => setPaintingMode("coloring")}
+                  className={`py-1.5 text-[10.5px] font-bold rounded-lg cursor-pointer transition-all flex items-center justify-center gap-1.5 ${
+                    paintingMode === "coloring"
+                      ? "bg-rose-800 text-white shadow-xs"
+                      : "text-stone-600 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200"
+                  }`}
+                >
+                  <span>🎨 Coloring Workshop</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Viewport Canvas container */}
+            <div className="relative group flex justify-center bg-stone-50/30 dark:bg-stone-950/20 rounded-2xl p-4 border border-stone-100 dark:border-white/5">
+              {paintingMode === "simulator" ? (
+                <div className="relative w-full max-w-lg">
+                  {renderArtSimulation(activeArt.id, false)}
+                  
+                  {/* Controls overlay for simulator */}
+                  <div className="absolute top-2.5 right-2 z-10 flex items-center gap-1 bg-white/95 dark:bg-black/90 backdrop-blur-xs p-1 rounded-lg border border-stone-250 dark:border-white/10 shadow-xs">
                     <button 
-                      onClick={() => setIsExpandedViewer(true)}
-                      className="p-1 px-1.5 text-stone-500 bg-stone-50 hover:bg-stone-100 rounded-lg cursor-pointer flex items-center justify-center border border-stone-200/40"
-                      title="Fullscreen Immersion View"
+                      onClick={() => setAnimationPlaying(!animationPlaying)}
+                      className="p-1 px-2 text-[9px] font-extrabold font-mono uppercase hover:bg-stone-100 dark:hover:bg-stone-900 text-stone-700 dark:text-stone-300 rounded-md cursor-pointer"
                     >
-                      <Maximize2 className="w-3.5 h-3.5" />
+                      {animationPlaying ? "⏸ Pause" : "▶ Play"}
                     </button>
                   </div>
                 </div>
-
-                {/* Sub-mode selector */}
-                <div className="grid grid-cols-2 p-1 bg-stone-55 rounded-xl border border-stone-200/50">
-                  <button
-                    onClick={() => setPaintingMode("simulator")}
-                    className={`py-1.5 text-[10.5px] font-bold rounded-lg cursor-pointer transition-all flex items-center justify-center gap-1.5 ${
-                      paintingMode === "simulator"
-                        ? "bg-stone-850 text-white shadow-xs"
-                        : "text-stone-600 hover:text-stone-850"
-                    }`}
-                  >
-                    <span>💫 Living Breath</span>
-                  </button>
-                  <button
-                    onClick={() => setPaintingMode("coloring")}
-                    className={`py-1.5 text-[10.5px] font-bold rounded-lg cursor-pointer transition-all flex items-center justify-center gap-1.5 ${
-                      paintingMode === "coloring"
-                        ? "bg-rose-800 text-white shadow-xs"
-                        : "text-stone-600 hover:text-stone-800"
-                    }`}
-                  >
-                    <span>🎨 Coloring Workshop</span>
-                  </button>
+              ) : (
+                <div className="relative w-full max-w-lg">
+                  {renderInteractiveColoringSVG(activeArt.id, false)}
                 </div>
-              </div>
+              )}
+            </div>
+          </div>
 
-              {/* Viewport Canvas container */}
-              <div className="relative group">
-                {paintingMode === "simulator" ? (
-                  <div className="relative">
-                    {renderArtSimulation(activeArt.id, false)}
-                    
-                    {/* Controls overlay for simulator */}
-                    <div className="absolute top-2.5 right-2 z-10 flex items-center gap-1 bg-white/90 backdrop-blur-xs p-1 rounded-lg border border-stone-250 shadow-xs">
-                      <button 
-                        onClick={() => setAnimationPlaying(!animationPlaying)}
-                        className="p-1 px-2 text-[9px] font-extrabold font-mono uppercase hover:bg-stone-100 text-stone-700 rounded-md cursor-pointer"
-                      >
-                        {animationPlaying ? "⏸ Pause" : "▶ Play"}
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="relative">
-                    {renderInteractiveColoringSVG(activeArt.id, false)}
-                  </div>
-                )}
+          {/* Below Canvas: 2-column info & controls grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Dynamic lore card */}
+            <div className="space-y-3 p-4 bg-[#fffbf2] dark:bg-[#12100e]/30 border border-[#ebdcb9]/60 dark:border-yellow-950/40 rounded-2xl shadow-2xs">
+              <div className="flex items-center justify-between">
+                <span className="text-[10px] font-extrabold text-rose-800 dark:text-rose-455 uppercase tracking-widest font-mono">🔍 Visual Detail</span>
+                <span className={`text-[8px] font-mono px-2 py-0.5 rounded font-extrabold ${
+                  activeArt.giStatus === "Yes" ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-450 border border-emerald-250 dark:border-emerald-800" : "bg-stone-100 dark:bg-stone-900 text-stone-500"
+                }`}>
+                  {activeArt.giStatus === "Yes" ? "🏆 GI Tagged" : "Traditional Form"}
+                </span>
               </div>
+              <h3 className="text-[13px] font-bold font-serif text-[#3e2723] dark:text-[#f3e5d8]">{activeArt.name}</h3>
+              <p className="text-[11px] leading-relaxed text-stone-600 dark:text-stone-400">{activeArt.description}</p>
+              <div className="text-[10px] bg-white dark:bg-black border border-stone-150 dark:border-white/10 p-2.5 rounded-xl text-stone-500 dark:text-stone-400 leading-normal">
+                <strong>Sacred Lore &amp; Context:</strong> {activeArt.lore}
+              </div>
+            </div>
 
-              {/* Dynamic coloring details and indicators */}
-              {paintingMode === "coloring" && (
-                <div className="space-y-3.5 bg-[#fffbf4] border border-[#ebdcb9]/40 p-3 rounded-xl">
+            {/* Coloring Swatch / Pigment Swatch panel OR Breath Resonance card */}
+            {paintingMode === "coloring" ? (
+              <div className="space-y-3.5 bg-[#fffbf4] dark:bg-[#1c1612]/30 border border-[#ebdcb9]/40 dark:border-yellow-950/40 p-4 rounded-2xl shadow-2xs flex flex-col justify-between">
+                <div>
                   {/* Progress segment */}
-                  <div className="flex items-center justify-between text-[10px] uppercase font-mono tracking-wider font-extrabold text-[#5c3e35]">
-                    <span>📜 Artwork Completion Progress:</span>
-                    <span className="text-rose-800">{coloringCount} / {totalRegionsCount} details ({completionPercentage}%)</span>
+                  <div className="flex items-center justify-between text-[10px] uppercase font-mono tracking-wider font-extrabold text-[#5c3e35] dark:text-stone-400">
+                    <span>🎨 Progress:</span>
+                    <span className="text-rose-800 dark:text-rose-450">{coloringCount} / {totalRegionsCount} ({completionPercentage}%)</span>
                   </div>
                   
                   {/* Progress bar */}
-                  <div className="w-full bg-stone-200/50 h-1.5 rounded-full overflow-hidden">
+                  <div className="w-full bg-stone-200/50 dark:bg-stone-850 h-1.5 rounded-full overflow-hidden mt-1.5">
                     <motion.div 
-                      className="bg-rose-700 h-full rounded-full"
+                      className="bg-rose-700 dark:bg-rose-600 h-full rounded-full"
                       initial={{ width: 0 }}
                       animate={{ width: `${completionPercentage}%` }}
                       transition={{ duration: 0.4 }}
                     />
                   </div>
+                </div>
 
-                  {/* Pigment Swatch selectors */}
-                  <div className="space-y-1.5 pt-0.5">
-                    <span className="text-[9px] uppercase font-mono tracking-wider text-stone-400 block font-bold">Choose Traditional Pigment:</span>
-                    <div className="flex flex-wrap items-center gap-2">
-                      {activeArt.colorPalette.map((col, idx) => {
-                        const info = getPigmentInfo(col);
-                        const isBrush = selectedBrush === col;
-                        return (
-                          <button
-                            key={idx}
-                            onClick={() => setSelectedBrush(col)}
-                            style={{ backgroundColor: col }}
-                            className={`w-7 h-7 rounded-full border shadow-xs relative transition-all duration-200 hover:scale-115 cursor-pointer ${
-                              isBrush ? "ring-2 ring-rose-700 ring-offset-1 scale-110" : "border-black/10"
-                            }`}
-                            title={`${info.name}: Sourced from ${info.source}`}
-                          >
-                            {isBrush && (
-                              <span className="absolute inset-0 flex items-center justify-center text-[10px] font-extrabold text-white drop-shadow-md">✓</span>
-                            )}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Active brush lore */}
-                  {selectedBrush && (
-                    <div className="bg-white/80 border border-stone-200/50 p-2.5 rounded-lg text-left text-[10.5px] leading-relaxed text-stone-600 transition-all">
-                      <div className="flex items-center gap-1.5 font-bold text-stone-800 mb-0.5">
-                        <Paintbrush className="w-3 h-3 text-rose-700" />
-                        <span>Active Brush: {getPigmentInfo(selectedBrush).name}</span>
-                        <span className="text-[8px] font-mono text-stone-400">({getPigmentInfo(selectedBrush).source})</span>
-                      </div>
-                      <p className="text-stone-500 text-[10px] font-sans italic">
-                        "{getPigmentInfo(selectedBrush).lore}"
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Sandboxing controls */}
-                  <div className="grid grid-cols-2 gap-2 pt-0.5">
-                    <button
-                      onClick={handleAutoColorize}
-                      className="py-1 px-2.5 text-[9.5px] font-mono font-bold uppercase bg-stone-105 hover:bg-stone-200 text-stone-700 rounded-lg border border-stone-250 cursor-pointer flex items-center justify-center gap-1"
-                    >
-                      <span>✨ Auto-Colorize</span>
-                    </button>
-                    <button
-                      onClick={handleClearCanvas}
-                      className="py-1 px-2.5 text-[9.5px] font-mono font-bold uppercase bg-stone-105 hover:bg-stone-200 text-stone-700 rounded-lg border border-stone-250 cursor-pointer flex items-center justify-center gap-1"
-                    >
-                      <span>🧹 Clear Canvas</span>
-                    </button>
-                  </div>
-
-                  {/* Certificate triggering button or action info */}
-                  <div className="pt-0.5">
-                    <button
-                      onClick={() => setCertificateOpen(true)}
-                      className={`w-full py-1.5 px-3 rounded-lg text-[10.5px] font-bold uppercase font-mono cursor-pointer transition-all flex items-center justify-center gap-1.5 ${
-                        completionPercentage === 100
-                          ? "bg-amber-600 hover:bg-amber-700 text-white shadow-md animate-pulse"
-                          : "bg-stone-100 hover:bg-[#ebd0a3]/20 text-stone-600 border border-stone-200/60"
-                      }`}
-                    >
-                      <Award className="w-3.5 h-3.5" />
-                      <span>{completionPercentage === 100 ? "🏆 Claim Masterpiece Scroll!" : "📜 Traditional Art Certificate"}</span>
-                    </button>
+                {/* Pigment Swatch selectors */}
+                <div className="space-y-1.5">
+                  <span className="text-[9px] uppercase font-mono tracking-wider text-stone-400 dark:text-stone-500 block font-bold">Pigment:</span>
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    {activeArt.colorPalette.map((col, idx) => {
+                      const info = getPigmentInfo(col);
+                      const isBrush = selectedBrush === col;
+                      return (
+                        <button
+                          key={idx}
+                          onClick={() => setSelectedBrush(col)}
+                          style={{ backgroundColor: col }}
+                          className={`w-6 h-6 rounded-full border shadow-2xs relative transition-all duration-200 hover:scale-115 cursor-pointer ${
+                            isBrush ? "ring-2 ring-rose-750 dark:ring-rose-500 ring-offset-1 scale-110" : "border-black/10"
+                          }`}
+                          title={`${info.name}: Sourced from ${info.source}`}
+                        >
+                          {isBrush && (
+                            <span className="absolute inset-0 flex items-center justify-center text-[9px] font-extrabold text-white drop-shadow-md">✓</span>
+                          )}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
-              )}
 
-              {/* Dynamic lore card (rendered for both, showing visual information) */}
-              <div className="space-y-3 p-3 bg-[#fffbf2] border border-[#ebdcb9]/60 rounded-xl">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-extrabold text-rose-800 uppercase tracking-widest font-mono">🔍 Visual Detail</span>
-                  <span className={`text-[8px] font-mono px-2 py-0.5 rounded font-extrabold ${
-                    activeArt.giStatus === "Yes" ? "bg-emerald-500/10 text-emerald-700 border border-emerald-250" : "bg-stone-100 text-stone-500"
-                  }`}>
-                    {activeArt.giStatus === "Yes" ? "🏆 GI Tagged Art" : "Traditional Form"}
+                {/* Active brush lore */}
+                {selectedBrush && (
+                  <div className="bg-white/80 dark:bg-black/60 border border-stone-200/50 dark:border-white/10 p-2 rounded-xl text-left text-[10px] leading-relaxed text-stone-600 dark:text-stone-400">
+                    <div className="flex items-center gap-1 font-bold text-stone-800 dark:text-stone-300">
+                      <Paintbrush className="w-2.5 h-2.5 text-rose-700" />
+                      <span>{getPigmentInfo(selectedBrush).name}</span>
+                    </div>
+                    <p className="text-stone-550 dark:text-stone-500 text-[9.5px] italic truncate">
+                      "{getPigmentInfo(selectedBrush).lore}"
+                    </p>
+                  </div>
+                )}
+
+                {/* Sandboxing controls */}
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    onClick={handleAutoColorize}
+                    className="py-1 px-2.5 text-[9px] font-mono font-bold uppercase bg-stone-100 hover:bg-stone-200 dark:bg-stone-900 dark:hover:bg-stone-800 dark:text-stone-300 dark:border-white/10 text-stone-700 rounded-lg border border-stone-250 cursor-pointer text-center"
+                  >
+                    Auto-Color
+                  </button>
+                  <button
+                    onClick={handleClearCanvas}
+                    className="py-1 px-2.5 text-[9px] font-mono font-bold uppercase bg-stone-100 hover:bg-stone-200 dark:bg-stone-900 dark:hover:bg-stone-800 dark:text-stone-300 dark:border-white/10 text-stone-700 rounded-lg border border-stone-250 cursor-pointer text-center"
+                  >
+                    Clear
+                  </button>
+                </div>
+
+                <button
+                  onClick={() => setCertificateOpen(true)}
+                  className={`w-full py-1 rounded-lg text-[9.5px] font-bold uppercase font-mono cursor-pointer transition-all flex items-center justify-center gap-1 border ${
+                    completionPercentage === 100
+                      ? "bg-amber-600 hover:bg-amber-700 border-amber-600 text-white shadow-md animate-pulse"
+                      : "bg-stone-100 hover:bg-[#ebd0a3]/20 dark:bg-stone-900 dark:hover:bg-stone-800 dark:text-stone-400 dark:border-white/10 text-stone-600 border-stone-200/60"
+                  }`}
+                >
+                  <Award className="w-3 h-3" />
+                  <span>Claim Certificate</span>
+                </button>
+              </div>
+            ) : (
+              <div className="border border-emerald-200/50 dark:border-emerald-800/40 p-4 rounded-2xl bg-emerald-50/20 dark:bg-emerald-950/10 text-left flex flex-col justify-between h-full shadow-2xs">
+                <div className="flex items-center gap-1.5 justify-between">
+                  <span className="text-[10px] font-extrabold text-emerald-850 dark:text-emerald-400 uppercase tracking-wider font-mono flex items-center gap-1">
+                    <Wind className="w-3.5 h-3.5 text-emerald-600 animate-pulse" />
+                    Respiratory Mirror Sync
                   </span>
-                </div>
-                <h3 className="text-[13px] font-bold font-serif text-[#3e2723]">{activeArt.name}</h3>
-                <p className="text-[11px] leading-relaxed text-stone-600">{activeArt.description}</p>
-                <div className="text-[10px] bg-white dark:bg-black border border-stone-150 p-2 rounded-lg text-stone-500">
-                  <strong>Sacred Lore &amp; Context:</strong> {activeArt.lore}
-                </div>
-              </div>
-
-              {/* Quick breath resonance card (only in simulator mode) */}
-              {paintingMode === "simulator" && (
-                <div className="border border-emerald-200/50 p-3 rounded-xl bg-emerald-50/20 text-left flex flex-col gap-2">
-                  <div className="flex items-center gap-1.5 justify-between">
-                    <span className="text-[10px] font-extrabold text-emerald-850 uppercase tracking-wider font-mono flex items-center gap-1">
-                      <Wind className="w-3.5 h-3.5 text-emerald-600 animate-pulse" />
-                      Respiratory Mirror Sync
-                    </span>
-                    <button
-                      onClick={() => setBreathSync(!breathSync)}
-                      className={`px-2 py-0.8 text-[9.5px] font-bold font-mono rounded-lg border transition-all cursor-pointer ${
-                        breathSync 
-                          ? "bg-emerald-750 text-white border-emerald-800" 
-                          : "bg-white dark:bg-black hover:bg-emerald-50 text-emerald-800 border-emerald-200"
-                      }`}
-                    >
-                      {breathSync ? "Active ✓" : "Sync Pulse"}
-                    </button>
-                  </div>
-                  <p className="text-[10px] text-stone-500 leading-relaxed">
-                    Borders and geometric lines in tribal art mirror natural cyclical rhythms. Click "Sync Pulse" to watch the canvas gently inhale and exhale at an organic rate.
-                  </p>
-                  {breathSync && (
-                    <div className="flex items-center justify-between text-[9px] font-mono text-emerald-700 bg-white/70 px-2 py-1 rounded">
-                      <span>Active Cycle: {isBreatheIn ? "🌬 Inhale (Expanding)" : "💨 Exhale (Stabilizing)"}</span>
-                      <span className="font-extrabold">Timer: {seconds}s</span>
-                    </div>
-                  )}
-                </div>
-              )}
-
-            </div>
-          </div>
-
-          {/* Right Paintings Catalog Grid */}
-          <div className="lg:col-span-7 space-y-4">
-            <div className="p-4.5 bg-white dark:bg-black border border-[#ebdcb9] rounded-2xl shadow-xs text-left">
-              
-              {/* Search & filters */}
-              <div className="flex flex-col md:flex-row gap-3 items-stretch justify-between pb-4 border-b border-stone-150">
-                <div className="relative flex-1">
-                  <Search className="w-4 h-4 absolute left-3 top-2.5 text-stone-400" />
-                  <input
-                    type="text"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Search by name, origin region, or identifiers..."
-                    className="w-full bg-stone-50 border border-stone-200 rounded-xl text-xs pl-9 pr-3 py-2 text-stone-800 outline-none focus:border-rose-700 transition-all font-sans placeholder-stone-400"
-                  />
-                </div>
-
-                <div className="flex flex-wrap items-center gap-2">
-                  <select
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="bg-stone-50 border border-stone-200 rounded-xl text-[11px] font-bold text-stone-700 px-2.5 py-2 outline-none focus:border-rose-700 cursor-pointer"
+                  <button
+                    onClick={() => setBreathSync(!breathSync)}
+                    className={`px-2 py-0.8 text-[9px] font-bold font-mono rounded-lg border transition-all cursor-pointer ${
+                      breathSync 
+                        ? "bg-emerald-750 text-white border-emerald-800" 
+                        : "bg-white dark:bg-black hover:bg-emerald-50 text-emerald-800 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/60"
+                    }`}
                   >
-                    <option value="All">All Categories</option>
-                    <option value="Folk">Folk Art</option>
-                    <option value="Tribal">Tribal Art</option>
-                    <option value="Classical">Classical Art</option>
-                  </select>
-
-                  <select
-                    value={selectedGI}
-                    onChange={(e) => setSelectedGI(e.target.value)}
-                    className="bg-stone-50 border border-stone-200 rounded-xl text-[11px] font-bold text-stone-700 px-2.5 py-2 outline-none focus:border-rose-700 cursor-pointer"
-                  >
-                    <option value="All">GI Tagged - All</option>
-                    <option value="Yes">Has GI Tag Only</option>
-                    <option value="No">No GI Tag</option>
-                  </select>
-
-                  {(searchTerm || selectedCategory !== "All" || selectedGI !== "All") && (
-                    <button
-                      onClick={handleResetFilters}
-                      className="p-2 bg-[#be2222]/10 text-rose-800 hover:bg-[#be2222]/15 text-xs font-bold rounded-xl cursor-pointer"
-                      title="Clear active filters"
-                    >
-                      Reset
-                    </button>
-                  )}
+                    {breathSync ? "Active" : "Sync Pulse"}
+                  </button>
                 </div>
-              </div>
-
-              {/* Catalog Items list */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 my-4 max-h-[460px] overflow-y-auto pr-1 no-scrollbar">
-                {filteredPaintings.length === 0 ? (
-                  <div className="col-span-2 py-8 text-center text-stone-450 text-xs italic font-serif">
-                    No traditional masterpieces found matching current filters. Try resetting search parameters.
+                <p className="text-[10.5px] text-stone-500 dark:text-stone-400 leading-relaxed mt-1">
+                  Folk visual patterns reflect organic respiration frequencies. Use this mode to align your breath pacing with the canvas expansions.
+                </p>
+                {breathSync && (
+                  <div className="flex items-center justify-between text-[9px] font-mono text-emerald-700 bg-white/70 dark:bg-black/80 px-2.5 py-1.5 rounded-lg border border-emerald-200/40">
+                    <span>{isBreatheIn ? "Inhale (Expanding)" : "Exhale (Stabilizing)"}</span>
+                    <span className="font-extrabold">Timer: {seconds}s</span>
                   </div>
-                ) : (
-                  filteredPaintings.map((art) => {
-                    const isActive = art.id === activePaintingId;
-                    return (
-                      <button
-                        key={art.id}
-                        onClick={() => setActivePaintingId(art.id)}
-                        className={`p-3 rounded-xl border text-left transition-all flex items-start gap-4 cursor-pointer relative overflow-hidden group ${
-                          isActive 
-                            ? "bg-[#fffcf3] border-rose-800 shadow-md scale-[1.01]" 
-                            : "bg-stone-50/50 hover:bg-stone-100/50 border-stone-200"
-                        }`}
-                      >
-                        {/* Motif circular badge */}
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shrink-0 border uppercase font-serif ${
-                          isActive ? "bg-rose-850 text-white border-rose-900" : "bg-white dark:bg-black text-stone-600 border-stone-200"
-                        }`}>
-                          {art.name.charAt(0)}
-                        </div>
-                        <div className="min-w-0 flex-1 leading-tight text-left">
-                          <h4 className="text-[12px] font-extrabold text-[#3e2723] truncate group-hover:text-rose-800 transition-colors">{art.name}</h4>
-                          <p className="text-[10px] text-stone-500 font-bold truncate mt-0.5">{art.region} • {art.category}</p>
-                          <p className="text-[9.5px] text-stone-550 italic truncate mt-1">Key: {art.identifier}</p>
-                        </div>
-                        {isActive && (
-                          <span className="w-2.5 h-2.5 rounded-full bg-rose-800 shrink-0 mt-1 shadow-sm dark:shadow-slate-900/30" />
-                        )}
-                      </button>
-                    );
-                  })
                 )}
               </div>
-
-              {/* Major Folk Paintings Table */}
-              <div className="border-t pt-4 border-stone-200 space-y-3 text-left">
-                <span className="text-[10px] uppercase font-mono tracking-widest text-[#3e2723] font-bold block">Comparative Folk, Tribal &amp; Classical Matrix</span>
-                <div className="overflow-x-auto border border-stone-200 rounded-xl">
-                  <table className="w-full text-[10.5px] text-stone-700 leading-normal font-sans border-collapse">
-                    <thead>
-                      <tr className="bg-[#fcf7ee] border-b border-stone-200 font-serif font-bold text-[#3e2723]">
-                        <th className="p-2.5 text-left font-serif">Feature</th>
-                        <th className="p-2.5 text-left font-serif">Folk Paintings</th>
-                        <th className="p-2.5 text-left font-serif">Tribal Paintings</th>
-                        <th className="p-2.5 text-left font-serif">Classical Paintings</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-stone-150">
-                      <tr>
-                        <td className="p-2.5 font-bold text-[#3e2723] bg-stone-50/40">Origins</td>
-                        <td className="p-2.5 leading-relaxed">Rooted in rural communities; linked to agrarian festivals, localized rituals, and non-codified village legends.</td>
-                        <td className="p-2.5 leading-relaxed">Rooted in deep indigenous forest tribes; closely bound to animism, forest animal spirits, and ancestor worship.</td>
-                        <td className="p-2.5 leading-relaxed">Emerged under royal patronage, courts, or major temples; guided by written codes like the Shilpa Shastras.</td>
-                      </tr>
-                      <tr>
-                        <td className="p-2.5 font-bold text-[#3e2723] bg-stone-50/40">Technique</td>
-                        <td className="p-2.5 leading-relaxed">Transmitted orally through community preserves; highly stylized but structured household practices.</td>
-                        <td className="p-2.5 leading-relaxed">Highly ritualistic, instinctive and collective; murals executed directly on prepared cow-dung mud soils.</td>
-                        <td className="p-2.5 leading-relaxed">Highly formalized guild structures (Guru-Shishya parampara); rigorous geometric proportions and gold gildings.</td>
-                      </tr>
-                      <tr>
-                        <td className="p-2.5 font-bold text-[#3e2723] bg-stone-50/40">Themes</td>
-                        <td className="p-2.5 leading-relaxed">Socio-religious local epics, wedding enclosures (Kohbar), daily village bazaars, and harvest seasons.</td>
-                        <td className="p-2.5 leading-relaxed">Cosmic "Tree of Life", animal spirits (tigers, fish, deer), shaman dream journeys, and fertility blessings.</td>
-                        <td className="p-2.5 leading-relaxed">Codified religious iconography, mythological assemblies (Puranic deities), and detailed courts of kings.</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-            </div>
+            )}
           </div>
 
+          {/* Comparative Folk, Tribal & Classical Matrix */}
+          <div className="border-t pt-4 border-stone-200 space-y-3 text-left">
+            <span className="text-[10px] uppercase font-mono tracking-widest text-[#3e2723] font-bold block">Comparative Folk, Tribal &amp; Classical Matrix</span>
+            <div className="overflow-x-auto border border-stone-200 rounded-xl">
+              <table className="w-full text-[10.5px] text-stone-700 leading-normal font-sans border-collapse">
+                <thead>
+                  <tr className="bg-[#fcf7ee] border-b border-stone-200 font-serif font-bold text-[#3e2723]">
+                    <th className="p-2.5 text-left font-serif">Feature</th>
+                    <th className="p-2.5 text-left font-serif">Folk Paintings</th>
+                    <th className="p-2.5 text-left font-serif">Tribal Paintings</th>
+                    <th className="p-2.5 text-left font-serif">Classical Paintings</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-stone-150">
+                  <tr>
+                    <td className="p-2.5 font-bold text-[#3e2723] bg-stone-50/40">Origins</td>
+                    <td className="p-2.5 leading-relaxed">Rooted in rural communities; linked to agrarian festivals, localized rituals, and non-codified village legends.</td>
+                    <td className="p-2.5 leading-relaxed">Rooted in deep indigenous forest tribes; closely bound to animism, forest animal spirits, and ancestor worship.</td>
+                    <td className="p-2.5 leading-relaxed">Emerged under royal patronage, courts, or major temples; guided by written codes like the Shilpa Shastras.</td>
+                  </tr>
+                  <tr>
+                    <td className="p-2.5 font-bold text-[#3e2723] bg-stone-50/40">Technique</td>
+                    <td className="p-2.5 leading-relaxed">Transmitted orally through community preserves; highly stylized but structured household practices.</td>
+                    <td className="p-2.5 leading-relaxed">Highly ritualistic, instinctive and collective; murals executed directly on prepared cow-dung mud soils.</td>
+                    <td className="p-2.5 leading-relaxed">Highly formalized guild structures (Guru-Shishya parampara); rigorous geometric proportions and gold gildings.</td>
+                  </tr>
+                  <tr>
+                    <td className="p-2.5 font-bold text-[#3e2723] bg-stone-50/40">Themes</td>
+                    <td className="p-2.5 leading-relaxed">Socio-religious local epics, wedding enclosures (Kohbar), daily village bazaars, and harvest seasons.</td>
+                    <td className="p-2.5 leading-relaxed">Cosmic "Tree of Life", animal spirits (tigers, fish, deer), shaman dream journeys, and fertility blessings.</td>
+                    <td className="p-2.5 leading-relaxed">Codified religious iconography, mythological assemblies (Puranic deities), and detailed courts of kings.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
-      )}
+
+        {/* Right Paintings Catalog Grid */}
+        <div className="lg:col-span-4 space-y-4">
+          <div className="p-4 bg-white dark:bg-[#121214] border border-[#ebdcb9] dark:border-white/10 rounded-2xl shadow-xs text-left">
+            
+            {/* Search & filters */}
+            <div className="flex flex-col gap-3 pb-4 border-b border-stone-150 dark:border-white/5">
+              <div className="relative">
+                <Search className="w-4 h-4 absolute left-3 top-2.5 text-stone-400" />
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Search by name, region..."
+                  className="w-full bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-white/10 rounded-xl text-xs pl-9 pr-3 py-2 text-stone-800 dark:text-stone-200 outline-none focus:border-rose-700 dark:focus:border-rose-600 transition-all font-sans placeholder-stone-400"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-white/10 rounded-xl text-[11px] font-bold text-stone-700 dark:text-stone-300 px-2 py-2 outline-none focus:border-rose-700 dark:focus:border-rose-600 cursor-pointer"
+                >
+                  <option value="All">All Categories</option>
+                  <option value="Folk">Folk Art</option>
+                  <option value="Tribal">Tribal Art</option>
+                  <option value="Classical">Classical Art</option>
+                </select>
+
+                <select
+                  value={selectedGI}
+                  onChange={(e) => setSelectedGI(e.target.value)}
+                  className="bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-white/10 rounded-xl text-[11px] font-bold text-stone-700 dark:text-stone-300 px-2 py-2 outline-none focus:border-rose-700 dark:focus:border-rose-600 cursor-pointer"
+                >
+                  <option value="All">GI Status</option>
+                  <option value="Yes">GI Tagged Only</option>
+                  <option value="No">No GI Tag</option>
+                </select>
+              </div>
+
+              {(searchTerm || selectedCategory !== "All" || selectedGI !== "All") && (
+                <button
+                  onClick={handleResetFilters}
+                  className="w-full py-1.5 bg-rose-800/10 text-rose-800 hover:bg-rose-800/20 text-xs font-bold rounded-xl cursor-pointer transition-all dark:bg-rose-500/10 dark:text-rose-400 dark:hover:bg-rose-500/20"
+                >
+                  Reset Active Filters
+                </button>
+              )}
+            </div>
+
+            {/* Catalog Items list */}
+            <div className="flex flex-col gap-2.5 my-4 max-h-[500px] overflow-y-auto pr-1 no-scrollbar">
+              {filteredPaintings.length === 0 ? (
+                <div className="py-8 text-center text-stone-450 text-xs italic font-serif">
+                  No masterpieces match the filters.
+                </div>
+              ) : (
+                filteredPaintings.map((art) => {
+                  const isActive = art.id === activePaintingId;
+                  return (
+                    <button
+                      key={art.id}
+                      onClick={() => setActivePaintingId(art.id)}
+                      className={`p-3 rounded-xl border text-left transition-all flex items-center gap-3 cursor-pointer relative overflow-hidden group ${
+                        isActive 
+                          ? "bg-[#fffcf3] dark:bg-amber-950/20 border-rose-800 dark:border-rose-700 shadow-xs" 
+                          : "bg-stone-50/50 hover:bg-stone-100/50 dark:bg-stone-900/40 dark:hover:bg-stone-900/70 border-stone-200/60 dark:border-white/5"
+                      }`}
+                    >
+                      {/* Motif circular badge */}
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs shrink-0 border uppercase font-serif ${
+                        isActive ? "bg-rose-850 dark:bg-rose-700 text-white border-rose-900 dark:border-rose-600" : "bg-white dark:bg-stone-800 text-stone-600 dark:text-stone-300 border-stone-200 dark:border-white/10"
+                      }`}>
+                        {art.name.charAt(0)}
+                      </div>
+                      <div className="min-w-0 flex-1 leading-tight text-left">
+                        <h4 className="text-[11.5px] font-bold text-[#3e2723] dark:text-stone-200 truncate group-hover:text-rose-800 dark:group-hover:text-rose-400 transition-colors">{art.name}</h4>
+                        <p className="text-[9.5px] text-stone-550 dark:text-stone-400 font-medium truncate mt-0.5">{art.region} • {art.category}</p>
+                      </div>
+                      {isActive && (
+                        <span className="w-2.5 h-2.5 rounded-full bg-rose-800 dark:bg-rose-600 shrink-0 shadow-sm" />
+                      )}
+                    </button>
+                  );
+                })
+              )}
+            </div>
+
+          </div>
+        </div>
+
+      </div>
 
       {/* Dynamic Masterpiece Scroll Certificate Modal Overlay */}
       <AnimatePresence>
@@ -1913,7 +1832,7 @@ export default function IndianPaintingsMoodBoard() {
 
                   <p className="text-[11.5px] text-stone-600 font-sans leading-relaxed">
                     By completing this session, the aspirant has demonstrated deep intellectual sensitivity toward the 
-                    traditional motifs of <strong>"{activeArt.motifs.slice(0, 3).join(', ')}"</strong> as documented in the Civilizational Archives for the UPSC.
+                    traditional motifs of <strong>"{activeArt.motifs.slice(0, 3).join(', ')}"</strong>.
                   </p>
                 </div>
 
@@ -1964,508 +1883,6 @@ export default function IndianPaintingsMoodBoard() {
         )}
       </AnimatePresence>
 
-      {/* TAB 2: CIVILIZATIONAL CHRONICLES (UPSC) */}
-      {activeSubTab === "syllabus" && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start font-sans animate-fade-in">
-          
-          {/* Syllabus Topics Accordion - Column left */}
-          <div className="lg:col-span-8 space-y-4">
-            <div className="p-5 bg-white dark:bg-black border border-[#ebdcb9] rounded-2xl shadow-xs text-left space-y-4.5">
-              
-              <div className="border-b pb-3 border-stone-200">
-                <span className="text-[10px] uppercase font-mono tracking-[0.2em] text-rose-800 font-extrabold block">Academics &amp; Civilizational Legacy Archive</span>
-                <h3 className="text-lg font-bold font-serif text-[#3e2723] mt-1">UPSC GS Paper-I syllabus: Indian Art &amp; Socio-Economic History</h3>
-                <p className="text-xs text-stone-500 mt-1">
-                  Dive into the core dynamics of pre-colonial agrarian communities, civilizational bonds originating from the Indus Valley, and critical socio-religious transitions.
-                </p>
-              </div>
-
-              {/* Accordion list */}
-              <div className="space-y-3 font-sans">
-                
-                {/* 1. Decline of IVC */}
-                <div className="border border-stone-200 rounded-xl overflow-hidden shadow-2xs">
-                  <button
-                    onClick={() => setExpandedSyllabus(expandedSyllabus === "ivc" ? null : "ivc")}
-                    className="w-full bg-stone-50/40 hover:bg-stone-50 p-3 flex items-center justify-between text-left cursor-pointer border-b border-stone-150"
-                  >
-                    <span className="text-xs font-bold font-serif text-[#3e2723] flex items-center gap-2">
-                      <span className="text-red-700 font-mono">I.</span> The Twilight of Indus: Decline of Indus Valley Civilization
-                    </span>
-                    <span className="text-stone-400 text-xs font-mono">{expandedSyllabus === "ivc" ? "[ Collapse ]" : "[ Expand ]"}</span>
-                  </button>
-                  {expandedSyllabus === "ivc" && (
-                    <motion.div 
-                      initial={{ height: 0 }} 
-                      animate={{ height: "auto" }} 
-                      className="p-4 bg-white dark:bg-black text-xs leading-relaxed text-stone-600 font-sans space-y-3"
-                    >
-                      <p>
-                        The decline of the <strong>Indus Valley Civilization (IVC)</strong> around 1900 BCE represents one of the most studied transitions in ancient history. The decline was not a sudden cataclysmic event caused by a single invasion, but a gradual, century-long process of urban disintegration.
-                      </p>
-                      <h5 className="font-bold text-[#3e2723] font-serif">Primary Contributing Factors:</h5>
-                      <ul className="list-disc pl-4 space-y-1.5 leading-relaxed font-sans">
-                        <li><strong>Hydro-Climatic Shifts:</strong> The gradual drying up of the Gaggar-Hakra river system coupled with erratic monsoon shifts severely compromised the agricultural base of primary hubs like Harappa and Mohenjo-daro.</li>
-                        <li><strong>Tectonic Disruptions:</strong> Tectonic block elevations near the coast resulted in extensive flooding, transforming urban settlements into unusable waterlogged areas or entirely swamping the ports.</li>
-                        <li><strong>Ecological Over-exploitation:</strong> The extensive manufacturing of baked terracotta bricks required massive deforestation, destroying the surrounding ecosystem and intensifying soil salinity or desertification.</li>
-                        <li><strong>De-urbanization Patterns:</strong> Instead of immediate extinction, the population migrated eastward and southward towards the Ganges basin, exchanging grid-planned cities for localized, decentralized farming setups.</li>
-                      </ul>
-                      <div className="p-3 bg-red-50/40 border border-red-200 rounded-lg text-red-950 font-serif">
-                        💡 <strong>Civilizational Bond:</strong> Mohenjo-daro ("Graves of the Dead") represents this rich heritage. Persia in the West and Indonesia in the East traded with ancient India, testifying to a deep-rooted trade and cultural footprint.
-                      </div>
-                    </motion.div>
-                  )}
-                </div>
-
-                {/* 2. Second Urbanization */}
-                <div className="border border-stone-200 rounded-xl overflow-hidden shadow-2xs">
-                  <button
-                    onClick={() => setExpandedSyllabus(expandedSyllabus === "urbanization" ? null : "urbanization")}
-                    className="w-full bg-stone-50/40 hover:bg-stone-50 p-3 flex items-center justify-between text-left cursor-pointer border-b border-stone-150"
-                  >
-                    <span className="text-xs font-bold font-serif text-[#3e2723] flex items-center gap-2">
-                      <span className="text-red-700 font-mono">II.</span> The Second Urbanization of India
-                    </span>
-                    <span className="text-stone-400 text-xs font-mono">{expandedSyllabus === "urbanization" ? "[ Collapse ]" : "[ Expand ]"}</span>
-                  </button>
-                  {expandedSyllabus === "urbanization" && (
-                    <div className="p-4 bg-white dark:bg-black text-xs leading-relaxed text-stone-600 font-sans space-y-2">
-                      <p>
-                        Occurring around the 6th Century BCE in the Ganga Valley, the <strong>Second Urbanization</strong> marks a dramatic departure from nomadic agrarian life to dense city layouts and organized state power.
-                      </p>
-                      <ul className="list-disc pl-4 space-y-1 leading-normal font-sans">
-                        <li><strong>Iron Metallurgy (The Catalyst):</strong> The discovery of hard iron tools allowed communities to clear the dense forests of the Ganga basin, bringing vast, highly fertile terrains under plow agriculture.</li>
-                        <li><strong>Agricultural Surpluses:</strong> Wet paddy transplantation increased agrarian yields. The resulting surplus enabled a diverse population (craftsmen, soldiers, priests) to live in cities, separating production from food collection.</li>
-                        <li><strong>Emergence of Mahajanapadas:</strong> The surplus and territory struggles gave rise to 16 great territorial states (Mahajanapadas), with Magadha emerging as the pre-eminent empire due to local iron/elephant reserves.</li>
-                        <li><strong>Monetized Economy:</strong> The introduction of punch-marked silver and copper coins replaced barter trade, cementing market relations and commercial networks across guilds.</li>
-                      </ul>
-                    </div>
-                  )}
-                </div>
-
-                {/* 3. Varna vs Jati */}
-                <div className="border border-stone-200 rounded-xl overflow-hidden shadow-2xs">
-                  <button
-                    onClick={() => setExpandedSyllabus(expandedSyllabus === "caste" ? null : "caste")}
-                    className="w-full bg-stone-50/40 hover:bg-stone-50 p-3 flex items-center justify-between text-left cursor-pointer border-b border-stone-150"
-                  >
-                    <span className="text-xs font-bold font-serif text-[#3e2723] flex items-center gap-2">
-                      <span className="text-red-700 font-mono">III.</span> Stratification dynamics: Varna vs Jati
-                    </span>
-                    <span className="text-stone-400 text-xs font-mono">{expandedSyllabus === "caste" ? "[ Collapse ]" : "[ Expand ]"}</span>
-                  </button>
-                  {expandedSyllabus === "caste" && (
-                    <div className="p-4 bg-white dark:bg-black text-xs leading-relaxed text-stone-600 font-sans space-y-2">
-                      <p>
-                        A major focus of UPSC socio-anthropological study is explaining the difference between the scriptural Varna system and the operational Jati system.
-                      </p>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-2">
-                        <div className="p-3 bg-[#fffbf2] border border-[#ebdcb9] rounded-xl text-stone-700">
-                          <h6 className="font-bold text-[#3e2723] uppercase text-[10px] font-mono tracking-widest pb-1 border-b">The Varna Framework</h6>
-                          <p className="mt-1.5 leading-relaxed text-[11px]">
-                            A rigid, four-fold textual classification (Brahmin, Kshatriya, Vaishya, Shudra) originating in Vedic texts (Purusha Sukta). It is highly standardized, theoretical, and does not capture local region-based craft dynamics.
-                          </p>
-                        </div>
-                        <div className="p-3 bg-[#fffbf2] border border-[#ebdcb9] rounded-xl text-stone-700">
-                          <h6 className="font-bold text-[#3e2723] uppercase text-[10px] font-mono tracking-widest pb-1 border-b">The Jati Reality</h6>
-                          <p className="mt-1.5 leading-relaxed text-[11px]">
-                            An operational occupational unit numbering in the thousands. Jatis are highly localized, endogamous groups bound to specific tasks, guilds, or crafts. Jati relationships drive the actual productive relations on the ground.
-                          </p>
-                        </div>
-                      </div>
-                      <p>
-                        Across the subcontinent, this order of caste imposed itself on incoming groups, absorbing new communities with minimal friction but cementing strict social divisions, creating a distinct civilization framework.
-                      </p>
-                    </div>
-                  )}
-                </div>
-
-                {/* 4. Delhi Sultanate and 17th Century Economics */}
-                <div className="border border-stone-200 rounded-xl overflow-hidden shadow-2xs">
-                  <button
-                    onClick={() => setExpandedSyllabus(expandedSyllabus === "medieval" ? null : "medieval")}
-                    className="w-full bg-stone-50/40 hover:bg-stone-50 p-3 flex items-center justify-between text-left cursor-pointer border-b border-stone-150"
-                  >
-                    <span className="text-xs font-bold font-serif text-[#3e2723] flex items-center gap-2">
-                      <span className="text-red-700 font-mono">IV.</span> Medieval Dynasties &amp; 17th Century Economy
-                    </span>
-                    <span className="text-stone-400 text-xs font-mono">{expandedSyllabus === "medieval" ? "[ Collapse ]" : "[ Expand ]"}</span>
-                  </button>
-                  {expandedSyllabus === "medieval" && (
-                    <div className="p-4 bg-white dark:bg-black text-xs leading-relaxed text-stone-600 font-sans space-y-3">
-                      <div>
-                        <h5 className="font-bold font-serif text-[#3e2723]">Delhi Sultanate Changes:</h5>
-                        <p className="mt-1 text-stone-605 text-[11px]">
-                          The period was defined by rapid dynastic shifts (Mamluk, Khalji, Tughlaq, Sayyid, Lodi). Alauddin Khalji introduced price fixing and direct crop measures (Iqta reforms). Muhammad bin Tughlaq tested token brass currencies and centralized administrative techniques. These reforms broke the power of localized rural intermediaries, creating central tax-receiving nodes.
-                        </p>
-                      </div>
-                      <div className="border-t pt-3.5 border-stone-150">
-                        <h5 className="font-bold font-serif text-[#3e2723]">Factors Contributing to the 17th Century Economic Boom:</h5>
-                        <p className="mt-1 text-stone-605 text-[11px]">
-                          As European traders arrived, India maintained a highly advanced position under late Muajir empires. Primary factors:
-                        </p>
-                        <ul className="list-disc pl-4 mt-1 space-y-1.5 text-[11px] leading-relaxed">
-                          <li><strong>High Agrarian Yields:</strong> Encouragement of cash crops (indigo, cotton, sugarcane, tobacco), supported by structured tax concessions and loan systems (Taqavi).</li>
-                          <li><strong>Banking Infrastructure:</strong> Highly organized capital networks driven by merchant bankers (Sethi, Shroffs) utilizing reliable promissory notes (*Hundis*) across trans-continental routes.</li>
-                          <li><strong>Textile Dominance:</strong> Cotton hand-weavings and dyed fabrics became the number-one global export; Kalamkari styled prints (*Chintz*) were prized across Europe, drawing massive trade and precious metals into India.</li>
-                        </ul>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* 5. WW1 aftermath and Print culture */}
-                <div className="border border-stone-200 rounded-xl overflow-hidden shadow-2xs">
-                  <button
-                    onClick={() => setExpandedSyllabus(expandedSyllabus === "modern" ? null : "modern")}
-                    className="w-full bg-stone-50/40 hover:bg-stone-50 p-3 flex items-center justify-between text-left cursor-pointer border-b border-stone-150"
-                  >
-                    <span className="text-xs font-bold font-serif text-[#3e2723] flex items-center gap-2">
-                      <span className="text-red-700 font-mono">V.</span> Modern Transition: World War I &amp; Colonial Print Culture
-                    </span>
-                    <span className="text-stone-400 text-xs font-mono">{expandedSyllabus === "modern" ? "[ Collapse ]" : "[ Expand ]"}</span>
-                  </button>
-                  {expandedSyllabus === "modern" && (
-                    <div className="p-4 bg-white dark:bg-black text-xs leading-relaxed text-stone-600 font-sans space-y-3">
-                      <div>
-                        <h5 className="font-bold font-serif text-[#3e2723]">Impact of World War I on India:</h5>
-                        <p className="mt-1 text-[11px]">
-                          The war placed massive burdens on India. The British administration introduced military expenditures, high customs duties, and direct income tax. Food prices skyrocketed, causing severe distress among common workers. However, the resulting shortage of British imports acted as a shield, allowing domestic industrial groups (like Birla and Tata) to expand.
-                        </p>
-                      </div>
-                      <div className="border-t pt-3.5 border-stone-150">
-                        <h5 className="font-bold font-serif text-[#3e2723]">Role of Print Culture in Colonial India:</h5>
-                        <p className="mt-1 text-[11px]">
-                          The introduction of vernacular presses became India's foremost anti-colonial tool. Print transformed a set of localized, dispersed struggles into a unified national community. It allowed regional languages (Hindi, Bengali, Tamil, Marathi) to debate social issues, critique British administration techniques, and celebrate traditional styles of Indian folk art as emblems of local pride.
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-              </div>
-
-            </div>
-          </div>
-
-          {/* Interactive Live Clickable UPSC Question Cards - Column right */}
-          <div className="lg:col-span-4 space-y-4">
-            <div className="p-4 bg-[#fbf8f0] border border-[#ebdcb9] rounded-2xl text-left space-y-4 shadow-sm dark:shadow-slate-900/30">
-              <div className="flex items-center gap-2 pb-2.5 border-b border-[#ebdcb9]">
-                <HelpCircle className="w-5 h-5 text-amber-800" />
-                <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-[#3e2723] font-serif">Practice UPSC Board</h4>
-                  <p className="text-[9px] text-stone-500 font-sans">Click options to check answers and hints</p>
-                </div>
-              </div>
-
-              {/* Question 1 */}
-              <div className="p-3 bg-white dark:bg-black border border-stone-200 rounded-xl flex flex-col gap-2">
-                <span className="text-[9px] bg-amber-100 text-amber-900 border border-amber-200 font-bold font-mono px-2 py-0.5 rounded-full select-none w-max">
-                  Prelims 2015 Question
-                </span>
-                <p className="text-[11px] font-bold text-[#3e2723] leading-relaxed">
-                  The Kalamkari painting refers to:
-                </p>
-                <div className="flex flex-col gap-1.5 text-[10px] mt-1.5">
-                  {[
-                    { key: "a", text: "A hand-painted cotton textile in South India." },
-                    { key: "b", text: "A handmade drawing on bamboo handicrafts in North-East India." },
-                    { key: "c", text: "A block-painted woollen cloth in Western Himalayan region." },
-                    { key: "d", text: "A hand-painted decorative silk cloth in North-Western India." }
-                  ].map((opt) => (
-                    <button
-                      key={opt.key}
-                      onClick={() => setAnsweredQuestion({ ...answeredQuestion, q1: opt.key })}
-                      className={`p-2 rounded-lg text-left transition-all border cursor-pointer ${
-                        answeredQuestion.q1 === opt.key 
-                          ? opt.key === "a" 
-                            ? "bg-emerald-50 text-emerald-800 border-emerald-300 font-bold" 
-                            : "bg-red-50 text-rose-800 border-red-300"
-                          : "bg-stone-50 hover:bg-stone-100 border-stone-150"
-                      }`}
-                    >
-                      ({opt.key}) {opt.text}
-                      {answeredQuestion.q1 === opt.key && (
-                        <span className="block text-[9px] font-mono mt-1 text-stone-500">
-                          {opt.key === "a" ? "✓ Correct! Kalamkari uses organic kalam (pen) on cotton textiles." : "❌ Incorrect. Try again!"}
-                        </span>
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Question 2 */}
-              <div className="p-3 bg-white dark:bg-black border border-stone-200 rounded-xl flex flex-col gap-2">
-                <span className="text-[9px] bg-amber-100 text-amber-900 border border-amber-200 font-bold font-mono px-2 py-0.5 rounded-full select-none w-max">
-                  Prelims 2013 Question
-                </span>
-                <p className="text-[11px] font-bold text-[#3e2723] leading-relaxed">
-                  Which of the following historical places is/are known for mural paintings?
-                  <br />
-                  <span className="font-normal block mt-1 text-stone-605">1. Ajanta Caves • 2. Lepakshi Temple • 3. Sanchi Stupa</span>
-                </p>
-                <div className="flex flex-col gap-1.5 text-[10px] mt-1">
-                  {[
-                    { key: "a", text: "1 only" },
-                    { key: "b", text: "1 and 2 only" },
-                    { key: "c", text: "1, 2 and 3" },
-                    { key: "d", text: "None of the above" }
-                  ].map((opt) => (
-                    <button
-                      key={opt.key}
-                      onClick={() => setAnsweredQuestion({ ...answeredQuestion, q2: opt.key })}
-                      className={`p-2 rounded-lg text-left transition-all border cursor-pointer ${
-                        answeredQuestion.q2 === opt.key 
-                          ? opt.key === "b" 
-                            ? "bg-emerald-50 text-emerald-800 border-emerald-300 font-bold" 
-                            : "bg-red-50 text-rose-800 border-red-300"
-                          : "bg-stone-50 hover:bg-stone-100 border-stone-150"
-                      }`}
-                    >
-                      ({opt.key}) {opt.text}
-                      {answeredQuestion.q2 === opt.key && (
-                        <span className="block text-[9px] font-mono mt-1 text-stone-500">
-                          {opt.key === "b" ? "✓ Correct. Ajanta and Lepakshi contain magnificent ceiling/wall murals. Sanchi Stupa has ornate stone carvings, not murals." : "❌ Incorrect. Sanchi stupa only features carvings."}
-                        </span>
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Mains Writing Board */}
-              <div className="p-3 bg-white dark:bg-black border border-[#ebdcb9] rounded-xl flex flex-col gap-2">
-                <span className="text-[9px] bg-yellow-100 text-yellow-850 font-bold font-mono px-2 py-0.5 rounded-full w-max">
-                  UPSC Mains Corner
-                </span>
-                <h5 className="text-[11px] font-bold text-[#3e2723] leading-tight font-serif">
-                  Q. "Safeguarding the Indian Art Heritage is the need of the moment." Discuss. (15 Marks)
-                </h5>
-                <button
-                  onClick={() => setShowUpscMainsFeedback(!showUpscMainsFeedback)}
-                  className="w-full text-center py-2 bg-rose-850 hover:bg-rose-900 text-white font-bold text-[10px] font-serif rounded-lg transition-all cursor-pointer"
-                >
-                  {showUpscMainsFeedback ? "Hide Analysis Answer" : "Unfold Model Essay Structure"}
-                </button>
-                {showUpscMainsFeedback && (
-                  <div className="p-2.5 bg-rose-50/40 rounded-lg text-[10.5px] text-stone-600 leading-relaxed font-sans space-y-1.5 border border-rose-100 animate-fade-in">
-                    <p><strong>Model Structure:</strong></p>
-                    <p>1. <strong>Introduction:</strong> Define Indian art as a living archives of community memory (Gond, Phad, Aipan). Mention Geographical Indication (GI) tag protective laws.</p>
-                    <p>2. <strong>Major Threats:</strong> Commercial exploitation, dilution of natural pigment techniques (replacing minerals with synthetics), loss of oral storytelling lineages (Bhopas of Phad scrolls).</p>
-                    <p>3. <strong>Solutions:</strong> Skill preservation programs, craft-based micro-enterprise tourism (such as Amadubi's Paitkar village), and digital registration of indigenous designs.</p>
-                  </div>
-                )}
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-      )}
-
-      {/* TAB 3: STARTUP PITCH PLATFORM */}
-      {activeSubTab === "pitch" && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start font-sans animate-fade-in">
-          
-          {/* Slide Deck presentation - Column left */}
-          <div className="lg:col-span-8 space-y-4">
-            <div className="p-5 bg-white dark:bg-black border-4 border-double border-orange-900/30 rounded-2xl shadow-sm dark:shadow-slate-900/30 text-left relative overflow-hidden">
-              <div className="absolute inset-1 border border-amber-900/10 rounded-xl pointer-events-none" />
-              
-              {/* Timeline Progress Header */}
-              <div className="flex items-center justify-between border-b pb-3 border-stone-200">
-                <div className="space-y-0.5">
-                  <span className="text-[10px] uppercase font-mono tracking-[0.2em] text-[#aa6b51] font-extrabold flex items-center gap-1.5">
-                    <Clock className="w-3.5 h-3.5 text-[#aa6b51]" />
-                    Slide Presentation: {activePitchSlideContent.timeMark}
-                  </span>
-                  <h3 className="text-base font-bold font-serif text-[#3e2723]">
-                    {activePitchSlideContent.slideTitle}
-                  </h3>
-                </div>
-                
-                {/* Timer Controls */}
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => {
-                      setPitchTimerActive(!pitchTimerActive);
-                      if (!pitchTimerActive) setPitchProgress(0);
-                    }}
-                    className={`p-1.5 px-3 text-[10px] font-bold font-mono uppercase rounded-lg cursor-pointer transition-all ${
-                      pitchTimerActive 
-                        ? "bg-[#be2222]/10 text-rose-800 border border-[#be2222]/20"
-                        : "bg-[#aa6b51] hover:bg-[#aa6b51]/90 text-white border border-transparent"
-                    }`}
-                  >
-                    {pitchTimerActive ? "⏸ Pause Timeline" : "▶ Start Autoplay"}
-                  </button>
-                  <span className="text-[10px] font-mono font-bold text-stone-500 bg-stone-100 p-1 px-2 rounded-lg">
-                    {activePitchSlide + 1} / {PITCH_SLIDES.length}
-                  </span>
-                </div>
-              </div>
-
-              {/* Autoplay Loading Bar */}
-              {pitchTimerActive && (
-                <div className="w-full h-1 bg-stone-100 rounded-full overflow-hidden mt-1 mx-0">
-                  <div className="h-full bg-[#aa6b51] transition-all" style={{ width: `${pitchProgress}%` }} />
-                </div>
-              )}
-
-              {/* Dynamic Slide Visual Component */}
-              <div className={`my-5 py-6 px-5 rounded-2xl border flex flex-col justify-between min-h-[190px] relative overflow-hidden transition-all duration-300 ${activePitchSlideContent.themeClass}`}>
-                <div className="absolute right-3.5 top-3.5 font-bold text-[85px] text-white/5 opacity-20 pointer-events-none select-none">
-                  {activePitchSlide + 1}
-                </div>
-                
-                <div className="z-10 text-left space-y-2">
-                  <span className="text-[9px] uppercase font-mono tracking-widest bg-white/20 text-white p-1 px-2 rounded w-max block font-bold">
-                    Slide Contents Overview
-                  </span>
-                  <h4 className="text-base font-bold text-white font-serif tracking-tight leading-tight">
-                    {activePitchSlideContent.header}
-                  </h4>
-                  <p className="text-[11.5px] leading-relaxed text-white/90 max-w-xl">
-                    {activePitchSlideContent.description}
-                  </p>
-                </div>
-
-                {/* Sub features grid in slide */}
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 border-t pt-4 border-white/20 mt-4 z-10 text-left">
-                  {activePitchSlideContent.bulletPoints.map((pt, k) => (
-                    <div key={k} className="p-2 bg-white/10 rounded-lg text-white">
-                      <h5 className="font-bold text-[10.5px] font-mono leading-none">{pt.title}</h5>
-                      <span className="text-[8.5px] opacity-75 mt-1 block leading-tight">{pt.desc}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Full script text blocks */}
-              <div className="space-y-3.5 p-4 bg-[#fbfaf6] border border-dashed border-[#ebdcb9] rounded-xl text-left">
-                <div className="flex items-center gap-1.5 pb-2 border-b border-stone-200 justify-between">
-                  <span className="text-[9.5px] uppercase font-mono tracking-wider font-extrabold text-[#3e2723]">
-                    🎙 Pitch Script (Read Aloud)
-                  </span>
-                  <span className="text-[9px] bg-amber-50 text-amber-900 border border-amber-200 px-1.5 py-0.2 rounded font-mono font-bold select-none">
-                    {activePitchSlideContent.timeMark}
-                  </span>
-                </div>
-                <p className="text-xs text-stone-705 leading-relaxed font-sans italic whitespace-pre-wrap select-text selection:bg-rose-100">
-                  "{activePitchSlideContent.script}"
-                </p>
-              </div>
-
-              {/* Slide controls carousel */}
-              <div className="flex items-center justify-between pt-4 mt-1 border-t border-stone-150">
-                <button
-                  disabled={activePitchSlide === 0}
-                  onClick={() => {
-                    setActivePitchSlide((s) => s - 1);
-                    setPitchProgress(0);
-                  }}
-                  className="px-2.5 py-1.5 bg-stone-50 hover:bg-stone-100 disabled:opacity-40 text-stone-605 text-[11px] font-bold rounded-lg cursor-pointer border border-stone-200 transition-all flex items-center gap-1"
-                >
-                  Back Slide
-                </button>
-                <div className="flex items-center gap-1.5">
-                  {PITCH_SLIDES.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => {
-                        setActivePitchSlide(idx);
-                        setPitchProgress(0);
-                      }}
-                      className={`w-2.5 h-2.5 rounded-full transition-all cursor-pointer ${
-                        idx === activePitchSlide ? "bg-[#aa6b51] w-5" : "bg-stone-200 hover:bg-stone-300"
-                      }`}
-                    />
-                  ))}
-                </div>
-                <button
-                  disabled={activePitchSlide === PITCH_SLIDES.length - 1}
-                  onClick={() => {
-                    setActivePitchSlide((s) => s + 1);
-                    setPitchProgress(0);
-                  }}
-                  className="px-2.5 py-1.5 bg-rose-850 hover:bg-rose-900 text-white text-[11px] font-bold rounded-lg cursor-pointer transition-all flex items-center gap-1"
-                >
-                  Next Slide
-                </button>
-              </div>
-
-            </div>
-          </div>
-
-          {/* Slide Deck Info & Sidebar Pitch Metadata */}
-          <div className="lg:col-span-4 space-y-4">
-            
-            {/* Slide Index navigator */}
-            <div className="p-4 bg-white dark:bg-black border border-[#ebdcb9] rounded-2xl text-left space-y-3 shadow-xs">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-[#3e2723] font-serif border-b pb-2">Pitch Overview Cards</h4>
-              
-              <div className="flex flex-col gap-2">
-                {PITCH_SLIDES.map((slide, idx) => {
-                  const isActive = idx === activePitchSlide;
-                  return (
-                    <button
-                      key={idx}
-                      onClick={() => {
-                        setActivePitchSlide(idx);
-                        setPitchProgress(0);
-                      }}
-                      className={`p-2.5 rounded-xl border text-left cursor-pointer transition-all flex items-center gap-3.5 ${
-                        isActive 
-                          ? "bg-[#fffbf6] border-[#aa6b51] shadow-xs"
-                          : "bg-stone-50/60 hover:bg-stone-100/60 border-stone-150"
-                      }`}
-                    >
-                      <span className={`w-5 h-5 rounded-md flex items-center justify-center font-mono font-extrabold text-[10px] shrink-0 ${
-                        isActive ? "bg-[#aa6b51] text-white" : "bg-stone-200 text-stone-605"
-                      }`}>
-                        M{idx + 1}
-                      </span>
-                      <div className="min-w-0 flex-1 leading-tight text-left">
-                        <h5 className="font-extrabold text-[#3e2723] text-[11px] truncate">{slide.slideTitle}</h5>
-                        <p className="text-[9.5px] text-stone-500 truncate mt-0.5">{slide.timeMark}</p>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Strategic slides meta details */}
-            <div className="p-4 bg-[#fdf9f2] border border-[#ebdcb9] rounded-2xl text-left space-y-3 shadow-xs">
-              <div className="flex items-center gap-1 pb-1.5 border-b border-[#ebdcb9]">
-                <span className="text-base select-none">📈</span>
-                <h4 className="text-xs font-bold uppercase tracking-wider text-[#3e2723] font-serif">Strategy Blueprint</h4>
-              </div>
-              
-              <div className="space-y-2.5 text-xs text-stone-600 leading-relaxed font-sans">
-                <div className="p-2.5 bg-white dark:bg-black border border-stone-150 rounded-xl space-y-1">
-                  <span className="font-bold text-[#3e2723] text-[10.5px] block font-serif">Corporate Valuation</span>
-                  <p className="text-[10px] leading-normal font-sans">
-                    <strong>Pre-Seed Block:</strong> ₹4.78 Crores ($500K USD) on a ₹57 Crore ($6M USD) Post-Money SAFE arrangement.
-                  </p>
-                </div>
-                
-                <div className="p-2.5 bg-white dark:bg-black border border-stone-150 rounded-xl space-y-1">
-                  <span className="font-bold text-[#3e2723] text-[10.5px] block font-serif">Product Target</span>
-                  <p className="text-[10px] leading-normal font-sans">
-                    <strong>Use of Funds:</strong> Establish production-grade client offline sandboxes. Scale secure offline nodes to 10,000 active monthly clients.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-        </div>
-      )}
-
       {/* Expanded Interactive Fullscreen overlay modal */}
       <AnimatePresence>
         {isExpandedViewer && (
@@ -2504,12 +1921,12 @@ export default function IndianPaintingsMoodBoard() {
                     </div>
 
                     <div className="space-y-1.5">
-                      <span className="text-[9.5px] uppercase font-mono tracking-widest text-slate-450 block font-bold">Identifier Key</span>
+                      <span className="text-[9.5px] uppercase font-mono tracking-widest text-slate-455 block font-bold">Identifier Key</span>
                       <p className="text-white font-medium italic">"{activeArt.identifier}"</p>
                     </div>
 
-                    <div className="space-y-2 pt-2 text-slate-400 dark:text-slate-500 leading-relaxed font-sans">
-                      <span className="text-[9.5px] uppercase font-mono tracking-widest text-slate-450 block font-semibold">Detailed lore</span>
+                    <div className="space-y-2 pt-2 text-slate-400 dark:text-slate-555 leading-relaxed font-sans">
+                      <span className="text-[9.5px] uppercase font-mono tracking-widest text-slate-455 block font-semibold">Detailed lore</span>
                       <p className="text-[11px] leading-relaxed">{activeArt.description}</p>
                       <p className="text-slate-500 dark:text-slate-400 bg-[#070b13] p-3 rounded-xl border border-white/5 text-[10.5px] leading-relaxed font-sans">
                         <strong>Technique summary:</strong> {activeArt.materials}
@@ -2541,73 +1958,3 @@ export default function IndianPaintingsMoodBoard() {
     </div>
   );
 }
-
-// Startup Presentation Slides data structure
-interface PitchSlide {
-  slideTitle: string;
-  timeMark: string;
-  header: string;
-  description: string;
-  themeClass: string;
-  bulletPoints: { title: string; desc: string }[];
-  script: string;
-}
-
-const PITCH_SLIDES: PitchSlide[] = [
-  {
-    slideTitle: "The Hook & The 'Loud Room'",
-    timeMark: "[0:00 - 1:00]",
-    header: "Countering the 'AI Psychosis' with a Quiet Room sanctuary",
-    description: "Most modern mental-health systems maximize screens, dynamic slot machines, fake notifications, and artificial visual proxies to command your time. Project Friend AI does the exact opposite—acting as a 'Quiet Sanctuary' respect-boundary mechanism.",
-    themeClass: "bg-[#9c2a1b] border-[#d4af37]/40 text-stone-100", // Aipan Rust Theme
-    bulletPoints: [
-      { title: "No False Pretense", desc: "Never attempts to pretend to be a real human being." },
-      { title: "Boundary Guard", desc: "No hooks, no virtual girlfriend scripts, zero addiction loops." },
-      { title: "Calming Breath", desc: "Designed explicitly for moments when your mind feels too noisy." },
-      { title: "Plural Harmony", desc: "Originating in Indus Valley community bonds to support internal diversity." }
-    ],
-    script: "Imagine your brain is a room. When you get stressed, sad, or overwhelmed, that room gets incredibly noisy. Right now, most tech companies build AI apps to do one thing: push their way into your room, turn on a loud TV, hand you a slot machine, and throw a fake friend in your face. They do this just to keep your eyes glued to the screen, because your screen-time makes them money. But all that noise leaves people feeling trapped, anxious, and completely disconnected. Project Friend AI is the exact opposite. It is a 'Quiet Room' designed for moments when the mind feels too loud. Our app has one single rule: it does not pretend to be a real human being. It doesn’t try to hook you, it doesn’t try to become your virtual girlfriend or boyfriend, and it never tries to maximize your screen time. Its only job is to help you sit down, take a deep breath, and feel steady again."
-  },
-  {
-    slideTitle: "Absolute Privacy & The Safe Map",
-    timeMark: "[1:00 - 2:00]",
-    header: "Your secrets locked on the device, paired with a safe supportive map",
-    description: "No emails required. No user databases. Everything is encrypted on-device. If a high-risk language threshold triggers, a hard-coded local LGBTQIA+ friendly helpline directory takes over instantly with supportive legal counsel referrals.",
-    themeClass: "bg-[#0c1b40] border-[#e6c35c]/40 text-stone-100", // Pichwai Blue
-    bulletPoints: [
-      { title: "Zero Database", desc: "No cloud telemetry or tracking footprint saved." },
-      { title: "Direct Referrals", desc: "Triage is handed off straight to real human medical teams." },
-      { title: "LGBTQIA+ Friendly", desc: "Personally curated helplines for marginalized groups." },
-      { title: "Secure Vaults", desc: "On-device pins seed robust AES-256 local partitions." }
-    ],
-    script: "Because this is a safe space for your mind, it has to be a safe space for your secrets. When someone uses Project Friend AI, we don’t ask for their name, their email, or their data. Everything stays completely locked on the user's own phone. We don't track them, we don't store their conversations on a cloud server, and we can't see what they say. But sometimes, a quiet room isn't enough. Sometimes, a person is in a real-world emergency. We don't let an AI try to chat someone out of a real medical or legal crisis. Instead, the app instantly pauses the conversation and shows our International Crisis and Support Directory. As a queer and non-binary founder, I know firsthand that traditional helplines aren't always safe spaces for marginalized communities. That is why this directory is personally curated to be explicitly LGBTQIA+ friendly. It acts as a safe, local map that connects the user directly to real human experts: psychiatrists, clinical psychologists, supportive therapists, and even lawyers for complex medico-legal cases."
-  },
-  {
-    slideTitle: "How We Keep It Running",
-    timeMark: "[2:00 - 3:00]",
-    header: "100% Free & Open Access: Unrestricted Specialized Grounding Protocols",
-    description: "Ethical design focused on public health. Every specialized somatic, dialectical-behavioral, or cognitive reframing mode is completely free and instantly unlocked with zero paywalls.",
-    themeClass: "bg-[#521313] border-[#ca8a04]/40 text-stone-100", // Chittara Rust
-    bulletPoints: [
-      { title: "The Hope Protocol", desc: "Witness mode focused on deep listening & validating." },
-      { title: "The Abhay Protocol", desc: "CBT reframings using clear, analytic structured logic." },
-      { title: "The Raag Protocol", desc: "Somatic steps, low-tempo ragas and physical grounding." },
-      { title: "The Rooh Protocol", desc: "DBT emotional regulation to tolerate high distress waves." }
-    ],
-    script: "To make sure this tool is globally accessible, we offer every specialized advanced 'Support Protocol' completely free of charge with zero paywalls or tiers. These premium-mode reframings do not change the AI into a 'fake person' with a fictional story. Instead, they change how the AI helps you think. I named these protocols after the family members who inspired me to build this: The Hope Protocol: A compassionate witnessing mode that focuses entirely on listening, validating, and making the user feel deeply heard... The Abhay Protocol: An analytical reframing mode that uses structured logic to help break down looping, stressful thoughts... The Raag Protocol: A practical, action-oriented mode that gives the user tiny, clear physical steps to ground themselves... The Rooh Protocol: An emotional regulation mode designed to help people tolerate high distress when a wave of panic hits."
-  },
-  {
-    slideTitle: "The Tech Behind the Privacy",
-    timeMark: "[3:00 - 4:00]",
-    header: "Sovereign local-first safety net and stateless fetching",
-    description: "Built using Friend AI. Catching high-risk distress vocabulary instantly. Complete off-the-grid architecture with zero tracking coordinates, device identifiers, or server footprints.",
-    themeClass: "bg-[#0b4a2e] border-[#ebdcb9]/40 text-stone-100", // Rogan Kutch
-    bulletPoints: [
-      { title: "Friend AI Safety", desc: "Utilizing safety filters to trigger directories flawlessly." },
-      { title: "Sovereign Storage", desc: "International support lists reside right in client code." },
-      { title: "Stateless Updates", desc: "Fetches static files for number updates & logs off." },
-      { title: "Zero Servers", desc: "Complete cryptographic data sanitizations locally." }
-    ],
-    script: "We built this entire prototype using Friend AI because its advanced safety classifiers allow us to catch high-risk language instantly and trigger our safety nets flawlessly. But our biggest technical achievement is how we keep this system completely off the grid: First, Local Storage: The entire international emergency directory is saved right inside the code on the user's device. The phone never has to ping a database or reveal a user's location to find a local doctor or lawyer. Second, Stateless Updates: When we need to update phone numbers or add new inclusive doctors to the directory, the app uses stateless fetching. It checks a static file, downloads the text updates, and logs off. No user tracking, no device IDs, no server footprints."
-  }
-];
