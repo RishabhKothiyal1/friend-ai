@@ -1,10 +1,11 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
   "build": {
-    "builder": "NIXPACKS"
+    "builder": "NIXPACKS",
+    "buildCommand": "npm install && npx esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs"
   },
   "deploy": {
-    "startCommand": "npm run start",
+    "startCommand": "node dist/server.cjs",
     "restartPolicyType": "ON_FAILURE"
   }
 }
