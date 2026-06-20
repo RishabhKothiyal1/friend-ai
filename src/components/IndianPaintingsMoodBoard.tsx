@@ -1407,20 +1407,20 @@ export default function IndianPaintingsMoodBoard() {
     <div className="flex flex-col gap-6 w-full text-left font-sans select-none animate-fade-in">
       
       {/* Decorative Ornate Folk Art Header block */}
-      <div className="border-4 border-double border-rose-800 bg-[#fbf5eb] p-6 rounded-3xl relative overflow-hidden flex flex-col gap-2.5 shadow-sm dark:shadow-slate-900/30">
+      <div className="border-4 border-double border-rose-800/40 bg-[#fffdfa]/60 dark:bg-[#121214]/60 backdrop-blur-md p-6 rounded-3xl relative overflow-hidden flex flex-col gap-2.5 shadow-sm dark:shadow-slate-900/30">
         {/* Double Outline borders symbolizing Madhubani and Pattachitra borders */}
-        <div className="absolute inset-1 border border-yellow-700/20 rounded-2xl pointer-events-none" />
+        <div className="absolute inset-1 border border-rose-700/10 rounded-2xl pointer-events-none" />
         <div className="absolute top-0 right-0 w-32 h-32 opacity-10 font-bold text-[120px] leading-none pointer-events-none text-rose-800 select-none">🎨</div>
         
         <div className="flex flex-col gap-1 z-10 text-left">
-          <span className="text-[10px] uppercase font-mono tracking-[0.25em] text-rose-800 font-extrabold flex items-center gap-1">
-            <span className="w-2 h-2 rounded-full bg-rose-700 animate-pulse" />
+          <span className="text-[10px] uppercase font-mono tracking-[0.25em] text-rose-800 dark:text-rose-400 font-extrabold flex items-center gap-1">
+            <span className="w-2 h-2 rounded-full bg-rose-750 dark:bg-rose-500 animate-pulse" />
             Vedic Cultural Sanctuary
           </span>
-          <h2 className="text-xl md:text-2xl font-bold font-serif text-[#3e2723] leading-tight">
+          <h2 className="text-xl md:text-2xl font-bold font-serif text-[#3e2723] dark:text-[#f3e5d8] leading-tight">
             Traditional Folk Art &amp; Masterpieces Gallery
           </h2>
-          <p className="text-xs text-stone-600 max-w-3xl leading-relaxed font-sans">
+          <p className="text-xs text-stone-600 dark:text-stone-300 max-w-3xl leading-relaxed font-sans">
             An elegant interactive gallery celebrating 20 masterpiece folk paintings of India. Explore tribal and traditional motifs, experiment with coloring workshops, or sync respiratory rhythms to match the organic pulse of folk symmetry.
           </p>
         </div>
@@ -1430,7 +1430,7 @@ export default function IndianPaintingsMoodBoard() {
         
         {/* Left Canvas Panel */}
         <div className="lg:col-span-8 space-y-4">
-          <div className="p-5 bg-white dark:bg-black border border-[#ebdcb9] rounded-2xl shadow-xs flex flex-col gap-4 text-left">
+          <div className="p-6 bg-white/60 dark:bg-black/60 border border-[#ebdcb9]/40 dark:border-white/10 rounded-3xl shadow-md flex flex-col gap-4 text-left backdrop-blur-md">
             {/* Header with selectors */}
             <div className="flex flex-col gap-3 border-b pb-3 border-dashed border-[#ebdcb9]">
               <div className="flex items-center justify-between">
@@ -1676,7 +1676,7 @@ export default function IndianPaintingsMoodBoard() {
 
         {/* Right Paintings Catalog Grid */}
         <div className="lg:col-span-4 space-y-4">
-          <div className="p-4 bg-white dark:bg-[#121214] border border-[#ebdcb9] dark:border-white/10 rounded-2xl shadow-xs text-left">
+          <div className="p-5 bg-white/60 dark:bg-black/60 border border-[#ebdcb9]/40 dark:border-white/10 rounded-3xl shadow-md text-left backdrop-blur-md">
             
             {/* Search & filters */}
             <div className="flex flex-col gap-3 pb-4 border-b border-stone-150 dark:border-white/5">
@@ -1739,8 +1739,8 @@ export default function IndianPaintingsMoodBoard() {
                       onClick={() => setActivePaintingId(art.id)}
                       className={`p-3 rounded-xl border text-left transition-all flex items-center gap-3 cursor-pointer relative overflow-hidden group ${
                         isActive 
-                          ? "bg-[#fffcf3] dark:bg-amber-950/20 border-rose-800 dark:border-rose-700 shadow-xs" 
-                          : "bg-stone-50/50 hover:bg-stone-100/50 dark:bg-stone-900/40 dark:hover:bg-stone-900/70 border-stone-200/60 dark:border-white/5"
+                          ? "bg-[#fffcf3] dark:bg-rose-950/25 border-rose-800 dark:border-rose-600 shadow-sm scale-[1.01]" 
+                          : "bg-[#fffdf9]/40 hover:bg-stone-100/60 dark:bg-stone-900/20 dark:hover:bg-stone-900/50 border-stone-200/50 dark:border-white/5"
                       }`}
                     >
                       {/* Motif circular badge */}

@@ -6161,7 +6161,11 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           activeCenterTab === 'chat'
             ? (isHeaderCollapsed ? "h-[calc(100vh-40px)] xl:h-[calc(100vh-60px)]" : "h-[calc(100vh-120px)] xl:h-[calc(100vh-160px)]")
             : "xl:h-[820px]"
-        } shadow-sm relative animate-fade-in border transition-all duration-300 ${themeClass("bg-white border-indigo-100", "bg-[#0b0f19] border-white/10", "bg-[#faf6ee] border-[#e3d5be]")}`}>
+        } shadow-sm relative animate-fade-in border transition-all duration-300 ${
+          activeCenterTab === 'chat'
+            ? "backdrop-blur-md bg-white/40 border-indigo-100 dark:bg-black/30 dark:border-white/10"
+            : themeClass("bg-white border-indigo-100", "bg-[#0b0f19] border-white/10", "bg-[#faf6ee] border-[#e3d5be]")
+        }`}>
           
           
           {activeCenterTab === 'journal' && (
@@ -7181,69 +7185,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 )}
               </div>
 
-              {/* UI Theme Selection Section */}
-              <div className="w-full max-w-md mx-auto mb-8 bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 p-6 rounded-2xl text-left shadow-sm">
-                <h3 className="text-sm font-bold tracking-tight uppercase text-slate-800 dark:text-slate-200 mb-4 flex items-center gap-2 font-display">
-                  <Palette className="w-4 h-4 text-indigo-500" />
-                  <span>Interface & Design Style</span>
-                </h3>
-                
-                <div className="grid grid-cols-3 gap-3 mb-6 font-sans">
-                  {/* Daylight Theme Button */}
-                  <button
-                    onClick={() => handleSetThemeMode("daylight")}
-                    className={`flex flex-col items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
-                      themeMode === "daylight"
-                        ? "bg-slate-50 dark:bg-white/[0.02] border-indigo-500 ring-2 ring-indigo-200/40"
-                        : "bg-transparent border-slate-250 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/[0.02]"
-                    }`}
-                  >
-                    <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 shadow-2xs">
-                      <Sun className="w-5 h-5 text-amber-500" />
-                    </div>
-                    <div className="text-center">
-                      <p className="text-xs font-bold text-slate-800 dark:text-slate-200">Daylight</p>
-                      <p className="text-[9px] text-slate-400 mt-0.5 font-medium">Clean & Bright</p>
-                    </div>
-                  </button>
 
-                  {/* Midnight Theme Button */}
-                  <button
-                    onClick={() => handleSetThemeMode("midnight")}
-                    className={`flex flex-col items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
-                      themeMode === "midnight"
-                        ? "bg-slate-50 dark:bg-white/[0.02] border-indigo-500 ring-2 ring-indigo-200/40"
-                        : "bg-transparent border-slate-250 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/[0.02]"
-                    }`}
-                  >
-                    <div className="w-10 h-10 rounded-full bg-slate-950 flex items-center justify-center border border-white/10 shadow-2xs">
-                      <Moon className="w-5 h-5 text-indigo-400" />
-                    </div>
-                    <div className="text-center">
-                      <p className="text-xs font-bold text-slate-800 dark:text-slate-200">Midnight</p>
-                      <p className="text-[9px] text-slate-400 mt-0.5 font-medium font-sans">Pitch Dark</p>
-                    </div>
-                  </button>
-
-                  {/* Sepia Theme Button */}
-                  <button
-                    onClick={() => handleSetThemeMode("sepia")}
-                    className={`flex flex-col items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
-                      themeMode === "sepia"
-                        ? "bg-slate-50 dark:bg-white/[0.02] border-indigo-500 ring-2 ring-indigo-200/40"
-                        : "bg-transparent border-slate-250 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-white/[0.02]"
-                    }`}
-                  >
-                    <div className="w-10 h-10 rounded-full bg-[#faf6ee] flex items-center justify-center border border-[#e3d5be] shadow-2xs">
-                      <Coffee className="w-5 h-5 text-amber-800" />
-                    </div>
-                    <div className="text-center">
-                      <p className="text-xs font-bold text-slate-800 dark:text-slate-200">Sepia</p>
-                      <p className="text-[9px] text-slate-400 mt-0.5 font-medium">Warm Vintage</p>
-                    </div>
-                  </button>
-                </div>
-              </div>
               
               <button 
                 onClick={() => setShowSafetyModal(true)}
@@ -7564,22 +7506,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     </button>
                   </div>
 
-                  {/* Encryption simulator live counter */}
-                  <div className="flex items-center justify-between px-2 text-[10px] text-slate-500 font-mono">
-                    <div className="flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                      <span>AES-256 Client Guard Active</span>
-                    </div>
-                    <div>
-                      {messageText ? (
-                        <span className="text-emerald-400">
-                          Live Cipher Payload Ready ({messageText.length} chars)
-                        </span>
-                      ) : (
-                        "Secure and Anonymous Sandbox"
-                      )}
-                    </div>
-                  </div>
+
                 </form>
               </div>
             </>
