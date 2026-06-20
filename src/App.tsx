@@ -2493,7 +2493,7 @@ export default function App() {
   const [onlyLgbtqiaAffirming, setOnlyLgbtqiaAffirming] = useState<boolean>(false);
 
   // Somatic De-escalation Embodiment States
-  const [somaticProtocol, setSomaticProtocol] = useState<1 | 2 | 3 | 4>(1);
+  const [somaticProtocol, setSomaticProtocol] = useState<1 | 2 | 3 | 4 | 5>(5);
   const [isSomaticImmersiveOpen, setIsSomaticImmersiveOpen] = useState<boolean>(false);
   const [somaticHoldActive, setSomaticHoldActive] = useState<boolean>(false);
   const [somaticSessionTime, setSomaticSessionTime] = useState<number>(0);
@@ -2726,7 +2726,6 @@ export default function App() {
   
   const [activeCenterTab, setActiveCenterTab] = useState<'chat' | 'safety' | 'blogs' | 'publishing' | 'community' | 'investor' | 'gmail' | 'art' | 'terms' | 'privacy'>('chat');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [isHeaderCollapsed, setIsHeaderCollapsed] = useState<boolean>(false);
   
   // Gmail & Firebase OAuth State management
   const [gmailToken, setGmailToken] = useState<string | null>(null);
@@ -6152,14 +6151,10 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
         {/* Left Column (Width: 3): Character Select list & Interactive Approach Explainer */}
         
 
-        {/* Center Chat column (Width: 5, 9, or 12 depending on context) */}
-        <section className={`${
-          activeCenterTab === 'wellness' 
-            ? (zenMode ? "xl:col-span-12" : "xl:col-span-8") 
-            : "xl:col-span-12"
-        } flex flex-col rounded-2xl overflow-hidden min-h-[600px] ${
+        {/* Center Chat column (Width: 12) */}
+        <section className={`xl:col-span-12 flex flex-col rounded-2xl overflow-hidden min-h-[600px] ${
           activeCenterTab === 'chat'
-            ? (isHeaderCollapsed ? "h-[calc(100vh-40px)] xl:h-[calc(100vh-60px)]" : "h-[calc(100vh-120px)] xl:h-[calc(100vh-160px)]")
+            ? "h-[calc(100vh-120px)] xl:h-[calc(100vh-160px)]"
             : "xl:h-[820px]"
         } shadow-sm relative animate-fade-in border transition-all duration-300 ${
           activeCenterTab === 'chat'
@@ -6286,7 +6281,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 </div>
               </div>
 
-              <div className="w-full max-w-4xl mx-auto text-left shrink-0 pb-16 px-2 md:px-0">
+              <div className="w-full max-w-4xl mx-auto text-left shrink-0 pb-16 px-2 md:px-0 grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
                           <div className={`bento-card shadow-sm p-5 rounded-2xl flex flex-col gap-4 relative overflow-hidden border transition-all duration-300 ${themeClass("glass-panel text-slate-800", "dark-glass-panel text-slate-205", "sepia-glass-panel text-[#3e2723]")}`}>
             <div className="flex items-center justify-between">
               <div>
@@ -6503,7 +6498,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       className={`px-2 py-1 text-[10px] font-bold rounded-md transition-all cursor-pointer flex items-center gap-1 ${
                         breathingSubTab === "logs"
                           ? "bg-white dark:bg-black text-teal-700 dark:text-teal-400 shadow-3xs"
-                          : "text-slate-500 hover:text-slate-755 dark:text-slate-400 dark:hover:text-slate-200"
+                          : "text-slate-500 hover:text-slate-755 dark:text-slate-400 dark:hover:text-slate-205"
                       }`}
                     >
                       📋 Practice Logs ({breathingSessions.length})
@@ -6544,7 +6539,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 {breathingSubTab === "trend" ? (
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center justify-between gap-1 flex-wrap sm:flex-nowrap">
-                      <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider font-mono flex items-center gap-1.5 leading-none">
+                      <span className="text-[10px] text-slate-550 font-bold uppercase tracking-wider font-mono flex items-center gap-1.5 leading-none">
                         <TrendingUp className="w-3.5 h-3.5 text-teal-650" />
                         7-Day Mindfulness Trend
                       </span>
@@ -7032,6 +7027,237 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             </div>
           </div>
 
+          {/* Section 1.5: Somatic Reset: State Embodiments */}
+          <div className={`bento-card shadow-sm p-5 rounded-2xl flex flex-col gap-4 border transition-all duration-300 ${zenMode ? "hidden" : ""} ${themeClass("glass-panel text-slate-800", "dark-glass-panel text-slate-205", "sepia-glass-panel text-[#3e2723]")}`}>
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className={`text-sm font-bold font-display ${themeClass("text-slate-800", "text-white", "text-[#3e2723]")}`}>Somatic State Embodiment</h3>
+                <p className={`text-[11px] font-sans mt-0.5 ${themeClass("text-slate-500", "text-slate-400", "text-amber-900/70")}`}>Visual templates for nervous system states.</p>
+              </div>
+              <span className={`text-[9px] uppercase font-mono font-bold px-2 py-0.5 rounded border ${themeClass("bg-indigo-50 text-indigo-705 border-indigo-200", "bg-indigo-950/40 text-indigo-400 border-indigo-850", "bg-indigo-100/30 text-indigo-900 border-[#e3d5be]")}`}>
+                Protocols
+              </span>
+            </div>
+
+            {/* Selector list of the 5 protocols */}
+            <div className="grid grid-cols-5 gap-1 font-mono">
+              {[
+                { id: 1, label: "Grounding", icon: "🌱" },
+                { id: 2, label: "Presence", icon: "⚓" },
+                { id: 3, label: "Release", icon: "🌀" },
+                { id: 4, label: "Compassion", icon: "💖" },
+                { id: 5, label: "Off", icon: "⏹️" }
+              ].map((p) => (
+                <button
+                  key={p.id}
+                  onClick={() => setSomaticProtocol(p.id as any)}
+                  className={`p-1 flex flex-col items-center justify-center rounded-xl border text-[9px] font-bold transition-all cursor-pointer ${
+                    somaticProtocol === p.id 
+                      ? "bg-indigo-50 dark:bg-indigo-950/40 border-indigo-500 text-indigo-705 dark:text-indigo-300 shadow-3xs" 
+                      : `${themeClass("bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-655", "bg-slate-900/40 hover:bg-slate-900 border-slate-800 text-slate-400", "bg-[#ebdcb9]/20 hover:bg-[#ebdcb9]/40 border-[#d8c7a6]/60 text-[#5c4033]")}`
+                  }`}
+                >
+                  <span className="text-xs mb-0.5">{p.icon}</span>
+                  <span className="truncate max-w-full text-[8px]">{p.label}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Display active protocol card preview */}
+            <div className={`p-3 rounded-xl border flex flex-col items-center justify-center relative overflow-hidden h-48 transition-all duration-300 ${themeClass("bg-slate-50/50 border-slate-200", "bg-slate-900/50 border-slate-800/80", "bg-[#f4efe8]/50 border-[#ebdcb9]")}`}>
+              <defs>
+                <linearGradient id="spiralGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="#ebdcb9" />
+                  <stop offset="50%" stopColor="#ca8a04" />
+                  <stop offset="100%" stopColor="#78350f" />
+                </linearGradient>
+              </defs>
+
+              {/* The Live Interactive Graphic container with Swipe support */}
+              <div className="w-full h-full flex items-center justify-center select-none">
+                {somaticProtocol === 1 && (
+                  <svg width="85" height="85" viewBox="0 0 200 200" className="overflow-visible">
+                    <defs>
+                      <radialGradient id="guideGradSmall" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stopColor="#14b8a6" />
+                        <stop offset="50%" stopColor="#0d9488" />
+                        <stop offset="100%" stopColor="#0b1a3d" stopOpacity="0" />
+                      </radialGradient>
+                    </defs>
+
+                    <motion.g
+                      animate={{
+                        scale: [0.9, 1.08, 0.9]
+                      }}
+                      transition={{
+                        duration: 6,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                      style={{ transformOrigin: "100px 100px" }}
+                    >
+                      <circle cx="100" cy="100" r="48" fill="url(#guideGradSmall)" />
+                      <ellipse cx="100" cy="62" rx="13" ry="11" fill="#fbfbf7" opacity="0.88" />
+                      <rect x="91" y="78" width="18" height="55" rx="9" fill="#8fae9b" opacity="0.7" />
+
+                      <motion.circle 
+                        cx="100" 
+                        cy="95" 
+                        r={7} 
+                        fill="#fff" 
+                        animate={{
+                          r: [6, 9, 6],
+                          fill: ["#2dd4bf", "#e2a93c", "#2dd4bf"]
+                        }}
+                        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                      />
+
+                      <motion.path 
+                        d="M89,86 Q72,102 68,122" 
+                        fill="none" 
+                        stroke="#2dd4bf" 
+                        strokeWidth="4" 
+                        strokeLinecap="round"
+                        animate={{ rotate: [-15, 20, -15] }} 
+                        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                        style={{ transformOrigin: "89px 86px" }}
+                      />
+
+                      <motion.path 
+                        d="M111,86 Q128,102 132,122" 
+                        fill="none" 
+                        stroke="#2dd4bf" 
+                        strokeWidth="4" 
+                        strokeLinecap="round"
+                        animate={{ rotate: [15, -20, 15] }} 
+                        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                        style={{ transformOrigin: "111px 86px" }}
+                      />
+                    </motion.g>
+                  </svg>
+                )}
+
+                {somaticProtocol === 2 && (
+                  <svg width="85" height="85" viewBox="0 0 200 200" className="overflow-visible">
+                    <motion.circle 
+                      cx="100" 
+                      cy="115" 
+                      r="8" 
+                      stroke="#fdfbf7" 
+                      strokeWidth="1.5" 
+                      fill="none" 
+                      opacity={0.5}
+                      animate={{ scale: [1, 5], opacity: [0.7, 0] }} 
+                      transition={{ duration: 4, repeat: Infinity, ease: "easeOut" }} 
+                    />
+
+                    <motion.g
+                      animate={{
+                        rotate: [-4, 4, -4]
+                      }}
+                      transition={{
+                        duration: 8,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                      style={{ transformOrigin: "100px 180px" }}
+                    >
+                      <path 
+                        d="M84,180 L86,115 A14,14 0 0,1 114,115 L116,180 Z" 
+                        fill="rgba(253, 251, 247, 0.2)" 
+                        stroke="#fdfbf7" 
+                        strokeWidth="2.5" 
+                      />
+                      <circle cx="100" cy="120" r="5" fill="#ca8a04" />
+                    </motion.g>
+                    <path d="M75,182 Q60,195 40,198" fill="none" stroke="#d97706" strokeWidth="2" strokeLinecap="round" opacity="0.6" />
+                    <path d="M125,182 Q140,195 160,198" fill="none" stroke="#d97706" strokeWidth="2" strokeLinecap="round" opacity="0.6" />
+                  </svg>
+                )}
+
+                {somaticProtocol === 3 && (
+                  <svg width="85" height="85" viewBox="0 0 200 200" className="overflow-visible" style={{ perspective: 300 }}>
+                    <motion.g
+                      animate={{ rotateY: 360 }}
+                      transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                      style={{ transformOrigin: "100px 100px" }}
+                    >
+                      <circle cx="100" cy="50" r="11" fill="#ebdcb9" opacity="0.9" />
+                      <path d="M100,62 C85,80 115,100 100,120 C85,140 115,160 100,180" fill="none" stroke="url(#spiralGrad)" strokeWidth="6" strokeLinecap="round" opacity="0.75" />
+                    </motion.g>
+                  </svg>
+                )}
+
+                {somaticProtocol === 4 && (
+                  <svg width="85" height="85" viewBox="0 0 200 200" className="overflow-visible">
+                    <motion.circle 
+                      cx="100" 
+                      cy="110" 
+                      r="10" 
+                      stroke="#ca8a04" 
+                      strokeWidth="1" 
+                      fill="none" 
+                      animate={{ scale: [1, 6], opacity: [0.6, 0] }} 
+                      transition={{ duration: 7, repeat: Infinity, ease: "easeOut" }} 
+                    />
+
+                    <motion.g
+                      animate={{ opacity: [0.65, 1, 0.65] }}
+                      transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+                    >
+                      <circle cx="100" cy="72" r="11" fill="#fdfbf7" opacity="0.9" />
+                      <path d="M100,85 L84,136 A6,6 0 0,0 90,144 L110,144 A6,6 0 0,0 116,136 Z" fill="#fdfbf7" opacity="0.85" />
+                    </motion.g>
+                  </svg>
+                )}
+
+                {somaticProtocol === 5 && (
+                  <div className="flex flex-col items-center justify-center text-center p-4">
+                    <span className="text-3xl mb-1 text-slate-400 dark:text-slate-600 animate-pulse">🧘</span>
+                    <span className="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Somatic Guide Off</span>
+                    <p className="text-[9px] text-slate-550 dark:text-slate-500 max-w-[200px] mt-1 font-sans">Select a protocol above to start calming sensory anchoring.</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Title label */}
+              <div className="absolute bottom-2 text-center pointer-events-none">
+                <span className="text-[8.5px] uppercase font-mono tracking-wider font-extrabold text-slate-500">
+                  {somaticProtocol === 1 && "“The Grounding Guide”"}
+                  {somaticProtocol === 2 && "“The Presence Anchor”"}
+                  {somaticProtocol === 3 && "“The Release Spiral”"}
+                  {somaticProtocol === 4 && "“The Inner Light”"}
+                  {somaticProtocol === 5 && "“Somatic Guide Off”"}
+                </span>
+              </div>
+            </div>
+
+            {/* Exp link and immersive button */}
+            <div className="text-center space-y-2 mt-0.5">
+              <p className={`text-[10px] leading-relaxed ${themeClass("text-slate-650", "text-slate-400", "text-amber-900/80")}`}>
+                {somaticProtocol === 1 && "Cooler and Warmer breathing light cycle (6s total) guides fast panic release."}
+                {somaticProtocol === 2 && "Secure tree outline with stabilizer side-to-side sways (8s cycle)."}
+                {somaticProtocol === 3 && "Rotating vertical ribbon trails (10s cycle) uncoiling spinal tension."}
+                {somaticProtocol === 4 && "Self-compassion zazen guide with orbiting mental safety satellites (7s cycle)."}
+                {somaticProtocol === 5 && "Select any somatic state template above to guide your nervous system."}
+              </p>
+
+              <div className="pt-1 flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (somaticProtocol === 5) {
+                      setSomaticProtocol(1);
+                    }
+                    setIsSomaticImmersiveOpen(true);
+                  }}
+                  className="px-3.5 py-1.5 bg-indigo-650 hover:bg-indigo-600 text-white font-display rounded-xl text-[10px] font-bold cursor-pointer transition-all flex items-center gap-1 shadow-xs font-sans"
+                >
+                  🚀 Open Immersive Space
+                </button>
+              </div>
+            </div>
+          </div>
               </div>
             </div>
           )}
@@ -7216,14 +7442,6 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
               {/* Interactive Chat Board area */}
               <div 
-                onScroll={(e) => {
-                  const target = e.currentTarget;
-                  if (target.scrollTop > 40) {
-                    setIsHeaderCollapsed(true);
-                  } else {
-                    setIsHeaderCollapsed(false);
-                  }
-                }}
                 className="flex-1 p-6 overflow-y-auto space-y-4 transition-all duration-300 ease-in-out"
                 style={{ background: getCharacterBg(activeChar.id, themeMode) }}
               >
@@ -7465,7 +7683,6 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       type="text"
                       value={messageText}
                       onChange={(e) => setMessageText(e.target.value)}
-                      onFocus={() => setIsHeaderCollapsed(true)}
                       placeholder={isListening ? "Listening... speak now..." : `Say what's on your mind... (${activeChar.name} is listening)`}
                       className={`bg-transparent border-none outline-none text-xs flex-1 font-sans px-2.5 ${isDarkCharacter(activeChar.id, themeMode) ? 'text-slate-200 placeholder-slate-500' : 'text-slate-800 placeholder-slate-400'}`}
                     />
@@ -9867,227 +10084,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
         </section>
 
-        {/* Right Column (Width: 4) */}
-        <section className={`${activeCenterTab !== 'wellness' ? "hidden" : "xl:col-span-4"} flex flex-col gap-6`}>
 
-          {/* Section 1: Interactive Breathing Regulator */}
-          {activeCenterTab !== 'journal' && (
-          <>
-          {/* Section 1.5: Somatic Reset: State Embodiments */}
-          <div className={`bento-card shadow-sm p-5 rounded-2xl flex flex-col gap-4 border transition-all duration-300 ${zenMode ? "hidden" : ""} ${themeClass("glass-panel text-slate-800", "dark-glass-panel text-slate-205", "sepia-glass-panel text-[#3e2723]")}`}>
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className={`text-sm font-bold font-display ${themeClass("text-slate-800", "text-white", "text-[#3e2723]")}`}>Somatic State Embodiment</h3>
-                <p className={`text-[11px] font-sans mt-0.5 ${themeClass("text-slate-500", "text-slate-400", "text-amber-900/70")}`}>Visual templates for nervous system states.</p>
-              </div>
-              <span className={`text-[9px] uppercase font-mono font-bold px-2 py-0.5 rounded border ${themeClass("bg-indigo-50 text-indigo-705 border-indigo-200", "bg-white/[0.02]/40 text-indigo-400 border-indigo-850", "bg-indigo-100/30 text-indigo-900 border-[#e3d5be]")}`}>
-                Protocols
-              </span>
-            </div>
-
-            {/* Selector list of the 4 protocols */}
-            <div className="grid grid-cols-4 gap-1.5 font-mono">
-              {[
-                { id: 1, label: "Grounding", icon: "🌱" },
-                { id: 2, label: "Presence", icon: "⚓" },
-                { id: 3, label: "Release", icon: "🌀" },
-                { id: 4, label: "Compassion", icon: "💖" }
-              ].map((p) => (
-                <button
-                  key={p.id}
-                  onClick={() => setSomaticProtocol(p.id as any)}
-                  className={`p-1.5 flex flex-col items-center justify-center rounded-xl border text-[9px] font-bold transition-all cursor-pointer ${
-                    somaticProtocol === p.id 
-                      ? "bg-indigo-50 dark:bg-white/[0.02]/40 border-indigo-500 text-indigo-700 dark:text-indigo-300 shadow-3xs" 
-                      : `${themeClass("bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-650", "bg-black/40 hover:bg-black border-white/10 text-slate-400", "bg-[#ebdcb9]/20 hover:bg-[#ebdcb9]/40 border-[#d8c7a6]/60 text-[#5c4033]")}`
-                  }`}
-                >
-                  <span className="text-xs mb-0.5">{p.icon}</span>
-                  <span className="truncate max-w-full text-[8.5px]">{p.label}</span>
-                </button>
-              ))}
-            </div>
-
-            {/* Display active protocol card preview */}
-            <div className={`p-3 rounded-xl border flex flex-col items-center justify-center relative overflow-hidden h-48 transition-all duration-300 ${themeClass("bg-slate-50/50 border-slate-200", "bg-black/50 border-white/10/80", "bg-[#f4efe8]/50 border-[#ebdcb9]")}`}>
-              
-
-
-              {/* The Live Interactive Graphic container with Swipe support */}
-              <div className="w-full h-full flex items-center justify-center select-none">
-                {somaticProtocol === 1 && (
-                  <svg width="85" height="85" viewBox="0 0 200 200" className="overflow-visible">
-                    <defs>
-                      <radialGradient id="guideGradSmall" cx="50%" cy="50%" r="50%">
-                        <stop offset="0%" stopColor="#14b8a6" />
-                        <stop offset="50%" stopColor="#0d9488" />
-                        <stop offset="100%" stopColor="#0b1a3d" stopOpacity="0" />
-                      </radialGradient>
-                    </defs>
-
-                    <motion.g
-                      animate={{
-                        scale: [0.9, 1.08, 0.9]
-                      }}
-                      transition={{
-                        duration: 6,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
-                      style={{ transformOrigin: "100px 100px" }}
-                    >
-                      <circle cx="100" cy="100" r="48" fill="url(#guideGradSmall)" />
-                      <ellipse cx="100" cy="62" rx="13" ry="11" fill="#fbfbf7" opacity="0.88" />
-                      <rect x="91" y="78" width="18" height="55" rx="9" fill="#8fae9b" opacity="0.7" />
-
-                      <motion.circle 
-                        cx="100" 
-                        cy="95" 
-                        r={7} 
-                        fill="#fff" 
-                        animate={{
-                          r: [6, 9, 6],
-                          fill: ["#2dd4bf", "#e2a93c", "#2dd4bf"]
-                        }}
-                        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                      />
-
-                      <motion.path 
-                        d="M89,86 Q72,102 68,122" 
-                        fill="none" 
-                        stroke="#2dd4bf" 
-                        strokeWidth="4" 
-                        strokeLinecap="round"
-                        animate={{ rotate: [-15, 20, -15] }} 
-                        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                        style={{ transformOrigin: "89px 86px" }}
-                      />
-
-                      <motion.path 
-                        d="M111,86 Q128,102 132,122" 
-                        fill="none" 
-                        stroke="#2dd4bf" 
-                        strokeWidth="4" 
-                        strokeLinecap="round"
-                        animate={{ rotate: [15, -20, 15] }} 
-                        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                        style={{ transformOrigin: "111px 86px" }}
-                      />
-                    </motion.g>
-                  </svg>
-                )}
-
-                {somaticProtocol === 2 && (
-                  <svg width="85" height="85" viewBox="0 0 200 200" className="overflow-visible">
-                    <motion.circle 
-                      cx="100" 
-                      cy="115" 
-                      r="8" 
-                      stroke="#fdfbf7" 
-                      strokeWidth="1.5" 
-                      fill="none" 
-                      opacity={0.5}
-                      animate={{ scale: [1, 5], opacity: [0.7, 0] }} 
-                      transition={{ duration: 4, repeat: Infinity, ease: "easeOut" }} 
-                    />
-
-                    <motion.g
-                      animate={{
-                        rotate: [-4, 4, -4]
-                      }}
-                      transition={{
-                        duration: 8,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
-                      style={{ transformOrigin: "100px 180px" }}
-                    >
-                      <path 
-                        d="M84,180 L86,115 A14,14 0 0,1 114,115 L116,180 Z" 
-                        fill="rgba(253, 251, 247, 0.2)" 
-                        stroke="#fdfbf7" 
-                        strokeWidth="2.5" 
-                      />
-                      <circle cx="100" cy="120" r="5" fill="#ca8a04" />
-                    </motion.g>
-                    <path d="M75,182 Q60,195 40,198" fill="none" stroke="#d97706" strokeWidth="2" strokeLinecap="round" opacity="0.6" />
-                    <path d="M125,182 Q140,195 160,198" fill="none" stroke="#d97706" strokeWidth="2" strokeLinecap="round" opacity="0.6" />
-                  </svg>
-                )}
-
-                {somaticProtocol === 3 && (
-                  <svg width="85" height="85" viewBox="0 0 200 200" className="overflow-visible" style={{ perspective: 300 }}>
-                    <motion.g
-                      animate={{ rotateY: 360 }}
-                      transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                      style={{ transformOrigin: "100px 100px" }}
-                    >
-                      <circle cx="100" cy="50" r="11" fill="#ebdcb9" opacity="0.9" />
-                      <path d="M100,62 C85,80 115,100 100,120 C85,140 115,160 100,180" fill="none" stroke="url(#spiralGrad)" strokeWidth="6" strokeLinecap="round" opacity="0.75" />
-                    </motion.g>
-                  </svg>
-                )}
-
-                {somaticProtocol === 4 && (
-                  <svg width="85" height="85" viewBox="0 0 200 200" className="overflow-visible">
-                    <motion.circle 
-                      cx="100" 
-                      cy="110" 
-                      r="10" 
-                      stroke="#ca8a04" 
-                      strokeWidth="1" 
-                      fill="none" 
-                      animate={{ scale: [1, 6], opacity: [0.6, 0] }} 
-                      transition={{ duration: 7, repeat: Infinity, ease: "easeOut" }} 
-                    />
-
-                    <motion.g
-                      animate={{ opacity: [0.65, 1, 0.65] }}
-                      transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-                    >
-                      <circle cx="100" cy="72" r="11" fill="#fdfbf7" opacity="0.9" />
-                      <path d="M100,85 L84,136 A6,6 0 0,0 90,144 L110,144 A6,6 0 0,0 116,136 Z" fill="#fdfbf7" opacity="0.85" />
-                    </motion.g>
-                  </svg>
-                )}
-              </div>
-
-              {/* Title label */}
-              <div className="absolute bottom-2 text-center pointer-events-none">
-                <span className="text-[8.5px] uppercase font-mono tracking-wider font-extrabold text-slate-500">
-                  {somaticProtocol === 1 && "“The Grounding Guide”"}
-                  {somaticProtocol === 2 && "“The Presence Anchor”"}
-                  {somaticProtocol === 3 && "“The Release Spiral”"}
-                  {somaticProtocol === 4 && "“The Inner Light”"}
-                </span>
-              </div>
-            </div>
-
-            {/* Exp link and immersive button */}
-            <div className="text-center space-y-2 mt-0.5">
-              <p className={`text-[10px] leading-relaxed ${themeClass("text-slate-650", "text-slate-400", "text-amber-900/80")}`}>
-                {somaticProtocol === 1 && "Cooler and Warmer breathing light cycle (6s total) guides fast panic release."}
-                {somaticProtocol === 2 && "Secure tree outline with stabilizer side-to-side sways (8s cycle)."}
-                {somaticProtocol === 3 && "Rotating vertical ribbon trails (10s cycle) uncoiling spinal tension."}
-                {somaticProtocol === 4 && "Self-compassion zazen guide with orbiting mental safety satellites (7s cycle)."}
-              </p>
-
-              <div className="pt-1 flex justify-center">
-                <button
-                  type="button"
-                  onClick={() => setIsSomaticImmersiveOpen(true)}
-                  className="px-3.5 py-1.5 bg-indigo-650 hover:bg-indigo-600 text-white font-display rounded-xl text-[10px] font-bold cursor-pointer transition-all flex items-center gap-1 shadow-xs font-sans"
-                >
-                  🚀 Open Immersive Space
-                </button>
-              </div>
-            </div>
-          </div>
-          </>
-          )}
-
-          
-        </section>
         </>
         )}
       </div>
@@ -11766,6 +11763,13 @@ I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.na
               {somaticProtocol === 3 && (
                 <div className="w-full h-full flex items-center justify-center">
                   <svg width="280" height="280" viewBox="0 0 200 200" className="overflow-visible select-none pointer-events-none" style={{ perspective: 600 }}>
+                    <defs>
+                      <linearGradient id="spiralGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="#ebdcb9" />
+                        <stop offset="50%" stopColor="#ca8a04" />
+                        <stop offset="100%" stopColor="#78350f" />
+                      </linearGradient>
+                    </defs>
                     <line x1="100" y1="20" x2="100" y2="190" stroke="#ebdcb9" strokeWidth="0.5" strokeDasharray="4 4" opacity={0.25} />
 
                     <motion.g
