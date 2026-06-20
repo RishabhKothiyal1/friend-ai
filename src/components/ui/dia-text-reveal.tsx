@@ -24,10 +24,10 @@ export function DiaTextReveal({
   const gradientColors = colors.join(", ");
 
   return (
-    <span ref={ref} className={`relative inline-block ${className}`}>
+    <span ref={ref} className={`relative inline-block whitespace-nowrap ${className}`}>
       {/* Base text (transparent initially, fades to white) */}
       <motion.span
-        className="inline-block"
+        className="inline-block whitespace-nowrap"
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: duration * 0.4, delay: delay + duration * 0.5 }}
@@ -51,6 +51,7 @@ export function DiaTextReveal({
             WebkitBackgroundClip: "text",
             color: "transparent",
             backgroundSize: "200% 100%",
+            backgroundRepeat: "no-repeat",
           }}
           initial={{ backgroundPosition: "100% 0%", opacity: 0 }}
           animate={
@@ -70,9 +71,6 @@ export function DiaTextReveal({
       {/* Diagonal shine band */}
       <motion.span
         className="absolute inset-0 inline-block overflow-hidden pointer-events-none"
-        initial={{ opacity: 1 }}
-        animate={isInView ? { opacity: 0 } : { opacity: 1 }}
-        transition={{ duration: 0.3, delay: delay + duration * 0.8 }}
         aria-hidden
       >
         <motion.span
@@ -80,13 +78,26 @@ export function DiaTextReveal({
           style={{
             background: `linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.4) 50%, transparent 60%)`,
             backgroundSize: "200% 100%",
+            backgroundRepeat: "no-repeat",
           }}
-          initial={{ backgroundPosition: "200% 0%" }}
-          animate={isInView ? { backgroundPosition: "-200% 0%" } : { backgroundPosition: "200% 0%" }}
+          initial={{ backgroundPosition: "150% 0%", opacity: 0 }}
+          animate={
+            isInView
+              ? { backgroundPosition: "-150% 0%", opacity: [0, 1, 1, 0] }
+              : { backgroundPosition: "150% 0%", opacity: 0 }
+          }
           transition={{
-            duration: duration * 0.8,
-            delay: delay + 0.2,
-            ease: "easeInOut",
+            backgroundPosition: {
+              duration: duration * 0.8,
+              delay: delay + 0.2,
+              ease: "easeInOut",
+            },
+            opacity: {
+              duration: duration * 0.8,
+              delay: delay + 0.2,
+              times: [0, 0.15, 0.85, 1],
+              ease: "easeInOut",
+            },
           }}
         />
       </motion.span>

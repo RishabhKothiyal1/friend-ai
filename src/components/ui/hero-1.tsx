@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Brain } from "lucide-react";
 import { DiaTextReveal } from "./dia-text-reveal";
+import MotionButton from "./motion-button";
 
 interface Hero1Props {
   onGetStarted?: () => void;
@@ -57,14 +58,10 @@ const Hero1 = ({ onGetStarted }: Hero1Props) => {
           </p>
 
           <div className="pt-8">
-            <button 
+            <MotionButton 
+              label="Get Started" 
               onClick={onGetStarted}
-              className="group relative px-8 py-4 bg-white text-black text-sm font-bold tracking-widest uppercase overflow-hidden cursor-pointer rounded-full transition-transform hover:scale-105 active:scale-95"
-            >
-              <span className="relative z-10 flex items-center gap-2">
-                Begin Journey
-              </span>
-            </button>
+            />
           </div>
           
         </div>
