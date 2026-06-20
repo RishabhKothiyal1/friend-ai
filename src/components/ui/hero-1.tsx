@@ -4,6 +4,7 @@ import * as React from "react";
 import { Brain } from "lucide-react";
 import { DiaTextReveal } from "./dia-text-reveal";
 import MotionButton from "./motion-button";
+import { BeamsBackground } from "./beams-background";
 
 interface Hero1Props {
   onGetStarted?: () => void;
@@ -11,13 +12,14 @@ interface Hero1Props {
 
 const Hero1 = ({ onGetStarted }: Hero1Props) => {
   return (
-    <div className="h-full min-h-screen bg-[#050505] text-white flex flex-col relative overflow-hidden w-full font-sans">
+    <div className="h-full min-h-screen bg-black text-white flex flex-col relative overflow-hidden w-full font-sans">
+      <BeamsBackground className="absolute inset-0 w-full h-full pointer-events-none z-0" children={<div />} />
       
       {/* Subtle Grain Overlay for Texture */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay z-10" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
 
       {/* Minimal Header */}
-      <header className="flex justify-between items-center px-8 py-8 z-10 relative">
+      <header className="flex justify-between items-center px-8 py-8 z-20 relative">
         <div className="flex items-center gap-3 opacity-90">
           {/* Logo removed per request */}
         </div>

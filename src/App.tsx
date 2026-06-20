@@ -226,6 +226,7 @@ const CHARACTER_ICONS: Record<string, React.ComponentType<any>> = {
 import { MedicoLegalLawyersDirectory } from "./components/MedicoLegalLawyersDirectory";
 import { Hero1 } from "./components/ui/hero-1";
 import MotionButton from "./components/ui/motion-button";
+import { BeamsBackground } from "./components/ui/beams-background";
 import { AliasModal, type LoginData } from "./components/modals/AliasModal";
 import { Sidebar } from "./components/sidebar/Sidebar";
 import { Dashboard } from "./components/dashboard/Dashboard";
@@ -1382,7 +1383,7 @@ function getCharacterBg(charId: string, themeMode?: string): string {
   
   if (isDark) {
     // In dark mode, unify the background to match the site's deep slate/black aesthetic
-    return `#000000`;
+    return `transparent`;
   }
 
   switch (charId) {
@@ -5383,10 +5384,19 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
       className={`w-full min-h-screen font-sans flex antialiased transition-all duration-500 ${
         activeCenterTab === 'chat' && activeChar 
           ? (isDarkCharacter(activeChar.id, themeMode) ? "text-slate-100" : "text-slate-850")
-          : themeClass("bg-slate-50 text-slate-800", "bg-slate-950 text-slate-200", "bg-[#f4efe6] text-[#3e2723]")
+          : themeClass("bg-slate-50 text-slate-800", "bg-transparent text-slate-200", "bg-[#f4efe6] text-[#3e2723]")
       }`}
-      style={activeCenterTab === 'chat' && activeChar ? { background: getCharacterBg(activeChar.id, themeMode) } : { background: `var(--theme-bg-${themeMode})` }}
+      style={
+        themeMode === "midnight" 
+          ? { background: "transparent" } 
+          : activeCenterTab === 'chat' && activeChar 
+            ? { background: getCharacterBg(activeChar.id, themeMode) } 
+            : { background: `var(--theme-bg-${themeMode})` }
+      }
     >
+      {themeMode === "midnight" && (
+        <BeamsBackground className="fixed inset-0 w-full h-full pointer-events-none z-0" children={<div />} />
+      )}
       {isLoggedIn && (
         <Sidebar
           isSidebarOpen={isSidebarOpen}
@@ -7233,14 +7243,6 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       <p className="text-[9px] text-slate-400 mt-0.5 font-medium">Warm Vintage</p>
                     </div>
                   </button>
-                </div>
-
-                <div className="bg-slate-50/80 dark:bg-black/40 border border-slate-200/60 dark:border-white/5 rounded-2xl p-5 flex flex-col items-center gap-3 text-center">
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-slate-400 font-mono">Live Button Preview</span>
-                  <MotionButton label="Get Started" onClick={() => {}} />
-                  <p className="text-[10px] text-slate-500 italic max-w-xs leading-normal">
-                    Hover over this button to test its slide animation. Its background, accent circle, and text dynamically adapt to your selected theme's design.
-                  </p>
                 </div>
               </div>
               
