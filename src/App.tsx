@@ -3683,7 +3683,7 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
   };
 
   // Zen Mode state to minimize cognitive load by hiding non-essential widgets
-  const [zenMode, setZenMode] = useState<boolean>(true);
+  const [zenMode, setZenMode] = useState<boolean>(false);
   const [isSafeExit, setIsSafeExit] = useState<boolean>(false);
   const [showDownloadBackupReminder, setShowDownloadBackupReminder] = useState<boolean>(false);
   const [horrorMusicActive, setHorrorMusicActive] = useState<boolean>(false);
@@ -4473,7 +4473,7 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
       };
       reply = characterPrompts[char.id] || `I am listening closely. Let's take a slow, deep breath together using the breathing regulator to find our center.`;
     }
-    return `✨ **${char.name} (${char.title})**\n${reply}\n\n*(HIPAA sandbox mode active. Configure GEMINI_API_KEY to unlock real-time de-escalation)*`;
+    return `✨ ${char.name} (${char.title})\n${reply}`;
   };
 
   // Send human message to API

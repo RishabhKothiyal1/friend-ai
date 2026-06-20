@@ -487,10 +487,8 @@ const generateLocalFallbackResponse = (userText: string, char: { name: string; t
     reply = foundReply || `I am listening closely. Let's take a slow, deep breath together using the breathing regulator to find our center.`;
   }
 
-  return `🛡️ **${char.name} (${char.title})**  
-${reply}
-
-*(Safe Sandbox Mode active. Configure GEMINI_API_KEY to enable real-time AI de-escalation)*`;
+  return `🛡️ ${char.name} (${char.title})  
+${reply}`;
 };
 
 // Chat interaction endpoint
