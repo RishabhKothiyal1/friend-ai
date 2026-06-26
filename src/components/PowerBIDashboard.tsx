@@ -87,7 +87,7 @@ const ART_ENGAGEMENT_DATA = [
 
 const PROTOCOLS_PIE_DATA = [
   { name: "Hope (Witnessing)", value: 4850, fill: "#be2222" },
-  { name: "Abhay (Analytical CBT)", value: 3950, fill: "#2563eb" },
+  { name: "Ganesh (CBT & Reframing)", value: 3950, fill: "#2563eb" },
   { name: "Raag (Somatic Grounding)", value: 3420, fill: "#12ad44" },
   { name: "Rooh (DBT Emotional)", value: 2600, fill: "#a355de" }
 ];

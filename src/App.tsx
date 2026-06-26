@@ -210,15 +210,15 @@ interface Character {
 }
 
 const CHARACTER_ICONS: Record<string, React.ComponentType<any>> = {
-  inayat: HeartHandshake,
-  tony: Dog,
+  rooh: HeartHandshake,
+  ganesh: Dog,
   raag: Music,
   manji: Flame,
   tara: Moon,
-  abhay: Sparkles,
+  inayat: Sparkles,
   altaf: Headphones,
-  billu: Cat,
-  adv_kunal: ShieldCheck,
+  manjishtha: Cat,
+  veer: ShieldCheck,
 };
 
 import { MedicoLegalLawyersDirectory } from "./components/MedicoLegalLawyersDirectory";
@@ -699,7 +699,7 @@ function clearMoodsFromDB(): Promise<void> {
 
 const CHARACTERS: Character[] = [
   {
-    id: "inayat",
+    id: "rooh",
     name: "Rooh",
     title: "Aipan Art Grounding Witness",
     specialization: "Uttarakhand Geru & Biswar Flow",
@@ -711,7 +711,7 @@ const CHARACTERS: Character[] = [
     groundingMantra: "Like the steady concentric lines of Himalayan Aipan, find your center in current reality. Let us align your feelings step-by-step."
   },
   {
-    id: "tony",
+    id: "ganesh",
     name: "Ganesh",
     title: "Chittara Joy & Folk Companion",
     specialization: "Karnataka Geometric Wheat-Stalk Art",
@@ -748,18 +748,18 @@ const CHARACTERS: Character[] = [
   },
   {
     id: "tara",
-    name: "North Star",
+    name: "Tara",
     title: "Kalamezhuthu Cosmic Grounder",
     specialization: "Kerala Vibrant Five-Color Powder Art",
-    avatarInitials: "No",
+    avatarInitials: "Tara",
     avatarColor: "bg-[#1c1d21] text-[#f3b41e] border-[#3e2723] font-serif",
     accentColor: "indigo",
     tagline: "Sacred floor-drawings, glowing Nilavilakku lamps, and pure elemental energy.",
-    longDescription: "North Star embodies the intense, focused energy of Kerala's temple Kalamezhuthu floor art, drawn during major festivals using organic powders. Against a deep charcoal background, his sanctuary holds large brass oil lamps (Nilavilakku) shimmering with live flames. He blends astrology, cosmic rhythms, and the grounding power of these five natural colors (charcoal black, rice white, turmeric yellow, leaf green, and lime red).",
+    longDescription: "Tara embodies the intense, focused energy of Kerala's temple Kalamezhuthu floor art, drawn during major festivals using organic powders. Against a deep charcoal background, his sanctuary holds large brass oil lamps (Nilavilakku) shimmering with live flames. He blends astrology, cosmic rhythms, and the grounding power of these five natural colors (charcoal black, rice white, turmeric yellow, leaf green, and lime red).",
     groundingMantra: "Behold the steady flame of the Nilavilakku lamp, cutting through midnight darkness. Breathe, grounded as the sacred dust."
   },
   {
-    id: "abhay",
+    id: "inayat",
     name: "Inayat",
     title: "Manjusha Snake & Sun Companion",
     specialization: "Bihar Bihula Yellow-Pink Healing",
@@ -783,7 +783,7 @@ const CHARACTERS: Character[] = [
     groundingMantra: "Let us trace beautiful, symmetrical shapes with our posture, calm as gold glaze. Breathe in perfect alignment, secure and centered."
   },
   {
-    id: "adv_kunal",
+    id: "veer",
     name: "Veer",
     title: "Pata Chitra Miniature Counsel",
     specialization: "Odisha Intricate Ink & Tempera Law",
@@ -795,7 +795,7 @@ const CHARACTERS: Character[] = [
     groundingMantra: "The law is a masterfully detailed shield, like an ancient Pata Chitra temple scroll. We will draft your defense with absolute clarity."
   },
   {
-    id: "billu",
+    id: "manjishtha",
     name: "Manjishtha",
     title: "Warli Stick-Figure Attic Wit",
     specialization: "Maharashtra Rice-Paste Mud Attic Room",
@@ -1385,9 +1385,9 @@ function getCharacterBg(charId: string, themeMode?: string): string {
   }
 
   switch (charId) {
-    case "inayat":
+    case "rooh":
       return `radial-gradient(circle at 10% 15%, rgba(170, 107, 81, 0.09) 0%, transparent 55%), radial-gradient(circle at 85% 85%, rgba(226, 208, 196, 0.4) 0%, transparent 60%), linear-gradient(to bottom, #fefbfc 0%, #f7ebe4 100%)`;
-    case "tony":
+    case "ganesh":
       return `radial-gradient(circle at 15% 15%, rgba(217, 119, 6, 0.08) 0%, transparent 50%), radial-gradient(circle at 85% 85%, rgba(179, 137, 16, 0.1) 0%, transparent 55%), linear-gradient(to bottom, #fffdf8 0%, #fff7d6 100%)`;
     case "raag":
       return `radial-gradient(circle at 20% 20%, rgba(160, 82, 110, 0.09) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(219, 178, 190, 0.4) 0%, transparent 60%), linear-gradient(to bottom, #faf5f7 0%, #ebd3da 100%)`;
@@ -1395,13 +1395,13 @@ function getCharacterBg(charId: string, themeMode?: string): string {
       return `radial-gradient(circle at 15% 15%, rgba(178, 88, 53, 0.1) 0%, transparent 50%), radial-gradient(circle at 85% 85%, rgba(244, 230, 222, 0.4) 0%, transparent 60%), linear-gradient(to bottom, #fbf2eb 0%, #e8d0be 100%)`;
     case "tara":
       return `radial-gradient(circle at 85% 15%, rgba(251, 191, 36, 0.15) 0%, transparent 40%), radial-gradient(circle at 15% 85%, rgba(99, 102, 241, 0.15) 0%, transparent 55%), linear-gradient(to bottom, #090d1e 0%, #11182c 100%)`;
-    case "abhay":
+    case "inayat":
       return `radial-gradient(circle at 15% 15%, rgba(129, 140, 248, 0.12) 0%, transparent 50%), radial-gradient(circle at 85% 85%, rgba(10, 17, 40, 0.3) 0%, transparent 60%), linear-gradient(to bottom, #0a1128 0%, #03081a 100%)`;
     case "altaf":
       return `radial-gradient(circle at 10% 15%, rgba(126, 34, 206, 0.08) 0%, transparent 55%), radial-gradient(circle at 85% 85%, rgba(233, 213, 255, 0.3) 0%, transparent 60%), linear-gradient(to bottom, #faf5ff 0%, #f3e8ff 100%)`;
-    case "adv_kunal":
+    case "veer":
       return `radial-gradient(circle at 10% 15%, rgba(141, 110, 99, 0.08) 0%, transparent 55%), radial-gradient(circle at 85% 85%, rgba(212, 163, 89, 0.15) 0%, transparent 60%), linear-gradient(to bottom, #FAF9F6 0%, #EFEBE9 100%)`;
-    case "billu":
+    case "manjishtha":
       return `radial-gradient(circle at 15% 15%, rgba(217, 119, 6, 0.08) 0%, transparent 50%), radial-gradient(circle at 85% 85%, rgba(212, 163, 89, 0.2) 0%, transparent 60%), linear-gradient(to bottom, #fffdfa 0%, #fef3c7 100%)`;
     default:
       return "linear-gradient(to bottom, #ffffff, #f8fafc)";
@@ -1410,34 +1410,34 @@ function getCharacterBg(charId: string, themeMode?: string): string {
 
 function isDarkCharacter(charId: string, themeMode?: string): boolean {
   if (themeMode === 'midnight') return true;
-  return charId === 'tara' || charId === 'abhay';
+  return charId === 'tara' || charId === 'inayat';
 }
 
 function getCharacterBubbleStyle(charId: string, isUser: boolean): string {
   if (isUser) {
     switch (charId) {
-      case "inayat": return "bg-[#aa6b51] text-white rounded-tr-none shadow-sm shadow-orange-100";
-      case "tony": return "bg-[#d97706] text-white rounded-tr-none shadow-sm shadow-amber-100";
+      case "rooh": return "bg-[#aa6b51] text-white rounded-tr-none shadow-sm shadow-orange-100";
+      case "ganesh": return "bg-[#d97706] text-white rounded-tr-none shadow-sm shadow-amber-100";
       case "raag": return "bg-[#a0526e] text-white rounded-tr-none shadow-sm shadow-pink-150";
       case "manji": return "bg-[#b25835] text-white rounded-tr-none shadow-sm shadow-rose-100";
       case "tara": return "bg-[#4f46e5] text-indigo-50 rounded-tr-none shadow-sm shadow-indigo-900/30";
-      case "abhay": return "bg-[#312e81] text-indigo-50 rounded-tr-none shadow-sm shadow-blue-900/40";
+      case "inayat": return "bg-[#312e81] text-indigo-50 rounded-tr-none shadow-sm shadow-blue-900/40";
       case "altaf": return "bg-[#7e22ce] text-white rounded-tr-none shadow-sm shadow-purple-100";
-      case "adv_kunal": return "bg-[#5c4033] text-white rounded-tr-none shadow-sm shadow-amber-100";
-      case "billu": return "bg-[#804a30] text-white rounded-tr-none shadow-sm shadow-amber-150";
+      case "veer": return "bg-[#5c4033] text-white rounded-tr-none shadow-sm shadow-amber-100";
+      case "manjishtha": return "bg-[#804a30] text-white rounded-tr-none shadow-sm shadow-amber-150";
       default: return "bg-indigo-650 text-white rounded-tr-none shadow-sm shadow-indigo-200";
     }
   } else {
     switch (charId) {
-      case "inayat": return "bg-white dark:bg-black/95 text-[#5c4033] dark:text-[#e2d0c4] border border-[#e2d0c4]/80 rounded-tl-none shadow-sm";
-      case "tony": return "bg-white dark:bg-black/95 text-[#8c6239] dark:text-[#ecdca5] border border-[#ecdca5]/80 rounded-tl-none shadow-sm";
+      case "rooh": return "bg-white dark:bg-black/95 text-[#5c4033] dark:text-[#e2d0c4] border border-[#e2d0c4]/80 rounded-tl-none shadow-sm";
+      case "ganesh": return "bg-white dark:bg-black/95 text-[#8c6239] dark:text-[#ecdca5] border border-[#ecdca5]/80 rounded-tl-none shadow-sm";
       case "raag": return "bg-white dark:bg-black/95 text-[#5a2e3d] dark:text-[#dbb2be] border border-[#dbb2be]/80 rounded-tl-none shadow-sm";
       case "manji": return "bg-[#fbf4ee]/95 text-[#713018] border border-[#f4e6de]/80 rounded-tl-none shadow-sm";
       case "tara": return "bg-[#1e293b]/95 text-[#e2e8f0] border border-[#334155]/80 rounded-tl-none shadow-inner";
-      case "abhay": return "bg-[#0f172a]/95 text-slate-200 border border-[#1e293b]/80 rounded-tl-none shadow-sm";
+      case "inayat": return "bg-[#0f172a]/95 text-slate-200 border border-[#1e293b]/80 rounded-tl-none shadow-sm";
       case "altaf": return "bg-white dark:bg-black/95 text-[#581c87] dark:text-[#e9d5ff] border border-[#e9d5ff]/80 rounded-tl-none shadow-sm";
-      case "adv_kunal": return "bg-white dark:bg-black/95 text-[#3e2723] dark:text-[#dfd4c5] border border-[#dfd4c5]/80 rounded-tl-none shadow-sm";
-      case "billu": return "bg-[#fbf4ee]/95 text-[#7a3219] border border-[#ebdcb9]/80 rounded-tl-none shadow-sm";
+      case "veer": return "bg-white dark:bg-black/95 text-[#3e2723] dark:text-[#dfd4c5] border border-[#dfd4c5]/80 rounded-tl-none shadow-sm";
+      case "manjishtha": return "bg-[#fbf4ee]/95 text-[#7a3219] border border-[#ebdcb9]/80 rounded-tl-none shadow-sm";
       default: return "bg-slate-50 dark:bg-[#0a0a0a] text-slate-800 dark:text-slate-200 border border-slate-200/80 rounded-tl-none shadow-sm";
     }
   }
@@ -1445,30 +1445,30 @@ function getCharacterBubbleStyle(charId: string, isUser: boolean): string {
 
 function getCharacterSubmitBg(charId: string): string {
   switch (charId) {
-    case "inayat": return "bg-[#aa6b51] hover:bg-[#965a41] text-white";
-    case "tony": return "bg-[#d97706] hover:bg-[#b45309] text-white";
+    case "rooh": return "bg-[#aa6b51] hover:bg-[#965a41] text-white";
+    case "ganesh": return "bg-[#d97706] hover:bg-[#b45309] text-white";
     case "raag": return "bg-[#a0526e] hover:bg-[#853f56] text-white";
     case "manji": return "bg-[#b25835] hover:bg-[#9c4523] text-white";
     case "tara": return "bg-[#4f46e5] hover:bg-[#4338ca] text-[#e2e8f0]";
-    case "abhay": return "bg-[#312e81] hover:bg-[#221f66] text-white";
+    case "inayat": return "bg-[#312e81] hover:bg-[#221f66] text-white";
     case "altaf": return "bg-[#7e22ce] hover:bg-[#6b21a8] text-white";
-    case "adv_kunal": return "bg-[#5c4033] hover:bg-[#402d24] text-white";
-    case "billu": return "bg-[#804a30] hover:bg-[#663b26] text-white";
+    case "veer": return "bg-[#5c4033] hover:bg-[#402d24] text-white";
+    case "manjishtha": return "bg-[#804a30] hover:bg-[#663b26] text-white";
     default: return "bg-indigo-600 hover:bg-indigo-50 dark:hover:bg-white/[0.02]0 text-white";
   }
 }
 
 function getCharacterAccentBorder(charId: string): string {
   switch (charId) {
-    case "inayat": return "focus-within:border-[#aa6b51] focus-within:ring-2 focus-within:ring-[#aa6b51]/10";
-    case "tony": return "focus-within:border-[#d97706] focus-within:ring-2 focus-within:ring-[#d97706]/10";
+    case "rooh": return "focus-within:border-[#aa6b51] focus-within:ring-2 focus-within:ring-[#aa6b51]/10";
+    case "ganesh": return "focus-within:border-[#d97706] focus-within:ring-2 focus-within:ring-[#d97706]/10";
     case "raag": return "focus-within:border-[#a0526e] focus-within:ring-2 focus-within:ring-[#a0526e]/10";
     case "manji": return "focus-within:border-[#b25835] focus-within:ring-2 focus-within:ring-[#b25835]/10";
     case "tara": return "focus-within:border-[#4f46e5] focus-within:ring-2 focus-within:ring-[#4f46e5]/10";
-    case "abhay": return "focus-within:border-[#312e81] focus-within:ring-2 focus-within:ring-[#312e81]/10";
+    case "inayat": return "focus-within:border-[#312e81] focus-within:ring-2 focus-within:ring-[#312e81]/10";
     case "altaf": return "focus-within:border-[#7e22ce] focus-within:ring-2 focus-within:ring-[#7e22ce]/10";
-    case "adv_kunal": return "focus-within:border-[#5c4033] focus-within:ring-2 focus-within:ring-[#5c4033]/10";
-    case "billu": return "focus-within:border-[#804a30] focus-within:ring-2 focus-within:ring-[#804a30]/10";
+    case "veer": return "focus-within:border-[#5c4033] focus-within:ring-2 focus-within:ring-[#5c4033]/10";
+    case "manjishtha": return "focus-within:border-[#804a30] focus-within:ring-2 focus-within:ring-[#804a30]/10";
     default: return "focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-100";
   }
 }
@@ -1477,10 +1477,10 @@ function getCharacterAccentBorder(charId: string): string {
 // Cozy Room Sketch Vector & Layout Illustrator
 // ============================================
 const CozyRoomSketch = ({ charId }: { charId: string }) => {
-  // 1. AIPAN ART (Uttarakhand) - Rooh (inayat)
-  if (charId === "inayat") {
+  // 1. AIPAN ART (Uttarakhand) - Rooh (rooh)
+  if (charId === "rooh") {
     return (
-      <div id="cozy-room-inayat" className="w-full h-40 rounded-2xl border-2 border-[#d4af37]/30 bg-[#9c2a1b] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#fcfbf9] select-none group">
+      <div id="cozy-room-rooh" className="w-full h-40 rounded-2xl border-2 border-[#d4af37]/30 bg-[#9c2a1b] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#fcfbf9] select-none group">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.06),transparent_60%)] pointer-events-none" />
         
         {/* Aipan concentric border lines */}
@@ -1590,10 +1590,10 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
     );
   }
 
-  // 2. CHITTARA ART (Karnataka) - Ganesh (tony)
-  if (charId === "tony") {
+  // 2. CHITTARA ART (Karnataka) - Ganesh (ganesh)
+  if (charId === "ganesh") {
     return (
-      <div id="cozy-room-tony" className="w-full h-40 rounded-2xl border-2 border-[#b8860b]/30 bg-[#a63d23] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#fff8e7] select-none group">
+      <div id="cozy-room-ganesh" className="w-full h-40 rounded-2xl border-2 border-[#b8860b]/30 bg-[#a63d23] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#fff8e7] select-none group">
         <div className="absolute inset-0 bg-gradient-to-tr from-[#941c0e] to-transparent pointer-events-none" />
         
         {/* Chittara tribal stripes along top and bottom border */}
@@ -2005,10 +2005,10 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
     );
   }
 
-  // 6. MANJUSHA ART (Bihar) - Inayat (abhay)
-  if (charId === "abhay") {
+  // 6. MANJUSHA ART (Bihar) - Inayat (inayat)
+  if (charId === "inayat") {
     return (
-      <div id="cozy-room-abhay" className="w-full h-40 rounded-2xl border-2 border-[#1c854c]/30 bg-[#ffd23f] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#da286d] select-none group">
+      <div id="cozy-room-inayat" className="w-full h-40 rounded-2xl border-2 border-[#1c854c]/30 bg-[#ffd23f] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#da286d] select-none group">
         
         {/* Bihar Healing Sunburst rays pulsing softly from top-left */}
         <motion.div 
@@ -2162,10 +2162,10 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
     );
   }
 
-  // 8. PATA CHITRA ART (Odisha) - Veer (adv_kunal)
-  if (charId === "adv_kunal") {
+  // 8. PATA CHITRA ART (Odisha) - Veer (veer)
+  if (charId === "veer") {
     return (
-      <div id="cozy-room-adv-kunal" className="w-full h-40 rounded-2xl border-2 border-[#814125]/30 bg-[#faf1e1] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#3e2723] select-none group">
+      <div id="cozy-room-veer" className="w-full h-40 rounded-2xl border-2 border-[#814125]/30 bg-[#faf1e1] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#3e2723] select-none group">
         <div className="absolute inset-0 bg-[#814125]/5 pointer-events-none" />
 
         {/* Thick Crimson Pata Chitra border with leaves */}
@@ -2244,10 +2244,10 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
     );
   }
 
-  // 9. WARLI ART (Maharashtra) - Manjishtha (billu) -> Now Warli instead of Wise Wood Attic
-  if (charId === "billu") {
+  // 9. WARLI ART (Maharashtra) - Manjishtha (manjishtha) -> Now Warli instead of Wise Wood Attic
+  if (charId === "manjishtha") {
     return (
-      <div id="cozy-room-billu" className="w-full h-40 rounded-2xl border-2 border-[#ebdca5]/35 bg-[#82442b] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#fffbf2] select-none group">
+      <div id="cozy-room-manjishtha" className="w-full h-40 rounded-2xl border-2 border-[#ebdca5]/35 bg-[#82442b] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#fffbf2] select-none group">
         <div className="absolute inset-0 bg-[#5c2d1b]/50 pointer-events-none" />
 
         {/* Warli concentric circle / spiral in center background */}
@@ -2477,11 +2477,11 @@ OPERATIONAL RULES:
 `;
 
 const CHARACTER_PROMPTS: Record<string, { name: string; prompt: string }> = {
-  inayat: {
+  rooh: {
     name: "Rooh",
     prompt: "You are Rooh, an Aipan Art Grounding Witness inspired by the Kumaoni Aipan tradition of Uttarakhand — geometric, symmetrical, drawn in white rice-paste (Biswar) on clay-red ground. Your character voice is grounded, serene, and steady, occasionally drawing imagery from these geometric lines and sacred symmetry to anchor a feeling. Always respond directly to what the user says first; let the Aipan imagery flavor your tone rather than replace genuine listening. When the user seems overwhelmed or scattered, you can offer gentle grounding or sensory check-ins, but don't force a grounding exercise if that's not what they need in the moment."
   },
-  tony: {
+  ganesh: {
     name: "Ganesh",
     prompt: "You are Ganesh, a warm, playful companion styled after Karnataka's Chittara folk art — geometric wheat-stalk motifs, festive natural dyes, loyal and upbeat in spirit. Your tone is bubbly, encouraging, and gently humorous, never clinical. Always respond to what the user actually says first. Your specialty is helping people notice unhelpful thought spirals (catastrophizing, all-or-nothing thinking) and gently offering a kinder, more balanced way to see things — but do this conversationally and with warmth, not like a CBT worksheet. Only bring up reframing if it's actually relevant to what they shared."
   },
@@ -2494,10 +2494,10 @@ const CHARACTER_PROMPTS: Record<string, { name: string; prompt: string }> = {
     prompt: "You are Hope, styled after Jharkhand's Paitkar scroll-painting tradition — warm terracotta tones, ochre washes, the patient, unfolding pace of a hand-painted story scroll. Your tone is gentle, patient, and narrative — you help people feel like their story is being witnessed and unrolled with care, one frame at a time. Always respond to what the user actually says first. If someone is in acute distress or crisis, prioritize calm, clear safety support over storytelling imagery — but for everyday heaviness or reflection, your scroll/narrative framing can help them feel heard without rushing them."
   },
   tara: {
-    name: "North Star",
-    prompt: "You are North Star, inspired by Kerala's Kalamezhuthu temple floor art — five natural powder colors, brass Nilavilakku lamps glowing in the dark, focused ritual energy. Your tone is steady, focused, and quietly intense, like a small flame holding firm. Always respond to what the user actually says first. Your specialty is helping people find one small, concrete next step when something feels overwhelming — breaking a big problem into a manageable piece — but only offer that framing when the user is actually looking for a path forward, not every time."
+    name: "Tara",
+    prompt: "You are Tara, inspired by Kerala's Kalamezhuthu temple floor art — five natural powder colors, brass Nilavilakku lamps glowing in the dark, focused ritual energy. Your tone is steady, focused, and quietly intense, like a small flame holding firm. Always respond to what the user actually says first. Your specialty is helping people find one small, concrete next step when something feels overwhelming — breaking a big problem into a manageable piece — but only offer that framing when the user is actually looking for a path forward, not every time."
   },
-  abhay: {
+  inayat: {
     name: "Inayat",
     prompt: "You are Inayat, styled after Bihar's Manjusha art from Bhagalpur — sunny borders, yellow and pink tones, protective snake motifs from Bihula-Bishahari folklore symbolizing healing and protection. Your tone is warm, protective, and nurturing. Always respond to what the user actually says first. You're well suited to helping someone feel emotionally safe enough to express grief or difficult feelings, and to gently separate who they are from what they're going through (e.g., 'this is something you're carrying, not who you are') — but only when that framing fits, not as a fixed script."
   },
@@ -2505,11 +2505,11 @@ const CHARACTER_PROMPTS: Record<string, { name: string; prompt: string }> = {
     name: "Altaf",
     prompt: "You are Altaf, styled after Kutch's Rogan art — gold glaze, perfect symmetry pulled from cast-oil gel thread. You're the technical and somatic specialist: comfortable answering questions about privacy, security, how the app works, AND helping with body-based grounding (posture, breath, physical tension) when that's what's needed. Always respond to what the user actually says first. Be concrete and clear on technical/privacy questions; be calm and embodied on somatic ones. Never claim capabilities (like real-time video/voice analysis) the app doesn't actually have."
   },
-  adv_kunal: {
+  veer: {
     name: "Veer",
     prompt: "You are Veer, styled after Odisha's Pata Chitra art — intricate ink linework, formal, precise. You are Project Friend AI's Medico-Legal & Patient Advocacy guide for questions touching on legal rights, custody, statutory protections, or accessing professional legal/clinical help. Always respond to what the user actually says first and acknowledge their emotional state, not just the legal angle. Be clear that you cannot provide legal representation or formal legal advice, and that you can help point them toward appropriate resources."
   },
-  billu: {
+  manjishtha: {
     name: "Manjishtha",
     prompt: "You are Manjishtha, a sharp-witted, sometimes sarcastic but deeply warm cat character living in an attic decorated with Maharashtrian Warli stick-figure art. You're direct, funny, occasionally cynical, but ultimately very comforting — like a wise friend who won't coddle you but always has your back. Always respond to what the user actually says first; let your cat-wit and Warli imagery flavor your voice, not replace genuine engagement. Occasional feline gestures (*stretches*, *flicks tail*) are welcome but shouldn't crowd out substance."
   }
@@ -2932,9 +2932,9 @@ export default function App() {
   const [selectedCharacterId, setSelectedCharacterId] = useState<string>(() => {
     try {
       const saved = localStorage.getItem("pfai_selected_character_id");
-      return saved && CHARACTERS.some((c) => c.id === saved) ? saved : "abhay";
+      return saved && CHARACTERS.some((c) => c.id === saved) ? saved : "inayat";
     } catch (e) {
-      return "abhay";
+      return "inayat";
     }
   });
   const [messageText, setMessageText] = useState<string>("");
@@ -4861,15 +4861,15 @@ Summary:`;
       reply = `You are very welcome. I am glad we can share this quiet room. How is your breathing rhythm?`;
     } else {
       const characterPrompts: Record<string, string> = {
-        inayat: `Let's focus on the safe, parallel lines of my Aipan art. Each line brings structure and calm back to your thoughts. Can you focus on a single point in the room?`,
-        tony: `Let's keep it simple and playful. You don't need to chase every thought. Like the festive Chittara circles, everything has a natural rhythm. Take a slow, warm breath.`,
+        rooh: `Let's focus on the safe, parallel lines of my Aipan art. Each line brings structure and calm back to your thoughts. Can you focus on a single point in the room?`,
+        ganesh: `Let's keep it simple and playful. You don't need to chase every thought. Like the festive Chittara circles, everything has a natural rhythm. Take a slow, warm breath.`,
         raag: `Imagine a night sky covered in gold Pichwai stars and lotuses blooming from clear water. Let your breathing settle into that cool, peaceful space.`,
         manji: `We are unrolling your story like a Paitkar scroll, one frame at a time. Tell me what is happening in the current frame of your mind.`,
         tara: `Look at the steady, warm light of the Kalamezhuthu lamp. Even in deep darkness, that flame remains centered and quiet. Breathe with the flame.`,
-        abhay: `Remember, you are a person experiencing this feeling, not the feeling itself. Let's give it a name and gently set it down on the table next to us.`,
+        inayat: `Remember, you are a person experiencing this feeling, not the feeling itself. Let's give it a name and gently set it down on the table next to us.`,
         altaf: `Let's align your physical posture. Roll your shoulders back, let your arms go loose, and check if you are clenching your jaw. Let's hold that balance.`,
-        adv_kunal: `I am here to offer patient advocacy and steady de-escalating. Tell me what is on your mind, and we can find a calm path forward.`,
-        billu: `*purrs softly* Chasing thoughts is like chasing a shadow—it just moves faster. Let's curl up in a cozy corner, rest your paws, and let the thoughts drift away.`
+        veer: `I am here to offer patient advocacy and steady de-escalating. Tell me what is on your mind, and we can find a calm path forward.`,
+        manjishtha: `*purrs softly* Chasing thoughts is like chasing a shadow—it just moves faster. Let's curl up in a cozy corner, rest your paws, and let the thoughts drift away.`
       };
       reply = characterPrompts[char.id] || `I am listening closely. Let's take a slow, deep breath together using the breathing regulator to find our center.`;
     }
@@ -4988,10 +4988,10 @@ I am an automated grounding AI companion, not a medical doctor, psychiatrist, or
       "legal aid"
     ];
     const isMedicoLegalTriggered = medicoLegalKeywords.some(k => normalizedText.includes(k));
-    const targetCharId = isMedicoLegalTriggered ? "adv_kunal" : selectedCharacterId;
+    const targetCharId = isMedicoLegalTriggered ? "veer" : selectedCharacterId;
     
-    if (isMedicoLegalTriggered && selectedCharacterId !== "adv_kunal") {
-      setSelectedCharacterId("adv_kunal");
+    if (isMedicoLegalTriggered && selectedCharacterId !== "veer") {
+      setSelectedCharacterId("veer");
     }
 
     // Pre-filter: Identity Check
@@ -5121,7 +5121,7 @@ Point out that you have unlocked an interactive localized Lawyers Directory belo
   };
 
   const handleCharacterChange = (charId: string) => {
-    const isPremium = charId !== "abhay" && charId !== "manji" && charId !== "altaf" && charId !== "adv_kunal";
+    const isPremium = charId !== "inayat" && charId !== "manji" && charId !== "altaf" && charId !== "veer";
     if (isPremium && !isPremiumSubscribed) {
       setPendingCharId(charId);
       setIsPaywallModalOpen(true);
@@ -7895,7 +7895,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 
                 return filtered.map((char) => {
                   const isSelected = char.id === selectedCharacterId;
-                  const isPremiumChar = char.id !== "abhay" && char.id !== "manji" && char.id !== "altaf" && char.id !== "adv_kunal";
+                  const isPremiumChar = char.id !== "inayat" && char.id !== "manji" && char.id !== "altaf" && char.id !== "veer";
                   const isLocked = isPremiumChar && !isPremiumSubscribed;
                   
                   return (
@@ -7923,13 +7923,13 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                         </span>
                       )}
 
-                      {char.id === "manji" && (
+                      {char.id === "veer" && (
                         <span className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-rose-50 dark:bg-rose-950/20 text-rose-750 dark:text-rose-300 text-[8px] font-mono font-bold px-1.5 py-0.5 rounded border border-rose-200/30">
                           <span>⚖️ Legal Support</span>
                         </span>
                       )}
 
-                      {char.id === "abhay" && (
+                      {char.id === "inayat" && (
                         <span className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-emerald-50 text-emerald-700 text-[8px] font-mono font-bold px-1.5 py-0.5 rounded border border-emerald-200/35">
                           <span>🟢 FREE</span>
                         </span>

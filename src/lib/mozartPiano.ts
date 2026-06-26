@@ -232,7 +232,7 @@ class MozartPianoEngine {
 
     // Schedule chords & arpeggios custom to each room with that slow-wave Prateek vibe
     switch (charId) {
-      case "inayat": // Warm Sunset Vibe in C Major / G Major: Cmaj7 - G - Em7 - D
+      case "rooh": // Warm Sunset Vibe in C Major / G Major: Cmaj7 - G - Em7 - D
         {
           const barDuration = this.stepDuration * 8;
           if (idx === 0) {
@@ -258,7 +258,7 @@ class MozartPianoEngine {
         }
         break;
 
-      case "tony": // Bouncy, hopeful tender folk in F Major / C Major: Fadd9 - C - Am7 - G
+      case "ganesh": // Bouncy, hopeful tender folk in F Major / C Major: Fadd9 - C - Am7 - G
         {
           const barDuration = this.stepDuration * 8;
           if (idx === 0) {
@@ -344,7 +344,7 @@ class MozartPianoEngine {
         }
         break;
 
-      case "abhay": // Comforting, protective Bihar folk companion: Gadd9 - Em7 - Cadd9 - D
+      case "inayat": // Comforting, protective Bihar folk companion: Gadd9 - Em7 - Cadd9 - D
         {
           const barDuration = this.stepDuration * 8;
           if (idx === 0) {
@@ -386,7 +386,7 @@ class MozartPianoEngine {
         }
         break;
 
-      case "billu": // Whimsical lightweight acoustic folk: G - C - D - G
+      case "manjishtha": // Whimsical lightweight acoustic folk: G - C - D - G
         {
           const barDuration = this.stepDuration * 8;
           if (idx === 0) {
@@ -407,7 +407,7 @@ class MozartPianoEngine {
         }
         break;
 
-      case "adv_kunal": // Classic supportive protective harmony: Am7 - Dm7 - G7 - Cmaj7
+      case "veer": // Classic supportive protective harmony: Am7 - Dm7 - G7 - Cmaj7
         {
           const barDuration = this.stepDuration * 8;
           if (idx === 0) {
