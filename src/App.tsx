@@ -79,7 +79,6 @@ import {
   type GmailMessage
 } from "./gmailService";
 
-import IndianPaintingsMoodBoard from "./components/IndianPaintingsMoodBoard";
 import PowerBIDashboard from "./components/PowerBIDashboard";
 import CardNav from "./components/CardNav";
 import { WhiteboardDrawingTool } from "./components/WhiteboardDrawingTool";
@@ -3022,7 +3021,7 @@ export default function App() {
    const [safetySimText, setSafetySimText] = useState<string>("");
   const [safetySimResult, setSafetySimResult] = useState<{ status: 'PASS' | 'CRISIS_OVERRIDE' | 'MED_LIMIT', message: string } | null>(null);
   
-  const [activeCenterTab, setActiveCenterTab] = useState<'chat' | 'safety' | 'blogs' | 'publishing' | 'community' | 'investor' | 'gmail' | 'art' | 'doodle' | 'terms' | 'privacy'>('chat');
+  const [activeCenterTab, setActiveCenterTab] = useState<'chat' | 'safety' | 'blogs' | 'publishing' | 'community' | 'investor' | 'gmail' | 'terms' | 'privacy'>('chat');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   
   // Gmail & Firebase OAuth State management
@@ -5976,7 +5975,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           zenMode={zenMode}
           onToggleZenMode={() => setZenMode(!zenMode)}
           themeMode={themeMode}
-          onThemeChange={(t) => handleSetThemeMode(t as any)}
+          onThemeChange={(t) => setThemeMode(t as any)}
           onOpenClinicalDirectory={() => setActiveCenterTab('directory' as any)}
         />
       )}
@@ -9879,16 +9878,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
 
 
-          {activeCenterTab === 'doodle' && (
-            <div className={`flex-1 overflow-hidden font-sans rounded-b-2xl h-[700px] xl:h-[750px] transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-black/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
-              <iframe 
-                src="https://do-doodle.netlify.app/" 
-                className="w-full h-full border-0 rounded-b-2xl" 
-                title="Do Doodle"
-                allow="camera; microphone; clipboard-write"
-              />
-            </div>
-          )}
+
           {false && activeCenterTab === 'gmail' && (
             /* Gmail Integration Sanctuary Panel */
             <div className={`flex-1 p-5 overflow-y-auto space-y-6 font-sans rounded-b-2xl h-[700px] xl:h-[750px] transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-black/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>

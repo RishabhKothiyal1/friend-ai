@@ -13,7 +13,6 @@ import {
   Users,
   Moon,
   Sun,
-  Coffee,
   Brain,
   PanelLeftClose,
   PanelLeftOpen
@@ -55,7 +54,7 @@ export function Sidebar({
 
   const toolsItems = [
     { id: 'blogs', label: 'Curated Blogs', icon: FileText },
-    { id: 'doodle', label: 'Do Doodle', icon: Palette },
+    { id: 'doodle', label: 'Do Doodle', icon: Palette, externalUrl: 'https://do-doodle.netlify.app/' },
     { id: 'investor', label: 'Power BI Analytics', icon: Briefcase },
     { id: 'community', label: 'Community Center', icon: Users },
   ];
@@ -122,7 +121,13 @@ export function Sidebar({
           return (
             <button
               key={item.id}
-              onClick={() => onTabChange(item.id)}
+              onClick={() => {
+                if (item.externalUrl) {
+                  window.location.href = item.externalUrl;
+                } else {
+                  onTabChange(item.id);
+                }
+              }}
               className={`w-full flex items-center ${isSidebarOpen ? 'gap-3 px-3' : 'justify-center px-0'} py-2 rounded-lg transition-colors text-sm font-medium ${
                 isActive 
                   ? "bg-indigo-500/10 text-indigo-400" 
