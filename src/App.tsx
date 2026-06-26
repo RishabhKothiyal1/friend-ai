@@ -5131,12 +5131,17 @@ Point out that you have unlocked an interactive localized Lawyers Directory belo
     setIsDependencyActive(false);
     registerInteraction();
     const target = CHARACTERS.find(c => c.id === charId)!;
-    let welcomeText = `I have initialized specialized support. I am now speaking as **${target.name}, your ${target.title}** specializing in *${target.specialization}*.`;
-    if (target.tagline) {
-      welcomeText += `\n\n"${target.tagline}"`;
-    }
-    if (target.groundingMantra) {
-      welcomeText += `\n\n*Grounding reminder: ${target.groundingMantra}*`;
+    let welcomeText = "";
+    if (charId === "inayat") {
+      welcomeText = `I have initialized specialized support. I am now speaking as **Inayat**.`;
+    } else {
+      welcomeText = `I have initialized specialized support. I am now speaking as **${target.name}, your ${target.title}** specializing in *${target.specialization}*.`;
+      if (target.tagline) {
+        welcomeText += `\n\n"${target.tagline}"`;
+      }
+      if (target.groundingMantra) {
+        welcomeText += `\n\n*Grounding reminder: ${target.groundingMantra}*`;
+      }
     }
 
     setChatHistory([
