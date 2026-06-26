@@ -766,9 +766,9 @@ const CHARACTERS: Character[] = [
     avatarInitials: "In",
     avatarColor: "bg-[#f7d04a] text-[#e23e7f] border-[#008b45]/40 font-serif",
     accentColor: "sky",
-    tagline: "Healing snake lines, blooming Champa flowers, and sunny Bhagalpur borders.",
+    tagline: "",
     longDescription: "Looking out of a sunny, border-styled Manjusha painting window from Bhagalpur, Bihar, Inayat translates unexpressed grief into therapeutic art. Styled in traditional yellow, vibrant pink, and deep green colors, she surrounds you with traditional snake motifs (for healing and protection from the Bihula-Bishahari folklore) and swirling hand-crafted Champa flower circles.",
-    groundingMantra: "Like the protective patterns of Bihar's Manjusha scrolls, these lines wrap you in safety. Let the mental storm rain out."
+    groundingMantra: ""
   },
   {
     id: "altaf",
