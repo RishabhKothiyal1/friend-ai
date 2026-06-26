@@ -12,6 +12,10 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
+function stripMarkdown(text: string): string {
+  return text.replace(/\*\*/g, '');
+}
+
 app.use(express.json());
 
 // Enable CORS for frontend requests (e.g. Netlify)
@@ -607,10 +611,10 @@ Let's regulate your physical autonomic nervous system immediately:
     if (!ai || !checkGeminiRateLimit()) {
       if (isMedicoLegal) {
         return res.json({
-          text: `📜 **MEDICO-LEGAL INTEGRITY OVERVIEW & ADVOCACY ROUTING**
+          text: stripMarkdown(`📜 **MEDICO-LEGAL INTEGRITY OVERVIEW & ADVOCACY ROUTING**
           
 Dear friend, I am **Adv Kunal**, your Medico-Legal & Patient Advocacy Counsel at Project Friend AI. Since your query includes legal, statutory, custody or forensic elements, I have personally intercepted this conversation to safeguard your rights. 
-2. **Clinical Boundary Disclaimer**: As an AI, I am not a certified attorney and cannot draft legal pleadings or represent you in court. However, because we believe in complete patient safety, we have compiled an **Interactive Doctors & Lawyers Directory** directly below. Please filter your location to view pro-bono mental health counsels, statutory legal aid, and civil advocates in your city.`,
+2. **Clinical Boundary Disclaimer**: As an AI, I am not a certified attorney and cannot draft legal pleadings or represent you in court. However, because we believe in complete patient safety, we have compiled an **Interactive Doctors & Lawyers Directory** directly below. Please filter your location to view pro-bono mental health counsels, statutory legal aid, and civil advocates in your city.`),
           isMedicoLegal: true,
           safetyFlags: {
             isCrisis,
@@ -620,7 +624,7 @@ Dear friend, I am **Adv Kunal**, your Medico-Legal & Patient Advocacy Counsel at
       }
 
       const activeChar = CHARACTERS[activeCharacterId] || CHARACTERS.abhay;
-      const fallbackText = generateLocalFallbackResponse(message, activeChar);
+      const fallbackText = stripMarkdown(generateLocalFallbackResponse(message, activeChar));
       return res.json({
         text: fallbackText,
         isMedicoLegal,
@@ -688,7 +692,7 @@ Point out that you have unlocked an interactive localized Lawyers Directory belo
       },
     });
 
-    const replyText = response.text || "I am holding a safe space for you. Tell me more, without rush.";
+    const replyText = stripMarkdown(response.text || "I am holding a safe space for you. Tell me more, without rush.");
     
     return res.json({ 
       text: replyText,
@@ -704,7 +708,7 @@ Point out that you have unlocked an interactive localized Lawyers Directory belo
     
     // Fall back graciously under rate-limits / general exceptions
     const characterIdStr = String(activeCharacterId || "abhay");
-    const fallbackMessage = getOfflineFallbackResponse(characterIdStr, message);
+    const fallbackMessage = stripMarkdown(getOfflineFallbackResponse(characterIdStr, message));
 
     return res.json({
       text: fallbackMessage,
@@ -722,7 +726,7 @@ app.post("/api/summarize-chat", async (req, res) => {
   const { chatHistory } = req.body;
   
   if (!Array.isArray(chatHistory) || chatHistory.length === 0) {
-    return res.json({ summary: "Exploring safe, non-judgmental spaces to ground my thoughts and find clarity." });
+    return res.json({ summary: stripMarkdown("Exploring safe, non-judgmental spaces to ground my thoughts and find clarity.") });
   }
 
   // Filter and map conversation
@@ -730,7 +734,7 @@ app.post("/api/summarize-chat", async (req, res) => {
   const userMessages = conversationItems.filter((msg: any) => msg.sender === "user");
 
   if (userMessages.length === 0) {
-    return res.json({ summary: "Just starting my journey with mindfulness grounding controls. Ready to face the day." });
+    return res.json({ summary: stripMarkdown("Just starting my journey with mindfulness grounding controls. Ready to face the day.") });
   }
 
   try {
@@ -742,7 +746,7 @@ app.post("/api/summarize-chat", async (req, res) => {
         cleanSlice = cleanSlice.substring(0, 87) + "...";
       }
       return res.json({
-        summary: `Reflecting today: "${cleanSlice}". Holding a safe space and taking it one conscious breath at a time.`
+        summary: stripMarkdown(`Reflecting today: "${cleanSlice}". Holding a safe space and taking it one conscious breath at a time.`)
       });
     }
 
@@ -767,10 +771,10 @@ ${formattedDialogue}
 Summary:`,
     });
 
-    const summary = response.text?.trim() || "Working on breathing through moments of anxiety, taking it one gentle step at a time.";
+    const summary = stripMarkdown(response.text?.trim() || "Working on breathing through moments of anxiety, taking it one gentle step at a time.");
     
     // Clean up any potential markdown or prefixes
-    let finalSummary = summary.replace(/^["'\s]*(summary|result|output|response):\s*/i, "").replace(/["'\s]*$/, "").trim();
+    let finalSummary = stripMarkdown(summary.replace(/^["'\s]*(summary|result|output|response):\s*/i, "").replace(/["'\s]*$/, "").trim());
     if (finalSummary.length > 250) {
       finalSummary = finalSummary.substring(0, 247) + "...";
     }
@@ -786,9 +790,9 @@ Summary:`,
     if (cleanSlice.length > 90) {
       cleanSlice = cleanSlice.substring(0, 87) + "...";
     }
-    const fallbackSummary = cleanSlice 
+    const fallbackSummary = stripMarkdown(cleanSlice 
       ? `Reflecting today: "${cleanSlice}". Holding a safe space and taking it one conscious breath at a time.`
-      : "Working on breathing through moments of anxiety, taking it one gentle step at a time.";
+      : "Working on breathing through moments of anxiety, taking it one gentle step at a time.");
     
     return res.json({ summary: fallbackSummary });
   }
@@ -850,13 +854,13 @@ function getLocalInsights(moodsList: any[]): { triggers: string[]; patterns: str
 app.post("/api/mood-insights", async (req, res) => {
   const { moodsList } = req.body;
   if (!Array.isArray(moodsList) || moodsList.length === 0) {
-    return res.json({ text: "Add some mood entries to unlock personalized triggers and wellness statistics." });
+    return res.json({ text: stripMarkdown("Add some mood entries to unlock personalized triggers and wellness statistics.") });
   }
 
   const localFeedback = getLocalInsights(moodsList);
 
   if (!ai || !checkGeminiRateLimit()) {
-    return res.json({ text: `🛡️ [Safe Standalone Guidance]\n\n${localFeedback.text}` });
+    return res.json({ text: stripMarkdown(`🛡️ [Safe Standalone Guidance]\n\n${localFeedback.text}`) });
   }
 
   try {
@@ -871,15 +875,15 @@ ${JSON.stringify(moodsList, null, 2)}
 Please write a brief, warm, supportive wellness check-up (maximum 220 characters). Mention any detected triggers (e.g., #work, #family) or positive patterns (e.g., #nature, #breathing) if present, encouraging gentle pacing. Focus strictly on resilience. Use 1 or 2 small tags as examples. Be extremely concise. Keep it warm but objective. Do not offer medical, therapeutic, or diagnostic statements.`,
     });
 
-    const aiText = response.text?.trim();
+    const aiText = stripMarkdown(response.text?.trim() || "");
     if (aiText) {
       return res.json({ text: aiText });
     }
-    return res.json({ text: `💡 [Empathetic Feedback]\n\n${localFeedback.text}` });
+    return res.json({ text: stripMarkdown(`💡 [Empathetic Feedback]\n\n${localFeedback.text}`) });
 
   } catch (error) {
     handleGeminiRateLimit(error, "Mood Insights");
-    return res.json({ text: `💡 [Aesthetic Stat Analysis]\n\n${localFeedback.text}` });
+    return res.json({ text: stripMarkdown(`💡 [Aesthetic Stat Analysis]\n\n${localFeedback.text}`) });
   }
 });
 
@@ -891,7 +895,7 @@ app.post("/api/video-analysis", async (req, res) => {
   const localFeedback = `You have logged an optional personal reflection moment with ${targetChar.name}. Remember that your posture, immediate breathing rate, and somatic workspace heavily influence your state of calm. Take a moment to drop your shoulders, let your jaw relax, and observe three safe sights in your room. I'm here with you.`;
 
   if (!ai || !checkGeminiRateLimit()) {
-    return res.json({ text: `🛡️ [Safe Standalone Guidance]\n\n${targetChar.name}: ${localFeedback}` });
+    return res.json({ text: stripMarkdown(`🛡️ [Safe Standalone Guidance]\n\n${targetChar.name}: ${localFeedback}`) });
   }
 
   try {
@@ -932,14 +936,14 @@ Absolute Guardrail: Do NOT offer clinical diagnoses, psychiatric jargon, or prea
       contents: { parts },
     });
 
-    const aiText = response.text?.trim();
+    const aiText = stripMarkdown(response.text?.trim() || "");
     if (aiText) {
       return res.json({ text: aiText });
     }
-    return res.json({ text: `💡 [Empathetic Analysis]\n\n${targetChar.name}: ${localFeedback}` });
+    return res.json({ text: stripMarkdown(`💡 [Empathetic Analysis]\n\n${targetChar.name}: ${localFeedback}`) });
   } catch (error) {
     handleGeminiRateLimit(error, "Video Analysis");
-    return res.json({ text: `💡 [Somatic Posture Reflection]\n\n${targetChar.name}: ${localFeedback}` });
+    return res.json({ text: stripMarkdown(`💡 [Somatic Posture Reflection]\n\n${targetChar.name}: ${localFeedback}`) });
   }
 });
 
@@ -1100,7 +1104,7 @@ app.post("/api/generate-blog", async (req, res) => {
   }
 
   if (!ai || offlineFallback) {
-    const blogText = generateOfflineBlog(blogTopic);
+    const blogText = stripMarkdown(generateOfflineBlog(blogTopic));
     return res.json({ blog: blogText, generatedOffline: true });
   }
 
@@ -1123,14 +1127,14 @@ app.post("/api/generate-blog", async (req, res) => {
       contents: prompt,
     });
 
-    const blogText = response.text?.trim();
+    const blogText = stripMarkdown(response.text?.trim() || "");
     if (blogText) {
       return res.json({ blog: blogText, generatedOffline: false });
     }
     throw new Error("Empty text returned from Gemini");
   } catch (error) {
     handleGeminiRateLimit(error, "Blog Generation");
-    const blogText = generateOfflineBlog(blogTopic);
+    const blogText = stripMarkdown(generateOfflineBlog(blogTopic));
     return res.json({ blog: blogText, generatedOffline: true });
   }
 });
