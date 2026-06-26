@@ -2760,7 +2760,13 @@ export default function App() {
   const [consentAnonymity, setConsentAnonymity] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<string>("");
   const [isAliasModalOpen, setIsAliasModalOpen] = useState<boolean>(false);
-  const [isPremiumSubscribed, setIsPremiumSubscribed] = useState<boolean>(false);
+  const [isPremiumSubscribed, setIsPremiumSubscribed] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem("pfai_is_premium") === "true";
+    } catch (_) {
+      return false;
+    }
+  });
   const [isPaywallModalOpen, setIsPaywallModalOpen] = useState<boolean>(false);
   const [pendingCharId, setPendingCharId] = useState<string | null>(null);
   
@@ -2949,11 +2955,24 @@ export default function App() {
     } catch (e) {
       console.error("Error initializing chatHistory from localStorage:", e);
     }
+    const initialCharId = (() => {
+      try {
+        const saved = localStorage.getItem("pfai_selected_character_id");
+        return saved && CHARACTERS.some((c) => c.id === saved) ? saved : "inayat";
+      } catch (e) {
+        return "inayat";
+      }
+    })();
+    const targetChar = CHARACTERS.find(c => c.id === initialCharId) || CHARACTERS[0];
+    const initialWelcome = initialCharId === "inayat" 
+      ? `I have initialized specialized support. I am now speaking as **Inayat**.`
+      : `I have initialized specialized support. I am now speaking as **${targetChar.name}, your ${targetChar.title}** specializing in *${targetChar.specialization}*.` + (targetChar.tagline ? `\n\n"${targetChar.tagline}"` : "") + (targetChar.groundingMantra ? `\n\n*Grounding reminder: ${targetChar.groundingMantra}*` : "");
+
     return [
       {
         id: "init",
         sender: "bot",
-        text: "Welcome to Project Friend AI. I am Rooh, here as a Compassionate Witness. This is a fully confidential, non-clinical de-escalation workspace. Your identity is anonymized. No therapist replacements, no psychiatric medical pretension—just supportive grounding. How are you carrying yourself right now?",
+        text: initialWelcome,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }
     ];
@@ -9803,8 +9822,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     seedling: "Gilded Rose"
                   },
                   {
-                    name: "North Star",
-                    avatar: "No",
+                    name: "Tara",
+                    avatar: "Tara",
                     bgCol: "bg-[#0f162c] text-[#cbd5e1]",
                     role: "Cosmic Astrological Dreamer",
                     tending: "Tracks stellar constellation passages and moon phases to align the gentle water cycles with peaceful cosmic timing.",
