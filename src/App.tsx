@@ -7974,18 +7974,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
               })()}
             </div>
 
-            <div 
-              className="mt-2 bg-indigo-50/ dark:bg-white/[0.02]/40 hover:bg-indigo-50 dark:hover:bg-white/[0.02]/70 p-3 rounded-xl border border-indigo-100/70 hover:border-indigo-300 transition-all duration-300"
-              title="Active character supportive paradigm detail"
-            >
-              <span className="text-[11px] font-bold text-indigo-700 dark:text-indigo-300 block uppercase flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
-                <span>Currently Active Mindset</span>
-              </span>
-              <p className="text-[11px] text-slate-650 dark:text-slate-350 italic mt-1 leading-relaxed">
-                "{activeChar.longDescription}"
-              </p>
-            </div>
+
           </div>
                   </div>
                 )}
@@ -9750,7 +9739,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
               </div>
 
             {/* Sub-Task: Sanctuary Gathering (All Companions Tending Your Flowers) */}
-            <div className={`mt-8 p-6 rounded-2xl border text-left transition-all duration-300 relative overflow-hidden ${themeClass(
+            <div className={`mt-8 p-6 rounded-2xl border text-left transition-all duration-300 relative overflow-visible pb-6 ${themeClass(
               "bg-gradient-to-br from-indigo-50/60 to-purple-50/50 border-indigo-100 dark:border-white/10",
               "bg-gradient-to-br from-slate-900 to-indigo-950/20 border-indigo-950",
               "bg-gradient-to-br from-[#fbf8f0] to-[#f4ecd8] border-[#ebdcb9]"
@@ -9849,7 +9838,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 ].map((member, idx) => (
                   <div 
                     key={idx} 
-                    className={`p-4 rounded-xl border flex flex-col justify-between gap-3 text-left transition-all duration-300 hover:shadow-sm ${themeClass(
+                    className={`p-4 pb-4 rounded-xl border flex flex-col justify-between gap-3 text-left transition-all duration-300 hover:shadow-sm ${themeClass(
                       "bg-white dark:bg-black/80 border-slate-100 hover:border-slate-200 dark:border-white/10",
                       "bg-black/40 border-white/10/80 hover:border-white/10/80",
                       "bg-[#fffcf6] border-[#ebdcb9]/40 hover:border-amber-900/20"
@@ -9866,7 +9855,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                         </div>
                       </div>
 
-                      <p className="text-[10.5px] leading-relaxed text-slate-600 dark:text-slate-350 italic">
+                      <p className="text-[10.5px] leading-relaxed text-slate-600 dark:text-slate-350 italic line-clamp-4">
                         "{member.tending}"
                       </p>
                     </div>
