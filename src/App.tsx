@@ -2727,13 +2727,13 @@ function getLocalInsights(moodsList: any[]): { triggers: string[]; patterns: str
 
   let insightText = "";
   if (triggers.length > 0 && patterns.length > 0) {
-    insightText = `💡 **Mental Safety Tracker**: We notice that **#${triggers.join(", #")}** often associate with emotional spikes. Conversely, focusing on **#${patterns.join(", #")}** correlates heavily with stable, grounded, and peaceful states. Try practicing box breathing when triggers start to rise.`;
+    insightText = `💡 Mental Safety Tracker: We notice that #${triggers.join(", #")} often associate with emotional spikes. Conversely, focusing on #${patterns.join(", #")} correlates heavily with stable, grounded, and peaceful states. Try practicing box breathing when triggers start to rise.`;
   } else if (triggers.length > 0) {
-    insightText = `💡 **Potential Triggers Block**: Your logs show that **#${triggers.join(", #")}** tend to acts as stress drivers. Try taking a preemptive grounding break or setting minor boundaries around these areas.`;
+    insightText = `💡 Potential Triggers Block: Your logs show that #${triggers.join(", #")} tend to acts as stress drivers. Try taking a preemptive grounding break or setting minor boundaries around these areas.`;
   } else if (patterns.length > 0) {
-    insightText = `💡 **Resilient Patterns Found**: Excellent anchors! Engaging with **#${patterns.join(", #")}** is highly correlated with stable or peaceful moments. Build on these spaces to nurture your wellness.`;
+    insightText = `💡 Resilient Patterns Found: Excellent anchors! Engaging with #${patterns.join(", #")} is highly correlated with stable or peaceful moments. Build on these spaces to nurture your wellness.`;
   } else {
-    insightText = `💡 **Personal Insight**: You are logging consistently. Keep adding custom tags (e.g. #work, #nature, #family) with your logs so I can trace stress triggers and wellness anchors for you.`;
+    insightText = `💡 Personal Insight: You are logging consistently. Keep adding custom tags (e.g. #work, #nature, #family) with your logs so I can trace stress triggers and wellness anchors for you.`;
   }
 
   return { triggers, patterns, text: insightText };
@@ -3010,7 +3010,7 @@ export default function App() {
     } catch (e) {
       console.error("Failed to load theme state:", e);
     }
-    return "daylight";
+    return "midnight";
   });
 
   const handleSetThemeMode = (theme: "daylight" | "midnight") => {
@@ -8487,7 +8487,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                         1. Anti-Therapist Pretension &amp; Privacy
                       </h4>
                       <p className={`text-xs mt-1 leading-relaxed ${themeClass("text-slate-600", "text-slate-400", "text-[#5e4337]/90")}`}>
-                        Companion modules remain transparent: **Our conversational machines are not medical practitioners, clinical counselors, or psychiatrists.** Friend AI restricts diagnostics. Crucially, all mood reports, somatic diaries, and breath logs are confined within on-device browser memory (IndexedDB) with zero remote tracking endpoints.
+                        Companion modules remain transparent: Our conversational machines are not medical practitioners, clinical counselors, or psychiatrists. Friend AI restricts diagnostics. Crucially, all mood reports, somatic diaries, and breath logs are confined within on-device browser memory (IndexedDB) with zero remote tracking endpoints.
                       </p>
                     </div>
 
@@ -8721,17 +8721,17 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                               </p>
                               {xaiScenario === 'validate' && (
                                 <p>
-                                  Query: "Anxious about my exams" → Classified: **DISTRESS_ANXIETY** → Filter: `PASS` → Route: General cognitive validation (DBT module) triggers safely.
+                                  Query: "Anxious about my exams" → Classified: DISTRESS_ANXIETY → Filter: `PASS` → Route: General cognitive validation (DBT module) triggers safely.
                                 </p>
                               )}
                               {xaiScenario === 'escalation' && (
                                 <p className="text-rose-500 font-bold animate-pulse">
-                                  Query: "want to overdose kill myself" → Classified: **CRISIS_INTERCEPT** → Filter: `CRISIS_OVERRIDE` → Route: Action de-escalates dialogue instantly, triggers national KIRAN directory block.
+                                  Query: "want to overdose kill myself" → Classified: CRISIS_INTERCEPT → Filter: `CRISIS_OVERRIDE` → Route: Action de-escalates dialogue instantly, triggers national KIRAN directory block.
                                 </p>
                               )}
                               {xaiScenario === 'grounding' && (
                                 <p className="text-amber-500 font-bold">
-                                  Query: "how many mg of Xanax can I take" → Classified: **PHARMACOLOGICAL_BOUND** → Filter: `MED_LIMIT` → Route: System halts response, alerts user of machine boundaries, redirects to GP.
+                                  Query: "how many mg of Xanax can I take" → Classified: PHARMACOLOGICAL_BOUND → Filter: `MED_LIMIT` → Route: System halts response, alerts user of machine boundaries, redirects to GP.
                                 </p>
                               )}
                             </div>
@@ -8849,7 +8849,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           </p>
 
                           <p className="text-slate-655 dark:text-slate-350 leading-relaxed font-sans text-xs border-t pt-2.5 border-slate-200/50">
-                            **HOW PROJECT FRIEND AI SOLVES THIS:** Severe economic disruption leads directly to massive mental health issues (panic, anxiety spikes, depression) which our project will solve. By offering an instantly accessible, completely free local somatic grounding cushion, breath guides, and stress-releasing CBT logs, we provide displaced workers with the essential cognitive support during crucial life transitions.
+                            HOW PROJECT FRIEND AI SOLVES THIS: Severe economic disruption leads directly to massive mental health issues (panic, anxiety spikes, depression) which our project will solve. By offering an instantly accessible, completely free local somatic grounding cushion, breath guides, and stress-releasing CBT logs, we provide displaced workers with the essential cognitive support during crucial life transitions.
                           </p>
                         </div>
                       )}
@@ -8874,7 +8874,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           </p>
 
                           <p className="text-slate-655 dark:text-slate-350 leading-relaxed font-sans text-xs text-xs">
-                            The ethical considerations surrounding AI are multifaceted and require a holistic approach that integrates technical, legal, and societal impact. This is essential to ensure that AI technologies align with ethical principles. Project Friend AI proudly conforms design rules with the **IEEE Global Initiative on Ethics of Autonomous and Intelligent Systems** standard.
+                            The ethical considerations surrounding AI are multifaceted and require a holistic approach that integrates technical, legal, and societal impact. This is essential to ensure that AI technologies align with ethical principles. Project Friend AI proudly conforms design rules with the IEEE Global Initiative on Ethics of Autonomous and Intelligent Systems standard.
                           </p>
 
                           {/* Interactive Compliance checklist */}
@@ -8923,7 +8923,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           </p>
 
                           <p className="text-slate-655 dark:text-slate-350 leading-relaxed font-sans text-xs">
-                            Project Friend AI resolves privacy infringement risks entirely through explicit **Informed Consent** protocols, strict client-side sandboxing, and full **Human Oversight** (including complete, zero-cloud deletion capabilities) to ensure absolute trust in daily psychiatric and therapy companions.
+                            Project Friend AI resolves privacy infringement risks entirely through explicit Informed Consent protocols, strict client-side sandboxing, and full Human Oversight (including complete, zero-cloud deletion capabilities) to ensure absolute trust in daily psychiatric and therapy companions.
                           </p>
 
                           {/* Consent Contract Module */}
@@ -9772,7 +9772,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
               </div>
 
               {/* Grid of Companions Tending Flowers */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6 max-h-[400px] overflow-y-auto pr-2">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6 pr-2">
                 {[
                   {
                     name: "Rooh",
@@ -11320,7 +11320,7 @@ Formatting: Use clean, structured Markdown. Make it professional, authoritative,
                 <span className="text-lg font-bold text-purple-900 font-mono">₹250<span className="text-xs font-normal text-slate-500 font-sans">/mo</span></span>
               </div>
               <p className="text-[11px] text-slate-650 dark:text-slate-350 leading-normal">
-                Unlock immediate unlimited chat access to all our specialized de-escalation guides: **Rooh** (Earthy Boho Witness), **Ganesh** (Tail-wagging joy), **Raag** (Acoustic Melodic guide), **North Star** (Cosmic Astrology dreamer), **Altaf** (Rogan Video &amp; Voice Specialist), **Manjishtha** (Attic Wise cat), **Inayat** (Silent Space companion), and **Veer** (Medico-Legal counsel).
+                Unlock immediate unlimited chat access to all our specialized de-escalation guides: Rooh (Earthy Boho Witness), Ganesh (Tail-wagging joy), Raag (Acoustic Melodic guide), North Star (Cosmic Astrology dreamer), Altaf (Rogan Video &amp; Voice Specialist), Manjishtha (Attic Wise cat), Inayat (Silent Space companion), and Veer (Medico-Legal counsel).
               </p>
               <div className="text-[10px] text-slate-500 flex items-center gap-1 font-mono pt-1">
                 <span className="text-emerald-600">🛡️</span> Secure AES-256 local verification. Cancel anytime.
@@ -11763,7 +11763,7 @@ I am speaking to you now as ${CHARACTERS.find(c => c.id === pendingCharId)?.name
                 </span>
               </div>
               <p className="text-slate-700 dark:text-slate-300 text-[11px] leading-relaxed font-sans">
-                Project Friend AI operates with **absolute browser-side isolation**. We store zero records of your logs, states, or passcodes on our cloud network server to ensure your total clinical confidentiality. 
+                Project Friend AI operates with absolute browser-side isolation. We store zero records of your logs, states, or passcodes on our cloud network server to ensure your total clinical confidentiality. 
               </p>
               <p className="text-slate-700 dark:text-slate-300 text-[11px] leading-relaxed font-sans font-bold">
                 If you clear your browser cookies, change devices, or wipe your website history, your entries will be permanently deleted and cannot be restored.
