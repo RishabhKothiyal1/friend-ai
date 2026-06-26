@@ -2966,7 +2966,7 @@ export default function App() {
     const targetChar = CHARACTERS.find(c => c.id === initialCharId) || CHARACTERS[0];
     const initialWelcome = initialCharId === "inayat" 
       ? `I have initialized specialized support. I am now speaking as **Inayat**.`
-      : `I have initialized specialized support. I am now speaking as **${targetChar.name}, your ${targetChar.title}** specializing in *${targetChar.specialization}*.` + (targetChar.tagline ? `\n\n"${targetChar.tagline}"` : "") + (targetChar.groundingMantra ? `\n\n*Grounding reminder: ${targetChar.groundingMantra}*` : "");
+      : `I have initialized specialized support. I am now speaking as **${targetChar.name}**, your ${targetChar.title} specializing in *${targetChar.specialization}*.` + (targetChar.tagline ? `\n\n"${targetChar.tagline}"` : "") + (targetChar.groundingMantra ? `\n\n*Grounding reminder: ${targetChar.groundingMantra}*` : "");
 
     return [
       {
@@ -5154,7 +5154,7 @@ Point out that you have unlocked an interactive localized Lawyers Directory belo
     if (charId === "inayat") {
       welcomeText = `I have initialized specialized support. I am now speaking as **Inayat**.`;
     } else {
-      welcomeText = `I have initialized specialized support. I am now speaking as **${target.name}, your ${target.title}** specializing in *${target.specialization}*.`;
+      welcomeText = `I have initialized specialized support. I am now speaking as **${target.name}**, your ${target.title} specializing in *${target.specialization}*.`;
       if (target.tagline) {
         welcomeText += `\n\n"${target.tagline}"`;
       }
@@ -11370,7 +11370,7 @@ Formatting: Use clean, structured Markdown. Make it professional, authoritative,
                         sender: "bot",
                         text: `🎉 **Welcome to Project Friend AI Premium!** You have successfully unlocked all companion personas. 
                         
-I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.name}, your choice companion**. How may I support you in this safe space today?`,
+I am speaking to you now as **${CHARACTERS.find(c => c.id === pendingCharId)?.name}**, your choice companion. How may I support you in this safe space today?`,
                         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                       }
                     ]);
