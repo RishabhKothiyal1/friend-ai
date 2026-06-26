@@ -9871,7 +9871,14 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
           {activeCenterTab === 'investor' && (
             <div className={`flex-1 p-5 overflow-y-auto space-y-6 font-sans rounded-b-2xl h-[700px] xl:h-[750px] transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-black/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
-              <PowerBIDashboard themeClass={themeClass} />
+              <PowerBIDashboard 
+                themeClass={themeClass} 
+                chatHistory={chatHistory}
+                moodsList={moodsList}
+                breathingSessions={breathingSessions}
+                publishedNotes={publishedNotes}
+                selectedCharacterId={selectedCharacterId}
+              />
             </div>
           )}
 

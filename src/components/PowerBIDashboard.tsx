@@ -32,99 +32,232 @@ import {
   Line
 } from "recharts";
 
-interface PowerBIDashboardProps {
-  themeClass: (daylight: string, midnight: string, sepia: string) => string;
+interface ChatMessage {
+  id: string;
+  sender: 'user' | 'bot';
+  text: string;
+  timestamp: string;
+  isEncryptedView?: boolean;
+  isMedicoLegal?: boolean;
 }
 
-// 1. Mock Data for interactive trends (Fully structured and beautiful)
-const DAILY_TRENDS_DATA = {
-  "30d": [
-    { name: "Day 1", sessions: 420, activeUsers: 280, crisisInterlocks: 12, keepSyncs: 85 },
-    { name: "Day 3", sessions: 480, activeUsers: 310, crisisInterlocks: 15, keepSyncs: 92 },
-    { name: "Day 5", sessions: 520, activeUsers: 350, crisisInterlocks: 11, keepSyncs: 110 },
-    { name: "Day 7", sessions: 580, activeUsers: 390, crisisInterlocks: 14, keepSyncs: 124 },
-    { name: "Day 9", sessions: 670, activeUsers: 420, crisisInterlocks: 18, keepSyncs: 140 },
-    { name: "Day 11", sessions: 610, activeUsers: 400, crisisInterlocks: 9, keepSyncs: 132 },
-    { name: "Day 13", sessions: 730, activeUsers: 480, crisisInterlocks: 22, keepSyncs: 165 },
-    { name: "Day 15", sessions: 850, activeUsers: 540, crisisInterlocks: 25, keepSyncs: 198 },
-    { name: "Day 17", sessions: 790, activeUsers: 510, crisisInterlocks: 17, keepSyncs: 180 },
-    { name: "Day 19", sessions: 920, activeUsers: 590, crisisInterlocks: 21, keepSyncs: 212 },
-    { name: "Day 21", sessions: 1040, activeUsers: 640, crisisInterlocks: 28, keepSyncs: 245 },
-    { name: "Day 23", sessions: 1110, activeUsers: 700, crisisInterlocks: 30, keepSyncs: 260 },
-    { name: "Day 25", sessions: 1240, activeUsers: 780, crisisInterlocks: 35, keepSyncs: 295 },
-    { name: "Day 27", sessions: 1380, activeUsers: 850, crisisInterlocks: 32, keepSyncs: 312 },
-    { name: "Day 29", sessions: 1480, activeUsers: 920, crisisInterlocks: 38, keepSyncs: 340 }
-  ],
-  "7d": [
-    { name: "Mon", sessions: 920, activeUsers: 590, crisisInterlocks: 21, keepSyncs: 212 },
-    { name: "Tue", sessions: 1040, activeUsers: 640, crisisInterlocks: 28, keepSyncs: 245 },
-    { name: "Wed", sessions: 1110, activeUsers: 700, crisisInterlocks: 30, keepSyncs: 260 },
-    { name: "Thu", sessions: 1240, activeUsers: 780, crisisInterlocks: 35, keepSyncs: 295 },
-    { name: "Fri", sessions: 1380, activeUsers: 850, crisisInterlocks: 32, keepSyncs: 312 },
-    { name: "Sat", sessions: 1420, activeUsers: 900, crisisInterlocks: 34, keepSyncs: 330 },
-    { name: "Sun", sessions: 1480, activeUsers: 920, crisisInterlocks: 38, keepSyncs: 340 }
-  ],
-  "24h": [
-    { name: "00:00", sessions: 45, activeUsers: 30, crisisInterlocks: 1, keepSyncs: 10 },
-    { name: "04:00", sessions: 22, activeUsers: 15, crisisInterlocks: 0, keepSyncs: 5 },
-    { name: "08:00", sessions: 85, activeUsers: 60, crisisInterlocks: 2, keepSyncs: 22 },
-    { name: "12:00", sessions: 142, activeUsers: 95, crisisInterlocks: 4, keepSyncs: 38 },
-    { name: "16:00", sessions: 198, activeUsers: 130, crisisInterlocks: 5, keepSyncs: 48 },
-    { name: "20:00", sessions: 285, activeUsers: 190, crisisInterlocks: 8, keepSyncs: 65 }
-  ]
-};
+interface MoodEntry {
+  id: string;
+  mood: string;
+  intensity: number;
+  timestamp: string;
+  note?: string;
+  tags?: string[];
+}
 
-const ART_ENGAGEMENT_DATA = [
-  { art: "Madhubani", finished: 148, coloringIn: 412, color: "#be2222" },
-  { art: "Warli", finished: 215, coloringIn: 324, color: "#aa5e3c" },
-  { art: "Gond", finished: 185, coloringIn: 295, color: "#1290de" },
-  { art: "Pichwai", finished: 92, coloringIn: 185, color: "#ffd700" },
-  { art: "Aipan", finished: 110, coloringIn: 220, color: "#8b1414" },
-  { art: "Pattachitra", finished: 78, coloringIn: 140, color: "#852222" },
-  { art: "Kalamkari", finished: 65, coloringIn: 158, color: "#542518" },
-  { art: "Saura", finished: 54, coloringIn: 98, color: "#7c2d12" }
-];
+interface BreathingSession {
+  id: string;
+  dateLabel: string;
+  startTime: string;
+  durationSeconds: number;
+}
 
-const PROTOCOLS_PIE_DATA = [
-  { name: "Hope (Witnessing)", value: 4850, fill: "#be2222" },
-  { name: "Ganesh (CBT & Reframing)", value: 3950, fill: "#2563eb" },
-  { name: "Raag (Somatic Grounding)", value: 3420, fill: "#12ad44" },
-  { name: "Rooh (DBT Emotional)", value: 2600, fill: "#a355de" }
-];
+interface PowerBIDashboardProps {
+  themeClass: (daylight: string, midnight: string, sepia: string) => string;
+  chatHistory: ChatMessage[];
+  moodsList: MoodEntry[];
+  breathingSessions: BreathingSession[];
+  publishedNotes: any[];
+  selectedCharacterId: string;
+}
 
-const WORKSPACE_STATS_DATA = [
-  { service: "Keep Notes Sync", count: 1820 },
-  { service: "Google Docs Export", count: 940 },
-  { service: "Calendar Slots Reserved", count: 720 },
-  { service: "Gmail Draft Copies", count: 1240 },
-  { service: "Tasks Hub Created", count: 530 }
-];
-
-// Anonymized Drill-down Log Items
-
-
-export default function PowerBIDashboard({ themeClass }: PowerBIDashboardProps) {
+export default function PowerBIDashboard({ 
+  themeClass,
+  chatHistory = [],
+  moodsList = [],
+  breathingSessions = [],
+  publishedNotes = [],
+  selectedCharacterId
+}: PowerBIDashboardProps) {
   // Filter States
   const [timeFilter, setTimeFilter] = useState<"30d" | "7d" | "24h">("30d");
-  const [focusFilter, setFocusFilter] = useState<string>("All Users");
+  const [focusFilter, setFocusFilter] = useState<string>("All Users Focus");
   const [dataRefreshCount, setDataRefreshCount] = useState<number>(0);
 
-  // Computed metric variations based on filter
+  // Dynamic user data metrics grouping for the trend chart
   const currentDailyData = useMemo(() => {
-    return DAILY_TRENDS_DATA[timeFilter];
-  }, [timeFilter]);
+    const result: Array<{ name: string; sessions: number; activeUsers: number; crisisInterlocks: number; keepSyncs: number }> = [];
+    const now = new Date();
+    
+    if (timeFilter === "24h") {
+      // 6 intervals of 4 hours
+      for (let i = 5; i >= 0; i--) {
+        const d = new Date(now.getTime() - i * 4 * 60 * 60 * 1000);
+        const timeStr = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        
+        const slotEnd = d.getTime();
+        const slotStart = slotEnd - 4 * 60 * 60 * 1000;
+        
+        const breathingCount = breathingSessions.filter(s => {
+          const idMs = parseInt(s.id.replace("bs-", ""));
+          return !isNaN(idMs) && idMs >= slotStart && idMs <= slotEnd;
+        }).length;
+        
+        const moodCount = moodsList.filter(m => {
+          const idMs = parseInt(m.id.replace("m-", ""));
+          return !isNaN(idMs) && idMs >= slotStart && idMs <= slotEnd;
+        }).length;
+        
+        const notesCount = publishedNotes.filter(n => {
+          try {
+            const time = new Date(n.timestamp).getTime();
+            return time >= slotStart && time <= slotEnd;
+          } catch(e) {
+            return false;
+          }
+        }).length;
 
-  // Aggregate stats based on time frame
+        result.push({
+          name: timeStr,
+          sessions: breathingCount + moodCount,
+          activeUsers: (breathingCount + moodCount) > 0 ? 1 : 0,
+          crisisInterlocks: 0,
+          keepSyncs: notesCount
+        });
+      }
+    } else {
+      const daysCount = timeFilter === "7d" ? 7 : 15;
+      for (let i = daysCount - 1; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(now.getDate() - i);
+        const dateLabel = d.toLocaleDateString([], { month: 'short', day: 'numeric' }); // e.g. "Jun 26"
+        
+        const breathingCount = breathingSessions.filter(s => s.dateLabel === dateLabel).length;
+        const moodCount = moodsList.filter(m => m.timestamp && m.timestamp.startsWith(dateLabel)).length;
+        
+        const notesCount = publishedNotes.filter(n => {
+          try {
+            const nDate = new Date(n.timestamp);
+            return nDate.toLocaleDateString([], { month: 'short', day: 'numeric' }) === dateLabel;
+          } catch(e) {
+            return false;
+          }
+        }).length;
+        
+        result.push({
+          name: dateLabel,
+          sessions: breathingCount + moodCount,
+          activeUsers: (breathingCount + moodCount) > 0 ? 1 : 0,
+          crisisInterlocks: 0,
+          keepSyncs: notesCount
+        });
+      }
+    }
+    return result;
+  }, [timeFilter, breathingSessions, moodsList, publishedNotes]);
+
+  // Aggregate stats based on real user actions
   const aggregateStats = useMemo(() => {
-    const divider = timeFilter === "30d" ? 1 : timeFilter === "7d" ? 3 : 15;
-    return {
-      activeSessions: Math.round(14820 / divider),
-      crisisChecks: Math.round(324 / divider),
-      favouriteArt: "Warli Tribal",
-      syncCount: Math.round(5250 / divider)
-    };
-  }, [timeFilter]);
+    // total user actions = completed breathing sessions + chat messages sent by user
+    const userChatCount = chatHistory.filter(m => m.sender === 'user').length;
+    const activeSessions = breathingSessions.length + userChatCount;
+    
+    // count crisis interlocks based on legal/crisis trigger matches in chat history
+    const crisisChecks = chatHistory.filter(m => 
+      m.isMedicoLegal || 
+      m.text.toLowerCase().includes("crisis") || 
+      m.text.toLowerCase().includes("suicide") || 
+      m.text.toLowerCase().includes("help") || 
+      m.text.toLowerCase().includes("police")
+    ).length;
 
+    const charMap: Record<string, string> = {
+      rooh: "Rooh (Aipan)",
+      ganesh: "Ganesh (Chittara)",
+      raag: "Raag (Pichwai)",
+      manji: "Hope (Paitkar)",
+      tara: "Tara (Kalamezhuthu)",
+      inayat: "Inayat (Manjusha)",
+      altaf: "Altaf (Rogan)",
+      veer: "Veer (Pattachitra)",
+      manjishtha: "Manjishtha (Warli)"
+    };
+    const favouriteArt = charMap[selectedCharacterId] || "None Selected";
+    const syncCount = publishedNotes.length;
+
+    return {
+      activeSessions,
+      crisisChecks,
+      favouriteArt,
+      syncCount
+    };
+  }, [chatHistory, breathingSessions, selectedCharacterId, publishedNotes]);
+
+  // Dynamic pie chart for logged mood allocations
+  const protocolsPieData = useMemo(() => {
+    if (moodsList.length === 0) {
+      return [
+        { name: "No Moods Logged Yet", value: 1, fill: "#6b7280" }
+      ];
+    }
+    
+    const counts: Record<string, number> = {};
+    moodsList.forEach(m => {
+      counts[m.mood] = (counts[m.mood] || 0) + 1;
+    });
+    
+    const colors: Record<string, string> = {
+      Calm: "#10b981",
+      Anxious: "#f59e0b",
+      Overwhelmed: "#6366f1",
+      Sad: "#ef4444",
+      Grateful: "#ec4899",
+      Peaceful: "#3b82f6",
+      Restless: "#8b5cf6",
+      Angry: "#dc2626"
+    };
+    
+    return Object.entries(counts).map(([mood, count]) => ({
+      name: mood,
+      value: count,
+      fill: colors[mood] || "#8b5cf6"
+    }));
+  }, [moodsList]);
+
+  // Dynamic bar chart of cumulative interaction counts
+  const workspaceStatsData = useMemo(() => {
+    return [
+      { service: "Chat Messages", count: chatHistory.length },
+      { service: "Mood Logs", count: moodsList.length },
+      { service: "Breathing Sessions", count: breathingSessions.length },
+      { service: "Solace Wall Posts", count: publishedNotes.length }
+    ];
+  }, [chatHistory, moodsList, breathingSessions, publishedNotes]);
+
+  // Dynamic bar chart showing active / visited folk art companions
+  const artEngagementData = useMemo(() => {
+    const artStyles = [
+      { id: "rooh", art: "Aipan", color: "#8b1414" },
+      { id: "ganesh", art: "Chittara", color: "#aa5e3c" },
+      { id: "raag", art: "Pichwai", color: "#ffd700" },
+      { id: "manji", art: "Paitkar", color: "#be2222" },
+      { id: "tara", art: "Kalamezhuthu", color: "#542518" },
+      { id: "inayat", art: "Manjusha", color: "#1290de" },
+      { id: "altaf", art: "Rogan", color: "#6366f1" },
+      { id: "veer", art: "Pattachitra", color: "#852222" },
+      { id: "manjishtha", art: "Warli", color: "#7c2d12" }
+    ];
+    
+    const recentsStr = localStorage.getItem("pfai_recent_personas") || "";
+    
+    return artStyles.map(style => {
+      const isActive = style.id === selectedCharacterId;
+      const chatCount = isActive ? chatHistory.length : 0;
+      const isRecent = recentsStr.includes(style.id);
+      
+      return {
+        art: style.art,
+        finished: chatCount,
+        coloringIn: isRecent ? 1 : 0,
+        color: style.color
+      };
+    });
+  }, [selectedCharacterId, chatHistory]);
 
   const handleRefresh = () => {
     setDataRefreshCount((c) => c + 1);
@@ -158,7 +291,7 @@ export default function PowerBIDashboard({ themeClass }: PowerBIDashboardProps) 
         <div className="flex flex-wrap items-center gap-2 z-10">
           <button
             onClick={handleRefresh}
-            className="p-2 bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-slate-705 rounded-xl cursor-pointer transition-all flex items-center gap-1 text-xs text-slate-600 dark:text-slate-300"
+            className="p-2 bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-slate-705 rounded-xl cursor-pointer transition-all flex items-center gap-1 text-xs text-slate-600 dark:text-slate-350"
             title="Refresh Data Sources"
           >
             <RefreshCw className="w-3.5 h-3.5" />
@@ -169,7 +302,7 @@ export default function PowerBIDashboard({ themeClass }: PowerBIDashboardProps) 
             onClick={() => {
               alert("Data metrics exported safely inside zero-knowledge local container. Ready for secure audit.");
             }}
-            className="p-2 bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-slate-705 rounded-xl cursor-pointer transition-all flex items-center gap-1 text-xs text-slate-600 dark:text-slate-300"
+            className="p-2 bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 hover:bg-slate-50 dark:hover:bg-slate-705 rounded-xl cursor-pointer transition-all flex items-center gap-1 text-xs text-slate-600 dark:text-slate-350"
             title="Export CSV Metadata"
           >
             <Download className="w-3.5 h-3.5" />
@@ -195,7 +328,7 @@ export default function PowerBIDashboard({ themeClass }: PowerBIDashboardProps) 
                 className={`px-3 py-1 text-[10.5px] font-bold rounded-md transition-all cursor-pointer ${
                   timeFilter === opt
                     ? "bg-indigo-650 text-white shadow-xs"
-                    : "text-slate-500 hover:text-slate-800 dark:text-slate-200"
+                    : "text-slate-500 hover:text-slate-850 dark:text-slate-200"
                 }`}
               >
                 {opt === "30d" ? "30 Days" : opt === "7d" ? "7 Days" : "24 Hours"}
@@ -207,7 +340,7 @@ export default function PowerBIDashboard({ themeClass }: PowerBIDashboardProps) 
           <select
             value={focusFilter}
             onChange={(e) => setFocusFilter(e.target.value)}
-            className="p-1 px-2.5 bg-white dark:bg-black border border-black/5 rounded-lg text-[10.5px] font-medium outline-none text-slate-700 dark:text-slate-200 cursor-pointer"
+            className="p-1 px-2.5 bg-white dark:bg-black border border-black/5 rounded-lg text-[10.5px] font-medium outline-none text-slate-700 dark:text-slate-250 cursor-pointer"
           >
             <option>All Users Focus</option>
             <option>LGBTQIA+ Peer Cohort</option>
@@ -216,7 +349,7 @@ export default function PowerBIDashboard({ themeClass }: PowerBIDashboardProps) 
           </select>
         </div>
 
-        <div className="text-[10px] font-mono text-slate-400">
+        <div className="text-[10px] font-mono text-slate-450">
           Source Connection: <strong className="text-indigo-650 dark:text-indigo-400 font-extrabold uppercase">Firestore Live Stream</strong>
         </div>
       </div>
@@ -227,7 +360,7 @@ export default function PowerBIDashboard({ themeClass }: PowerBIDashboardProps) 
         <div className={`p-4 rounded-xl border flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:shadow ${themeClass("bg-white dark:bg-black border-slate-205", "bg-black/40 border-white/10", "bg-[#fffcf8] border-[#ebdcb9]")}`}>
           <div className="flex items-start justify-between">
             <div className="space-y-1">
-              <span className="text-[9.5px] uppercase font-mono tracking-wider text-slate-400 dark:text-slate-500 block font-bold">Mindful Session Tracks</span>
+              <span className="text-[9.5px] uppercase font-mono tracking-wider text-slate-400 dark:text-slate-550 block font-bold">Mindful Session Tracks</span>
               <h2 className="text-2xl font-black font-mono tracking-tight text-slate-800 dark:text-slate-100">
                 {aggregateStats.activeSessions.toLocaleString()}
               </h2>
@@ -237,8 +370,8 @@ export default function PowerBIDashboard({ themeClass }: PowerBIDashboardProps) 
             </div>
           </div>
           <div className="flex items-center gap-1.5 mt-3 text-[10.5px] text-emerald-600 font-medium leading-none">
-            <span>▲ +12.4%</span>
-            <span className="text-slate-400 dark:text-slate-500 font-normal">vs previous period</span>
+            <span>● Dynamic Action Track</span>
+            <span className="text-slate-400 dark:text-slate-500 font-normal">Based on user interactions</span>
           </div>
         </div>
 
@@ -246,16 +379,16 @@ export default function PowerBIDashboard({ themeClass }: PowerBIDashboardProps) 
         <div className={`p-4 rounded-xl border flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:shadow ${themeClass("bg-white dark:bg-black border-slate-205", "bg-black/40 border-white/10", "bg-[#fffcf8] border-[#ebdcb9]")}`}>
           <div className="flex items-start justify-between">
             <div className="space-y-1">
-              <span className="text-[9.5px] uppercase font-mono tracking-wider text-slate-400 dark:text-slate-500 block font-bold">Clinician References</span>
-              <h2 className="text-2xl font-black font-mono tracking-tight text-slate-ff7 dark:text-slate-100">
+              <span className="text-[9.5px] uppercase font-mono tracking-wider text-slate-400 dark:text-slate-550 block font-bold">Clinician References</span>
+              <h2 className="text-2xl font-black font-mono tracking-tight text-slate-800 dark:text-slate-100">
                 {aggregateStats.crisisChecks} Interlocks
               </h2>
             </div>
-            <div className="p-2 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 rounded-lg">
+            <div className="p-2 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-450 rounded-lg">
               <ShieldAlert className="w-5 h-5" />
             </div>
           </div>
-          <div className="flex items-center gap-1.5 mt-3 text-[10.5px] text-indigo-600 font-medium leading-none">
+          <div className="flex items-center gap-1.5 mt-3 text-[10.5px] text-indigo-650 font-medium leading-none">
             <span>● Secured & Isolated</span>
             <span className="text-slate-400 dark:text-slate-500 font-normal">Zero cloud logs</span>
           </div>
@@ -265,18 +398,18 @@ export default function PowerBIDashboard({ themeClass }: PowerBIDashboardProps) 
         <div className={`p-4 rounded-xl border flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:shadow ${themeClass("bg-white dark:bg-black border-slate-205", "bg-black/40 border-white/10", "bg-[#fffcf8] border-[#ebdcb9]")}`}>
           <div className="flex items-start justify-between">
             <div className="space-y-1">
-              <span className="text-[9.5px] uppercase font-mono tracking-wider text-slate-400 dark:text-slate-500 block font-bold">Preservation Engagement</span>
-              <h2 className="text-2xl font-black font-mono tracking-tight text-slate-800 dark:text-slate-100">
+              <span className="text-[9.5px] uppercase font-mono tracking-wider text-slate-400 dark:text-slate-550 block font-bold">Preservation Engagement</span>
+              <h2 className="text-2xl font-black font-mono tracking-tight text-slate-800 dark:text-slate-100 truncate max-w-[150px]">
                 {aggregateStats.favouriteArt}
               </h2>
             </div>
-            <div className="p-2 bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 rounded-lg">
+            <div className="p-2 bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-450 rounded-lg">
               <Palette className="w-5 h-5" />
             </div>
           </div>
           <div className="flex items-center gap-1.5 mt-3 text-[10.5px] text-amber-600 font-medium leading-none">
-            <span>82% Finished</span>
-            <span className="text-slate-400 dark:text-slate-500 font-normal">across coloring panels</span>
+            <span>● Active Companion</span>
+            <span className="text-slate-400 dark:text-slate-500 font-normal">Currently in session</span>
           </div>
         </div>
 
@@ -284,18 +417,18 @@ export default function PowerBIDashboard({ themeClass }: PowerBIDashboardProps) 
         <div className={`p-4 rounded-xl border flex flex-col justify-between relative overflow-hidden transition-all duration-300 hover:shadow ${themeClass("bg-white dark:bg-black border-slate-205", "bg-black/40 border-white/10", "bg-[#fffcf8] border-[#ebdcb9]")}`}>
           <div className="flex items-start justify-between">
             <div className="space-y-1">
-              <span className="text-[9.5px] uppercase font-mono tracking-wider text-slate-400 dark:text-slate-500 block font-bold">Connected Keep Logs</span>
+              <span className="text-[9.5px] uppercase font-mono tracking-wider text-slate-400 dark:text-slate-550 block font-bold">Connected Keep Logs</span>
               <h2 className="text-2xl font-black font-mono tracking-tight text-slate-800 dark:text-slate-100">
-                {aggregateStats.syncCount.toLocaleString()} Syncs
+                {aggregateStats.syncCount.toLocaleString()} Posts
               </h2>
             </div>
-            <div className="p-2 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 rounded-lg">
+            <div className="p-2 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-450 rounded-lg">
               <FolderSync className="w-5 h-5" />
             </div>
           </div>
           <div className="flex items-center gap-1.5 mt-3 text-[10.5px] text-emerald-600 font-medium leading-none">
-            <span>▲ +22.1% MoM</span>
-            <span className="text-slate-400 dark:text-slate-500 font-normal">GSuite authentication active</span>
+            <span>● Solace Wall Sync</span>
+            <span className="text-slate-400 dark:text-slate-500 font-normal">Encrypted index active</span>
           </div>
         </div>
       </div>
@@ -310,7 +443,7 @@ export default function PowerBIDashboard({ themeClass }: PowerBIDashboardProps) 
               Temporal Recovery Trend Analytics
             </h4>
             <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
-              Daily grounding chat sessions paired with decentralized keep sync schedules.
+              Daily grounding sessions paired with published solace wall updates (sourced directly from user localStorage).
             </p>
           </div>
 
@@ -341,7 +474,7 @@ export default function PowerBIDashboard({ themeClass }: PowerBIDashboardProps) 
                   }} 
                 />
                 <Area type="monotone" name="Grounding Sessions" dataKey="sessions" stroke="#4f46e5" strokeWidth={2} fillOpacity={1} fill="url(#sessionsColor)" />
-                <Area type="monotone" name="Keep Sync Logs" dataKey="keepSyncs" stroke="#10b981" strokeWidth={2} fillOpacity={1} fill="url(#syncsColor)" />
+                <Area type="monotone" name="Wall Posts" dataKey="keepSyncs" stroke="#10b981" strokeWidth={2} fillOpacity={1} fill="url(#syncsColor)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -354,7 +487,7 @@ export default function PowerBIDashboard({ themeClass }: PowerBIDashboardProps) 
               Aura Support Protocols Share
             </h4>
             <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
-              Breakdown of user allocations within premium cognitive pathways.
+              Breakdown of logged mood types reflecting your dynamic emotional state distribution.
             </p>
           </div>
 
@@ -362,7 +495,7 @@ export default function PowerBIDashboard({ themeClass }: PowerBIDashboardProps) 
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
-                  data={PROTOCOLS_PIE_DATA}
+                  data={protocolsPieData}
                   cx="50%"
                   cy="50%"
                   innerRadius={50}
@@ -370,7 +503,7 @@ export default function PowerBIDashboard({ themeClass }: PowerBIDashboardProps) 
                   paddingAngle={3}
                   dataKey="value"
                 >
-                  {PROTOCOLS_PIE_DATA.map((entry, index) => (
+                  {protocolsPieData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.fill} />
                   ))}
                 </Pie>
@@ -387,7 +520,7 @@ export default function PowerBIDashboard({ themeClass }: PowerBIDashboardProps) 
           </div>
 
           <div className="space-y-1 text-[10px] grid grid-cols-2 gap-2 mt-2">
-            {PROTOCOLS_PIE_DATA.map((item, id) => (
+            {protocolsPieData.map((item, id) => (
               <div key={id} className="flex items-center gap-1.5 text-left text-slate-600 dark:text-slate-350 truncate">
                 <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: item.fill }} />
                 <span className="truncate">{item.name}</span>
@@ -408,19 +541,19 @@ export default function PowerBIDashboard({ themeClass }: PowerBIDashboardProps) 
               GSuite Workspace Integration Transmissions
             </h4>
             <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
-              Secure payload dispatches compiled safely using OAuth2 protocols.
+              Secure records compiled safely inside your browser sandbox container.
             </p>
           </div>
 
           <div className="h-48 w-full text-[10px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={WORKSPACE_STATS_DATA} layout="vertical" margin={{ top: 5, right: 10, left: 15, bottom: 5 }}>
+              <BarChart data={workspaceStatsData} layout="vertical" margin={{ top: 5, right: 10, left: 15, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" opacity={0.1} />
                 <XAxis type="number" stroke="#888" fontSize={9} />
                 <YAxis dataKey="service" type="category" stroke="#888" fontSize={9} width={95} />
-                <Tooltip contentStyle={{ backgroundColor: "#1c1917g" }} />
+                <Tooltip contentStyle={{ backgroundColor: "#1c1917" }} />
                 <Bar dataKey="count" fill="#4f46e5" radius={[0, 4, 4, 0]}>
-                  {WORKSPACE_STATS_DATA.map((entry, idx) => (
+                  {workspaceStatsData.map((entry, idx) => (
                     <Cell key={idx} fill={idx % 2 === 0 ? "#6366f1" : "#06b6d4"} />
                   ))}
                 </Bar>
@@ -436,19 +569,19 @@ export default function PowerBIDashboard({ themeClass }: PowerBIDashboardProps) 
               Master Folk Art Conservation Tracking
             </h4>
             <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
-              Rhythmic painting engagement and filled pigments tracked by unique digital canvas identifiers.
+              Cumulative message exchanges (finished sessions) and visit logs (draft sessions) for each cultural art style.
             </p>
           </div>
 
           <div className="h-48 w-full text-[10px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={ART_ENGAGEMENT_DATA}>
+              <BarChart data={artEngagementData}>
                 <CartesianGrid strokeDasharray="2 2" opacity={0.12} />
                 <XAxis dataKey="art" stroke="#888888" fontSize={9} />
                 <YAxis stroke="#888888" fontSize={9} />
                 <Tooltip />
                 <Legend iconSize={8} wrapperStyle={{ fontSize: "9.5px" }} />
-                <Bar name="Finished Panels" dataKey="finished" stackId="art" fill="#10b981" />
+                <Bar name="Finished Sessions" dataKey="finished" stackId="art" fill="#10b981" />
                 <Bar name="Draft coloring sessions" dataKey="coloringIn" stackId="art" fill="#f59e0b" />
               </BarChart>
             </ResponsiveContainer>
@@ -456,7 +589,6 @@ export default function PowerBIDashboard({ themeClass }: PowerBIDashboardProps) 
         </div>
 
       </div>
-
       
     </div>
   );
