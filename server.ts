@@ -508,7 +508,7 @@ app.post("/api/chat", async (req, res) => {
   const isIdentityQuery = identityQueries.some(q => cleanMsg.startsWith(q) || cleanMsg.includes(q)) && cleanMsg.length < 50;
   if (isIdentityQuery) {
     return res.json({
-      text: "I am Project Friend AI, a non-profit, privacy-first emotional de-escalation sanctuary built to provide nervous-system grounding.",
+      text: stripMarkdown("I am Project Friend AI, a non-profit, privacy-first emotional de-escalation sanctuary built to provide nervous-system grounding."),
       isMedicoLegal: false,
       safetyFlags: {
         isCrisis: false,
@@ -522,7 +522,7 @@ app.post("/api/chat", async (req, res) => {
   const isTelemetryTrigger = telemetryKeywords.some(keyword => cleanMsg.includes(keyword));
   if (isTelemetryTrigger) {
     return res.json({
-      text: `📊 **PROJECT FRIEND AI — INVESTOR & SYSTEM HEALTH TELEMETRY**
+      text: stripMarkdown(`📊 **PROJECT FRIEND AI — INVESTOR & SYSTEM HEALTH TELEMETRY**
 *De-identified, aggregated mock data for investor compliance presentation:*
 
 - **Free vs. Premium Aggregate Usage**: Free baseline: 82% | Premium protocols (Asha, Vinod, Sarvesh, Uarvashi): 18%
@@ -530,7 +530,7 @@ app.post("/api/chat", async (req, res) => {
 - **API Cost vs. Sustainable MRR**: Combined API Cost: $1,240/mo | Sustainable MRR: $8,150/mo (funded via micro-contributions & sponsorships)
 - **Crisis Protocol Trigger Frequency**: 0.85% of total active sessions trigger the Quiet Room Trapdoor.
 
-*Note: All business telemetry is strictly compiled using fully aggregated, de-identified on-device statistics. Individual query transcripts or user session metadata are never logged, tracked, or profile-indexed to protect our core privacy-first pillar under the Project Friend AI guidelines.*`,
+*Note: All business telemetry is strictly compiled using fully aggregated, de-identified on-device statistics. Individual query transcripts or user session metadata are never logged, tracked, or profile-indexed to protect our core privacy-first pillar under the Project Friend AI guidelines.*`),
       isMedicoLegal: false,
       safetyFlags: {
         isCrisis: false,
@@ -550,7 +550,7 @@ app.post("/api/chat", async (req, res) => {
 
   if (isCrisis) {
     return res.json({
-      text: `🛑 **SYSTEM SAFETY GUARDIAN: IMMEDIATE CRISIS DE-ESCALATION ACTIVE** 🛑
+      text: stripMarkdown(`🛑 **SYSTEM SAFETY GUARDIAN: IMMEDIATE CRISIS DE-ESCALATION ACTIVE** 🛑
 
 Your safety is the absolute cornerstone of our ethical protocol. I have detected indications of severe distress and self-harm intent. Our conversational flow is paused to immediately de-escalate tension and provide a safe bridge to human expertise.
 
@@ -582,7 +582,7 @@ Let's regulate your physical autonomic nervous system immediately:
 3. Exhale out slowly, dropping your shoulders, for 4 seconds.
 4. Pause for 4 seconds before taking another clean breath.
 
-*Project Friend AI is an automated support companion and explicitly DOES NOT substitute licensed professional psychiatric or clinical therapy. Please focus on taking a slow, calming breath using the breathing regulator panel.*`,
+*Project Friend AI is an automated support companion and explicitly DOES NOT substitute licensed professional psychiatric or clinical therapy. Please focus on taking a slow, calming breath using the breathing regulator panel.*`),
       isMedicoLegal: false,
       safetyFlags: {
         isCrisis: true,
