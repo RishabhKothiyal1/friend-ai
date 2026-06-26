@@ -2985,12 +2985,12 @@ export default function App() {
   const [showEncryptedView, setShowEncryptedView] = useState<boolean>(false);
   const [showSafetyModal, setShowSafetyModal] = useState<boolean>(false);
 
-  // Daylight, Midnight, and Sepia ambient lighting theme state & selector helper
-  const [themeMode, setThemeMode] = useState<"daylight" | "midnight" | "sepia">(() => {
+  // Daylight and Midnight ambient lighting theme state & selector helper
+  const [themeMode, setThemeMode] = useState<"daylight" | "midnight">(() => {
     try {
       const saved = localStorage.getItem("pfai_theme_mode");
-      if (saved === "midnight" || saved === "sepia" || saved === "daylight") {
-        return saved as "daylight" | "midnight" | "sepia";
+      if (saved === "midnight" || saved === "daylight") {
+        return saved as "daylight" | "midnight";
       }
     } catch (e) {
       console.error("Failed to load theme state:", e);
@@ -2998,7 +2998,7 @@ export default function App() {
     return "daylight";
   });
 
-  const handleSetThemeMode = (theme: "daylight" | "midnight" | "sepia") => {
+  const handleSetThemeMode = (theme: "daylight" | "midnight") => {
     setThemeMode(theme);
     try {
       localStorage.setItem("pfai_theme_mode", theme);
@@ -3008,7 +3008,7 @@ export default function App() {
   };
 
   const themeClass = (daylight: string, midnight: string, sepia: string) => {
-    return themeMode === "midnight" ? midnight : themeMode === "sepia" ? sepia : daylight;
+    return themeMode === "midnight" ? midnight : daylight;
   };
 
   // Sync Tailwind dark: variant with themeMode
@@ -3016,15 +3016,13 @@ export default function App() {
     document.documentElement.classList.remove("dark", "sepia");
     if (themeMode === "midnight") {
       document.documentElement.classList.add("dark");
-    } else if (themeMode === "sepia") {
-      document.documentElement.classList.add("sepia");
     }
   }, [themeMode]);
 
    const [safetySimText, setSafetySimText] = useState<string>("");
   const [safetySimResult, setSafetySimResult] = useState<{ status: 'PASS' | 'CRISIS_OVERRIDE' | 'MED_LIMIT', message: string } | null>(null);
   
-  const [activeCenterTab, setActiveCenterTab] = useState<'chat' | 'safety' | 'blogs' | 'publishing' | 'community' | 'investor' | 'gmail' | 'art' | 'terms' | 'privacy'>('chat');
+  const [activeCenterTab, setActiveCenterTab] = useState<'chat' | 'safety' | 'blogs' | 'publishing' | 'community' | 'investor' | 'gmail' | 'art' | 'doodle' | 'terms' | 'privacy'>('chat');
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   
   // Gmail & Firebase OAuth State management
@@ -5978,7 +5976,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           zenMode={zenMode}
           onToggleZenMode={() => setZenMode(!zenMode)}
           themeMode={themeMode}
-          onThemeChange={(t) => setThemeMode(t as any)}
+          onThemeChange={(t) => handleSetThemeMode(t as any)}
           onOpenClinicalDirectory={() => setActiveCenterTab('directory' as any)}
         />
       )}
@@ -9881,9 +9879,14 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
 
 
-          {activeCenterTab === 'art' && (
-            <div className={`flex-1 p-5 overflow-y-auto space-y-6 font-sans rounded-b-2xl h-[700px] xl:h-[750px] transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-black/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
-              <IndianPaintingsMoodBoard />
+          {activeCenterTab === 'doodle' && (
+            <div className={`flex-1 overflow-hidden font-sans rounded-b-2xl h-[700px] xl:h-[750px] transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-black/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
+              <iframe 
+                src="https://do-doodle.netlify.app/" 
+                className="w-full h-full border-0 rounded-b-2xl" 
+                title="Do Doodle"
+                allow="camera; microphone; clipboard-write"
+              />
             </div>
           )}
           {false && activeCenterTab === 'gmail' && (

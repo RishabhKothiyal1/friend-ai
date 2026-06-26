@@ -55,7 +55,7 @@ export function Sidebar({
 
   const toolsItems = [
     { id: 'blogs', label: 'Curated Blogs', icon: FileText },
-    { id: 'art', label: 'Art Gallery', icon: Palette },
+    { id: 'doodle', label: 'Do Doodle', icon: Palette },
     { id: 'investor', label: 'Power BI Analytics', icon: Briefcase },
     { id: 'community', label: 'Community Center', icon: Users },
   ];
@@ -161,12 +161,6 @@ export function Sidebar({
             className={`flex-1 p-1.5 rounded flex justify-center ${themeMode === 'midnight' ? 'bg-[#0a0a0a] text-white shadow' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
           >
             <Moon className="w-4 h-4" />
-          </button>
-          <button
-            onClick={() => onThemeChange("sepia")}
-            className={`flex-1 p-1.5 rounded flex justify-center ${themeMode === 'sepia' ? 'bg-amber-900 text-amber-100 shadow' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
-          >
-            <Coffee className="w-4 h-4" />
           </button>
         </div>
         ) : (
