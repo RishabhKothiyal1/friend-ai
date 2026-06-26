@@ -2964,9 +2964,7 @@ export default function App() {
       }
     })();
     const targetChar = CHARACTERS.find(c => c.id === initialCharId) || CHARACTERS[0];
-    const initialWelcome = initialCharId === "inayat" 
-      ? `I have initialized specialized support. I am now speaking as Inayat.`
-      : `I have initialized specialized support. I am now speaking as ${targetChar.name}, your ${targetChar.title} specializing in *${targetChar.specialization}*.` + (targetChar.tagline ? `\n\n"${targetChar.tagline}"` : "") + (targetChar.groundingMantra ? `\n\n*Grounding reminder: ${targetChar.groundingMantra}*` : "");
+    const initialWelcome = `I have initialized specialized support. I am now speaking as ${targetChar.name}.`;
 
     return [
       {
@@ -4891,7 +4889,7 @@ Summary:`;
       };
       reply = characterPrompts[char.id] || `I am listening closely. Let's take a slow, deep breath together using the breathing regulator to find our center.`;
     }
-    return `✨ ${char.name} (${char.title})\n${reply}`;
+    return `✨ ${char.name}\n${reply}`;
   };
 
   // Send human message to API
@@ -5151,17 +5149,7 @@ Point out that you have unlocked an interactive localized Lawyers Directory belo
     registerInteraction();
     const target = CHARACTERS.find(c => c.id === charId)!;
     let welcomeText = "";
-    if (charId === "inayat") {
-      welcomeText = `I have initialized specialized support. I am now speaking as Inayat.`;
-    } else {
-      welcomeText = `I have initialized specialized support. I am now speaking as ${target.name}, your ${target.title} specializing in *${target.specialization}*.`;
-      if (target.tagline) {
-        welcomeText += `\n\n"${target.tagline}"`;
-      }
-      if (target.groundingMantra) {
-        welcomeText += `\n\n*Grounding reminder: ${target.groundingMantra}*`;
-      }
-    }
+    welcomeText = `I have initialized specialized support. I am now speaking as ${target.name}.`;
 
     setChatHistory([
       {
@@ -7975,9 +7963,6 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">
                             {highlightText(char.name, personaSearchQuery)}
                           </h4>
-                          <span className="text-[10px] text-indigo-600 font-mono font-bold truncate shrink-0">
-                            {highlightText(char.title, personaSearchQuery)}
-                          </span>
                         </div>
                         <p className="text-[11px] text-slate-550 truncate mt-0.5">
                           {highlightText(char.specialization, personaSearchQuery)}
@@ -11912,9 +11897,6 @@ I am speaking to you now as ${CHARACTERS.find(c => c.id === pendingCharId)?.name
                           <span className="font-bold text-xs text-white leading-normal group-hover:text-indigo-300 transition-colors">
                             {char.name}
                           </span>
-                          <span className="text-[10px] text-slate-400 font-medium px-2 py-0.5 rounded-full bg-black border border-white/10">
-                            {char.title}
-                          </span>
                           {isActive && (
                             <span className="text-[9px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded-full font-bold">
                               Active Guide
@@ -12151,7 +12133,7 @@ I am speaking to you now as ${CHARACTERS.find(c => c.id === pendingCharId)?.name
                           </span>
                         )}
                       </div>
-                      <p className="text-xs text-slate-700 dark:text-slate-300 font-semibold truncate mt-0.5">{char.title}</p>
+
                       <p className="text-[11px] text-slate-500 italic truncate mt-0.5">"{char.tagline}"</p>
                     </div>
                   </button>
