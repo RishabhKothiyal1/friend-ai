@@ -67,7 +67,6 @@ import { calmingMusic } from "./lib/calmingMusic";
 import { mozartPiano } from "./lib/mozartPiano";
 import { horrorMusic } from "./lib/horrorMusic";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Cell, LabelList } from "recharts";
-import { jsPDF } from "jspdf";
 import {
   initAuth as initGmailAuth,
   googleSignIn as signInGmail,
@@ -79,7 +78,7 @@ import {
   type GmailMessage
 } from "./gmailService";
 
-import PowerBIDashboard from "./components/PowerBIDashboard";
+const PowerBIDashboard = React.lazy(() => import("./components/PowerBIDashboard"));
 import CardNav from "./components/CardNav";
 import { WhiteboardDrawingTool } from "./components/WhiteboardDrawingTool";
 
@@ -5269,7 +5268,7 @@ Point out that you have unlocked an interactive localized Lawyers Directory belo
     }
   };
 
-  const handleExportMoodPDF = () => {
+  const handleExportMoodPDF = async () => {
     registerInteraction();
     if (!moodsList || moodsList.length === 0) {
       alert("No mood history available to generate a PDF summary.");
@@ -5407,6 +5406,7 @@ Point out that you have unlocked an interactive localized Lawyers Directory belo
       const chartImgData = canvas.toDataURL("image/png");
 
       // 2. Setup landscape A4 (or standard portrait A4) document container
+      const { jsPDF } = await import("jspdf");
       const doc = new jsPDF({
         orientation: "portrait",
         unit: "mm",
@@ -9875,14 +9875,21 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
           {activeCenterTab === 'investor' && (
             <div className={`flex-1 p-5 overflow-y-auto space-y-6 font-sans rounded-b-2xl h-[700px] xl:h-[750px] transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-black/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
-              <PowerBIDashboard 
-                themeClass={themeClass} 
-                chatHistory={chatHistory}
-                moodsList={moodsList}
-                breathingSessions={breathingSessions}
-                publishedNotes={publishedNotes}
-                selectedCharacterId={selectedCharacterId}
-              />
+              <React.Suspense fallback={
+                <div className="flex flex-col items-center justify-center p-12 space-y-3">
+                  <div className="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+                  <p className="text-xs font-mono text-slate-500 animate-pulse">Loading Interactive Analytics Panel...</p>
+                </div>
+              }>
+                <PowerBIDashboard 
+                  themeClass={themeClass} 
+                  chatHistory={chatHistory}
+                  moodsList={moodsList}
+                  breathingSessions={breathingSessions}
+                  publishedNotes={publishedNotes}
+                  selectedCharacterId={selectedCharacterId}
+                />
+              </React.Suspense>
             </div>
           )}
 

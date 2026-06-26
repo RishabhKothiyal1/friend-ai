@@ -6,7 +6,69 @@
     <title>Friend AI</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <style>
+        body {
+          margin: 0;
+          background-color: #030303;
+          color: #ffffff;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 100vh;
+          overflow: hidden;
+        }
+        .splash-container {
+          text-align: center;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 24px;
+          animation: fadeIn 0.8s ease-out;
+        }
+        .kintsugi-spinner {
+          width: 50px;
+          height: 50px;
+          border: 3.5px solid rgba(255, 255, 255, 0.04);
+          border-top: 3.5px solid #6366f1; /* Indigo */
+          border-right: 3.5px solid #d97706; /* Gold */
+          border-radius: 50%;
+          animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+          box-shadow: 0 0 30px rgba(99, 102, 241, 0.18);
+        }
+        .logo-text {
+          font-size: 21px;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          background: linear-gradient(135deg, #a5b4fc 0%, #fcd34d 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          margin: 0;
+          font-family: "Georgia", serif;
+        }
+        .tagline {
+          font-size: 10.5px;
+          color: #556275;
+          font-family: monospace;
+          letter-spacing: 0.12em;
+          margin-top: -6px;
+        }
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(12px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+      </style>
+      <div class="splash-container">
+        <div class="kintsugi-spinner"></div>
+        <h1 class="logo-text">PROJECT FRIEND AI</h1>
+        <p class="tagline">INITIALIZING SECURE EMBODIMENT SANCTUARY</p>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
