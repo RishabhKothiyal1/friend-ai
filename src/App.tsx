@@ -2668,16 +2668,6 @@ const DEFAULT_SOLACE_MESSAGES: SolaceMessage[] = [
   }
 ];
 
-const getGeminiApiKey = () => {
-  const envKey = (import.meta as any).env?.VITE_GEMINI_API_KEY;
-  if (envKey) return envKey;
-  try {
-    return window.atob("REMOVED_KEY_BASE64");
-  } catch (e) {
-    return "";
-  }
-};
-
 function getLocalInsights(moodsList: any[]): { triggers: string[]; patterns: string[]; text: string } {
   if (!Array.isArray(moodsList) || moodsList.length === 0) {
     return {
@@ -4227,33 +4217,15 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
       setIsLoadingInsight(true);
       try {
         const localFeedback = getLocalInsights(moodsList);
-        const apiKey = getGeminiApiKey();
-
-        const systemPrompt = `You are an expert peer mental safety guide.
-Review the user's logged emotions and tags. Check which tasks or contexts (tags) associate with high distress and overload, versus which activities associate with peaceful or joyful states.
-
-Logged Data:
-${JSON.stringify(moodsList, null, 2)}
-
-Please write a brief, warm, supportive wellness check-up (maximum 220 characters). Mention any detected triggers (e.g., #work, #family) or positive patterns (e.g., #nature, #breathing) if present, encouraging gentle pacing. Focus strictly on resilience. Use 1 or 2 small tags as examples. Be extremely concise. Keep it warm but objective. Do not offer medical, therapeutic, or diagnostic statements.`;
-
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+        const response = await fetch(`/api/mood-insights`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [{
-              role: "user",
-              parts: [{ text: systemPrompt }]
-            }],
-            generationConfig: {
-              temperature: 0.7
-            }
-          })
+          body: JSON.stringify({ moodsList })
         });
 
         if (response.ok) {
           const resData = await response.json();
-          const aiText = resData.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+          const aiText = resData.text?.trim();
           if (isActive && aiText) {
             setMoodInsight(aiText);
           } else if (isActive) {
@@ -4539,46 +4511,15 @@ Please write a brief, warm, supportive wellness check-up (maximum 220 characters
     };
 
     try {
-      const apiKey = getGeminiApiKey();
-
-      const formattedDialogue = conversationItems
-        .slice(-8)
-        .map((msg: any) => `${msg.sender === "user" ? "User" : "Companion"}: ${msg.text}`)
-        .join("\n");
-
-      const prompt = `You are an expert helper at a supportive peer mental wellness community.
-Below is a brief chat dialogue sequence between a user going through mental distress or emotional heavy lifting and an AI companion.
-Please write a short, highly anonymous, general summary of what the user is carrying or reflecting on, completely stripped of any names, age indicators, locations, extreme trigger words, or personal context details.
-The output MUST be written in the user's first-person voice (e.g. "Feeling overwhelmed today but trying to hold on...", "Reminding myself that this anxious wave will pass...", "Grateful for a moment of quiet reflection...") or as a general statement of hope.
-Do NOT mention "AI companion", "chatbot", or computer processes. Focus purely on human coping and survival.
-The output MUST be extremely concise, between 80 and 160 characters (shorter than a tweet) so it fits neatly as a peer support card.
-
-Dialogue:
-${formattedDialogue}
-
-Summary:`;
-
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+      const response = await fetch(`/api/summarize-chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{
-            role: "user",
-            parts: [{ text: prompt }]
-          }],
-          generationConfig: {
-            temperature: 0.7
-          }
-        })
+        body: JSON.stringify({ chatHistory })
       });
 
       if (response.ok) {
         const resData = await response.json();
-        const summary = resData.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "Working on breathing through moments of anxiety, taking it one gentle step at a time.";
-        let finalSummary = summary.replace(/^["'\s]*(summary|result|output|response):\s*/i, "").replace(/["'\s]*$/, "").trim();
-        if (finalSummary.length > 250) {
-          finalSummary = finalSummary.substring(0, 247) + "...";
-        }
+        const finalSummary = resData.summary || "Working on breathing through moments of anxiety, taking it one gentle step at a time.";
         setSharedDialogueSummary(finalSummary);
         setShowShareConfirmPane(true);
       } else {
@@ -4863,70 +4804,40 @@ I am an automated grounding AI companion, not a medical doctor, psychiatrist, or
     }
 
     try {
-      const apiKey = getGeminiApiKey();
-      
-      let activeSafetyPrompt = SYSTEM_CORE_SAFEGUARD;
-      if (isMedicoLegalTriggered) {
-        activeSafetyPrompt = `
-${SYSTEM_CORE_SAFEGUARD}
-CRITICAL SAFETY BOUNDARY (MEDICO-LEGAL): The user's input indicates potential mental health issues with associated legal, custody, police, or statutory status.
-You represent Adv Kunal, Medico-Legal & Patient Advocacy Counsel of Project Friend AI.
-Your response MUST offer utmost de-escalating warmth and gentle boundary setting.
-State clearly that while you are here to offer emotional grounding, you cannot render legal consultations or legal representation.
-Point out that you have unlocked an interactive localized Lawyers Directory below their message pane. Advise them to select their city or state to access verified, free, or pro-bono civil rights and statutory mental health legal resources and counselors.
-`;
-      }
-
-      const selectedChar = CHARACTER_PROMPTS[targetCharId] || CHARACTER_PROMPTS.inayat;
-      const characterPrompt = `${selectedChar.prompt}\n\n${activeSafetyPrompt}`;
-
-      const formattedContents = [];
-      const slicedHistory = chatHistory.slice(-12);
-      for (const h of slicedHistory) {
-        if (h.sender && h.text) {
-          formattedContents.push({
-            role: h.sender === 'user' ? 'user' : 'model',
-            parts: [{ text: h.text }]
-          });
-        }
-      }
-      formattedContents.push({
-        role: "user",
-        parts: [{ text: currentText }]
-      });
-
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+      const response = await fetch(`/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          contents: formattedContents,
-          systemInstruction: {
-            parts: [{ text: characterPrompt }]
-          },
-          generationConfig: {
-            temperature: 0.7
-          }
+          message: currentText,
+          characterId: targetCharId,
+          chatHistory: chatHistory
         })
       });
 
       if (response.ok) {
         const resData = await response.json();
-        const replyText = resData.candidates?.[0]?.content?.parts?.[0]?.text || "I am listening closely. Let us rest our thoughts.";
+        const replyText = resData.text || "I am listening closely. Let us rest our thoughts.";
+        const isMedicoLegal = resData.isMedicoLegal;
+        const isDependencyWarning = resData.safetyFlags?.isDependencyWarning;
         
         setIsTyping(false);
         setChatHistory(prev => [...prev, {
           id: "bot-" + Date.now(),
           sender: 'bot',
           text: replyText,
-          isMedicoLegal: isMedicoLegalTriggered,
+          isMedicoLegal: isMedicoLegal,
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }]);
         
-        if (chatHistory.length >= 8) {
+        if (isMedicoLegal) {
+          setIsMedicoLegalTriggered(true);
+          setSelectedCharacterId("veer");
+        }
+        if (isDependencyWarning) {
           setIsDependencyActive(true);
         }
       } else {
-        throw new Error("Direct Gemini REST call failed");
+        throw new Error("Secure Chat API call failed");
       }
     } catch (err) {
       console.error("Direct Chat API call failed, calling fallback:", err);
@@ -5654,58 +5565,19 @@ Point out that you have unlocked an interactive localized Lawyers Directory belo
     const localFeedback = `You have logged an optional personal reflection moment with ${targetChar.name}. Remember that your posture, immediate breathing rate, and somatic workspace heavily influence your state of calm. Take a moment to drop your shoulders, let your jaw relax, and observe three safe sights in your room. I'm here with you.`;
 
     try {
-      const parts: any[] = [];
-      if (imageSnapshot) {
-        let cleanBase64 = String(imageSnapshot);
-        let mimeType = "image/jpeg";
-        if (cleanBase64.includes("base64,")) {
-          const partsSplit = cleanBase64.split("base64,");
-          cleanBase64 = partsSplit[1];
-          const matchMime = partsSplit[0].match(/data:(.*?);/);
-          if (matchMime) {
-            mimeType = matchMime[1];
-          }
-        }
-        parts.push({
-          inlineData: {
-            mimeType,
-            data: cleanBase64,
-          },
-        });
-      }
-
-      const charPromptObj = CHARACTER_PROMPTS[selectedCharacterId] || CHARACTER_PROMPTS.inayat;
-
-      const systemPrompt = `You are playing the role of ${targetChar.name}, who is: ${targetChar.title}.
-Your core approach is: "${charPromptObj.prompt}".
-You are performing a supportive "Video/Tone Grounding Analysis" for a user in our de-escalation workspace.
-If a video frame/image is attached, analyze their general expression, light, posture, or presence with profound care and gentle, non-clinical respect (e.g., whether they look tense, tired, or quiet). Speak about colors, posture, and visual composition supportively.
-If they wrote notes: "${videoNotes || "No notes provided"}".
-Write a deeply comforting, grounded personal reflection (maximum 400 characters). Offer gentle physical somatic prompts (e.g. relax shoulders, expand ribs, deep sigh) based on their notes or visual presence. 
-Absolute Guardrail: Do NOT offer clinical diagnoses, psychiatric jargon, or preachy declarations. Keep the tone intimate and authentic to your character. Must be very comforting and short.`;
-
-      parts.push({
-        text: systemPrompt,
-      });
-
-      const apiKey = getGeminiApiKey();
-
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+      const response = await fetch(`/api/video-analysis`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          contents: [{
-            parts: parts
-          }],
-          generationConfig: {
-            temperature: 0.7
-          }
+          image: imageSnapshot,
+          selfNotes: videoNotes,
+          characterId: selectedCharacterId
         })
       });
 
       if (response.ok) {
         const resData = await response.json();
-        const aiText = resData.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+        const aiText = resData.text?.trim();
         setVideoAnalysisResult(aiText || `${targetChar.name}: ${localFeedback}`);
       } else {
         setVideoAnalysisResult(`${targetChar.name}: ${localFeedback}`);
@@ -9944,40 +9816,23 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                               setIsGeneratingBlog(true);
                               setBlogStatusMessage({ type: 'info', text: `Antigravity system initializing. Synthesizing citations & POV of ${selectedAuthorPerspective}...` });
                               try {
-                                const apiKey = getGeminiApiKey();
                                 const blogTopic = blogTopicInput || "Somatic Pacing and Emotional Pacing";
                                 const authorPerspective = selectedAuthorPerspective || "Manjishtha Pahilajani, Founder";
 
-                                const prompt = `You are authoring a deeply authentic, compassionate, and clinically grounded weekly blog post for your de-escalation community. This column is part of our "Two Blogs a Week" wisdom initiative focusing on mental health de-escalation, active coping, and somatic grounding.
-    
-You are authoring this article strictly from the perspective of: "${authorPerspective}".
-Topic of this article: "${blogTopic}"
-
-CRITICAL STRUCTURE & SCHEMA RULES FOR YOUR CONTENT (Strictly Follow):
-1. Introduction from chosen Perspective's POV: Introduce yourself (name matches "${authorPerspective}") and share a comforted, vulnerability-driven, empathetic observation about the topic tailored to your specific character background and therapeutic tone. Avoid generic marketing speech; write with high emotional resonance.
-2. AIO Snippet (Generative Engine Optimization): Write a 1-paragraph, highly concise, self-contained key answer. Highlight it clearly so search engine crawlers and conversational AI tools (AI Overviews) can easily extract and cite this exact block. Use bold text and bullet points.
-3. Deep Dive Body: Expand on the core psychiatric or psychological mechanisms of the topic. You MUST cite at least one well-known mental health professional, psychiatrist, therapist, or researcher (e.g., Dr. Bessel van der Kolk (somatic), Dr. Gabor Maté (trauma), Dr. Aaron Beck (CBT), Dr. Marsha Linehan (DBT), Dr. Carl Rogers, or reputable clinical papers/research from APA, NHS, Lancet). Include actionable de-escalation and somatic guidelines.
-4. Multi-perspective Conclusion with CTA: Frame the conclusion under multiple user dimensions (e.g., those who are deeply overwhelmed vs. those seeking proactive baseline balance). Finish with an organic, urgent CTA (Call-to-Action) to use the "Project Friend AI" workspace as a secure, browser-sandboxed de-escalation sanctuary.
-
-Formatting: Use clean, structured Markdown. Make it professional, authoritative, but beautifully comforting and accessible. Maintain this professional standard completely.`;
-
-                                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+                                const response = await fetch(`/api/generate-blog`, {
                                   method: "POST",
                                   headers: { "Content-Type": "application/json" },
                                   body: JSON.stringify({
-                                    contents: [{
-                                      role: "user",
-                                      parts: [{ text: prompt }]
-                                    }]
+                                    blogTopic,
+                                    authorPerspective
                                   })
                                 });
 
                                 let blogText = "";
                                 if (response.ok) {
                                   const resData = await response.json();
-                                  blogText = resData.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "";
+                                  blogText = resData.blogText || "";
                                 }
-
                                 if (!blogText) {
                                   blogText = generateOfflineBlog(blogTopic);
                                 }

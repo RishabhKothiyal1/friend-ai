@@ -34,3 +34,9 @@
   from = "/api/solace-messages/:id/hug"
   to = ".netlify/functions/solace-messages-hug"
   status = 200
+
+[[redirects]]
+  from = "/api/generate-blog"
+  to = ".netlify/functions/generate-blog"
+  status = 200
+
