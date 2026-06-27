@@ -1,6 +1,39 @@
 [build]
-  publish = "dist"
   command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
 
-[build.environment]
-  VITE_API_URL = "https://friend-ai-production.up.railway.app"
+[[redirects]]
+  from = "/api/chat"
+  to = "/.netlify/functions/chat"
+  status = 200
+
+[[redirects]]
+  from = "/api/summarize-chat"
+  to = "/.netlify/functions/summarize-chat"
+  status = 200
+
+[[redirects]]
+  from = "/api/mood-insights"
+  to = "/.netlify/functions/mood-insights"
+  status = 200
+
+[[redirects]]
+  from = "/api/video-analysis"
+  to = "/.netlify/functions/video-analysis"
+  status = 200
+
+[[redirects]]
+  from = "/api/solace-messages"
+  to = "/.netlify/functions/solace-messages"
+  status = 200
+
+[[redirects]]
+  from = "/api/solace-messages/*"
+  to = "/.netlify/functions/solace-messages-hug"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

@@ -167,15 +167,15 @@ export default function PowerBIDashboard({
     ).length;
 
     const charMap: Record<string, string> = {
-      rooh: "Rooh (Aipan)",
-      ganesh: "Ganesh (Chittara)",
-      raag: "Raag (Pichwai)",
-      manji: "Hope (Paitkar)",
-      tara: "Tara (Kalamezhuthu)",
-      inayat: "Inayat (Manjusha)",
-      altaf: "Altaf (Rogan)",
-      veer: "Veer (Pattachitra)",
-      manjishtha: "Manjishtha (Warli)"
+      rooh: "Rooh",
+      ganesh: "Ganesh",
+      raag: "Raag",
+      manji: "Hope",
+      tara: "Tara",
+      inayat: "Inayat",
+      altaf: "Altaf",
+      veer: "Veer",
+      manjishtha: "Manjishtha"
     };
     const favouriteArt = charMap[selectedCharacterId] || "None Selected";
     const syncCount = publishedNotes.length;
