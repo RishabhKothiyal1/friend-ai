@@ -2682,7 +2682,7 @@ const getGeminiApiKey = () => {
   const envKey = (import.meta as any).env?.VITE_GEMINI_API_KEY;
   if (envKey) return envKey;
   try {
-    return window.atob("QVEuQWI4Uk42SjgtNGZxOWwxYzFDQ0g4UUxwSmQ4WGdpVnIya2JCX0NCUHdFRjBTZTV6Mmc=");
+    return window.atob("REMOVED_KEY_BASE64");
   } catch (e) {
     return "";
   }

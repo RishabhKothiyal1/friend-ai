@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 🌟 Mental Wellness AI Companion
 
 A compassionate, empathetic AI friend built with Python and Claude API that provides supportive conversations focused on mental health and wellbeing.
@@ -261,6 +260,3 @@ For questions about:
 ---
 
 **Remember: You matter. Take care of yourself. 💙**
-=======
-# friend-ai
->>>>>>> 3e55801e59f911683c1ffe3afe5d9411d3732627
