@@ -36,8 +36,3 @@
   from = "/api/solace-messages/*"
   to = "/.netlify/functions/solace-messages-hug"
   status = 200
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
