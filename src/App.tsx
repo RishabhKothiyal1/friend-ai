@@ -2350,20 +2350,25 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
 // Custom Hook for Session Persistence
 // ============================================
 function useSessionSync(selectedCharacterId: string, chatHistory: ChatMessage[]) {
+  const prevCharIdRef = useRef(selectedCharacterId);
+
   useEffect(() => {
     try {
       localStorage.setItem("pfai_selected_character_id", selectedCharacterId);
     } catch (e) {
       console.error("Failed to sync selectedCharacterId to localStorage:", e);
     }
+    prevCharIdRef.current = selectedCharacterId;
   }, [selectedCharacterId]);
 
   useEffect(() => {
-    try {
-      localStorage.setItem("pfai_chat_history_" + selectedCharacterId, JSON.stringify(chatHistory));
-      localStorage.setItem("pfai_chat_history", JSON.stringify(chatHistory));
-    } catch (e) {
-      console.error("Failed to sync chatHistory to localStorage:", e);
+    if (selectedCharacterId === prevCharIdRef.current) {
+      try {
+        localStorage.setItem("pfai_chat_history_" + selectedCharacterId, JSON.stringify(chatHistory));
+        localStorage.setItem("pfai_chat_history", JSON.stringify(chatHistory));
+      } catch (e) {
+        console.error("Failed to sync chatHistory to localStorage:", e);
+      }
     }
   }, [chatHistory, selectedCharacterId]);
 }
