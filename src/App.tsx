@@ -7925,49 +7925,92 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     )
                   )}
 
-                  <div className={`flex items-center gap-2 p-2.5 rounded-xl border transition-all shadow-sm ${isDarkCharacter(activeChar.id, themeMode) ? 'bg-black border-white/10' : 'bg-white border-slate-200'} ${getCharacterAccentBorder(activeChar.id)}`}>
-                    <input
-                      type="text"
-                      value={messageText}
-                      onChange={(e) => setMessageText(e.target.value)}
-                      placeholder={isListening ? "Listening... speak now..." : `Say what's on your mind... (${activeChar.name} is listening)`}
-                      className={`bg-transparent border-none outline-none text-xs flex-1 font-sans px-2.5 ${isDarkCharacter(activeChar.id, themeMode) ? 'text-slate-200 placeholder-slate-500' : 'text-slate-800 placeholder-slate-400'}`}
-                    />
-                    
-                    {/* Voice Dictation (Web Speech API) Trigger */}
+                  <div className="flex items-center gap-3 w-full">
+                    {/* Left circular plus button */}
                     <button
                       type="button"
-                      onClick={toggleListening}
-                      className={`p-2.5 rounded-lg transition-all cursor-pointer flex items-center justify-center relative shrink-0 ${
-                        isListening 
-                          ? "bg-rose-600 hover:bg-rose-500 text-white scale-105" 
-                          : "bg-slate-100 dark:bg-[#0a0a0a] hover:bg-slate-200 text-slate-500 hover:text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-white/10"
-                      }`}
-                      title={isListening ? "Voice matching active. Press to pause dictation." : "Physically exhausted? Dictate your thoughts here."}
+                      onClick={() => {
+                        const fileInput = document.getElementById('chat-file-attachment');
+                        if (fileInput) {
+                          (fileInput as HTMLInputElement).click();
+                        }
+                      }}
+                      className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.08] dark:hover:bg-white/[0.15] text-slate-500 dark:text-slate-400 border border-slate-200/50 dark:border-white/5 shadow-sm active:scale-95 cursor-pointer"
+                      title="Attach media or reflection snapshot"
                     >
-                      {isListening ? (
-                        <>
-                          <Mic className="w-4 h-4 animate-bounce text-white" />
-                          <span className="absolute -top-1 -right-1 flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
-                          </span>
-                        </>
-                      ) : (
-                        <Mic className="w-4 h-4" />
-                      )}
+                      <Plus className="w-5 h-5 text-slate-500 dark:text-slate-350 stroke-[1.8]" />
                     </button>
 
-                    <button 
-                      type="submit"
-                      disabled={!messageText.trim()}
-                      className={`p-2.5 disabled:opacity-40 rounded-lg cursor-pointer transition-all ${getCharacterSubmitBg(activeChar.id)}`}
-                      title="Send Safe Message"
-                    >
-                      <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-                      </svg>
-                    </button>
+                    {/* Hidden file input */}
+                    <input
+                      type="file"
+                      id="chat-file-attachment"
+                      className="hidden"
+                      accept="image/*"
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files[0]) {
+                          alert("Image attached! You can analyze this image's posture & tone in the 'Video/Tone Grounding Analysis' tab.");
+                        }
+                      }}
+                    />
+
+                    {/* Main Text Input Pill */}
+                    <div className={`flex-1 flex items-center gap-2 px-4 py-1.5 rounded-full border transition-all duration-300 shadow-sm ${
+                      isDarkCharacter(activeChar.id, themeMode) 
+                        ? 'bg-[#121212]/95 border-white/[0.08]' 
+                        : 'bg-slate-905 bg-[#121212] border-slate-800'
+                    } ${getCharacterAccentBorder(activeChar.id)}`}>
+                      <input
+                        type="text"
+                        value={messageText}
+                        onChange={(e) => setMessageText(e.target.value)}
+                        placeholder={isListening ? "Listening... speak now..." : "Message..."}
+                        className="bg-transparent border-none outline-none text-xs flex-1 font-sans px-1 py-2 text-white placeholder-slate-500 focus:ring-0"
+                      />
+
+                      {/* Voice Dictation (Microphone Icon) */}
+                      <button
+                        type="button"
+                        onClick={toggleListening}
+                        className={`p-2 rounded-full transition-all duration-300 shrink-0 flex items-center justify-center cursor-pointer ${
+                          isListening 
+                            ? "bg-rose-600/20 text-rose-400 scale-105" 
+                            : "hover:bg-white/5 text-slate-500 hover:text-slate-350"
+                        }`}
+                        title={isListening ? "Voice matching active. Press to pause dictation." : "Physically exhausted? Dictate your thoughts."}
+                      >
+                        <Mic className={`w-[17px] h-[17px] ${isListening ? 'animate-pulse' : ''}`} />
+                      </button>
+
+                      {/* Far-Right circle button: Waveform or Send */}
+                      <button
+                        type={messageText.trim() ? "submit" : "button"}
+                        onClick={() => {
+                          if (!messageText.trim()) {
+                            toggleListening();
+                          }
+                        }}
+                        className={`w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 transition-all duration-300 active:scale-95 cursor-pointer ${
+                          messageText.trim() 
+                            ? getCharacterSubmitBg(activeChar.id) 
+                            : "bg-white/[0.06] hover:bg-white/[0.12] text-slate-400"
+                        }`}
+                        title={messageText.trim() ? "Send Safe Message" : "Voice dictation action"}
+                      >
+                        {messageText.trim() ? (
+                          <svg className="w-3.5 h-3.5 text-white transform rotate-45 -translate-x-[1px] translate-y-[0.5px]" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                          </svg>
+                        ) : (
+                          <svg className="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round">
+                            <line x1="6" y1="10" x2="6" y2="14" />
+                            <line x1="10" y1="6" x2="10" y2="18" />
+                            <line x1="14" y1="8" x2="14" y2="16" />
+                            <line x1="18" y1="10" x2="18" y2="14" />
+                          </svg>
+                        )}
+                      </button>
+                    </div>
                   </div>
 
 
