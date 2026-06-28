@@ -3142,54 +3142,50 @@ export default function App() {
    const [safetySimText, setSafetySimText] = useState<string>("");
   const [safetySimResult, setSafetySimResult] = useState<{ status: 'PASS' | 'CRISIS_OVERRIDE' | 'MED_LIMIT', message: string } | null>(null);
   
+  const VALID_TABS = ['chat', 'safety', 'blogs', 'publishing', 'community', 'investor', 'terms', 'privacy', 'analytics', 'journal', 'wellness', 'settings', 'directory'] as const;
+
   const [activeCenterTab, setActiveCenterTab] = useState<'chat' | 'safety' | 'blogs' | 'publishing' | 'community' | 'investor' | 'terms' | 'privacy' | 'analytics' | 'journal' | 'wellness' | 'settings' | 'directory'>(() => {
     try {
-      const hash = window.location.hash;
-      if (hash.startsWith("#/")) {
-        const tab = hash.slice(2);
-        const validTabs = ['chat', 'safety', 'blogs', 'publishing', 'community', 'investor', 'terms', 'privacy', 'analytics', 'journal', 'wellness', 'settings', 'directory'];
-        if (validTabs.includes(tab)) {
-          return tab as any;
-        }
+      const path = window.location.pathname;
+      const tab = path.replace(/^\//, ''); // strip leading slash
+      if ((VALID_TABS as readonly string[]).includes(tab)) {
+        return tab as any;
       }
     } catch (e) {
-      console.error("Failed to parse activeCenterTab from URL hash:", e);
+      console.error("Failed to parse activeCenterTab from URL path:", e);
     }
     return 'chat';
   });
 
-  // Keep activeCenterTab and window.location.hash in sync
+  // Listen to browser back/forward navigation
   useEffect(() => {
-    const handleHashChange = () => {
+    const handlePopState = () => {
       try {
-        const hash = window.location.hash;
-        if (hash.startsWith("#/")) {
-          const tab = hash.slice(2);
-          const validTabs = ['chat', 'safety', 'blogs', 'publishing', 'community', 'investor', 'terms', 'privacy', 'analytics', 'journal', 'wellness', 'settings', 'directory'];
-          if (validTabs.includes(tab)) {
-            setActiveCenterTab(tab as any);
-          }
+        const path = window.location.pathname;
+        const tab = path.replace(/^\//, '');
+        if ((VALID_TABS as readonly string[]).includes(tab)) {
+          setActiveCenterTab(tab as any);
         } else {
           setActiveCenterTab('chat');
         }
       } catch (e) {
-        console.error("Failed to handle URL hash change:", e);
+        console.error("Failed to handle popstate:", e);
       }
     };
 
-    window.addEventListener("hashchange", handleHashChange);
-    return () => window.removeEventListener("hashchange", handleHashChange);
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
+  // Push clean URL when tab changes
   useEffect(() => {
     try {
-      const currentHash = window.location.hash;
-      const targetHash = `#/${activeCenterTab}`;
-      if (currentHash !== targetHash) {
-        window.location.hash = targetHash;
+      const currentPath = window.location.pathname.replace(/^\//, '');
+      if (currentPath !== activeCenterTab) {
+        window.history.pushState(null, '', `/${activeCenterTab}`);
       }
     } catch (e) {
-      console.error("Failed to update URL hash for active tab:", e);
+      console.error("Failed to update URL path for active tab:", e);
     }
   }, [activeCenterTab]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
