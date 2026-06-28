@@ -11610,18 +11610,6 @@ I am speaking to you now as ${CHARACTERS.find(c => c.id === pendingCharId)?.name
                               {char.specialization}
                             </p>
                             
-                            <div className="max-h-0 opacity-0 group-hover:max-h-36 group-hover:opacity-100 transition-all duration-500 ease-in-out overflow-hidden mt-0 group-hover:mt-2.5 bg-white/[0.02]/40 border border-transparent group-hover:border-indigo-550/30 group-hover:p-3 rounded-xl shadow-inner">
-                              <div className="flex items-center gap-1.5 mb-1 text-[9px] text-indigo-300 font-mono tracking-wider font-semibold uppercase">
-                                <Sparkles className="w-3 h-3 text-indigo-400 shrink-0" />
-                                <span>GROUNDING MANTRA PREVIEW</span>
-                              </div>
-                              <p className="text-[11.5px] text-indigo-100 italic leading-relaxed pl-2 border-l-2 border-indigo-400">
-                                “{char.groundingMantra}”
-                              </p>
-                              <p className="text-[9.5px] text-slate-400 mt-2 block leading-normal">
-                                Focus: {char.tagline}
-                              </p>
-                            </div>
                           </div>
 
                           <div className="shrink-0 self-center">
