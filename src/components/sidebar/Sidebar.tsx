@@ -15,7 +15,9 @@ import {
   Sun,
   Brain,
   PanelLeftClose,
-  PanelLeftOpen
+  PanelLeftOpen,
+  Plus,
+  Search
 } from "lucide-react";
 
 interface SidebarProps {
