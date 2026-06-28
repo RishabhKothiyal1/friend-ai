@@ -3212,6 +3212,7 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
 
   // Quick Persona selector modal state
   const [isCharQuickModalOpen, setIsCharQuickModalOpen] = useState<boolean>(false);
+  const [searchModalTab, setSearchModalTab] = useState<'personas' | 'history'>('personas');
   const [isAboutGuideOpen, setIsAboutGuideOpen] = useState<boolean>(false);
   const [isHeaderMenuOpen, setIsHeaderMenuOpen] = useState<boolean>(false);
   const [isBlogsDropdownOpen, setIsBlogsDropdownOpen] = useState<boolean>(false);
@@ -4282,8 +4283,9 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
     setActiveCenterTab('chat' as any);
     setIsSidebarOpen(true);
     setIsCharQuickModalOpen(true);
+    setSearchModalTab('history');
     setTimeout(() => {
-      const searchInput = document.querySelector('input[placeholder*="Search specializations"]') as HTMLInputElement;
+      const searchInput = document.querySelector('input[placeholder*="Search previous conversations"]') as HTMLInputElement;
       if (searchInput) {
         searchInput.focus();
       }
@@ -11339,144 +11341,257 @@ I am speaking to you now as ${CHARACTERS.find(c => c.id === pendingCharId)?.name
             className="w-full max-w-lg bg-[#0e1118] border border-white/10 rounded-2xl shadow-2xl dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] p-5 md:p-6 space-y-4 max-h-[85vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Modal Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-white/10">
-              <div className="space-y-1">
-                <h3 className="text-base font-bold text-white flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-indigo-505"></span>
-                  Quick Persona Switcher
-                </h3>
-                <p className="text-xs text-slate-400">
-                  Switch the active non-clinical de-escalation guide instantly.
-                </p>
-              </div>
+               {/* Modal Tabs */}
+            <div className="flex border-b border-white/10 gap-2">
               <button
-                onClick={() => setIsCharQuickModalOpen(false)}
-                className="p-1 px-2.5 bg-[#0a0a0a] hover:bg-slate-700 text-slate-300 text-xs rounded-lg transition-all"
-                title="Close"
+                type="button"
+                onClick={() => {
+                  setSearchModalTab('personas');
+                  setPersonaSearchQuery("");
+                }}
+                className={`flex-1 pb-2.5 text-xs font-bold transition-all border-b-2 text-center cursor-pointer ${
+                  searchModalTab === 'personas'
+                    ? 'border-indigo-500 text-white'
+                    : 'border-transparent text-slate-400 hover:text-slate-200'
+                }`}
               >
-                ✕
+                Companions & Specializations
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setSearchModalTab('history');
+                  setPersonaSearchQuery("");
+                }}
+                className={`flex-1 pb-2.5 text-xs font-bold transition-all border-b-2 text-center cursor-pointer ${
+                  searchModalTab === 'history'
+                    ? 'border-indigo-500 text-white'
+                    : 'border-transparent text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                Previous Conversations ({chatSessions.length})
               </button>
             </div>
 
-            {/* Persona Search Field */}
-            <div className="relative">
-              <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                <Search className="w-4 h-4 text-slate-500" />
-              </span>
-              <input
-                type="text"
-                placeholder="Search specializations (e.g., CBT, DBT, Mindfulness, S.O.S...)"
-                value={personaSearchQuery}
-                onChange={(e) => setPersonaSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-9 py-2.5 bg-black border border-white/10 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 dark:focus:border-indigo-500 transition-all font-sans"
-              />
-              {personaSearchQuery && (
-                <button
-                  onClick={() => setPersonaSearchQuery("")}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
-                  title="Clear search"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              )}
-            </div>
-
-            {/* Personas Grid */}
-            <div className="grid grid-cols-1 gap-2.5">
-              {(() => {
-                const filtered = CHARACTERS.filter((char) => {
-                  const query = personaSearchQuery.toLowerCase().trim();
-                  if (!query) return true;
-                  return char.specialization.toLowerCase().includes(query) || 
-                         char.name.toLowerCase().includes(query) || 
-                         char.title.toLowerCase().includes(query);
-                });
-                
-                if (filtered.length === 0) {
-                  return (
-                    <div className="p-8 text-center text-slate-400 border border-dashed border-slate-850 rounded-xl space-y-1 bg-slate-950/20">
-                      <p className="text-xs font-semibold text-slate-300">No matching guides found</p>
-                      <p className="text-[10px] text-slate-500 font-mono">Try searching for other mental health support specializations.</p>
-                    </div>
-                  );
-                }
-                
-                return filtered.map((char) => {
-                  const isActive = char.id === selectedCharacterId;
-                  return (
+            {searchModalTab === 'personas' ? (
+              <div className="space-y-4">
+                {/* Persona Search Field */}
+                <div className="relative">
+                  <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                    <Search className="w-4 h-4 text-slate-500" />
+                  </span>
+                  <input
+                    type="text"
+                    placeholder="Search specializations (e.g., CBT, DBT, Mindfulness, S.O.S...)"
+                    value={personaSearchQuery}
+                    onChange={(e) => setPersonaSearchQuery(e.target.value)}
+                    className="w-full pl-10 pr-9 py-2.5 bg-black border border-white/10 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 dark:focus:border-indigo-500 transition-all font-sans"
+                  />
+                  {personaSearchQuery && (
                     <button
-                      key={char.id}
-                      onClick={() => {
-                        handleCharacterChange(char.id);
-                        setIsCharQuickModalOpen(false);
-                      }}
-                      className={`w-full text-left p-3.5 rounded-xl border transition-all duration-200 cursor-pointer flex items-start gap-3 relative overflow-hidden group ${
-                        isActive 
-                          ? "bg-indigo-500/10 border-indigo-500 shadow-md shadow-indigo-950/40" 
-                          : "bg-black/40 border-white/10/80 hover:bg-[#0a0a0a]/55 hover:border-white/10"
-                      }`}
+                      onClick={() => setPersonaSearchQuery("")}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
+                      title="Clear search"
                     >
-                      {/* Active highlight background glow */}
-                      {isActive && (
-                        <span className="absolute inset-y-0 left-0 w-1 bg-indigo-500"></span>
-                      )}
-
-                      {/* Avatar Badge */}
-                      <div className={`w-9 h-9 rounded-xl ${char.avatarColor} flex items-center justify-center shrink-0 self-center`}>
-                        {(() => {
-                          const IconComponent = CHARACTER_ICONS[char.id] || Sparkles;
-                          return <IconComponent className="w-4.5 h-4.5" />;
-                        })()}
-                      </div>
-
-                      {/* Meta info */}
-                      <div className="space-y-1 min-w-0 flex-1">
-                        <div className="flex items-center gap-1.5 flex-wrap">
-                          <span className="font-bold text-xs text-white leading-normal group-hover:text-indigo-300 transition-colors">
-                            {char.name}
-                          </span>
-                          {isActive && (
-                            <span className="text-[9px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded-full font-bold">
-                              Active Guide
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-[11px] text-slate-400 leading-snug truncate group-hover:text-indigo-200 transition-colors">
-                          {char.specialization}
-                        </p>
-                        
-                        {/* Grounding Mantra Preview Card (Reveals gracefully on hover) */}
-                        <div className="max-h-0 opacity-0 group-hover:max-h-36 group-hover:opacity-100 transition-all duration-500 ease-in-out overflow-hidden mt-0 group-hover:mt-2.5 bg-white/[0.02]/40 border border-transparent group-hover:border-indigo-550/30 group-hover:p-3 rounded-xl shadow-inner">
-                          <div className="flex items-center gap-1.5 mb-1 text-[9px] text-indigo-300 font-mono tracking-wider font-semibold uppercase">
-                            <Sparkles className="w-3 h-3 text-indigo-400 shrink-0" />
-                            <span>GROUNDING MANTRA PREVIEW</span>
-                          </div>
-                          <p className="text-[11.5px] text-indigo-100 italic leading-relaxed pl-2 border-l-2 border-indigo-400">
-                            “{char.groundingMantra}”
-                          </p>
-                          <p className="text-[9.5px] text-slate-400 mt-2 block leading-normal">
-                            Focus: {char.tagline}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Indicator circle */}
-                      <div className="shrink-0 self-center">
-                        <span className={`text-sm ${isActive ? "text-indigo-400" : "text-slate-600 dark:text-slate-400 group-hover:text-slate-400"} transition-colors`}>
-                          {isActive ? "●" : "○"}
-                        </span>
-                      </div>
+                      <X className="w-4 h-4" />
                     </button>
-                  );
-                });
-              })()}
-            </div>
+                  )}
+                </div>
 
-            {/* Quick guide switch disclaimer */}
-            <div className="bg-black/60 border border-slate-850 p-3 rounded-lg text-[10px] leading-relaxed text-slate-500 font-mono">
-              Note: Changing personas keeps your message history intact, updating only the system prompts, safety guidelines, and focus de-escalation responses.
-            </div>
+                {/* Personas Grid */}
+                <div className="grid grid-cols-1 gap-2.5 max-h-[45vh] overflow-y-auto pr-1">
+                  {(() => {
+                    const filtered = CHARACTERS.filter((char) => {
+                      const query = personaSearchQuery.toLowerCase().trim();
+                      if (!query) return true;
+                      return char.specialization.toLowerCase().includes(query) || 
+                             char.name.toLowerCase().includes(query) || 
+                             char.title.toLowerCase().includes(query);
+                    });
+                    
+                    if (filtered.length === 0) {
+                      return (
+                        <div className="p-8 text-center text-slate-400 border border-dashed border-slate-850 rounded-xl space-y-1 bg-slate-950/20">
+                          <p className="text-xs font-semibold text-slate-300">No matching guides found</p>
+                          <p className="text-[10px] text-slate-500 font-mono">Try searching for other mental health support specializations.</p>
+                        </div>
+                      );
+                    }
+                    
+                    return filtered.map((char) => {
+                      const isActive = char.id === selectedCharacterId;
+                      return (
+                        <button
+                          key={char.id}
+                          onClick={() => {
+                            handleCharacterChange(char.id);
+                            setIsCharQuickModalOpen(false);
+                          }}
+                          className={`w-full text-left p-3.5 rounded-xl border transition-all duration-200 cursor-pointer flex items-start gap-3 relative overflow-hidden group ${
+                            isActive 
+                              ? "bg-indigo-500/10 border-indigo-500 shadow-md shadow-indigo-950/40" 
+                              : "bg-black/40 border-white/10/80 hover:bg-[#0a0a0a]/55 hover:border-white/10"
+                          }`}
+                        >
+                          {isActive && (
+                            <span className="absolute inset-y-0 left-0 w-1 bg-indigo-500"></span>
+                          )}
+
+                          <div className={`w-9 h-9 rounded-xl ${char.avatarColor} flex items-center justify-center shrink-0 self-center`}>
+                            {(() => {
+                              const IconComponent = CHARACTER_ICONS[char.id] || Sparkles;
+                              return <IconComponent className="w-4.5 h-4.5" />;
+                            })()}
+                          </div>
+
+                          <div className="space-y-1 min-w-0 flex-1">
+                            <div className="flex items-center gap-1.5 flex-wrap">
+                              <span className="font-bold text-xs text-white leading-normal group-hover:text-indigo-300 transition-colors">
+                                {char.name}
+                              </span>
+                              {isActive && (
+                                <span className="text-[9px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-1.5 py-0.5 rounded-full font-bold">
+                                  Active Guide
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-[11px] text-slate-400 leading-snug truncate group-hover:text-indigo-200 transition-colors">
+                              {char.specialization}
+                            </p>
+                            
+                            <div className="max-h-0 opacity-0 group-hover:max-h-36 group-hover:opacity-100 transition-all duration-500 ease-in-out overflow-hidden mt-0 group-hover:mt-2.5 bg-white/[0.02]/40 border border-transparent group-hover:border-indigo-550/30 group-hover:p-3 rounded-xl shadow-inner">
+                              <div className="flex items-center gap-1.5 mb-1 text-[9px] text-indigo-300 font-mono tracking-wider font-semibold uppercase">
+                                <Sparkles className="w-3 h-3 text-indigo-400 shrink-0" />
+                                <span>GROUNDING MANTRA PREVIEW</span>
+                              </div>
+                              <p className="text-[11.5px] text-indigo-100 italic leading-relaxed pl-2 border-l-2 border-indigo-400">
+                                “{char.groundingMantra}”
+                              </p>
+                              <p className="text-[9.5px] text-slate-400 mt-2 block leading-normal">
+                                Focus: {char.tagline}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="shrink-0 self-center">
+                            <span className={`text-sm ${isActive ? "text-indigo-400" : "text-slate-600 dark:text-slate-400 group-hover:text-slate-400"} transition-colors`}>
+                              {isActive ? "●" : "○"}
+                            </span>
+                          </div>
+                        </button>
+                      );
+                    });
+                  })()}
+                </div>
+
+                {/* Quick guide switch disclaimer */}
+                <div className="bg-black/60 border border-white/5 p-3 rounded-xl text-[10px] leading-relaxed text-slate-500 font-mono">
+                  Note: Changing companions updates the specialized support context, system de-escalation guidelines, and focus prompts.
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {/* Search History Input */}
+                <div className="relative">
+                  <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                    <Search className="w-4 h-4 text-slate-500" />
+                  </span>
+                  <input
+                    type="text"
+                    placeholder="Search previous conversations..."
+                    value={personaSearchQuery}
+                    onChange={(e) => setPersonaSearchQuery(e.target.value)}
+                    className="w-full pl-10 pr-9 py-2.5 bg-black border border-white/10 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 dark:focus:border-indigo-500 transition-all font-sans"
+                  />
+                  {personaSearchQuery && (
+                    <button
+                      onClick={() => setPersonaSearchQuery("")}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
+                      title="Clear search"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+
+                {/* History Grid */}
+                <div className="grid grid-cols-1 gap-2.5 max-h-[45vh] overflow-y-auto pr-1">
+                  {(() => {
+                    const query = personaSearchQuery.toLowerCase().trim();
+                    const filtered = chatSessions.filter(session => {
+                      if (!query) return true;
+                      const matchesTitle = session.title.toLowerCase().includes(query);
+                      const matchesMessages = session.messages && session.messages.some((msg: any) => msg.text.toLowerCase().includes(query));
+                      return matchesTitle || matchesMessages;
+                    });
+
+                    if (filtered.length === 0) {
+                      return (
+                        <div className="p-8 text-center text-slate-400 border border-dashed border-slate-850 rounded-xl space-y-1 bg-slate-950/20">
+                          <p className="text-xs font-semibold text-slate-300">No matching conversations found</p>
+                          <p className="text-[10px] text-slate-500 font-mono">Try searching for different keywords or starting a new session first.</p>
+                        </div>
+                      );
+                    }
+
+                    return filtered.map((session) => {
+                      const char = CHARACTERS.find(c => c.id === session.characterId) || CHARACTERS[0];
+                      const IconComponent = CHARACTER_ICONS[char.id] || Sparkles;
+
+                      return (
+                        <div
+                          key={session.id}
+                          className="w-full flex items-center justify-between p-3.5 rounded-xl border border-white/10 bg-black/40 hover:bg-[#0a0a0a]/55 hover:border-white/15 transition-all duration-200"
+                        >
+                          <button
+                            onClick={() => {
+                              handleSelectSession(session.id);
+                              setIsCharQuickModalOpen(false);
+                            }}
+                            className="flex-1 text-left flex items-start gap-3 cursor-pointer min-w-0"
+                          >
+                            {/* Avatar Badge */}
+                            <div className={`w-9 h-9 rounded-xl ${char.avatarColor} flex items-center justify-center shrink-0 self-center`}>
+                              <IconComponent className="w-4.5 h-4.5" />
+                            </div>
+
+                            {/* Session Info */}
+                            <div className="space-y-1 min-w-0 flex-1">
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <span className="font-bold text-xs text-white truncate">
+                                  {session.title}
+                                </span>
+                                <span className="text-[9px] font-mono bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-1.5 py-0.5 rounded-full">
+                                  {char.name}
+                                </span>
+                              </div>
+                              <p className="text-[10px] text-slate-450 leading-snug truncate">
+                                {session.messages[session.messages.length - 1]?.text || ""}
+                              </p>
+                              <span className="block text-[9px] text-slate-500 font-mono">
+                                {session.timestamp}
+                              </span>
+                            </div>
+                          </button>
+
+                          {/* Delete Session Button */}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteSession(session.id);
+                            }}
+                            className="p-2 text-slate-500 hover:text-red-400 rounded-lg hover:bg-white/[0.02] transition-colors shrink-0 cursor-pointer ml-2"
+                            title="Delete this conversation"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      );
+                    });
+                  })()}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
