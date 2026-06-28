@@ -2993,6 +2993,94 @@ export default function App() {
     return [];
   });
 
+  const [activeSessionId, setActiveSessionId] = useState<string | null>(() => {
+    try {
+      const savedCharId = (() => {
+        try {
+          const saved = localStorage.getItem("pfai_selected_character_id");
+          return saved && CHARACTERS.some((c) => c.id === saved) ? saved : "inayat";
+        } catch (e) {
+          return "inayat";
+        }
+      })();
+      return localStorage.getItem("pfai_active_session_id_" + savedCharId);
+    } catch (e) {
+      return null;
+    }
+  });
+
+  // Keep activeSessionId in sync with localStorage
+  useEffect(() => {
+    try {
+      if (activeSessionId) {
+        localStorage.setItem("pfai_active_session_id_" + selectedCharacterId, activeSessionId);
+      } else {
+        localStorage.removeItem("pfai_active_session_id_" + selectedCharacterId);
+      }
+    } catch (e) {
+      console.error("Failed to sync activeSessionId:", e);
+    }
+  }, [activeSessionId, selectedCharacterId]);
+
+  const syncPrevCharIdRef = useRef(selectedCharacterId);
+  useEffect(() => {
+    syncPrevCharIdRef.current = selectedCharacterId;
+  }, [selectedCharacterId]);
+
+  // Synchronize active chat history to chatSessions list in real-time
+  useEffect(() => {
+    if (selectedCharacterId !== syncPrevCharIdRef.current) return;
+
+    const hasUserMessages = chatHistory.some(m => m.sender === 'user');
+    if (!hasUserMessages) return;
+
+    setChatSessions(prev => {
+      const existingIndex = activeSessionId ? prev.findIndex(s => s.id === activeSessionId) : -1;
+      
+      const firstUserMessage = chatHistory.find(m => m.sender === 'user')?.text || "";
+      const sessionTitle = firstUserMessage 
+        ? (firstUserMessage.length > 25 ? firstUserMessage.slice(0, 25) + "..." : firstUserMessage)
+        : "Conversation";
+
+      const updatedHistory = [...chatHistory];
+
+      if (existingIndex > -1) {
+        // Update existing session
+        const updated = [...prev];
+        updated[existingIndex] = {
+          ...updated[existingIndex],
+          title: sessionTitle,
+          messages: updatedHistory,
+          timestamp: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
+        try {
+          localStorage.setItem("pfai_chat_sessions", JSON.stringify(updated));
+        } catch (e) {
+          console.error("Failed to save chatSessions:", e);
+        }
+        return updated;
+      } else {
+        // Create new session
+        const newSessionId = "session-" + Date.now();
+        const newSession: ChatSession = {
+          id: newSessionId,
+          characterId: selectedCharacterId,
+          title: sessionTitle,
+          messages: updatedHistory,
+          timestamp: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
+        const updated = [newSession, ...prev];
+        try {
+          localStorage.setItem("pfai_chat_sessions", JSON.stringify(updated));
+        } catch (e) {
+          console.error("Failed to save chatSessions:", e);
+        }
+        setTimeout(() => setActiveSessionId(newSessionId), 0);
+        return updated;
+      }
+    });
+  }, [chatHistory, selectedCharacterId, activeSessionId]);
+
   // Call session persistence hook
   useSessionSync(selectedCharacterId, chatHistory);
   const [isTyping, setIsTyping] = useState<boolean>(false);
@@ -4202,31 +4290,11 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
   const handleNewChat = () => {
     const activeChar = CHARACTERS.find(c => c.id === selectedCharacterId) || CHARACTERS[0];
     
-    // Archive current chat history if it contains actual user interaction
-    const hasUserMessages = chatHistory.some(m => m.sender === 'user');
-    if (hasUserMessages) {
-      const firstUserMessage = chatHistory.find(m => m.sender === 'user')?.text || "";
-      const sessionTitle = firstUserMessage 
-        ? (firstUserMessage.length > 25 ? firstUserMessage.slice(0, 25) + "..." : firstUserMessage)
-        : "Conversation with " + activeChar.name;
-      
-      const newSession: ChatSession = {
-        id: "session-" + Date.now(),
-        characterId: selectedCharacterId,
-        title: sessionTitle,
-        messages: [...chatHistory],
-        timestamp: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      };
-      
-      setChatSessions(prev => {
-        const updated = [newSession, ...prev];
-        try {
-          localStorage.setItem("pfai_chat_sessions", JSON.stringify(updated));
-        } catch (e) {
-          console.error("Failed to save chatSessions to localStorage:", e);
-        }
-        return updated;
-      });
+    setActiveSessionId(null);
+    try {
+      localStorage.removeItem("pfai_active_session_id_" + selectedCharacterId);
+    } catch (e) {
+      console.error("Failed to clear active session ID:", e);
     }
 
     const freshWelcome = `I have initialized specialized support. I am now speaking as ${activeChar.name}. How can I support you right now?`;
@@ -4261,6 +4329,7 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
 
       setChatHistory(session.messages);
       setSelectedCharacterId(session.characterId);
+      setActiveSessionId(session.id);
       setIsCrisisActive(false);
       setIsDependencyActive(false);
       setActiveCenterTab('chat' as any);
@@ -4277,6 +4346,30 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
       }
       return updated;
     });
+
+    if (sessionId === activeSessionId) {
+      const activeChar = CHARACTERS.find(c => c.id === selectedCharacterId) || CHARACTERS[0];
+      setActiveSessionId(null);
+      try {
+        localStorage.removeItem("pfai_active_session_id_" + selectedCharacterId);
+      } catch (e) {
+        console.error("Failed to clear active session ID:", e);
+      }
+      const freshWelcome = `I have initialized specialized support. I am now speaking as ${activeChar.name}. How can I support you right now?`;
+      const newWelcomeMsg = {
+        id: "init-" + Date.now(),
+        sender: "bot" as const,
+        text: freshWelcome,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+      setChatHistory([newWelcomeMsg]);
+      try {
+        localStorage.setItem("pfai_chat_history_" + selectedCharacterId, JSON.stringify([newWelcomeMsg]));
+        localStorage.setItem("pfai_chat_history", JSON.stringify([newWelcomeMsg]));
+      } catch (e) {
+        console.error("Failed to save reset chat history:", e);
+      }
+    }
   };
 
   const handleSearchClick = () => {
@@ -5007,11 +5100,13 @@ I am an automated grounding AI companion, not a medical doctor, psychiatrist, or
     // Try to load the new character's history
     try {
       const savedHistory = localStorage.getItem("pfai_chat_history_" + charId);
+      const savedSessionId = localStorage.getItem("pfai_active_session_id_" + charId);
       if (savedHistory) {
         const parsed = JSON.parse(savedHistory);
         if (Array.isArray(parsed) && parsed.length > 0) {
           setChatHistory(parsed);
           setSelectedCharacterId(charId);
+          setActiveSessionId(savedSessionId);
           return;
         }
       }
@@ -5021,6 +5116,13 @@ I am an automated grounding AI companion, not a medical doctor, psychiatrist, or
 
     const target = CHARACTERS.find(c => c.id === charId)!;
     let welcomeText = `I have initialized specialized support. I am now speaking as ${target.name}.`;
+
+    setActiveSessionId(null);
+    try {
+      localStorage.removeItem("pfai_active_session_id_" + charId);
+    } catch (e) {
+      console.error("Failed to clear active session ID:", e);
+    }
 
     setChatHistory([
       {
