@@ -531,64 +531,7 @@ export default function PowerBIDashboard({
 
       </div>
 
-      {/* Second Charts Row: Art Forms & Google Workspace Sync breakdown */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 text-left">
-        
-        {/* Google Workspace API bar chart (5 columns) */}
-        <div className={`lg:col-span-5 p-5 rounded-2xl border flex flex-col justify-between ${themeClass("bg-white dark:bg-black border-slate-200 dark:border-white/10 shadow-xs", "bg-black/30 border-white/10", "bg-[#fffcf6] border-[#ebdcb9]")}`}>
-          <div className="border-b pb-3 mb-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 font-serif">
-              GSuite Workspace Integration Transmissions
-            </h4>
-            <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
-              Secure records compiled safely inside your browser sandbox container.
-            </p>
-          </div>
 
-          <div className="h-48 w-full text-[10px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={workspaceStatsData} layout="vertical" margin={{ top: 5, right: 10, left: 15, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" opacity={0.1} />
-                <XAxis type="number" stroke="#888" fontSize={9} />
-                <YAxis dataKey="service" type="category" stroke="#888" fontSize={9} width={95} />
-                <Tooltip contentStyle={{ backgroundColor: "#1c1917" }} />
-                <Bar dataKey="count" fill="#4f46e5" radius={[0, 4, 4, 0]}>
-                  {workspaceStatsData.map((entry, idx) => (
-                    <Cell key={idx} fill={idx % 2 === 0 ? "#6366f1" : "#06b6d4"} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        {/* Vedic Indian Arts Preservation engagement chart (7 columns) */}
-        <div className={`lg:col-span-7 p-5 rounded-2xl border flex flex-col justify-between ${themeClass("bg-white dark:bg-black border-slate-200 dark:border-white/10 shadow-xs", "bg-black/30 border-white/10", "bg-[#fffcf6] border-[#ebdcb9]")}`}>
-          <div className="border-b pb-3 mb-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 font-serif">
-              Master Folk Art Conservation Tracking
-            </h4>
-            <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">
-              Cumulative message exchanges (finished sessions) and visit logs (draft sessions) for each cultural art style.
-            </p>
-          </div>
-
-          <div className="h-48 w-full text-[10px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={artEngagementData}>
-                <CartesianGrid strokeDasharray="2 2" opacity={0.12} />
-                <XAxis dataKey="art" stroke="#888888" fontSize={9} />
-                <YAxis stroke="#888888" fontSize={9} />
-                <Tooltip />
-                <Legend iconSize={8} wrapperStyle={{ fontSize: "9.5px" }} />
-                <Bar name="Finished Sessions" dataKey="finished" stackId="art" fill="#10b981" />
-                <Bar name="Draft coloring sessions" dataKey="coloringIn" stackId="art" fill="#f59e0b" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-      </div>
       
     </div>
   );
