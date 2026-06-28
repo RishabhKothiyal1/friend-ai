@@ -37,9 +37,9 @@ const Hero1 = ({ onGetStarted }: Hero1Props) => {
           
           <div className="flex flex-col items-center gap-6 mb-4">
             <img 
-              src="/friend_ai_mascot.jpg" 
+              src="/friend_ai_mascot.png" 
               alt="friend ai logo" 
-              className="w-32 h-32 md:w-40 md:h-40 shrink-0 rounded-full border-2 border-white/20 object-cover shadow-2xl drop-shadow-2xl" 
+              className="w-32 h-32 md:w-40 md:h-40 shrink-0 object-contain drop-shadow-2xl" 
             />
             <h1 className="text-6xl md:text-8xl font-black leading-none tracking-tighter text-white drop-shadow-sm">
               <DiaTextReveal
