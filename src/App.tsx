@@ -3367,6 +3367,7 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
 
   const [personaSearchQuery, setPersonaSearchQuery] = useState<string>("");
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
+  const [chatSearchQuery, setChatSearchQuery] = useState<string>("");
 
   // Recent search queries history
   const [recentSearchQueries, setRecentSearchQueries] = useState<string[]>(() => {
@@ -4174,11 +4175,17 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
   };
 
   const handleSearchClick = () => {
+    setActiveCenterTab('chat' as any);
     setIsSidebarOpen(true);
     setTimeout(() => {
-      const searchInput = document.querySelector('input[placeholder*="Search specializations"]') as HTMLInputElement;
-      if (searchInput) {
-        searchInput.focus();
+      const chatSearchInput = document.querySelector('input[placeholder*="Search chat history"]') as HTMLInputElement;
+      if (chatSearchInput) {
+        chatSearchInput.focus();
+      } else {
+        const searchInput = document.querySelector('input[placeholder*="Search specializations"]') as HTMLInputElement;
+        if (searchInput) {
+          searchInput.focus();
+        }
       }
     }, 150);
   };
@@ -7705,10 +7712,38 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           {activeCenterTab === 'chat' && (
             <>
               {/* Quick Grounder Banner */}
-              <div className={`border-b px-6 py-2.5 text-xs italic flex items-center justify-between gap-4 ${isDarkCharacter(activeChar.id, themeMode) ? 'bg-indigo-900/40 border-indigo-500/30 text-indigo-200' : 'bg-indigo-50/40 border-indigo-200/40 text-indigo-800'}`}>
-                <div className="flex items-center gap-2 min-w-0">
-                  <span className="bg-indigo-50 dark:bg-white/[0.02] text-indigo-600 border border-indigo-150 dark:border-white/10 text-[9px] uppercase px-1.5 py-0.5 rounded font-mono font-bold shrink-0">Active mantra</span>
+              <div className={`border-b px-6 py-2 flex items-center justify-between gap-4 ${isDarkCharacter(activeChar.id, themeMode) ? 'bg-indigo-900/40 border-indigo-500/30 text-indigo-200' : 'bg-indigo-50/40 border-indigo-200/40 text-indigo-800'}`}>
+                <div className="flex items-center gap-2 min-w-0 italic">
+                  <span className="bg-indigo-50 dark:bg-white/[0.02] text-indigo-600 border border-indigo-150 dark:border-white/10 text-[9px] uppercase px-1.5 py-0.5 rounded font-mono font-bold shrink-0 not-italic">Active mantra</span>
                   <span className="truncate">"{activeChar.groundingMantra}"</span>
+                </div>
+                
+                {/* Chat History Search Input */}
+                <div className="relative max-w-xs w-full sm:w-64 font-sans not-italic shrink-0">
+                  <input
+                    type="text"
+                    value={chatSearchQuery}
+                    onChange={(e) => setChatSearchQuery(e.target.value)}
+                    placeholder="Search chat history..."
+                    className={`w-full pl-8 pr-8 py-1.5 text-[11px] rounded-lg border focus:outline-none focus:ring-1 transition-all ${
+                      isDarkCharacter(activeChar.id, themeMode)
+                        ? 'bg-black/35 border-white/10 text-white placeholder-slate-400 focus:ring-indigo-500 focus:border-indigo-500'
+                        : 'bg-white/80 border-slate-200 text-slate-800 placeholder-slate-450 focus:ring-indigo-500 focus:border-indigo-500'
+                    }`}
+                  />
+                  <span className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
+                    <Search className="w-3.5 h-3.5 text-slate-400" />
+                  </span>
+                  {chatSearchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setChatSearchQuery("")}
+                      className="absolute inset-y-0 right-0 pr-2.5 flex items-center text-slate-400 hover:text-slate-200 cursor-pointer"
+                      title="Clear search"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -7780,43 +7815,66 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     </div>
                   </div>
                 )}
-                 {chatHistory.map((msg) => {
-                  const isUser = msg.sender === 'user';
-                  return (
-                    <div key={msg.id} className={`flex gap-3.5 ${isUser ? "justify-end" : "justify-start"} animate-fade-in-up`}>
-                      
-                      {!isUser && (
-                        <div className={`w-8 h-8 rounded-lg ${activeChar.avatarColor} border flex-shrink-0 flex items-center justify-center`}>
-                          {(() => {
-                            const IconComponent = CHARACTER_ICONS[activeChar.id] || Sparkles;
-                            return <IconComponent className="w-4 h-4" />;
-                          })()}
-                        </div>
-                      )}
+                 {(() => {
+                   const filteredHistory = chatHistory.filter((msg) => {
+                     const query = chatSearchQuery.toLowerCase().trim();
+                     if (!query) return true;
+                     return msg.text.toLowerCase().includes(query);
+                   });
+                   
+                   if (filteredHistory.length === 0 && chatHistory.length > 0) {
+                     return (
+                       <div className="p-8 text-center text-slate-400 border border-dashed border-slate-200 dark:border-white/10 rounded-xl space-y-1 bg-white/5 dark:bg-white/[0.01]">
+                         <p className="text-xs font-semibold text-slate-700 dark:text-slate-350">No matching messages found</p>
+                         <button
+                           type="button"
+                           onClick={() => setChatSearchQuery("")}
+                           className="text-[10px] text-indigo-650 font-mono font-bold hover:underline cursor-pointer"
+                         >
+                           Clear Search Filter
+                         </button>
+                       </div>
+                     );
+                   }
+                   
+                   return filteredHistory.map((msg) => {
+                     const isUser = msg.sender === 'user';
+                     return (
+                       <div key={msg.id} className={`flex gap-3.5 ${isUser ? "justify-end" : "justify-start"} animate-fade-in-up`}>
+                         
+                         {!isUser && (
+                           <div className={`w-8 h-8 rounded-lg ${activeChar.avatarColor} border flex-shrink-0 flex items-center justify-center`}>
+                             {(() => {
+                               const IconComponent = CHARACTER_ICONS[activeChar.id] || Sparkles;
+                               return <IconComponent className="w-4 h-4" />;
+                             })()}
+                           </div>
+                         )}
 
-                      <div className="max-w-[85%] flex flex-col">
-                        <div 
-                          className={`p-3.5 rounded-2xl text-xs leading-relaxed whitespace-pre-wrap ${
-                            getCharacterBubbleStyle(activeChar.id, isUser)
-                          }`}
-                        >
-                          {showEncryptedView 
-                            ? generateCiphertext(msg.text) 
-                            : msg.text.replace(/\*\*/g, '')
-                          }
-                        </div>
-                        
-                        {msg.isMedicoLegal && (
-                           <MedicoLegalLawyersDirectory initialLocation={userLocation} />
-                        )}
-                        
-                        <span className={`text-[10px] text-slate-500 mt-1 px-1 font-mono ${isUser ? "text-right" : "text-left"}`}>
-                          {msg.timestamp} {showEncryptedView && "(CLIENT-ENCRYPTED SHA-256)"}
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
+                         <div className="max-w-[85%] flex flex-col">
+                           <div 
+                             className={`p-3.5 rounded-2xl text-xs leading-relaxed whitespace-pre-wrap ${
+                               getCharacterBubbleStyle(activeChar.id, isUser)
+                             }`}
+                           >
+                             {showEncryptedView 
+                               ? generateCiphertext(msg.text) 
+                               : msg.text.replace(/\*\*/g, '')
+                             }
+                           </div>
+                           
+                           {msg.isMedicoLegal && (
+                              <MedicoLegalLawyersDirectory initialLocation={userLocation} />
+                           )}
+                           
+                           <span className={`text-[10px] text-slate-500 mt-1 px-1 font-mono ${isUser ? "text-right" : "text-left"}`}>
+                             {msg.timestamp} {showEncryptedView && "(CLIENT-ENCRYPTED SHA-256)"}
+                           </span>
+                         </div>
+                       </div>
+                     );
+                   });
+                 })()}
 
                 {isTyping && (
                   <div className="flex gap-3.5 animate-fade-in-up">
