@@ -173,67 +173,6 @@ export function Sidebar({
             </button>
           </div>
 
-          {/* Past Conversations History */}
-          {sessions && sessions.length > 0 && (() => {
-            const filteredSessions = sessions.filter(session => {
-              const query = historySearchQuery.toLowerCase().trim();
-              if (!query) return true;
-              const matchesTitle = session.title.toLowerCase().includes(query);
-              const matchesMessages = session.messages && session.messages.some((msg: any) => msg.text.toLowerCase().includes(query));
-              return matchesTitle || matchesMessages;
-            });
-
-            return (
-              <div className="p-4 space-y-1 border-t border-slate-200 dark:border-white/10 flex-1 min-h-0 flex flex-col">
-                <div className="flex items-center justify-between mb-2 px-3">
-                  <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">History ({sessions.length})</p>
-                </div>
-                
-                {/* History Search Input */}
-                <div className="relative mb-2 px-3">
-                  <input
-                    type="text"
-                    placeholder="Search history..."
-                    value={historySearchQuery}
-                    onChange={(e) => setHistorySearchQuery(e.target.value)}
-                    className="w-full pl-7 pr-3 py-1 text-[10px] rounded border border-slate-200 dark:border-white/10 bg-white/50 dark:bg-[#0a0a0a]/30 text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 font-sans"
-                  />
-                  <Search className="absolute left-5 top-1.5 w-3 h-3 text-slate-400" />
-                </div>
-
-                <div className="overflow-y-auto pr-1 space-y-1 flex-1">
-                  {filteredSessions.length > 0 ? (
-                    filteredSessions.map(session => (
-                      <div key={session.id} className="group flex items-center justify-between w-full rounded-lg hover:bg-slate-200 dark:hover:bg-white/[0.03] px-3 py-1.5 transition-colors">
-                        <button
-                          onClick={() => onSelectSession && onSelectSession(session.id)}
-                          className="flex-1 text-left text-xs text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 truncate cursor-pointer font-medium"
-                          title={session.title}
-                        >
-                          <span className="block truncate font-semibold">{session.title}</span>
-                          <span className="block text-[9px] text-slate-400 mt-0.5">{session.timestamp}</span>
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            if (onDeleteSession) onDeleteSession(session.id);
-                          }}
-                          className="opacity-0 group-hover:opacity-100 p-1 text-slate-400 hover:text-red-500 dark:hover:text-red-400 rounded transition-all cursor-pointer shrink-0"
-                          title="Delete History"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="text-center py-4 text-[10px] text-slate-450 italic">
-                      No matching history
-                    </div>
-                  )}
-                </div>
-              </div>
-            );
-          })()}
 
           <div className="mt-auto p-4 border-t border-slate-200 dark:border-white/10 space-y-3">
             {/* Theme Toggles */}
