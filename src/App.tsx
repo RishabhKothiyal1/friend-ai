@@ -3142,7 +3142,56 @@ export default function App() {
    const [safetySimText, setSafetySimText] = useState<string>("");
   const [safetySimResult, setSafetySimResult] = useState<{ status: 'PASS' | 'CRISIS_OVERRIDE' | 'MED_LIMIT', message: string } | null>(null);
   
-  const [activeCenterTab, setActiveCenterTab] = useState<'chat' | 'safety' | 'blogs' | 'publishing' | 'community' | 'investor' | 'terms' | 'privacy'>('chat');
+  const [activeCenterTab, setActiveCenterTab] = useState<'chat' | 'safety' | 'blogs' | 'publishing' | 'community' | 'investor' | 'terms' | 'privacy' | 'analytics' | 'journal' | 'wellness' | 'settings' | 'directory'>(() => {
+    try {
+      const hash = window.location.hash;
+      if (hash.startsWith("#/")) {
+        const tab = hash.slice(2);
+        const validTabs = ['chat', 'safety', 'blogs', 'publishing', 'community', 'investor', 'terms', 'privacy', 'analytics', 'journal', 'wellness', 'settings', 'directory'];
+        if (validTabs.includes(tab)) {
+          return tab as any;
+        }
+      }
+    } catch (e) {
+      console.error("Failed to parse activeCenterTab from URL hash:", e);
+    }
+    return 'chat';
+  });
+
+  // Keep activeCenterTab and window.location.hash in sync
+  useEffect(() => {
+    const handleHashChange = () => {
+      try {
+        const hash = window.location.hash;
+        if (hash.startsWith("#/")) {
+          const tab = hash.slice(2);
+          const validTabs = ['chat', 'safety', 'blogs', 'publishing', 'community', 'investor', 'terms', 'privacy', 'analytics', 'journal', 'wellness', 'settings', 'directory'];
+          if (validTabs.includes(tab)) {
+            setActiveCenterTab(tab as any);
+          }
+        } else {
+          setActiveCenterTab('chat');
+        }
+      } catch (e) {
+        console.error("Failed to handle URL hash change:", e);
+      }
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  useEffect(() => {
+    try {
+      const currentHash = window.location.hash;
+      const targetHash = `#/${activeCenterTab}`;
+      if (currentHash !== targetHash) {
+        window.location.hash = targetHash;
+      }
+    } catch (e) {
+      console.error("Failed to update URL hash for active tab:", e);
+    }
+  }, [activeCenterTab]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const deleteBlog = (id: string) => {
