@@ -2360,11 +2360,12 @@ function useSessionSync(selectedCharacterId: string, chatHistory: ChatMessage[])
 
   useEffect(() => {
     try {
+      localStorage.setItem("pfai_chat_history_" + selectedCharacterId, JSON.stringify(chatHistory));
       localStorage.setItem("pfai_chat_history", JSON.stringify(chatHistory));
     } catch (e) {
       console.error("Failed to sync chatHistory to localStorage:", e);
     }
-  }, [chatHistory]);
+  }, [chatHistory, selectedCharacterId]);
 }
 
 // Custom Markdown rendering parser for rich Manjishtha's Self-Care Blog view
@@ -2925,7 +2926,15 @@ export default function App() {
   const [messageText, setMessageText] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>(() => {
     try {
-      const saved = localStorage.getItem("pfai_chat_history");
+      const savedCharId = (() => {
+        try {
+          const saved = localStorage.getItem("pfai_selected_character_id");
+          return saved && CHARACTERS.some((c) => c.id === saved) ? saved : "inayat";
+        } catch (e) {
+          return "inayat";
+        }
+      })();
+      const saved = localStorage.getItem("pfai_chat_history_" + savedCharId) || localStorage.getItem("pfai_chat_history");
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
@@ -4177,15 +4186,11 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
   const handleSearchClick = () => {
     setActiveCenterTab('chat' as any);
     setIsSidebarOpen(true);
+    setIsCharQuickModalOpen(true);
     setTimeout(() => {
-      const chatSearchInput = document.querySelector('input[placeholder*="Search chat history"]') as HTMLInputElement;
-      if (chatSearchInput) {
-        chatSearchInput.focus();
-      } else {
-        const searchInput = document.querySelector('input[placeholder*="Search specializations"]') as HTMLInputElement;
-        if (searchInput) {
-          searchInput.focus();
-        }
+      const searchInput = document.querySelector('input[placeholder*="Search specializations"]') as HTMLInputElement;
+      if (searchInput) {
+        searchInput.focus();
       }
     }, 150);
   };
@@ -4890,13 +4895,35 @@ I am an automated grounding AI companion, not a medical doctor, psychiatrist, or
       setIsPaywallModalOpen(true);
       return;
     }
-    setSelectedCharacterId(charId);
+
+    // Save the current character's chat history before switching
+    try {
+      localStorage.setItem("pfai_chat_history_" + selectedCharacterId, JSON.stringify(chatHistory));
+    } catch (e) {
+      console.error("Failed to save previous character chat history:", e);
+    }
+
     setIsCrisisActive(false);
     setIsDependencyActive(false);
     registerInteraction();
+
+    // Try to load the new character's history
+    try {
+      const savedHistory = localStorage.getItem("pfai_chat_history_" + charId);
+      if (savedHistory) {
+        const parsed = JSON.parse(savedHistory);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setChatHistory(parsed);
+          setSelectedCharacterId(charId);
+          return;
+        }
+      }
+    } catch (e) {
+      console.error("Failed to load new character chat history:", e);
+    }
+
     const target = CHARACTERS.find(c => c.id === charId)!;
-    let welcomeText = "";
-    welcomeText = `I have initialized specialized support. I am now speaking as ${target.name}.`;
+    let welcomeText = `I have initialized specialized support. I am now speaking as ${target.name}.`;
 
     setChatHistory([
       {
@@ -4906,6 +4933,7 @@ I am an automated grounding AI companion, not a medical doctor, psychiatrist, or
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }
     ]);
+    setSelectedCharacterId(charId);
   };
 
   const handleAddMood = async (e: React.FormEvent) => {
