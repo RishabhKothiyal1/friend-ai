@@ -1,10 +1,18 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "CustomFont";
+  src: url("https://framerusercontent.com/assets/GrgcKwrN6d3Uz8EwcLHZxwEfC4.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Outfit", sans-serif;
+  --font-sans: "CustomFont", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "CustomFont", "Outfit", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
   
   --color-background: var(--background);
