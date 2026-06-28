@@ -3023,12 +3023,18 @@ export default function App() {
   }, [activeSessionId, selectedCharacterId]);
 
   const syncPrevCharIdRef = useRef(selectedCharacterId);
+  const isRestoringSessionRef = useRef(false);
   useEffect(() => {
     syncPrevCharIdRef.current = selectedCharacterId;
   }, [selectedCharacterId]);
 
   // Synchronize active chat history to chatSessions list in real-time
   useEffect(() => {
+    // Skip sync immediately after restoring a session to prevent overwriting just-loaded messages
+    if (isRestoringSessionRef.current) {
+      isRestoringSessionRef.current = false;
+      return;
+    }
     if (selectedCharacterId !== syncPrevCharIdRef.current) return;
 
     const hasUserMessages = chatHistory.some(m => m.sender === 'user');
@@ -3142,9 +3148,9 @@ export default function App() {
    const [safetySimText, setSafetySimText] = useState<string>("");
   const [safetySimResult, setSafetySimResult] = useState<{ status: 'PASS' | 'CRISIS_OVERRIDE' | 'MED_LIMIT', message: string } | null>(null);
   
-  const VALID_TABS = ['chat', 'safety', 'blogs', 'publishing', 'community', 'investor', 'terms', 'privacy', 'analytics', 'journal', 'wellness', 'settings', 'directory'] as const;
+  const VALID_TABS = ['chat', 'safety', 'blogs', 'publishing', 'community', 'investor', 'terms', 'privacy', 'analytics', 'journal', 'wellness', 'settings', 'directory', 'about'] as const;
 
-  const [activeCenterTab, setActiveCenterTab] = useState<'chat' | 'safety' | 'blogs' | 'publishing' | 'community' | 'investor' | 'terms' | 'privacy' | 'analytics' | 'journal' | 'wellness' | 'settings' | 'directory'>(() => {
+  const [activeCenterTab, setActiveCenterTab] = useState<'chat' | 'safety' | 'blogs' | 'publishing' | 'community' | 'investor' | 'terms' | 'privacy' | 'analytics' | 'journal' | 'wellness' | 'settings' | 'directory' | 'about'>(() => {
     try {
       const path = window.location.pathname;
       const tab = path.replace(/^\//, ''); // strip leading slash
@@ -3156,6 +3162,7 @@ export default function App() {
     }
     return 'chat';
   });
+
 
   // Listen to browser back/forward navigation
   useEffect(() => {
@@ -3537,6 +3544,7 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
   };
 
   const [personaSearchQuery, setPersonaSearchQuery] = useState<string>("");
+  const [historySearchQuery, setHistorySearchQuery] = useState<string>("");
   const [isSearchFocused, setIsSearchFocused] = useState<boolean>(false);
   const [chatSearchQuery, setChatSearchQuery] = useState<string>("");
 
@@ -3622,6 +3630,7 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
   useEffect(() => {
     if (!isCharQuickModalOpen) {
       setPersonaSearchQuery("");
+      setHistorySearchQuery("");
     }
   }, [isCharQuickModalOpen]);
 
@@ -4372,6 +4381,8 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
         console.error("Failed to save previous character chat history:", e);
       }
 
+      // Flag that we're restoring so the sync effect doesn't overwrite the restored messages
+      isRestoringSessionRef.current = true;
       setChatHistory(session.messages);
       setSelectedCharacterId(session.characterId);
       setActiveSessionId(session.id);
@@ -10048,7 +10059,134 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
               </div>
             </div>
           )}
+
+          {/* About Us Page */}
+          {activeCenterTab === 'about' && (
+            <div className="flex-1 flex flex-col overflow-y-auto animate-fade-in bg-white dark:bg-black">
+              {/* Hero */}
+              <div className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white">
+                <div className="absolute inset-0 opacity-20" style={{backgroundImage: 'radial-gradient(circle at 20% 50%, white 0%, transparent 50%), radial-gradient(circle at 80% 20%, white 0%, transparent 50%)'}} />
+                <div className="relative z-10 max-w-4xl mx-auto px-8 py-20 text-center">
+                  <span className="inline-block px-4 py-1.5 mb-5 text-xs font-bold tracking-widest uppercase bg-white/20 border border-white/30 rounded-full backdrop-blur-sm">Our Mission</span>
+                  <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
+                    AI Companionship<br/>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-300">Built for You</span>
+                  </h1>
+                  <p className="text-lg md:text-xl text-white/85 max-w-2xl mx-auto leading-relaxed font-light">
+                    friend ai is a safe, private space where emotionally intelligent AI companions support your mental wellness journey — on your terms, at your pace.
+                  </p>
+                  <button
+                    onClick={() => setActiveCenterTab('chat' as any)}
+                    className="mt-8 px-8 py-3.5 bg-white text-indigo-700 font-bold rounded-xl hover:bg-indigo-50 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 cursor-pointer text-sm"
+                  >
+                    Start a Conversation →
+                  </button>
+                </div>
+              </div>
+
+              {/* Core Values */}
+              <div className="max-w-5xl mx-auto w-full px-8 py-16 space-y-16 font-sans">
+                <div className="text-center space-y-3">
+                  <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">What We Believe</h2>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm max-w-xl mx-auto">Every person deserves access to compassionate, judgment-free support. We built friend ai around three core pillars.</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {[
+                    { emoji: '🔒', title: 'Radical Privacy', desc: 'Your conversations never leave your device. All data is stored locally and encrypted. We cannot read your messages — by design.' },
+                    { emoji: '🤝', title: 'Genuine Connection', desc: 'Our AI companions are trained to listen deeply, validate your emotions, and offer thoughtful support — not generic chatbot responses.' },
+                    { emoji: '🌱', title: 'Growth-Centered', desc: 'From mood journals to wellness check-ins, every feature is designed to help you understand yourself better over time.' },
+                  ].map(item => (
+                    <div key={item.title} className="p-7 bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 rounded-2xl space-y-3 hover:border-indigo-300 dark:hover:border-indigo-700 transition-colors group">
+                      <div className="text-3xl">{item.emoji}</div>
+                      <h3 className="font-bold text-slate-900 dark:text-white text-base group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{item.title}</h3>
+                      <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{item.desc}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Story Section */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                  <div className="space-y-5">
+                    <span className="text-xs font-mono font-bold tracking-widest text-indigo-500 uppercase">Our Story</span>
+                    <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white leading-snug">Born from a Simple Question</h2>
+                    <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                      What if everyone had access to a thoughtful companion who truly listens — anytime, anywhere, without judgment?
+                    </p>
+                    <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                      We started friend ai after seeing how many people feel alone with their thoughts, especially during difficult moments. Therapy is inaccessible for many. Friends are busy. Support shouldn't depend on your schedule or budget.
+                    </p>
+                    <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                      friend ai combines the warmth of human-centered design with the power of modern AI — creating companions that specialize in emotional support, creative expression, grief, anxiety, and more.
+                    </p>
+                  </div>
+                  <div className="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-indigo-950/40 dark:via-purple-950/40 dark:to-pink-950/40 rounded-2xl p-8 border border-indigo-100 dark:border-indigo-900/50 space-y-6">
+                    {[
+                      { stat: '10+', label: 'Specialized AI Companions' },
+                      { stat: '100%', label: 'Local — Your data stays with you' },
+                      { stat: '24/7', label: 'Available whenever you need support' },
+                      { stat: '0', label: 'Third-party trackers or ad networks' },
+                    ].map(item => (
+                      <div key={item.stat} className="flex items-center gap-4">
+                        <span className="text-2xl font-extrabold text-indigo-600 dark:text-indigo-400 min-w-[4rem]">{item.stat}</span>
+                        <span className="text-sm text-slate-600 dark:text-slate-400">{item.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Team Section */}
+                <div className="space-y-8">
+                  <div className="text-center space-y-2">
+                    <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">Who We Are</h2>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">A passionate team at the intersection of mental health and technology.</p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {[
+                      { name: 'Solace', role: 'Emotional Wellness Lead', bio: 'Guiding people through anxiety, grief, and emotional overwhelm with evidence-backed compassion.', gradient: 'from-blue-500 to-indigo-600', letter: 'S' },
+                      { name: 'Melody', role: 'Creative & Expressive Arts', bio: 'Helping you process feelings through journaling, art, and music therapy-inspired conversations.', gradient: 'from-pink-500 to-rose-600', letter: 'M' },
+                      { name: 'Cosmic', role: 'Mindfulness & Reflection', bio: 'Facilitating deep self-inquiry and mindfulness practices to reconnect you with your inner wisdom.', gradient: 'from-purple-500 to-violet-600', letter: 'C' },
+                    ].map(member => (
+                      <div key={member.name} className="p-6 bg-white dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 rounded-2xl space-y-4 text-center hover:shadow-md dark:hover:border-white/20 transition-all">
+                        <div className={`w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br ${member.gradient} flex items-center justify-center text-white text-2xl font-bold shadow-lg`}>
+                          {member.letter}
+                        </div>
+                        <div>
+                          <p className="font-bold text-slate-900 dark:text-white">{member.name}</p>
+                          <p className="text-xs text-indigo-500 font-medium mt-0.5">{member.role}</p>
+                        </div>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{member.bio}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Contact CTA */}
+                <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-10 text-center text-white space-y-4">
+                  <h2 className="text-2xl font-bold">Have Questions or Feedback?</h2>
+                  <p className="text-white/80 text-sm max-w-md mx-auto">We're a small team who genuinely cares. Reach out — we read every message.</p>
+                  <div className="flex flex-wrap gap-3 justify-center mt-2">
+                    <a href="mailto:pahilajani.manjishtha@gmail.com" className="px-6 py-2.5 bg-white text-indigo-700 font-bold rounded-xl hover:bg-indigo-50 transition-all text-sm shadow-lg cursor-pointer">
+                      Send us an email
+                    </a>
+                    <button onClick={() => setActiveCenterTab('chat' as any)} className="px-6 py-2.5 bg-white/20 border border-white/30 text-white font-bold rounded-xl hover:bg-white/30 transition-all text-sm cursor-pointer">
+                      Start chatting
+                    </button>
+                  </div>
+                </div>
+
+                {/* Legal back button */}
+                <div className="text-center pb-4">
+                  <button onClick={() => setActiveCenterTab('chat' as any)} className="text-sm text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors cursor-pointer">
+                    ← Back to Chat
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
 {activeCenterTab === 'blogs' && (
+
             /* Self-Care Blog Corner - Auto generation & Founder Upload Portals */
             <div className={`flex-1 p-5 overflow-y-auto space-y-6 font-sans rounded-b-2xl h-[700px] xl:h-[750px] transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-black/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
               
@@ -10428,6 +10566,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           </div>
           <div className="text-sm text-slate-500 dark:text-slate-400 font-medium flex flex-wrap items-center justify-center gap-6">
             <span>© 2026 friend ai</span>
+            <button onClick={() => setActiveCenterTab('about' as any)} className="hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer">About Us</button>
             <button onClick={() => setActiveCenterTab('terms' as any)} className="hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer">Terms</button>
             <button onClick={() => setActiveCenterTab('privacy' as any)} className="hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer">Privacy</button>
             <a href="mailto:pahilajani.manjishtha@gmail.com" className="hover:text-slate-800 dark:hover:text-white transition-colors">Contact</a>
@@ -11633,14 +11772,15 @@ I am speaking to you now as ${CHARACTERS.find(c => c.id === pendingCharId)?.name
                   </span>
                   <input
                     type="text"
-                    placeholder="Search previous conversations..."
-                    value={personaSearchQuery}
-                    onChange={(e) => setPersonaSearchQuery(e.target.value)}
+                    placeholder="Search by title or message content..."
+                    value={historySearchQuery}
+                    onChange={(e) => setHistorySearchQuery(e.target.value)}
+                    autoFocus
                     className="w-full pl-10 pr-9 py-2.5 bg-black border border-white/10 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 dark:focus:border-indigo-500 transition-all font-sans"
                   />
-                  {personaSearchQuery && (
+                  {historySearchQuery && (
                     <button
-                      onClick={() => setPersonaSearchQuery("")}
+                      onClick={() => setHistorySearchQuery("")}
                       className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 hover:text-slate-300 transition-colors cursor-pointer"
                       title="Clear search"
                     >
@@ -11652,11 +11792,15 @@ I am speaking to you now as ${CHARACTERS.find(c => c.id === pendingCharId)?.name
                 {/* History Grid */}
                 <div className="grid grid-cols-1 gap-2.5 max-h-[45vh] overflow-y-auto pr-1">
                   {(() => {
-                    const query = personaSearchQuery.toLowerCase().trim();
-                    const filtered = chatSessions.filter(session => {
+                    const query = historySearchQuery.toLowerCase().trim();
+                    const filtered = [...chatSessions].sort((a, b) =>
+                      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime() || 0
+                    ).filter(session => {
                       if (!query) return true;
                       const matchesTitle = session.title.toLowerCase().includes(query);
-                      const matchesMessages = session.messages && session.messages.some((msg: any) => msg.text.toLowerCase().includes(query));
+                      const matchesMessages = session.messages && session.messages.some((msg: any) =>
+                        typeof msg.text === 'string' && msg.text.toLowerCase().includes(query)
+                      );
                       return matchesTitle || matchesMessages;
                     });
 
