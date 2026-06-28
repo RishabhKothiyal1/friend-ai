@@ -2970,6 +2970,29 @@ export default function App() {
     ];
   });
 
+  interface ChatSession {
+    id: string;
+    characterId: string;
+    title: string;
+    messages: ChatMessage[];
+    timestamp: string;
+  }
+
+  const [chatSessions, setChatSessions] = useState<ChatSession[]>(() => {
+    try {
+      const saved = localStorage.getItem("pfai_chat_sessions");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          return parsed;
+        }
+      }
+    } catch (e) {
+      console.error("Error loading chatSessions:", e);
+    }
+    return [];
+  });
+
   // Call session persistence hook
   useSessionSync(selectedCharacterId, chatHistory);
   const [isTyping, setIsTyping] = useState<boolean>(false);
@@ -4177,15 +4200,82 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
 
   const handleNewChat = () => {
     const activeChar = CHARACTERS.find(c => c.id === selectedCharacterId) || CHARACTERS[0];
-    setChatHistory([
-      {
-        id: "init-" + Date.now(),
-        sender: "bot",
-        text: `I have initialized specialized support. I am now speaking as ${activeChar.name}. How can I support you right now?`,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      }
-    ]);
+    
+    // Archive current chat history if it contains actual user interaction
+    const hasUserMessages = chatHistory.some(m => m.sender === 'user');
+    if (hasUserMessages) {
+      const firstUserMessage = chatHistory.find(m => m.sender === 'user')?.text || "";
+      const sessionTitle = firstUserMessage 
+        ? (firstUserMessage.length > 25 ? firstUserMessage.slice(0, 25) + "..." : firstUserMessage)
+        : "Conversation with " + activeChar.name;
+      
+      const newSession: ChatSession = {
+        id: "session-" + Date.now(),
+        characterId: selectedCharacterId,
+        title: sessionTitle,
+        messages: [...chatHistory],
+        timestamp: new Date().toLocaleDateString() + " " + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+      
+      setChatSessions(prev => {
+        const updated = [newSession, ...prev];
+        try {
+          localStorage.setItem("pfai_chat_sessions", JSON.stringify(updated));
+        } catch (e) {
+          console.error("Failed to save chatSessions to localStorage:", e);
+        }
+        return updated;
+      });
+    }
+
+    const freshWelcome = `I have initialized specialized support. I am now speaking as ${activeChar.name}. How can I support you right now?`;
+    const newWelcomeMsg = {
+      id: "init-" + Date.now(),
+      sender: "bot" as const,
+      text: freshWelcome,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+
+    setChatHistory([newWelcomeMsg]);
+
+    // Update active character history instantly to prevent any sync issues
+    try {
+      localStorage.setItem("pfai_chat_history_" + selectedCharacterId, JSON.stringify([newWelcomeMsg]));
+      localStorage.setItem("pfai_chat_history", JSON.stringify([newWelcomeMsg]));
+    } catch (e) {
+      console.error("Failed to save reset chat history:", e);
+    }
+
     setActiveCenterTab('chat' as any);
+  };
+
+  const handleSelectSession = (sessionId: string) => {
+    const session = chatSessions.find(s => s.id === sessionId);
+    if (session) {
+      try {
+        localStorage.setItem("pfai_chat_history_" + selectedCharacterId, JSON.stringify(chatHistory));
+      } catch (e) {
+        console.error("Failed to save previous character chat history:", e);
+      }
+
+      setChatHistory(session.messages);
+      setSelectedCharacterId(session.characterId);
+      setIsCrisisActive(false);
+      setIsDependencyActive(false);
+      setActiveCenterTab('chat' as any);
+    }
+  };
+
+  const handleDeleteSession = (sessionId: string) => {
+    setChatSessions(prev => {
+      const updated = prev.filter(s => s.id !== sessionId);
+      try {
+        localStorage.setItem("pfai_chat_sessions", JSON.stringify(updated));
+      } catch (e) {
+        console.error("Failed to save chatSessions to localStorage:", e);
+      }
+      return updated;
+    });
   };
 
   const handleSearchClick = () => {
@@ -5736,6 +5826,9 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           onOpenClinicalDirectory={() => setActiveCenterTab('directory' as any)}
           onNewChat={handleNewChat}
           onSearchClick={handleSearchClick}
+          sessions={chatSessions.filter(s => s.characterId === selectedCharacterId)}
+          onSelectSession={handleSelectSession}
+          onDeleteSession={handleDeleteSession}
         />
       )}
       
