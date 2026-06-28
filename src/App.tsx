@@ -4160,6 +4160,29 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
     ]);
   };
 
+  const handleNewChat = () => {
+    const activeChar = CHARACTERS.find(c => c.id === selectedCharacterId) || CHARACTERS[0];
+    setChatHistory([
+      {
+        id: "init-" + Date.now(),
+        sender: "bot",
+        text: `I have initialized specialized support. I am now speaking as ${activeChar.name}. How can I support you right now?`,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      }
+    ]);
+    setActiveCenterTab('chat' as any);
+  };
+
+  const handleSearchClick = () => {
+    setIsSidebarOpen(true);
+    setTimeout(() => {
+      const searchInput = document.querySelector('input[placeholder*="Search specializations"]') as HTMLInputElement;
+      if (searchInput) {
+        searchInput.focus();
+      }
+    }, 150);
+  };
+
   // Core character fetch
   const activeChar = CHARACTERS.find(c => c.id === selectedCharacterId) || CHARACTERS[1];
 
@@ -5671,6 +5694,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           themeMode={themeMode}
           onThemeChange={(t) => setThemeMode(t as any)}
           onOpenClinicalDirectory={() => setActiveCenterTab('directory' as any)}
+          onNewChat={handleNewChat}
+          onSearchClick={handleSearchClick}
         />
       )}
       

@@ -30,6 +30,8 @@ interface SidebarProps {
   onThemeChange: (theme: string) => void;
   alias: string;
   onLogout?: () => void;
+  onNewChat?: () => void;
+  onSearchClick?: () => void;
 }
 
 export function Sidebar({
@@ -42,7 +44,10 @@ export function Sidebar({
   onToggleZenMode,
   themeMode,
   onThemeChange,
-  alias
+  alias,
+  onLogout,
+  onNewChat,
+  onSearchClick
 }: SidebarProps) {
   const navItems = [
     { id: 'chat', label: 'Chat', icon: MessageSquare },
@@ -81,97 +86,140 @@ export function Sidebar({
         </div>
         <button 
           onClick={onToggleSidebar}
-          className={`p-2 text-slate-400 hover:text-white hover:bg-slate-200 dark:hover:bg-[#0a0a0a] rounded-lg transition-colors ${!isSidebarOpen && 'mx-auto'}`}
+          className={`p-2 text-slate-400 hover:text-white hover:bg-slate-200 dark:hover:bg-[#0a0a0a] rounded-lg transition-colors cursor-pointer ${!isSidebarOpen && 'mx-auto'}`}
           title={isSidebarOpen ? "Close Sidebar" : "Open Sidebar"}
         >
-          {isSidebarOpen ? <PanelLeftClose className="w-5 h-5" /> : <PanelLeftOpen className="w-5 h-5" />}
+          {isSidebarOpen ? (
+            <PanelLeftClose className="w-5 h-5" />
+          ) : (
+            <img 
+              src="/friend_ai_mascot.jpg" 
+              alt="Mascot Logo" 
+              className="w-8 h-8 rounded-full border border-slate-200 dark:border-white/20 object-cover hover:scale-105 active:scale-95 transition-all shadow"
+            />
+          )}
         </button>
       </div>
 
-      {/* Main Navigation */}
-      <div className="p-4 space-y-1">
-        {isSidebarOpen ? <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3 px-3">Main</p> : <div className="h-4"></div>}
-        {navItems.map(item => {
-          const Icon = item.icon;
-          const isActive = activeTab === item.id;
-          return (
-            <button
-              key={item.id}
-              onClick={() => onTabChange(item.id)}
-              className={`w-full flex items-center ${isSidebarOpen ? 'gap-3 px-3' : 'justify-center px-0'} py-2.5 rounded-lg transition-colors text-sm font-medium ${
-                isActive 
-                  ? "bg-indigo-500/10 text-indigo-400" 
-                  : "text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-[#0a0a0a]/50 hover:text-slate-900 dark:hover:text-slate-200"
-              }`}
-              title={!isSidebarOpen ? item.label : undefined}
-            >
-              <Icon className={`${isSidebarOpen ? 'w-4 h-4' : 'w-5 h-5'} shrink-0`} />
-              {isSidebarOpen && <span className="whitespace-nowrap">{item.label}</span>}
-            </button>
-          );
-        })}
-      </div>
+      {isSidebarOpen ? (
+        <>
+          {/* Main Navigation */}
+          <div className="p-4 space-y-1">
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3 px-3">Main</p>
+            {navItems.map(item => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => onTabChange(item.id)}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-sm font-medium cursor-pointer ${
+                    isActive 
+                      ? "bg-indigo-500/10 text-indigo-400" 
+                      : "text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-[#0a0a0a]/50 hover:text-slate-900 dark:hover:text-slate-200"
+                  }`}
+                >
+                  <Icon className="w-4 h-4 shrink-0" />
+                  <span className="whitespace-nowrap">{item.label}</span>
+                </button>
+              );
+            })}
+          </div>
 
-      {/* Tools & Integrations */}
-      <div className="p-4 space-y-1 border-t border-slate-200 dark:border-white/10/50">
-        {isSidebarOpen ? <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3 px-3">Integrations</p> : <div className="h-4"></div>}
-        {toolsItems.map(item => {
-          const Icon = item.icon;
-          const isActive = activeTab === item.id;
-          return (
+          {/* Tools & Integrations */}
+          <div className="p-4 space-y-1 border-t border-slate-200 dark:border-white/10/50">
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3 px-3">Integrations</p>
+            {toolsItems.map(item => {
+              const Icon = item.icon;
+              const isActive = activeTab === item.id;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    if (item.externalUrl) {
+                      window.location.href = item.externalUrl;
+                    } else {
+                      onTabChange(item.id);
+                    }
+                  }}
+                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-sm font-medium cursor-pointer ${
+                    isActive 
+                      ? "bg-indigo-500/10 text-indigo-400" 
+                      : "text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-[#0a0a0a]/50 hover:text-slate-900 dark:hover:text-slate-200"
+                  }`}
+                >
+                  <Icon className="w-4 h-4 shrink-0" />
+                  <span className="whitespace-nowrap">{item.label}</span>
+                </button>
+              );
+            })}
+            
             <button
-              key={item.id}
-              onClick={() => {
-                if (item.externalUrl) {
-                  window.location.href = item.externalUrl;
-                } else {
-                  onTabChange(item.id);
-                }
-              }}
-              className={`w-full flex items-center ${isSidebarOpen ? 'gap-3 px-3' : 'justify-center px-0'} py-2 rounded-lg transition-colors text-sm font-medium ${
-                isActive 
-                  ? "bg-indigo-500/10 text-indigo-400" 
-                  : "text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-[#0a0a0a]/50 hover:text-slate-900 dark:hover:text-slate-200"
-              }`}
-              title={!isSidebarOpen ? item.label : undefined}
+              onClick={onOpenClinicalDirectory}
+              className="w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-sm font-medium text-emerald-400 hover:bg-emerald-500/10 cursor-pointer"
             >
-              <Icon className={`${isSidebarOpen ? 'w-4 h-4' : 'w-5 h-5'} shrink-0`} />
-              {isSidebarOpen && <span className="whitespace-nowrap">{item.label}</span>}
+              <ShieldCheck className="w-4 h-4 shrink-0" />
+              <span className="whitespace-nowrap">Clinical Directory</span>
             </button>
-          );
-        })}
-        
-        <button
-          onClick={onOpenClinicalDirectory}
-          className={`w-full flex items-center ${isSidebarOpen ? 'gap-3 px-3' : 'justify-center px-0'} py-2 rounded-lg transition-colors text-sm font-medium text-emerald-400 hover:bg-emerald-500/10`}
-          title={!isSidebarOpen ? "Clinical Directory" : undefined}
-        >
-          <ShieldCheck className={`${isSidebarOpen ? 'w-4 h-4' : 'w-5 h-5'} shrink-0`} />
-          {isSidebarOpen && <span className="whitespace-nowrap">Clinical Directory</span>}
-        </button>
-      </div>
+          </div>
 
-      <div className="mt-auto p-4 border-t border-slate-200 dark:border-white/10 space-y-3">
-        {/* Theme Toggles */}
-        {isSidebarOpen ? (
-        <div className="flex items-center gap-1 bg-slate-200 dark:bg-slate-950 p-1 rounded-lg border border-slate-300 dark:border-white/10">
+          <div className="mt-auto p-4 border-t border-slate-200 dark:border-white/10 space-y-3">
+            {/* Theme Toggles */}
+            <div className="flex items-center gap-1 bg-slate-200 dark:bg-slate-950 p-1 rounded-lg border border-slate-300 dark:border-white/10">
+              <button
+                onClick={() => onThemeChange("daylight")}
+                className={`flex-1 p-1.5 rounded flex justify-center cursor-pointer ${themeMode === 'daylight' ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
+              >
+                <Sun className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => onThemeChange("midnight")}
+                className={`flex-1 p-1.5 rounded flex justify-center cursor-pointer ${themeMode === 'midnight' ? 'bg-[#0a0a0a] text-white shadow' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
+              >
+                <Moon className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </>
+      ) : (
+        /* Closed state navigation options: only New Chat, Search, and Settings */
+        <div className="flex-1 flex flex-col items-center gap-6 py-6 w-full">
+          {/* New Chat */}
           <button
-            onClick={() => onThemeChange("daylight")}
-            className={`flex-1 p-1.5 rounded flex justify-center ${themeMode === 'daylight' ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
+            onClick={() => {
+              if (onNewChat) onNewChat();
+            }}
+            className="w-10 h-10 rounded-full flex items-center justify-center bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 transition-all cursor-pointer shadow active:scale-95"
+            title="New Chat"
           >
-            <Sun className="w-4 h-4" />
+            <Plus className="w-5 h-5 stroke-[2.2]" />
           </button>
+
+          {/* Search */}
           <button
-            onClick={() => onThemeChange("midnight")}
-            className={`flex-1 p-1.5 rounded flex justify-center ${themeMode === 'midnight' ? 'bg-[#0a0a0a] text-white shadow' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
+            onClick={() => {
+              if (onSearchClick) onSearchClick();
+            }}
+            className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-slate-200 dark:hover:bg-white/[0.05] text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all cursor-pointer active:scale-95"
+            title="Search guides/specializations"
           >
-            <Moon className="w-4 h-4" />
+            <Search className="w-5 h-5" />
+          </button>
+
+          {/* Settings */}
+          <button
+            onClick={() => onTabChange('settings')}
+            className={`w-10 h-10 rounded-full flex items-center justify-center transition-all cursor-pointer active:scale-95 ${
+              activeTab === 'settings'
+                ? "bg-indigo-500/10 text-indigo-400"
+                : "hover:bg-slate-200 dark:hover:bg-white/[0.05] text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+            }`}
+            title="Settings"
+          >
+            <Settings className="w-5 h-5" />
           </button>
         </div>
-        ) : (
-          <button onClick={() => onThemeChange(themeMode === 'daylight' ? 'midnight' : 'daylight')} className="w-full flex items-center justify-center p-2 rounded-lg bg-slate-950 border border-slate-300 dark:border-white/10 text-slate-600 dark:text-slate-400 hover:text-white" title="Toggle Theme"><Sun className="w-5 h-5" /></button>
-        )}
-      </div>
+      )}
     </div>
   );
 }
