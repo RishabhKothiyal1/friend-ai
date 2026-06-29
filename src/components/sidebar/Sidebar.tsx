@@ -190,22 +190,7 @@ export function Sidebar({
           </div>
 
 
-          <div className="mt-auto p-4 border-t border-slate-200 dark:border-white/10 space-y-3">
-            {/* Theme Toggles */}
-            <div className="flex items-center gap-1 bg-slate-200 dark:bg-slate-950 p-1 rounded-lg border border-slate-300 dark:border-white/10">
-              <button
-                onClick={() => onThemeChange("daylight")}
-                className={`flex-1 p-1.5 rounded flex justify-center cursor-pointer ${themeMode === 'daylight' ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
-              >
-                <Sun className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => onThemeChange("midnight")}
-                className={`flex-1 p-1.5 rounded flex justify-center cursor-pointer ${themeMode === 'midnight' ? 'bg-[#0a0a0a] text-white shadow' : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'}`}
-              >
-                <Moon className="w-4 h-4" />
-              </button>
-            </div>
+          <div className="mt-auto p-4 border-t border-slate-200 dark:border-white/10">
           </div>
         </>
       ) : (
