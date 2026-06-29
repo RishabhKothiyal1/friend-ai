@@ -81,14 +81,6 @@ export interface Report {
 }
 
 export type Category =
-  | "AI"
-  | "Prompt Engineering"
-  | "Machine Learning"
-  | "Coding"
-  | "React"
-  | "Next.js"
-  | "Firebase"
-  | "Python"
   | "Cybersecurity"
   | "Career"
   | "Showcase"
@@ -96,14 +88,6 @@ export type Category =
   | "Announcements";
 
 export const CATEGORIES: Category[] = [
-  "AI",
-  "Prompt Engineering",
-  "Machine Learning",
-  "Coding",
-  "React",
-  "Next.js",
-  "Firebase",
-  "Python",
   "Cybersecurity",
   "Career",
   "Showcase",
