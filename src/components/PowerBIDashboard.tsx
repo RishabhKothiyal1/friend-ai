@@ -280,7 +280,7 @@ export default function PowerBIDashboard({
             )}
           </div>
           <h3 className="text-xl font-bold font-serif text-slate-900 dark:text-purple-200">
-            Mood Analytics
+            mood analytics dashboard
           </h3>
           <p className="text-xs text-slate-500 dark:text-slate-400 max-w-2xl leading-relaxed">
             Real-time telemetry, cultural preservation metrics, in-app safety interlocks, and Google Workspace synchronization analytics rendered in continuous vector models.
