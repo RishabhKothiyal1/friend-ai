@@ -122,28 +122,7 @@ export default function CommunityPage() {
             <SettingsView />
           ) : null}
         </div>
-      </div>
-
-      <div className="w-56 shrink-0 border-l border-white/10 p-3 space-y-3 overflow-y-auto hidden lg:block">
-        <div className="text-[10px] uppercase tracking-widest font-bold text-slate-500 px-2 pb-2 border-b border-white/5">Trending Tags</div>
-        {["#gemini", "#friendai", "#typescript", "#react", "#firebase", "#ai", "#mentalhealth"].map((tag) => (
-          <div key={tag} className="flex items-center justify-between px-2 py-1.5 rounded-lg hover:bg-white/5 transition-colors cursor-pointer">
-            <span className="text-xs text-indigo-300">{tag}</span>
-            <span className="text-[10px] text-slate-500">{Math.floor(Math.random() * 50 + 5)}</span>
-          </div>
-        ))}
-        <div className="text-[10px] uppercase tracking-widest font-bold text-slate-500 px-2 pb-2 pt-3 border-t border-white/5 mt-3">Suggested Users</div>
-        {[1, 2, 3].map((i) => (
-          <div key={i} className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-white/5 transition-colors cursor-pointer">
-            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500" />
-            <div className="flex-1 min-w-0">
-              <div className="text-[10px] font-medium text-slate-200 truncate">User_{i}</div>
-              <div className="text-[9px] text-slate-500">{Math.floor(Math.random() * 100)} followers</div>
-            </div>
-            <button className="px-2 py-0.5 rounded-full border border-indigo-500/30 text-[9px] text-indigo-300 hover:bg-indigo-500/20 transition-colors cursor-pointer">Follow</button>
-          </div>
-        ))}
-      </div>
+      </div>      
     </div>
   );
 }
