@@ -21,6 +21,8 @@ export interface CommunityUser {
   badges?: string[];
   achievements?: string[];
   clinicalIntakeCompleted?: boolean;
+  medicalConditions?: string[];
+  customMedicalHistory?: string;
 }
 
 export interface Post {

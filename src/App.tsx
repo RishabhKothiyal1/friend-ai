@@ -221,7 +221,7 @@ import { Sidebar } from "./components/sidebar/Sidebar";
 import { Dashboard } from "./components/dashboard/Dashboard";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import CommunityPage from "./components/community/CommunityPage";
-import { db } from "./firebase/config";
+import { db, auth } from "./firebase/config";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
 interface ChatMessage {
@@ -6470,8 +6470,9 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                                     e.stopPropagation();
                                     setClickedTrendPoint({ entry: pt.entry, x: pt.x, y: pt.y });
                                   }}
-                                  title={`${pt.entry.mood} (${pt.entry.intensity}/10) - hover to scan, click for details`}
-                                />
+                                >
+                                  <title>{`${pt.entry.mood} (${pt.entry.intensity}/10) - hover to scan, click for details`}</title>
+                                </circle>
                               );
                             })}
                           </>
@@ -7672,7 +7673,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                               content={({ active, payload, label }) => {
                                 if (active && payload && payload.length) {
                                   const rawVal = payload[0].value;
-                                  const tgs = getMoodTagsForDate(label);
+                                  const tgs = getMoodTagsForDate(String(label));
                                   const labelText = breathingChartViewMode === "Minutes" 
                                     ? `${rawVal} min` 
                                     : `${rawVal}% of Daily Goal`;
@@ -8297,7 +8298,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       {/* Avatar & Basic Info Card */}
                       <div className="flex items-center gap-4 bg-white/5 border border-white/10 p-4 rounded-2xl">
                         <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white text-lg font-black shrink-0 shadow-md">
-                          {profileDisplayName ? profileDisplayName.slice(0, 2).toUpperCase() : user.email?.slice(0, 2).toUpperCase()}
+                          {((profileDisplayName || user.email || user.uid || "AN").slice(0, 2)).toUpperCase()}
                         </div>
                         <div className="min-w-0">
                           <h3 className="text-sm font-bold text-white truncate">{profileDisplayName || "Anonymous"}</h3>
