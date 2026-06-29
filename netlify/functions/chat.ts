@@ -341,7 +341,14 @@ Let's regulate your physical autonomic nervous system immediately:
     };
 
   } catch (error: any) {
-    const fallbackMessage = stripMarkdown(getOfflineFallbackResponse(characterId || "abhay", message));
+    let fallbackCharId = "abhay";
+    let fallbackMsg = "";
+    try {
+      const fbBody = JSON.parse(event.body || "{}");
+      fallbackCharId = fbBody.characterId || "abhay";
+      fallbackMsg = fbBody.message || "";
+    } catch (_) {}
+    const fallbackMessage = stripMarkdown(getOfflineFallbackResponse(fallbackCharId, fallbackMsg));
     return {
       statusCode: 200,
       headers: responseHeaders,
