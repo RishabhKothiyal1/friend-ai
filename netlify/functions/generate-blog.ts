@@ -120,7 +120,7 @@ CRITICAL STRUCTURE & SCHEMA RULES FOR YOUR CONTENT (Strictly Follow):
 Formatting: Use clean, structured Markdown. Make it professional, authoritative, but beautifully comforting and accessible. Maintain this professional standard completely.`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-1.5-flash",
+      model: "gemini-2.5-flash",
       contents: prompt,
     });
 

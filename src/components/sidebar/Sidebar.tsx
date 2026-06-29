@@ -95,16 +95,11 @@ export function Sidebar({
         {/* Header */}
         <div className="p-4 border-b border-slate-200 dark:border-white/10 flex items-center justify-between">
           <div className={`flex items-center gap-3 ${!isSidebarOpen && 'hidden'}`}>
-            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-10 h-10 shrink-0">
-              <circle cx="35" cy="25" r="12" fill="#3b82f6" />
-              <path d="M 50 45 C 30 35 15 45 15 65 C 15 85 25 90 35 90 C 45 90 45 75 50 75 Z" fill="#3b82f6" />
-              <circle cx="65" cy="25" r="12" fill="#a855f7" />
-              <path d="M 50 45 C 70 35 85 45 85 65 C 85 85 75 90 65 90 C 55 90 55 75 50 75 Z" fill="#a855f7" />
-              <circle cx="50" cy="55" r="24" fill="#ffffff" />
-              <circle cx="41" cy="50" r="3.5" fill="#0f172a" />
-              <circle cx="59" cy="50" r="3.5" fill="#0f172a" />
-              <path d="M43 59 Q 50 67 57 59" stroke="#0f172a" strokeWidth="4" strokeLinecap="round" fill="none" />
-            </svg>
+            <img 
+              src="/friend_ai_mascot.jpg" 
+              alt="friend ai logo" 
+              className="w-10 h-10 rounded-xl object-cover border border-slate-200 dark:border-white/10 shrink-0 shadow-sm"
+            />
             <div>
               <h1 className="font-bold text-xl tracking-tight whitespace-nowrap text-slate-900 dark:text-white">friend <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">ai</span></h1>
               <p className="text-xs text-slate-400 font-mono truncate w-24">{alias}</p>

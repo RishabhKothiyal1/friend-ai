@@ -1,9 +1,10 @@
 [build]
   publish = "dist"
   command = "npm run build"
+  functions = "netlify/functions"
 
 [build.environment]
-  VITE_API_URL = "https://friend-ai-production.up.railway.app"
+  # Using relative routing mapped to local Netlify functions
 
 [dev]
   command = "npx vite"
@@ -22,33 +23,3 @@
   [headers.values]
     Content-Type = "image/jpeg"
     Cache-Control = "public, max-age=31536000, immutable"
-
-[[redirects]]
-  from = "/api/chat"
-  to = ".netlify/functions/chat"
-  status = 200
-[[redirects]]
-  from = "/api/summarize-chat"
-  to = ".netlify/functions/summarize-chat"
-  status = 200
-[[redirects]]
-  from = "/api/mood-insights"
-  to = ".netlify/functions/mood-insights"
-  status = 200
-[[redirects]]
-  from = "/api/video-analysis"
-  to = ".netlify/functions/video-analysis"
-  status = 200
-[[redirects]]
-  from = "/api/solace-messages"
-  to = ".netlify/functions/solace-messages"
-  status = 200
-[[redirects]]
-  from = "/api/solace-messages/:id/hug"
-  to = ".netlify/functions/solace-messages-hug"
-  status = 200
-
-[[redirects]]
-  from = "/api/generate-blog"
-  to = ".netlify/functions/generate-blog"
-  status = 200
