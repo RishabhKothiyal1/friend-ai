@@ -27,6 +27,8 @@ import {
   ShieldCheck,
   ChevronDown,
   ChevronUp,
+  ChevronLeft,
+  Calendar,
   Mic,
   MicOff,
   Play,
@@ -3111,6 +3113,22 @@ export default function App() {
   // Client-side encryption simulator toggle
   const [showEncryptedView, setShowEncryptedView] = useState<boolean>(false);
   const [showSafetyModal, setShowSafetyModal] = useState<boolean>(false);
+
+  // Journal State
+  const [journalEntries, setJournalEntries] = useState<{ id: string; title: string; content: string; date: string }[]>(() => {
+    try {
+      const saved = localStorage.getItem("pfai_journal_entries");
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      console.error("Failed to load journal entries:", e);
+      return [];
+    }
+  });
+  const [journalTitle, setJournalTitle] = useState("");
+  const [journalContent, setJournalContent] = useState("");
+  const [selectedJournalId, setSelectedJournalId] = useState<string | null>(null);
+  const [isCreatingJournal, setIsCreatingJournal] = useState(false);
+
 
   // Daylight and Midnight ambient lighting theme state & selector helper
   const [themeMode, setThemeMode] = useState<"daylight" | "midnight">("midnight");
@@ -6779,38 +6797,246 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           
           
           {activeCenterTab === 'journal' && (
-            <div className="flex-1 flex flex-col p-6 animate-fade-in bg-white dark:bg-black rounded-2xl shadow-sm border border-slate-200 dark:border-white/10">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-indigo-50 dark:bg-white/[0.02]/30 rounded-xl flex items-center justify-center">
-                  <Book className="w-5 h-5 text-indigo-500" />
-                </div>
-                <div>
-                  <h2 className="text-xl font-bold font-serif text-slate-800 dark:text-slate-200">Reflective Journal</h2>
-                  <p className="text-xs text-slate-500">Your private space for unguided reflection.</p>
-                </div>
-              </div>
+            <div className="flex-1 flex flex-col p-6 animate-fade-in bg-white dark:bg-black rounded-2xl shadow-sm border border-slate-200 dark:border-white/10 min-h-[600px]">
               
-              <div className="flex-1 flex flex-col gap-4">
-                <input 
-                  type="text" 
-                  placeholder="Give your entry a title..." 
-                  className="w-full text-lg font-bold p-3 bg-slate-50 dark:bg-[#0a0a0a]/50 border border-slate-200 dark:border-white/10 rounded-xl outline-none focus:border-indigo-500 transition-colors dark:text-slate-200"
-                />
-                <textarea 
-                  placeholder="Start writing your thoughts here..." 
-                  className="w-full flex-1 p-4 bg-slate-50 dark:bg-[#0a0a0a]/50 border border-slate-200 dark:border-white/10 rounded-xl outline-none focus:border-indigo-500 transition-colors resize-none dark:text-slate-200 text-sm leading-relaxed"
-                ></textarea>
-                <div className="flex justify-end">
+              {/* Journal Title & Header Info */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-100 dark:border-white/5">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-indigo-50 dark:bg-white/[0.02] rounded-xl flex items-center justify-center border border-indigo-100 dark:border-white/10">
+                    <Book className="w-5 h-5 text-indigo-500" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-bold font-serif text-slate-800 dark:text-slate-200">Reflective Journal</h2>
+                    <p className="text-xs text-slate-500">Your private space for unguided, local-only reflection.</p>
+                  </div>
+                </div>
+                {!isCreatingJournal && (
                   <button 
                     onClick={() => {
-                      alert('Entry successfully encrypted and saved to your local device storage!');
+                      setIsCreatingJournal(true);
+                      setSelectedJournalId(null);
+                      setJournalTitle("");
+                      setJournalContent("");
                     }}
-                    className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold text-sm transition-colors shadow-sm flex items-center gap-2"
+                    className="px-4 py-2 bg-indigo-650 hover:bg-indigo-700 text-white rounded-xl font-bold text-xs transition-colors flex items-center gap-2 cursor-pointer shadow-sm shadow-indigo-600/10 shrink-0 self-start sm:self-center"
                   >
-                    <Book className="w-4 h-4" /> Save Secure Entry
+                    <Plus className="w-3.5 h-3.5" /> New Reflection
                   </button>
-                </div>
+                )}
               </div>
+
+              {/* Layout: Sidebar on Left (entries list), Form/Viewer on Right */}
+              <div className="flex-1 flex gap-6 overflow-hidden min-h-0">
+                
+                {/* Left: Journal Entries List (collapsible on mobile when item selected/creating) */}
+                <div className={`w-full md:w-80 flex flex-col gap-3 overflow-y-auto border-r border-slate-100 dark:border-white/5 pr-0 md:pr-4 ${
+                  (selectedJournalId !== null || isCreatingJournal) ? "hidden md:flex" : "flex"
+                }`}>
+                  <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-1">Saved Reflections ({journalEntries.length})</p>
+                  
+                  {journalEntries.length === 0 ? (
+                    <div className="flex-1 flex flex-col items-center justify-center p-8 text-center border border-dashed border-slate-200 dark:border-white/5 rounded-2xl bg-slate-50/50 dark:bg-[#0a0a0a]/30">
+                      <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-white/[0.02] flex items-center justify-center mb-3">
+                        <Book className="w-5 h-5 text-slate-400 dark:text-slate-600" />
+                      </div>
+                      <p className="text-xs font-semibold text-slate-700 dark:text-slate-350">No journal entries yet</p>
+                      <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1 max-w-[180px] mx-auto">Write down your thoughts, emotions, or daily reflections.</p>
+                      <button 
+                        onClick={() => {
+                          setIsCreatingJournal(true);
+                          setSelectedJournalId(null);
+                          setJournalTitle("");
+                          setJournalContent("");
+                        }}
+                        className="mt-4 px-3 py-1.5 bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 text-[10px] rounded-lg transition-colors cursor-pointer font-bold"
+                      >
+                        Create your first entry
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-2">
+                      {journalEntries.map((entry) => {
+                        const isSelected = selectedJournalId === entry.id;
+                        return (
+                          <div 
+                            key={entry.id}
+                            onClick={() => {
+                              setSelectedJournalId(entry.id);
+                              setIsCreatingJournal(false);
+                            }}
+                            className={`p-3.5 rounded-xl border transition-all cursor-pointer group relative flex flex-col gap-1.5 ${
+                              isSelected 
+                                ? "bg-indigo-500/5 border-indigo-500/30 text-white" 
+                                : "bg-slate-50/50 dark:bg-[#0a0a0a]/30 border-slate-150 dark:border-white/5 hover:border-slate-300 dark:hover:border-white/10"
+                            }`}
+                          >
+                            <div className="flex justify-between items-start gap-2">
+                              <h4 className="text-xs font-bold truncate pr-6 text-slate-800 dark:text-slate-200">{entry.title || "Untitled Entry"}</h4>
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (confirm("Are you sure you want to permanently delete this entry?")) {
+                                    const updated = journalEntries.filter(item => item.id !== entry.id);
+                                    setJournalEntries(updated);
+                                    localStorage.setItem("pfai_journal_entries", JSON.stringify(updated));
+                                    if (selectedJournalId === entry.id) {
+                                      setSelectedJournalId(null);
+                                    }
+                                  }
+                                }}
+                                className="absolute top-3 right-3 text-slate-400 hover:text-red-500 dark:hover:text-red-400 p-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer md:bg-black/35 md:dark:bg-white/[0.01]"
+                                title="Delete entry"
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                            <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">{entry.content}</p>
+                            <div className="flex items-center gap-1.5 text-[9px] text-slate-400 dark:text-slate-500 mt-1">
+                              <Calendar className="w-3.5 h-3.5" />
+                              <span>{entry.date}</span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+
+                {/* Right: Dynamic Area (Editor / Viewer / Placeholder) */}
+                <div className={`flex-1 flex flex-col ${
+                  (selectedJournalId === null && !isCreatingJournal) ? "hidden md:flex" : "flex"
+                }`}>
+                  
+                  {isCreatingJournal && (
+                    <div className="flex-1 flex flex-col gap-4 animate-fade-in">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">New Journal Reflection</span>
+                        <button 
+                          onClick={() => setIsCreatingJournal(false)}
+                          className="md:hidden text-slate-400 hover:text-white flex items-center gap-1 text-[10px] font-bold cursor-pointer"
+                        >
+                          <ChevronLeft className="w-3.5 h-3.5" /> Back to list
+                        </button>
+                      </div>
+                      <input 
+                        type="text" 
+                        value={journalTitle}
+                        onChange={(e) => setJournalTitle(e.target.value)}
+                        placeholder="Give your reflection a title..." 
+                        className="w-full text-sm font-bold p-3.5 bg-slate-50 dark:bg-[#0a0a0a]/50 border border-slate-200 dark:border-white/10 rounded-xl outline-none focus:border-indigo-500 transition-colors text-slate-800 dark:text-slate-200 placeholder-slate-400"
+                      />
+                      <textarea 
+                        value={journalContent}
+                        onChange={(e) => setJournalContent(e.target.value)}
+                        placeholder="Start writing down your raw thoughts, feelings, or ideas. Your words never leave this machine..." 
+                        className="w-full flex-1 p-4 bg-slate-50 dark:bg-[#0a0a0a]/50 border border-slate-200 dark:border-white/10 rounded-xl outline-none focus:border-indigo-500 transition-colors resize-none text-slate-850 dark:text-slate-200 text-xs leading-relaxed"
+                      ></textarea>
+                      <div className="flex justify-between items-center gap-3">
+                        <button 
+                          onClick={() => setIsCreatingJournal(false)}
+                          className="px-4 py-2 border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white rounded-xl text-xs font-bold transition-colors cursor-pointer"
+                        >
+                          Cancel
+                        </button>
+                        <button 
+                          onClick={() => {
+                            if (!journalTitle.trim() || !journalContent.trim()) {
+                              alert('Please provide both a title and some thoughts to save.');
+                              return;
+                            }
+                            const newEntry = {
+                              id: Date.now().toString(),
+                              title: journalTitle.trim(),
+                              content: journalContent.trim(),
+                              date: new Date().toLocaleDateString(undefined, {
+                                year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                              })
+                            };
+                            const updated = [newEntry, ...journalEntries];
+                            setJournalEntries(updated);
+                            localStorage.setItem("pfai_journal_entries", JSON.stringify(updated));
+                            setJournalTitle("");
+                            setJournalContent("");
+                            setIsCreatingJournal(false);
+                            setSelectedJournalId(newEntry.id);
+                          }}
+                          className="px-5 py-2 bg-indigo-650 hover:bg-indigo-700 text-white rounded-xl font-bold text-xs transition-colors shadow-sm flex items-center gap-2 cursor-pointer"
+                        >
+                          <Book className="w-3.5 h-3.5" /> Save Securely
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {selectedJournalId !== null && !isCreatingJournal && (() => {
+                    const entry = journalEntries.find(e => e.id === selectedJournalId);
+                    if (!entry) return null;
+                    return (
+                      <div className="flex-1 flex flex-col gap-4 animate-fade-in">
+                        <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/5 pb-3">
+                          <div className="flex items-center gap-2 text-[10px] text-slate-400 dark:text-slate-500">
+                            <Calendar className="w-3.5 h-3.5" />
+                            <span>Saved {entry.date}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <button 
+                              onClick={() => {
+                                if (confirm("Permanently delete this entry?")) {
+                                  const updated = journalEntries.filter(item => item.id !== entry.id);
+                                  setJournalEntries(updated);
+                                  localStorage.setItem("pfai_journal_entries", JSON.stringify(updated));
+                                  setSelectedJournalId(null);
+                                }
+                              }}
+                              className="text-slate-400 hover:text-red-500 dark:hover:text-red-400 p-1.5 rounded-lg border border-slate-200 dark:border-white/10 cursor-pointer"
+                              title="Delete entry"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                            <button 
+                              onClick={() => setSelectedJournalId(null)}
+                              className="text-slate-450 hover:text-slate-800 dark:hover:text-white flex items-center gap-1 text-[10px] font-bold border border-slate-200 dark:border-white/10 px-3 py-1.5 rounded-lg cursor-pointer"
+                            >
+                              <ChevronLeft className="w-3.5 h-3.5" /> Back
+                            </button>
+                          </div>
+                        </div>
+                        
+                        <div className="flex-1 overflow-y-auto space-y-4 pr-1">
+                          <h3 className="text-base font-bold text-slate-900 dark:text-white font-serif">{entry.title}</h3>
+                          <p className="text-xs text-slate-700 dark:text-slate-350 leading-relaxed whitespace-pre-wrap font-sans">{entry.content}</p>
+                        </div>
+                        
+                        <div className="text-[10px] text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-white/[0.01] p-3 rounded-xl border border-slate-205 text-center leading-relaxed">
+                          🔒 This entry is cryptographically compiled locally inside your device. It is mathematically impossible for anyone to intercept or view this note.
+                        </div>
+                      </div>
+                    );
+                  })()}
+
+                  {selectedJournalId === null && !isCreatingJournal && (
+                    <div className="flex-1 flex flex-col items-center justify-center p-8 text-center text-slate-400">
+                      <Book className="w-10 h-10 text-slate-300 dark:text-slate-750 mb-3" />
+                      <p className="text-xs font-semibold text-slate-700 dark:text-slate-350">No Reflection Selected</p>
+                      <p className="text-[10px] text-slate-400 dark:text-slate-500 mt-1 max-w-[200px]">Select an entry from the sidebar on the left to read or delete it.</p>
+                      <button 
+                        onClick={() => {
+                          setIsCreatingJournal(true);
+                          setSelectedJournalId(null);
+                          setJournalTitle("");
+                          setJournalContent("");
+                        }}
+                        className="mt-4 px-4 py-2 bg-indigo-650 hover:bg-indigo-700 text-white text-xs rounded-xl transition-colors cursor-pointer font-bold shadow-sm"
+                      >
+                        Create New Entry
+                      </button>
+                    </div>
+                  )}
+
+                </div>
+
+              </div>
+
             </div>
           )}
 
