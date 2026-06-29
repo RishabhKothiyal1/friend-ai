@@ -10154,6 +10154,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       loop
                       playsInline
                       preload="auto"
+                      poster="/about-us-poster.jpg"
                       className="w-full h-auto block"
                       style={{ maxHeight: '480px', objectFit: 'contain', background: '#000' }}
                     >
