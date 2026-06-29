@@ -146,7 +146,13 @@ function PostDetailView({ post, onBack }: { post: Post; onBack: () => void }) {
       </button>
       <div className="p-4 rounded-xl border border-white/10 bg-white/[0.03]">
         <div className="flex items-center gap-2 mb-2">
-          <img src={post.authorAvatar || "/friend_ai_mascot.jpg"} alt="" className="w-7 h-7 rounded-full object-cover" />
+          {post.authorAvatar ? (
+            <img src={post.authorAvatar} alt="" className="w-7 h-7 rounded-full object-cover" />
+          ) : (
+            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shrink-0 text-white text-[10px] font-black">
+              {(post.authorName || "U").charAt(0).toUpperCase()}
+            </div>
+          )}
           <div className="text-xs">
             <div className="font-medium text-slate-200">{post.authorName}</div>
             <div className="text-[10px] text-slate-500">{timeAgo(post.createdAt)}</div>
@@ -186,7 +192,13 @@ function NotificationsView({ notifications }: { notifications: any[] }) {
     <div className="max-w-xl mx-auto space-y-2">
       {notifications.map((n: any) => (
         <div key={n.id} className={`p-3 rounded-xl border ${n.read ? "border-white/5" : "border-indigo-500/20 bg-indigo-500/5"} flex items-start gap-3`}>
-          <img src={n.fromAvatar || "/friend_ai_mascot.jpg"} alt="" className="w-7 h-7 rounded-full object-cover shrink-0" />
+          {n.fromAvatar ? (
+            <img src={n.fromAvatar} alt="" className="w-7 h-7 rounded-full object-cover shrink-0" />
+          ) : (
+            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shrink-0 text-white text-[10px] font-black">
+              {(n.fromName || "U").charAt(0).toUpperCase()}
+            </div>
+          )}
           <div className="text-xs text-slate-300">
             <span className="font-medium text-slate-200">{n.fromName}</span>{" "}
             {n.type === "like" ? "liked your post" : n.type === "comment" ? "commented on your post" : n.type === "follow" ? "followed you" : "mentioned you"}
@@ -201,9 +213,16 @@ function ProfileView({ profile }: { profile: any }) {
   if (!profile) {
     return <div className="text-center py-12"><User className="w-8 h-8 text-slate-500 mx-auto mb-2" /><p className="text-xs text-slate-400">Sign in to view your profile.</p></div>;
   }
+  const initial = (profile.displayName || profile.username || "U").charAt(0).toUpperCase();
   return (
     <div className="max-w-xl mx-auto text-center space-y-4">
-      <img src={profile.photoURL || "/friend_ai_mascot.jpg"} alt="" className="w-16 h-16 rounded-full object-cover mx-auto border-2 border-indigo-500/30" />
+      {profile.photoURL ? (
+        <img src={profile.photoURL} alt="" className="w-16 h-16 rounded-full object-cover mx-auto border-2 border-indigo-500/30" />
+      ) : (
+        <div className="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mx-auto border-2 border-indigo-500/30 text-white text-xl font-black">
+          {initial}
+        </div>
+      )}
       <div>
         <h2 className="text-sm font-bold text-white">{profile.displayName}</h2>
         <p className="text-[10px] text-slate-400">@{profile.username}</p>

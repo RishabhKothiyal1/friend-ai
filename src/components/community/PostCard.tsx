@@ -53,11 +53,13 @@ export default function PostCard({ post, onClick }: PostCardProps) {
       className="group p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/[0.07] transition-all cursor-pointer"
     >
       <div className="flex items-start gap-3">
-        <img
-          src={post.authorAvatar || "/friend_ai_mascot.jpg"}
-          alt={post.authorName}
-          className="w-9 h-9 rounded-full object-cover shrink-0 bg-slate-700"
-        />
+        {post.authorAvatar ? (
+          <img src={post.authorAvatar} alt={post.authorName} className="w-9 h-9 rounded-full object-cover shrink-0 bg-slate-700" />
+        ) : (
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shrink-0 text-white text-xs font-black">
+            {(post.authorName || "U").charAt(0).toUpperCase()}
+          </div>
+        )}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 text-xs text-slate-400 mb-1">
             <span className="font-medium text-slate-200">{post.authorName}</span>

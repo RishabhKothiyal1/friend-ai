@@ -90,11 +90,13 @@ export default function Comments({ postId, comments, loading }: CommentsProps) {
     <div className="space-y-3">
       {user && (
         <div className="flex gap-2">
-          <img
-            src={profile?.photoURL || "/friend_ai_mascot.jpg"}
-            alt=""
-            className="w-7 h-7 rounded-full object-cover shrink-0"
-          />
+          {profile?.photoURL ? (
+            <img src={profile.photoURL} alt="" className="w-7 h-7 rounded-full object-cover shrink-0" />
+          ) : (
+            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shrink-0 text-white text-[10px] font-black">
+              {(profile?.displayName || "U").charAt(0).toUpperCase()}
+            </div>
+          )}
           <div className="flex-1 flex gap-2">
             <input
               type="text"
@@ -183,7 +185,13 @@ function CommentItem({
   return (
     <div className="p-3 rounded-xl border border-white/5 bg-white/[0.03]">
       <div className="flex items-start gap-2">
-        <img src={comment.authorAvatar || "/friend_ai_mascot.jpg"} alt="" className="w-6 h-6 rounded-full object-cover shrink-0" />
+        {comment.authorAvatar ? (
+          <img src={comment.authorAvatar} alt="" className="w-6 h-6 rounded-full object-cover shrink-0" />
+        ) : (
+          <div className="w-6 h-6 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shrink-0 text-white text-[9px] font-black">
+            {(comment.authorName || "U").charAt(0).toUpperCase()}
+          </div>
+        )}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5 text-[10px] text-slate-400 mb-0.5">
             <span className="font-medium text-slate-200">{comment.authorName}</span>
@@ -248,7 +256,13 @@ function CommentItem({
                     <div className="mt-2 space-y-2 pl-4 border-l border-white/10">
                       {replies.map((reply) => (
                         <div key={reply.id} className="flex items-start gap-2">
-                          <img src={reply.authorAvatar || "/friend_ai_mascot.jpg"} alt="" className="w-5 h-5 rounded-full object-cover shrink-0" />
+                          {reply.authorAvatar ? (
+                            <img src={reply.authorAvatar} alt="" className="w-5 h-5 rounded-full object-cover shrink-0" />
+                          ) : (
+                            <div className="w-5 h-5 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shrink-0 text-white text-[7px] font-black">
+                              {(reply.authorName || "U").charAt(0).toUpperCase()}
+                            </div>
+                          )}
                           <div>
                             <div className="flex items-center gap-1 text-[10px] text-slate-400">
                               <span className="font-medium text-slate-200">{reply.authorName}</span>
