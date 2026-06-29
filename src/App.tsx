@@ -10789,7 +10789,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {[
-                      { initials: 'MP', name: 'Manjishtha Pahilajani', role: 'Founder & Visionary', bio: 'Founder of Project Friend AI. Author, clinical researcher, and developer of localized emotional de-escalation models.', linkedin: '' },
+                      { initials: 'MP', name: 'Manjishtha Pahilajani', role: 'Founder & Visionary', bio: 'Founder of Project Friend AI. Author, clinical researcher, and developer of localized emotional de-escalation models.', linkedin: 'https://www.linkedin.com/in/manjishtha-pahilajani/' },
                       { initials: 'AJ', name: 'Altaf Jasnaik', role: 'Founding Partner · Management', bio: 'CEO and Founder of Managemend Ltd. Master of brand strategy, commercial execution, and scaling.', linkedin: 'https://www.linkedin.com/in/discoveraltafjasnaik/' },
                       { initials: 'RK', name: 'Rishabh Kothiyal', role: 'Co-founder · Technical Lead', bio: 'Lead Software Architect building localized vector indices, local model execution layers, and privacy pipelines.', linkedin: 'https://www.linkedin.com/in/rishabhkothiyal/' },
                       { initials: 'AT', name: 'Abhay Tiwari', role: 'Co-founder · Head of AI Governance', bio: 'AI Governance lead at BlackRock. Directing ethical constraints, regulatory safety, and system data compliance.', linkedin: 'https://www.linkedin.com/in/abhaytiwari94/' },
