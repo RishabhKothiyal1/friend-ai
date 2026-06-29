@@ -61,7 +61,8 @@ import {
   Book,
   Wind,
   Settings,
-  Palette
+  Palette,
+  Menu
 } from "lucide-react";
 import { calmingMusic } from "./lib/calmingMusic";
 import { mozartPiano } from "./lib/mozartPiano";
@@ -3195,7 +3196,13 @@ export default function App() {
       console.error("Failed to update URL path for active tab:", e);
     }
   }, [activeCenterTab]);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => {
+    try {
+      return window.innerWidth >= 768;
+    } catch (e) {
+      return true;
+    }
+  });
 
   const deleteBlog = (id: string) => {
     setBlogsList(blogsList.filter(b => b.id !== id));
@@ -5976,6 +5983,9 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           activeTab={activeCenterTab} 
           onTabChange={(tab) => {
             setActiveCenterTab(tab as any);
+            if (window.innerWidth < 768) {
+              setIsSidebarOpen(false);
+            }
           }} 
           onLogout={handleLogout}
           alias={loginAlias}
@@ -5983,17 +5993,53 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           onToggleZenMode={() => setZenMode(!zenMode)}
           themeMode={themeMode}
           onThemeChange={(t) => setThemeMode(t as any)}
-          onOpenClinicalDirectory={() => setActiveCenterTab('directory' as any)}
+          onOpenClinicalDirectory={() => {
+            setActiveCenterTab('directory' as any);
+            if (window.innerWidth < 768) {
+              setIsSidebarOpen(false);
+            }
+          }}
           onNewChat={handleNewChat}
           onSearchClick={handleSearchClick}
           sessions={chatSessions.filter(s => s.characterId === selectedCharacterId)}
-          onSelectSession={handleSelectSession}
+          onSelectSession={(sid) => {
+            handleSelectSession(sid);
+            if (window.innerWidth < 768) {
+              setIsSidebarOpen(false);
+            }
+          }}
           onDeleteSession={handleDeleteSession}
         />
       )}
       
       {/* Main App Content Area (Right of Sidebar) */}
       <div className="flex-1 flex flex-col relative min-h-screen overflow-x-hidden">
+        {isLoggedIn && (
+          <div className="md:hidden flex items-center justify-between px-4 py-3 bg-slate-50 dark:bg-black border-b border-slate-200 dark:border-white/10 z-40 sticky top-0">
+            <button 
+              onClick={() => setIsSidebarOpen(true)}
+              className="p-2 -ml-2 text-slate-600 dark:text-slate-350 hover:text-slate-900 dark:hover:text-white rounded-lg transition-colors cursor-pointer"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+            <span className="font-extrabold text-sm tracking-tight text-slate-800 dark:text-white flex items-center gap-1.5">
+              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-6 h-6">
+                <circle cx="35" cy="25" r="12" fill="#3b82f6" />
+                <path d="M 50 45 C 30 35 15 45 15 65 C 15 85 25 90 35 90 C 45 90 45 75 50 75 Z" fill="#3b82f6" />
+                <circle cx="65" cy="25" r="12" fill="#a855f7" />
+                <path d="M 50 45 C 70 35 85 45 85 65 C 85 85 75 90 65 90 C 55 90 55 75 50 75 Z" fill="#a855f7" />
+                <circle cx="50" cy="55" r="24" fill="#ffffff" />
+                <circle cx="41" cy="50" r="3.5" fill="#0f172a" />
+                <circle cx="59" cy="50" r="3.5" fill="#0f172a" />
+                <path d="M43 59 Q 50 67 57 59" stroke="#0f172a" strokeWidth="4" strokeLinecap="round" fill="none" />
+              </svg>
+              <span>friend <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">ai</span></span>
+            </span>
+            <div className="w-8 h-8 rounded-full bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-xs font-mono font-bold uppercase">
+              {loginAlias ? loginAlias.slice(0, 2) : 'AI'}
+            </div>
+          </div>
+        )}
         {!isLoggedIn ? (
           <div className="flex-1 w-full">
             <Hero1 onGetStarted={() => setIsAliasModalOpen(true)} />
