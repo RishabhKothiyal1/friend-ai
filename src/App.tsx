@@ -10101,7 +10101,9 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       muted
                       loop
                       playsInline
-                      className="w-full h-auto object-cover block"
+                      preload="auto"
+                      className="w-full h-auto block"
+                      style={{ maxHeight: '480px', objectFit: 'contain', background: '#000' }}
                     >
                       <source src="/about-us.mp4" type="video/mp4" />
                     </video>
