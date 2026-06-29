@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ShieldAlert, Lock, Check, Loader2, ArrowRight } from "lucide-react";
+import { ShieldAlert, Lock, Check, Loader2, ArrowRight, X } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import { doc, updateDoc } from "firebase/firestore";
 import { db, auth } from "../../firebase/config";
@@ -19,12 +19,13 @@ interface AliasModalProps {
   onClose: () => void;
   onLogin: (data: LoginData) => void;
   error?: string | null;
+  initialTab?: "login" | "signup";
 }
 
-export function AliasModal({ isOpen, onClose, onLogin, error: externalError }: AliasModalProps) {
-  const { user, profile, signInWithGoogle, signInWithEmail, signUpWithEmail, loading: authLoading } = useAuth();
-  
-  const [emailTab, setEmailTab] = useState<"signup" | "login">("signup");
+export function AliasModal({ isOpen, onClose, onLogin, error: externalError, initialTab = "signup" }: AliasModalProps) {
+  const { user, profile, signInWithGoogle, signInWithEmail, signUpWithEmail, resetPassword, loading: authLoading } = useAuth();
+
+  const [emailTab, setEmailTab] = useState<"signup" | "login">(initialTab);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -35,11 +36,20 @@ export function AliasModal({ isOpen, onClose, onLogin, error: externalError }: A
   const [customMedicalHistory, setCustomMedicalHistory] = useState("");
   const [consentPsychology, setConsentPsychology] = useState(false);
   const [consentAnonymity, setConsentAnonymity] = useState(false);
-  
+
   const [submitting, setSubmitting] = useState(false);
   const [errorState, setErrorState] = useState<string | null>(null);
+  const [resetSent, setResetSent] = useState(false);
 
-  // Sync state with incoming user auth
+  useEffect(() => {
+    setEmailTab(initialTab);
+  }, [initialTab]);
+
+  useEffect(() => {
+    setErrorState(null);
+    setResetSent(false);
+  }, [emailTab]);
+
   useEffect(() => {
     if (user && profile) {
       if (profile.clinicalIntakeCompleted) {
@@ -54,7 +64,7 @@ export function AliasModal({ isOpen, onClose, onLogin, error: externalError }: A
         });
         onClose();
       } else {
-        // Pre-fill from Google profile
+        setEmailTab("signup");
         if (!displayName) {
           setDisplayName(profile.displayName || user.displayName || "");
         }
@@ -76,13 +86,26 @@ export function AliasModal({ isOpen, onClose, onLogin, error: externalError }: A
     }
   };
 
+  const handleForgotPassword = async () => {
+    if (!email.trim()) {
+      setErrorState("Please enter your email address first.");
+      return;
+    }
+    setErrorState(null);
+    try {
+      await resetPassword(email.trim());
+      setResetSent(true);
+    } catch (err: any) {
+      setErrorState(err.message || "Failed to send reset email.");
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorState(null);
     setSubmitting(true);
 
     try {
-      // 1. If not authenticated, authenticate first
       if (!user) {
         if (emailTab === "signup") {
           if (!displayName.trim() || !username.trim()) {
@@ -107,10 +130,8 @@ export function AliasModal({ isOpen, onClose, onLogin, error: externalError }: A
             throw new Error("You must accept both safety agreements to proceed.");
           }
 
-          // Register
           await signUpWithEmail(email, password, displayName.trim(), username.trim());
-          
-          // Update profile in Firestore immediately using auth.currentUser
+
           const currentUser = auth?.currentUser;
           if (currentUser && db) {
             const userRef = doc(db, "users", currentUser.uid);
@@ -134,12 +155,10 @@ export function AliasModal({ isOpen, onClose, onLogin, error: externalError }: A
           }
           onClose();
         } else {
-          // simple sign in view
           await signInWithEmail(email, password);
           onClose();
         }
       } else {
-        // User is logged in (e.g. via Google), but submitting intake
         if (!displayName.trim() || !username.trim()) {
           throw new Error("Display name and username are required");
         }
@@ -186,18 +205,123 @@ export function AliasModal({ isOpen, onClose, onLogin, error: externalError }: A
 
   const activeError = errorState || externalError;
 
-  return (
-    <div 
-      className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-6 md:pt-12 bg-black/80 backdrop-blur-md animate-in fade-in duration-300 overflow-y-auto"
-      onClick={handleBackdropClick}
-    >
-      <div className="relative w-full max-w-xl bg-[#1c1c1c] border border-white/10 rounded-[2rem] shadow-2xl p-6 md:p-8 my-8 overflow-hidden font-sans">
-        
-        {/* Subtle Grain Overlay */}
-        <div className="absolute inset-0 opacity-[0.02] pointer-events-none mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
+  const renderLoginScreen = () => (
+    <div className="relative w-full max-w-md bg-[#1c1c1c] border border-white/10 rounded-[2rem] shadow-2xl p-8 my-8 overflow-hidden font-sans">
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
 
-        {/* Header */}
-        <div className="flex flex-col mb-6 relative z-10">
+      <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors z-20">
+        <X className="w-5 h-5" />
+      </button>
+
+      <div className="relative z-10">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-black text-white tracking-tight">Welcome back</h2>
+          <p className="text-sm text-gray-400 mt-2">
+            New here?{" "}
+            <button
+              type="button"
+              onClick={() => setEmailTab("signup")}
+              className="text-indigo-400 hover:text-indigo-300 font-semibold transition-colors"
+            >
+              Create an account →
+            </button>
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleGoogleSignIn}
+          disabled={authLoading || submitting}
+          className="w-full py-3 bg-transparent border border-white/20 hover:border-white/40 disabled:opacity-50 text-white font-semibold text-sm rounded-xl flex items-center justify-center gap-2.5 cursor-pointer transition-all"
+        >
+          <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+            <path d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-5.136 4.114-3.555 0-6.44-2.885-6.44-6.44s2.885-6.44 6.44-6.44c1.633 0 3.129.61 4.27 1.621l3.03-3.03C19.07 2.38 15.82 1 12.24 1 6.033 1 1 6.033 1 12.24s5.033 11.24 11.24 11.24c6.236 0 11.265-5.029 11.265-11.24 0-.78-.069-1.536-.205-2.255H12.24z" fill="#ffffff"/>
+          </svg>
+          Continue with Google
+        </button>
+
+        <div className="flex items-center my-6">
+          <div className="flex-1 h-px bg-white/10"></div>
+          <span className="px-4 text-[10px] uppercase font-mono tracking-widest text-gray-500">or sign in with email</span>
+          <div className="flex-1 h-px bg-white/10"></div>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="email"
+            placeholder="Email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="w-full bg-[#161616] border border-white/10 rounded-xl text-sm p-3.5 text-white outline-none focus:border-white/30 transition-all placeholder-gray-600"
+          />
+          <div>
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full bg-[#161616] border border-white/10 rounded-xl text-sm p-3.5 text-white outline-none focus:border-white/30 transition-all placeholder-gray-600"
+            />
+            <div className="text-right mt-1.5">
+              <button
+                type="button"
+                onClick={handleForgotPassword}
+                className="text-[11px] text-gray-500 hover:text-indigo-400 transition-colors font-medium"
+              >
+                Forgot password?
+              </button>
+            </div>
+          </div>
+
+          {resetSent && (
+            <div className="p-3 bg-green-950/40 border border-green-900/50 rounded-xl text-xs text-green-400">
+              Password reset email sent. Check your inbox.
+            </div>
+          )}
+
+          {activeError && (
+            <div className="p-3.5 bg-red-950/40 border border-red-900/50 rounded-xl text-xs text-red-400 flex items-start gap-3">
+              <ShieldAlert className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+              <span className="leading-relaxed">{activeError}</span>
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={submitting}
+            className="w-full py-3.5 bg-white hover:bg-gray-200 text-black font-bold text-sm rounded-xl flex items-center justify-center gap-2 transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+          >
+            {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
+            Sign In
+          </button>
+        </form>
+
+        <p className="text-center text-sm text-gray-400 mt-6">
+          Don't have an account?{" "}
+          <button
+            type="button"
+            onClick={() => setEmailTab("signup")}
+            className="text-indigo-400 hover:text-indigo-300 font-semibold transition-colors"
+          >
+            Sign up
+          </button>
+        </p>
+      </div>
+    </div>
+  );
+
+  const renderSignupScreen = () => (
+    <div className="relative w-full max-w-xl bg-[#1c1c1c] border border-white/10 rounded-[2rem] shadow-2xl p-6 md:p-8 my-8 overflow-hidden font-sans">
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
+
+      <button onClick={onClose} className="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors z-20">
+        <X className="w-5 h-5" />
+      </button>
+
+      <div className="relative z-10">
+        <div className="flex flex-col mb-6">
           <span className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-bold block mb-1">
             Friend AI
           </span>
@@ -209,16 +333,13 @@ export function AliasModal({ isOpen, onClose, onLogin, error: externalError }: A
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
-          
-          {/* Sign In with Google Section (only if not authenticated) */}
+        <form onSubmit={handleSubmit} className="space-y-5">
           {!user && (
             <div className="space-y-3">
               <span className="text-[9px] text-gray-500 uppercase tracking-[0.15em] font-bold block flex items-center gap-1.5">
                 <Lock className="w-3 h-3 text-gray-600" />
                 Sign In with Google
               </span>
-              
               <button
                 type="button"
                 onClick={handleGoogleSignIn}
@@ -231,11 +352,10 @@ export function AliasModal({ isOpen, onClose, onLogin, error: externalError }: A
                 Continue with Google
               </button>
 
-              {/* Divider */}
               <div className="flex items-center pt-2">
                 <div className="flex-1 h-px bg-white/10"></div>
                 <span className="px-3 text-[10px] uppercase font-mono tracking-widest text-slate-500">
-                  {emailTab === "signup" ? "or register with email" : "or sign in with email"}
+                  or register with email
                 </span>
                 <div className="flex-1 h-px bg-white/10"></div>
               </div>
@@ -245,11 +365,10 @@ export function AliasModal({ isOpen, onClose, onLogin, error: externalError }: A
           {user && (
             <div className="p-3.5 bg-indigo-500/10 border border-indigo-500/20 rounded-2xl text-xs text-indigo-300 flex items-center gap-2">
               <Check className="w-4 h-4 text-indigo-400 shrink-0" />
-              <span>Authenticated as <strong>{user.email}</strong>. Complete your clinical parameters below.</span>
+              <span>Authenticated as <strong>{user.email}</strong>. Complete your registration below.</span>
             </div>
           )}
 
-          {/* Email Form Fields */}
           {!user && (
             <div className="space-y-3">
               <input
@@ -268,31 +387,27 @@ export function AliasModal({ isOpen, onClose, onLogin, error: externalError }: A
                 required
                 className="w-full bg-[#161616] border border-white/10 rounded-xl text-xs p-3.5 text-white outline-none focus:border-white/30 transition-all placeholder-gray-600"
               />
-
-              {emailTab === "signup" && (
-                <div className="grid grid-cols-2 gap-3 animate-in fade-in slide-in-from-top-2 duration-200">
-                  <input
-                    type="text"
-                    placeholder="Display name"
-                    value={displayName}
-                    onChange={(e) => setDisplayName(e.target.value)}
-                    required
-                    className="bg-[#161616] border border-white/10 rounded-xl text-xs p-3.5 text-white outline-none focus:border-white/30 transition-all placeholder-gray-600"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                    className="bg-[#161616] border border-white/10 rounded-xl text-xs p-3.5 text-white outline-none focus:border-white/30 transition-all placeholder-gray-600"
-                  />
-                </div>
-              )}
+              <div className="grid grid-cols-2 gap-3 animate-in fade-in slide-in-from-top-2 duration-200">
+                <input
+                  type="text"
+                  placeholder="Display name"
+                  value={displayName}
+                  onChange={(e) => setDisplayName(e.target.value)}
+                  required
+                  className="bg-[#161616] border border-white/10 rounded-xl text-xs p-3.5 text-white outline-none focus:border-white/30 transition-all placeholder-gray-600"
+                />
+                <input
+                  type="text"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                  className="bg-[#161616] border border-white/10 rounded-xl text-xs p-3.5 text-white outline-none focus:border-white/30 transition-all placeholder-gray-600"
+                />
+              </div>
             </div>
           )}
 
-          {/* Prefilled Display Name & Username for Google Auth users (when completing intake) */}
           {user && (
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1.5">
@@ -320,124 +435,111 @@ export function AliasModal({ isOpen, onClose, onLogin, error: externalError }: A
             </div>
           )}
 
-          {/* Horizontal Rule */}
           <div className="h-px w-full bg-white/10"></div>
 
-          {/* Clinical Intake History Section */}
-          {(emailTab === "signup" || user) && (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h3 className="text-sm font-bold text-white tracking-wide">
-                  Clinical intake history
-                </h3>
-                <span className="bg-green-500/10 text-green-400 border border-green-500/20 px-2.5 py-0.5 rounded-full text-[9px] font-bold flex items-center gap-1">
-                  <Lock className="w-2.5 h-2.5" />
-                  Securely stored
-                </span>
-              </div>
-
-              {/* Region Select */}
-              <div className="relative">
-                <select
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  className="w-full bg-[#161616] border border-white/10 hover:border-white/20 rounded-xl text-xs p-3.5 text-white outline-none focus:border-white/30 transition-all cursor-pointer appearance-none"
-                  required
-                >
-                  <option value="India">India</option>
-                  <option value="USA">United States</option>
-                  <option value="United Kingdom">United Kingdom</option>
-                  <option value="Canada">Canada</option>
-                  <option value="Australia">Australia</option>
-                  <option value="Singapore">Singapore</option>
-                  <option value="International">International</option>
-                </select>
-                <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 text-xs">▼</div>
-              </div>
-
-              {/* 2x2 Grid Checklist */}
-              <div className="space-y-3">
-                <span className="text-[9px] text-gray-500 uppercase tracking-[0.15em] font-bold block">
-                  History & Conditions
-                </span>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {[
-                    { id: "MEDS_CHRONIC", label: "Prescribed psychiatric medication" },
-                    { id: "DIAGNOSED_SEVERE", label: "Severe diagnosed history" },
-                    { id: "CLINICAL_SYMPTOMS", label: "Persistent clinical distress" },
-                    { id: "TRAUMA_GRIEF", label: "Trauma, grief, or domestic issues" }
-                  ].map(condition => (
-                    <button 
-                      type="button"
-                      key={condition.id} 
-                      onClick={() => {
-                        if (medicalConditions.includes(condition.id)) {
-                          setMedicalConditions(prev => prev.filter(c => c !== condition.id));
-                        } else {
-                          setMedicalConditions(prev => [...prev, condition.id]);
-                        }
-                      }}
-                      className="w-full text-left flex items-center gap-3 p-3.5 rounded-xl border border-white/5 hover:border-white/10 bg-white/[0.02] cursor-pointer transition-all group"
-                    >
-                      <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-colors ${medicalConditions.includes(condition.id) ? 'bg-white border-white' : 'border-gray-600 group-hover:border-gray-500'}`}>
-                        {medicalConditions.includes(condition.id) && <Check className="w-3 h-3 text-black stroke-[3]" />}
-                      </div>
-                      <span className={`text-xs transition-colors ${medicalConditions.includes(condition.id) ? 'text-white' : 'text-gray-400 group-hover:text-gray-300'}`}>
-                        {condition.label}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Custom Diagnosis Text */}
-              <textarea
-                value={customMedicalHistory}
-                onChange={(e) => setCustomMedicalHistory(e.target.value)}
-                placeholder="Specify diagnosis / symptoms (optional) — e.g. Diagnosed OCD, currently taking Prozac 40mg."
-                rows={2}
-                className="w-full bg-[#161616] border border-white/10 hover:border-white/20 rounded-xl text-xs p-3.5 text-white placeholder-gray-600 outline-none focus:border-white/30 transition-all resize-none"
-              />
-            </div>
-          )}
-
-          {/* Safety Agreements Section */}
-          {(emailTab === "signup" || user) && (
-            <div className="space-y-3.5">
-              <span className="text-[9px] text-gray-500 uppercase tracking-[0.15em] font-bold block">
-                Safety Agreements
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-bold text-white tracking-wide">
+                Clinical intake history
+              </h3>
+              <span className="bg-green-500/10 text-green-400 border border-green-500/20 px-2.5 py-0.5 rounded-full text-[9px] font-bold flex items-center gap-1">
+                <Lock className="w-2.5 h-2.5" />
+                Securely stored
               </span>
-              
-              <div className="space-y-3">
-                <button 
-                  type="button"
-                  onClick={() => setConsentPsychology(!consentPsychology)}
-                  className="w-full text-left flex items-start gap-3.5 cursor-pointer group"
-                >
-                  <div className={`mt-0.5 w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-colors ${consentPsychology ? 'bg-white border-white' : 'border-gray-600 group-hover:border-gray-500'}`}>
-                    {consentPsychology && <Check className="w-3 h-3 text-black stroke-[3]" />}
-                  </div>
-                  <span className={`text-xs leading-relaxed transition-colors ${consentPsychology ? 'text-gray-200' : 'text-gray-400 group-hover:text-gray-300'}`}>
-                    I understand that this is an automated program and <strong className="text-white font-bold">not</strong> a human therapist. I will seek human care for clinical treatment.
-                  </span>
-                </button>
+            </div>
 
-                <button 
-                  type="button"
-                  onClick={() => setConsentAnonymity(!consentAnonymity)}
-                  className="w-full text-left flex items-start gap-3.5 cursor-pointer group"
-                >
-                  <div className={`mt-0.5 w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-colors ${consentAnonymity ? 'bg-white border-white' : 'border-gray-600 group-hover:border-gray-500'}`}>
-                    {consentAnonymity && <Check className="w-3 h-3 text-black stroke-[3]" />}
-                  </div>
-                  <span className={`text-xs leading-relaxed transition-colors ${consentAnonymity ? 'text-gray-200' : 'text-gray-400 group-hover:text-gray-300'}`}>
-                    I agree that my account data is synced to the cloud under my Google account. Deleting my account removes all history permanently.
-                  </span>
-                </button>
+            <div className="relative">
+              <select
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                className="w-full bg-[#161616] border border-white/10 hover:border-white/20 rounded-xl text-xs p-3.5 text-white outline-none focus:border-white/30 transition-all cursor-pointer appearance-none"
+                required
+              >
+                <option value="India">India</option>
+                <option value="USA">United States</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="Canada">Canada</option>
+                <option value="Australia">Australia</option>
+                <option value="Singapore">Singapore</option>
+                <option value="International">International</option>
+              </select>
+              <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 text-xs">▼</div>
+            </div>
+
+            <div className="space-y-3">
+              <span className="text-[9px] text-gray-500 uppercase tracking-[0.15em] font-bold block">
+                History & Conditions
+              </span>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {[
+                  { id: "MEDS_CHRONIC", label: "Prescribed psychiatric medication" },
+                  { id: "DIAGNOSED_SEVERE", label: "Severe diagnosed history" },
+                  { id: "CLINICAL_SYMPTOMS", label: "Persistent clinical distress" },
+                  { id: "TRAUMA_GRIEF", label: "Trauma, grief, or domestic issues" }
+                ].map(condition => (
+                  <button
+                    type="button"
+                    key={condition.id}
+                    onClick={() => {
+                      if (medicalConditions.includes(condition.id)) {
+                        setMedicalConditions(prev => prev.filter(c => c !== condition.id));
+                      } else {
+                        setMedicalConditions(prev => [...prev, condition.id]);
+                      }
+                    }}
+                    className="w-full text-left flex items-center gap-3 p-3.5 rounded-xl border border-white/5 hover:border-white/10 bg-white/[0.02] cursor-pointer transition-all group"
+                  >
+                    <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-colors ${medicalConditions.includes(condition.id) ? 'bg-white border-white' : 'border-gray-600 group-hover:border-gray-500'}`}>
+                      {medicalConditions.includes(condition.id) && <Check className="w-3 h-3 text-black stroke-[3]" />}
+                    </div>
+                    <span className={`text-xs transition-colors ${medicalConditions.includes(condition.id) ? 'text-white' : 'text-gray-400 group-hover:text-gray-300'}`}>
+                      {condition.label}
+                    </span>
+                  </button>
+                ))}
               </div>
             </div>
-          )}
+
+            <textarea
+              value={customMedicalHistory}
+              onChange={(e) => setCustomMedicalHistory(e.target.value)}
+              placeholder="Specify diagnosis / symptoms (optional) — e.g. Diagnosed OCD, currently taking Prozac 40mg."
+              rows={2}
+              className="w-full bg-[#161616] border border-white/10 hover:border-white/20 rounded-xl text-xs p-3.5 text-white placeholder-gray-600 outline-none focus:border-white/30 transition-all resize-none"
+            />
+          </div>
+
+          <div className="space-y-3.5">
+            <span className="text-[9px] text-gray-500 uppercase tracking-[0.15em] font-bold block">
+              Safety Agreements
+            </span>
+            <div className="space-y-3">
+              <button
+                type="button"
+                onClick={() => setConsentPsychology(!consentPsychology)}
+                className="w-full text-left flex items-start gap-3.5 cursor-pointer group"
+              >
+                <div className={`mt-0.5 w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-colors ${consentPsychology ? 'bg-white border-white' : 'border-gray-600 group-hover:border-gray-500'}`}>
+                  {consentPsychology && <Check className="w-3 h-3 text-black stroke-[3]" />}
+                </div>
+                <span className={`text-xs leading-relaxed transition-colors ${consentPsychology ? 'text-gray-200' : 'text-gray-400 group-hover:text-gray-300'}`}>
+                  I understand that this is an automated program and <strong className="text-white font-bold">not</strong> a human therapist. I will seek human care for clinical treatment.
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setConsentAnonymity(!consentAnonymity)}
+                className="w-full text-left flex items-start gap-3.5 cursor-pointer group"
+              >
+                <div className={`mt-0.5 w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-colors ${consentAnonymity ? 'bg-white border-white' : 'border-gray-600 group-hover:border-gray-500'}`}>
+                  {consentAnonymity && <Check className="w-3 h-3 text-black stroke-[3]" />}
+                </div>
+                <span className={`text-xs leading-relaxed transition-colors ${consentAnonymity ? 'text-gray-200' : 'text-gray-400 group-hover:text-gray-300'}`}>
+                  I agree that my account data is synced to the cloud under my Google account. Deleting my account removes all history permanently.
+                </span>
+              </button>
+            </div>
+          </div>
 
           {activeError && (
             <div className="p-3.5 bg-red-950/40 border border-red-900/50 rounded-xl text-xs text-red-400 flex items-start gap-3">
@@ -446,40 +548,43 @@ export function AliasModal({ isOpen, onClose, onLogin, error: externalError }: A
             </div>
           )}
 
-          {/* Submit Action */}
           <div className="pt-2 space-y-4">
             <button
               type="submit"
               disabled={
-                submitting || 
-                (emailTab === "signup" && (!displayName || !username || !consentPsychology || !consentAnonymity)) ||
-                (user && (!displayName || !username || !consentPsychology || !consentAnonymity))
+                submitting ||
+                (!displayName || !username || !consentPsychology || !consentAnonymity)
               }
               className="w-full py-3.5 bg-[#181818] hover:bg-white/[0.04] border border-white/10 text-white font-semibold text-xs cursor-pointer transition-all rounded-xl flex items-center justify-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed"
             >
               {submitting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-              <span>{user ? "Register →" : (emailTab === "signup" ? "Register →" : "Sign In →")}</span>
+              <span>Register →</span>
             </button>
 
-            {/* Toggle Link for Returning Email Users */}
-            {!user && (
-              <div className="text-center">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setErrorState(null);
-                    setEmailTab(prev => prev === "signup" ? "login" : "signup");
-                  }}
-                  className="text-[10px] text-gray-500 hover:text-white uppercase tracking-wider font-bold transition-all cursor-pointer bg-transparent border-none outline-none"
-                >
-                  {emailTab === "signup" ? "Already have an account? Sign In" : "Don't have an account? Register"}
-                </button>
-              </div>
-            )}
+            <div className="text-center">
+              <button
+                type="button"
+                onClick={() => {
+                  setErrorState(null);
+                  setEmailTab("login");
+                }}
+                className="text-[10px] text-gray-500 hover:text-white uppercase tracking-wider font-bold transition-all cursor-pointer bg-transparent border-none outline-none"
+              >
+                Already have an account? Sign In
+              </button>
+            </div>
           </div>
-
         </form>
       </div>
+    </div>
+  );
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-start justify-center p-4 pt-6 md:pt-12 bg-black/80 backdrop-blur-md animate-in fade-in duration-300 overflow-y-auto"
+      onClick={handleBackdropClick}
+    >
+      {emailTab === "login" && !user ? renderLoginScreen() : renderSignupScreen()}
     </div>
   );
 }

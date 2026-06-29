@@ -7,10 +7,11 @@ import MotionButton from "./motion-button";
 import { BeamsBackground } from "./beams-background";
 
 interface Hero1Props {
+  onSignIn?: () => void;
   onGetStarted?: () => void;
 }
 
-const Hero1 = ({ onGetStarted }: Hero1Props) => {
+const Hero1 = ({ onSignIn, onGetStarted }: Hero1Props) => {
   return (
     <div className="h-full min-h-screen bg-black text-white flex flex-col relative overflow-hidden w-full font-sans">
       <BeamsBackground className="absolute inset-0 w-full h-full pointer-events-none z-0" children={<div />} />
@@ -23,7 +24,7 @@ const Hero1 = ({ onGetStarted }: Hero1Props) => {
         <div className="flex items-center gap-3 opacity-90">
           {/* Logo removed per request */}
         </div>
-        <MotionButton label="SIGN IN" onClick={onGetStarted} />
+        <MotionButton label="SIGN IN" onClick={onSignIn} />
       </header>
 
       {/* Main Content - Strong & Minimal */}

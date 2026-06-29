@@ -2796,6 +2796,7 @@ export default function App() {
   const [consentAnonymity, setConsentAnonymity] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<string>("");
   const [isAliasModalOpen, setIsAliasModalOpen] = useState<boolean>(false);
+  const [authModalTab, setAuthModalTab] = useState<"login" | "signup">("signup");
   const [isPremiumSubscribed, setIsPremiumSubscribed] = useState<boolean>(() => {
     try {
       return localStorage.getItem("pfai_is_premium") === "true";
@@ -6215,7 +6216,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
         )}
         {!isLoggedIn ? (
           <div className="flex-1 w-full">
-            <Hero1 onGetStarted={() => setIsAliasModalOpen(true)} />
+            <Hero1 onSignIn={() => { setAuthModalTab("login"); setIsAliasModalOpen(true); }} onGetStarted={() => { setAuthModalTab("signup"); setIsAliasModalOpen(true); }} />
           </div>
         ) : (
         <div className="flex-1 max-w-[1700px] w-full mx-auto p-4 md:p-6 grid grid-cols-1 xl:grid-cols-12 gap-6">
@@ -13412,6 +13413,7 @@ I am speaking to you now as ${CHARACTERS.find(c => c.id === pendingCharId)?.name
         isOpen={isAliasModalOpen}
         onClose={() => setIsAliasModalOpen(false)}
         error={loginError}
+        initialTab={authModalTab}
         onLogin={(data: LoginData) => {
           setLoginAlias(data.alias);
           setLoginPasscode(data.passcode);
