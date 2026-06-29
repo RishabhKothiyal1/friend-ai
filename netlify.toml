@@ -1,7 +1,6 @@
 [build]
-  command = "npm run build"
   publish = "dist"
-  functions = "netlify/functions"
+  command = "npm run build"
 
 [build.environment]
   VITE_API_URL = "https://friend-ai-production.up.railway.app"
@@ -53,4 +52,3 @@
   from = "/api/generate-blog"
   to = ".netlify/functions/generate-blog"
   status = 200
-

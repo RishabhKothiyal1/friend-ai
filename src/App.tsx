@@ -38,9 +38,6 @@ import {
   Music,
   Share2,
   Search,
-  Mail,
-  Send,
-  Inbox,
   X,
   Copy,
   Smile,
@@ -70,7 +67,6 @@ import { calmingMusic } from "./lib/calmingMusic";
 import { mozartPiano } from "./lib/mozartPiano";
 import { horrorMusic } from "./lib/horrorMusic";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Cell, LabelList } from "recharts";
-
 const PowerBIDashboard = React.lazy(() => import("./components/PowerBIDashboard"));
 import CardNav from "./components/CardNav";
 import { WhiteboardDrawingTool } from "./components/WhiteboardDrawingTool";
@@ -10085,7 +10081,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
               </div>
 
               {/* Grid of Companions Tending Flowers */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-6 overflow-visible pr-2">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6 pr-2">
                 {[
                   {
                     name: "Rooh",
@@ -10162,7 +10158,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 ].map((member, idx) => (
                   <div 
                     key={idx} 
-                    className={`w-full min-h-fit overflow-visible p-4 rounded-xl border flex flex-col justify-between gap-3 text-left transition-all duration-300 hover:shadow-sm ${themeClass(
+                    className={`p-4 pb-4 rounded-xl border flex flex-col justify-between gap-3 text-left transition-all duration-300 hover:shadow-sm ${themeClass(
                       "bg-white dark:bg-black/80 border-slate-100 hover:border-slate-200 dark:border-white/10",
                       "bg-black/40 border-white/10/80 hover:border-white/10/80",
                       "bg-[#fffcf6] border-[#ebdcb9]/40 hover:border-amber-900/20"
@@ -10215,12 +10211,6 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             </div>
           )}
 
-
-
-
-
-
-          
           {activeCenterTab === 'terms' && (
             <div className="flex-1 flex flex-col p-8 md:p-12 animate-fade-in bg-white dark:bg-black rounded-2xl shadow-sm border border-slate-200 dark:border-white/10 overflow-y-auto">
               <div className="max-w-3xl mx-auto w-full font-sans text-left space-y-6">
