@@ -10224,22 +10224,30 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 </div>
               </div>
 
-              {/* ── Feature section 3: Companions ── */}
+              {/* ── Feature section 3: Meet the Team ── */}
               <div className="border-t border-white/5 px-10 md:px-20 py-20">
                 <div className="max-w-6xl mx-auto space-y-12">
                   <div className="max-w-xl space-y-4">
                     <h2 className="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight">
-                      Meet the companions
+                      Meet the team behind friend ai
                     </h2>
                     <p className="text-white/50 text-base leading-relaxed">
-                      A passionate team of AI minds, each trained for a different emotional domain.
+                      A passionate group of developers, creators, clinicians, and advisors dedicated to making emotional wellness accessible and private.
                     </p>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {[
-                      { name: 'Solace', role: 'Emotional Wellness', bio: 'Anxiety, grief, and emotional overwhelm — Solace holds space with evidence-backed compassion.', color: 'bg-blue-500/10 border-blue-500/20', dot: 'bg-blue-400' },
-                      { name: 'Melody', role: 'Creative & Arts', bio: 'Process feelings through journaling, art, and music-therapy inspired conversations.', color: 'bg-pink-500/10 border-pink-500/20', dot: 'bg-pink-400' },
-                      { name: 'Cosmic', role: 'Mindfulness', bio: 'Deep self-inquiry and mindfulness practices to reconnect you with your inner wisdom.', color: 'bg-purple-500/10 border-purple-500/20', dot: 'bg-purple-400' },
+                      { name: 'Manjishtha Pahilajani', role: 'Founder & Wellness Lead', bio: 'Founder of Project Friend AI. Social psychologist and author focusing on accessible emotional support models.', color: 'bg-indigo-500/5 border-indigo-500/10', dot: 'bg-indigo-400' },
+                      { name: 'Altaf Jasnaik', role: 'Brand & Growth Lead', bio: 'CEO and Founder of Managemend Ltd. Expert in brand communications, marketing innovation, and digital growth.', color: 'bg-blue-500/5 border-blue-500/10', dot: 'bg-blue-400' },
+                      { name: 'Abhay Tiwari', role: 'Automation & Data Lead', bio: 'Lead Automation Engineer specializing in intelligent process workflow automation, RPA, and data science.', color: 'bg-emerald-500/5 border-emerald-500/10', dot: 'bg-emerald-400' },
+                      { name: 'Rishabh Kothiyal', role: 'Full Stack & AI Architect', bio: 'Full-stack software developer focusing on local browser LLM integrations, secure storage engines, and generative UI.', color: 'bg-purple-500/5 border-purple-500/10', dot: 'bg-purple-400' },
+                      { name: 'Suryateja Vakkanti', role: 'Strategy & Operations Lead', bio: 'Global business strategy director managing operations, compliance, and international partnerships.', color: 'bg-pink-500/5 border-pink-500/10', dot: 'bg-pink-400' },
+                      { name: 'Vinod Nagar', role: 'Martech & Growth Advisor', bio: 'Experienced growth mentor and digital strategist with a background in marketing execution at Nokia and Microsoft.', color: 'bg-amber-500/5 border-amber-500/10', dot: 'bg-amber-400' },
+                      { name: 'Vinod Pahilajani', role: 'Technical Quality Advisor', bio: 'Managing Director of TCSPL, bringing decades of engineering, operations leadership, and technical oversight.', color: 'bg-cyan-500/5 border-cyan-500/10', dot: 'bg-cyan-400' },
+                      { name: 'Dr. Asha Pahilajani', role: 'Clinical Wellness Advisor', bio: 'Clinical advisor and wellness coordinator directing evidence-backed protocols and editorial consistency.', color: 'bg-rose-500/5 border-rose-500/10', dot: 'bg-rose-400' },
+                      { name: 'Urvashi Pahilajani', role: 'Creative Art Director', bio: 'Lead designer shaping friend ai UI/UX layouts, brand identity design systems, and aesthetic visuals.', color: 'bg-violet-500/5 border-violet-500/10', dot: 'bg-violet-400' },
+                      { name: 'Sarvesh Pahilajani', role: 'Digital Media Architect', bio: 'Multimedia producer building community ecosystems, audio/video pipelines, and digital outreach programs.', color: 'bg-teal-500/5 border-teal-500/10', dot: 'bg-teal-400' },
+                      { name: 'Eshan Dutta', role: 'NLP & Deep Learning Engineer', bio: 'Deep learning researcher implementing state-of-the-art Natural Language Processing models and context analyzers.', color: 'bg-orange-500/5 border-orange-500/10', dot: 'bg-orange-400' },
                     ].map(member => (
                       <div key={member.name} className={`p-6 rounded-2xl border ${member.color} space-y-3 hover:bg-white/[0.03] transition-colors`}>
                         <div className="flex items-center gap-2">
@@ -10247,7 +10255,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           <span className="text-xs text-white/40 font-mono">{member.role}</span>
                         </div>
                         <p className="font-bold text-white text-lg">{member.name}</p>
-                        <p className="text-sm text-white/50 leading-relaxed">{member.bio}</p>
+                        <p className="text-xs text-white/50 leading-relaxed">{member.bio}</p>
                       </div>
                     ))}
                   </div>
