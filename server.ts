@@ -684,7 +684,7 @@ Point out that you have unlocked an interactive localized Lawyers Directory belo
     });
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-2.5-flash",
       contents: formattedContents,
       config: {
         systemInstruction: characterPrompt,
@@ -757,7 +757,7 @@ app.post("/api/summarize-chat", async (req, res) => {
       .join("\n");
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-2.5-flash",
       contents: `You are an expert helper at a supportive peer mental wellness community.
 Below is a brief chat dialogue sequence between a user going through mental distress or emotional heavy lifting and an AI companion.
 Please write a short, highly anonymous, general summary of what the user is carrying or reflecting on, completely stripped of any names, age indicators, locations, extreme trigger words, or personal context details.
@@ -865,7 +865,7 @@ app.post("/api/mood-insights", async (req, res) => {
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-2.5-flash",
       contents: `You are an expert peer mental safety guide.
 Review the user's logged emotions and tags. Check which tasks or contexts (tags) associate with high distress and overload, versus which activities associate with peaceful or joyful states.
 
@@ -932,7 +932,7 @@ Absolute Guardrail: Do NOT offer clinical diagnoses, psychiatric jargon, or prea
     });
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-2.5-flash",
       contents: { parts },
     });
 
@@ -1105,7 +1105,7 @@ app.post("/api/generate-blog", async (req, res) => {
 
   if (!ai || offlineFallback) {
     const blogText = stripMarkdown(generateOfflineBlog(blogTopic));
-    return res.json({ blog: blogText, generatedOffline: true });
+    return res.json({ blog: blogText, blogText: blogText, generatedOffline: true });
   }
 
   try {
@@ -1123,19 +1123,19 @@ app.post("/api/generate-blog", async (req, res) => {
     Formatting: Use clean, structured Markdown. Make it professional, authoritative, but beautifully comforting and accessible. Maintain this professional standard completely.`;
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
+      model: "gemini-2.5-flash",
       contents: prompt,
     });
 
     const blogText = stripMarkdown(response.text?.trim() || "");
     if (blogText) {
-      return res.json({ blog: blogText, generatedOffline: false });
+      return res.json({ blog: blogText, blogText: blogText, generatedOffline: false });
     }
     throw new Error("Empty text returned from Gemini");
   } catch (error) {
     handleGeminiRateLimit(error, "Blog Generation");
     const blogText = stripMarkdown(generateOfflineBlog(blogTopic));
-    return res.json({ blog: blogText, generatedOffline: true });
+    return res.json({ blog: blogText, blogText: blogText, generatedOffline: true });
   }
 });
 

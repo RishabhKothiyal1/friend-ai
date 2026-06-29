@@ -4510,7 +4510,7 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
       setIsLoadingInsight(true);
       try {
         const localFeedback = getLocalInsights(moodsList);
-        const response = await fetch(`/api/mood-insights`, {
+        const response = await fetch(getApiUrl(`/api/mood-insights`), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ moodsList })
@@ -4804,7 +4804,7 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
     };
 
     try {
-      const response = await fetch(`/api/summarize-chat`, {
+      const response = await fetch(getApiUrl(`/api/summarize-chat`), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ chatHistory })
@@ -5097,7 +5097,7 @@ I am an automated grounding AI companion, not a medical doctor, psychiatrist, or
     }
 
     try {
-      const response = await fetch(`/api/chat`, {
+      const response = await fetch(getApiUrl(`/api/chat`), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -5890,7 +5890,7 @@ I am an automated grounding AI companion, not a medical doctor, psychiatrist, or
     const localFeedback = `You have logged an optional personal reflection moment with ${targetChar.name}. Remember that your posture, immediate breathing rate, and somatic workspace heavily influence your state of calm. Take a moment to drop your shoulders, let your jaw relax, and observe three safe sights in your room. I'm here with you.`;
 
     try {
-      const response = await fetch(`/api/video-analysis`, {
+      const response = await fetch(getApiUrl(`/api/video-analysis`), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -10806,8 +10806,14 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                               <div className="flex flex-col items-end gap-1.5">
                                 <span className="text-[9px] font-mono text-white/30 uppercase text-right leading-tight">{member.role}</span>
                                 {member.linkedin && (
-                                  <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="text-white/20 hover:text-indigo-400 transition-colors" title="LinkedIn Profile">
-                                    <Linkedin className="w-3.5 h-3.5" />
+                                  <a 
+                                    href={member.linkedin} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    className="p-1.5 rounded-full bg-white/[0.07] border border-white/10 text-white/70 hover:text-indigo-300 hover:bg-indigo-500/25 hover:border-indigo-500/30 hover:scale-105 transition-all duration-200" 
+                                    title="LinkedIn Profile"
+                                  >
+                                    <Linkedin className="w-3 h-3" />
                                   </a>
                                 )}
                               </div>
@@ -11015,7 +11021,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                                 const blogTopic = blogTopicInput || "Somatic Pacing and Emotional Pacing";
                                 const authorPerspective = selectedAuthorPerspective || "Manjishtha Pahilajani, Founder";
 
-                                const response = await fetch(`/api/generate-blog`, {
+                                const response = await fetch(getApiUrl(`/api/generate-blog`), {
                                   method: "POST",
                                   headers: { "Content-Type": "application/json" },
                                   body: JSON.stringify({
