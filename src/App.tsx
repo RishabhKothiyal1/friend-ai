@@ -4,6 +4,8 @@ import {
   Shield, 
   ShieldAlert, 
   CheckCircle2, 
+  Lock,
+  Check,
   Clock, 
   HelpCircle, 
   Heart, 
@@ -2738,7 +2740,28 @@ const getApiUrl = (path: string): string => {
 };
 
 export default function App() {
-  const { user, profile, logout: firebaseLogout } = useAuth();
+  const { user, profile, refreshProfile, logout: firebaseLogout } = useAuth();
+
+  // Settings Sub-tab Selection: 'profile' (User Info) or 'preferences' (Empathetic Guides)
+  const [settingsSubTab, setSettingsSubTab] = useState<'profile' | 'preferences'>('profile');
+
+  // Edit states for user profile settings
+  const [profileDisplayName, setProfileDisplayName] = useState<string>("");
+  const [profileUsername, setProfileUsername] = useState<string>("");
+  const [profileLocation, setProfileLocation] = useState<string>("India");
+  const [profileConditions, setProfileConditions] = useState<string[]>([]);
+  const [profileCustomHistory, setProfileCustomHistory] = useState<string>("");
+
+  // Sync profile values to edit states when loaded
+  useEffect(() => {
+    if (profile) {
+      setProfileDisplayName(profile.displayName || "");
+      setProfileUsername(profile.username || "");
+      setProfileLocation(profile.location || "India");
+      setProfileConditions(profile.medicalConditions || []);
+      setProfileCustomHistory(profile.customMedicalHistory || "");
+    }
+  }, [profile]);
 
   // Link Firebase auth state to isLoggedIn and loginAlias
   useEffect(() => {
@@ -8246,159 +8269,361 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           )}
 
           {activeCenterTab === 'settings' && (
-            <div className="flex-1 flex flex-col items-center pt-10 pb-20 text-center px-10 animate-fade-in overflow-y-auto">
-              <div className="w-20 h-20 bg-slate-100 dark:bg-[#0a0a0a] rounded-full flex items-center justify-center mb-6 shrink-0">
-                <Settings className="w-10 h-10 text-slate-500" />
-              </div>
-              <h2 className="text-2xl font-bold font-serif text-slate-800 dark:text-slate-200 mb-3">Security & Preferences</h2>
-              <p className="text-sm text-slate-500 max-w-sm leading-relaxed mb-8">
-                Manage your local encryption keys, UI themes, and data wipe protocols. Complete control remains in your hands.
-              </p>
-              <div className="w-full max-w-md mx-auto mb-6 flex flex-col gap-4 text-left">
+            <div className="flex-1 flex flex-col items-center pt-8 pb-20 text-center px-4 md:px-10 animate-fade-in overflow-y-auto w-full max-w-2xl mx-auto font-sans">
+              
+              {/* Settings Mode Tabs */}
+              <div className="flex bg-slate-100 dark:bg-white/5 p-1 rounded-xl w-full max-w-md mb-8 shrink-0 border border-slate-200/50 dark:border-white/5">
                 <button 
-                  onClick={() => setShowSpecializedApproaches(!showSpecializedApproaches)}
-                  className="px-6 py-3 w-full bg-white dark:bg-[#0a0a0a] hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-white/10 text-slate-800 dark:text-slate-200 text-sm font-bold rounded-xl cursor-pointer transition-all shadow-sm"
+                  type="button"
+                  onClick={() => setSettingsSubTab('profile')}
+                  className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${settingsSubTab === 'profile' ? 'bg-white dark:bg-slate-800 text-slate-800 dark:text-white shadow-xs' : 'text-slate-400 hover:text-slate-200'}`}
                 >
-                  {showSpecializedApproaches ? "Hide Specialized Approaches" : "Configure Specialized Approaches"}
+                  User Info
                 </button>
-                {showSpecializedApproaches && (
-                  <div className="animate-fade-in">
-                    <div className={`p-5 rounded-2xl flex flex-col gap-4 shadow-sm border transition-all duration-300 ${themeClass("bg-white border-indigo-100 text-slate-800", "bg-[#0b0f19] border-white/10 text-slate-200", "bg-[#faf6ee] border-[#e3d5be] text-[#3e2723]")}`}>
-            <div>
-              <div className="flex items-center justify-between">
-                <h3 className={`text-sm font-bold tracking-tight uppercase font-display ${themeClass("text-slate-800", "text-white", "text-[#3e2723]")}`}>Specialized Approaches</h3>
-                {personaSearchQuery && (
-                  <span className="text-[9px] font-bold text-indigo-600 bg-indigo-50 dark:bg-white/[0.02] px-1.5 py-0.5 border border-indigo-150 dark:border-white/10 rounded shadow-2xs">
-                    Filtered
-                  </span>
-                )}
+                <button 
+                  type="button"
+                  onClick={() => setSettingsSubTab('preferences')}
+                  className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${settingsSubTab === 'preferences' ? 'bg-white dark:bg-slate-800 text-slate-800 dark:text-white shadow-xs' : 'text-slate-400 hover:text-slate-200'}`}
+                >
+                  Empathetic Guides
+                </button>
               </div>
-              <p className="text-xs text-slate-550 mt-1">
-                {personaSearchQuery ? (
-                  <span>
-                    Showing matching guides (or <button type="button" onClick={() => setPersonaSearchQuery("")} className="text-indigo-600 font-bold hover:underline cursor-pointer focus-visible:outline-none">clear search</button>):
-                  </span>
-                ) : (
-                  "Select one of our 5 specialized empathetic room guides:"
-                )}
-              </p>
-            </div>
 
-            <div className="grid grid-cols-1 gap-2.5 max-h-[460px] overflow-y-auto pr-1 font-sans">
-              {(() => {
-                const filtered = CHARACTERS.filter((char) => {
-                  const query = personaSearchQuery.toLowerCase().trim();
-                  if (!query) return true;
-                  return char.specialization.toLowerCase().includes(query) || 
-                         char.name.toLowerCase().includes(query) || 
-                         char.title.toLowerCase().includes(query);
-                });
-                
-                if (filtered.length === 0) {
-                  return (
-                    <div className="p-6 text-center text-slate-400 border border-dashed border-slate-200 dark:border-white/10 rounded-xl space-y-1.5 bg-white/20 dark:bg-white/[0.01]">
-                      <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">No matching guides found</p>
-                      <button
-                        type="button"
-                        onClick={() => setPersonaSearchQuery("")}
-                        className="text-[10px] text-indigo-600 font-mono font-bold hover:underline cursor-pointer"
-                      >
-                        Reset Search Filter
-                      </button>
-                    </div>
-                  );
-                }
-                
-                return filtered.map((char) => {
-                  const isSelected = char.id === selectedCharacterId;
-                  const isPremiumChar = char.id !== "inayat" && char.id !== "manji" && char.id !== "altaf" && char.id !== "veer";
-                  const isLocked = isPremiumChar && !isPremiumSubscribed;
-                  
-                  return (
-                    <button
-                      key={char.id}
-                      onClick={() => handleCharacterChange(char.id)}
-                      className={`w-full text-left p-3 rounded-xl border transition-all cursor-pointer flex items-start gap-3 relative ${
-                        isSelected
-                          ? "bg-indigo-50/ dark:bg-white/[0.02]/70 border-indigo-305 shadow-sm ring-1 ring-indigo-200/40"
-                          : isLocked
-                          ? "bg-slate-100/45 border-slate-201 opacity-80 hover:opacity-100 hover:bg-slate-105/60"
-                          : "bg-white/20 dark:bg-white/[0.01] border-slate-200/80 hover:bg-slate-105/60 hover:border-slate-350"
-                      }`}
-                    >
-                      {isSelected && (
-                        <span className="absolute top-2 right-2 flex h-2 w-2">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
-                        </span>
-                      )}
-
-                      {isLocked && (
-                        <span className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-[#fee2e2] text-rose-750 text-[8px] font-mono font-bold px-1.5 py-0.5 rounded-md border border-rose-200 dark:border-rose-800">
-                          <span>🔒 ₹250/mo</span>
-                        </span>
-                      )}
-
-                      {char.id === "veer" && (
-                        <span className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-rose-50 dark:bg-rose-950/20 text-rose-750 dark:text-rose-300 text-[8px] font-mono font-bold px-1.5 py-0.5 rounded border border-rose-200/30">
-                          <span>⚖️ Legal Support</span>
-                        </span>
-                      )}
-
-                      {char.id === "inayat" && (
-                        <span className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-emerald-50 text-emerald-700 text-[8px] font-mono font-bold px-1.5 py-0.5 rounded border border-emerald-200/35">
-                          <span>🟢 FREE</span>
-                        </span>
-                      )}
-
-                      <div className={`w-8 h-8 rounded-lg ${char.avatarColor} border shrink-0 flex items-center justify-center`}>
-                        {(() => {
-                          const IconComponent = CHARACTER_ICONS[char.id] || Sparkles;
-                          return <IconComponent className="w-4 h-4" />;
-                        })()}
+              {settingsSubTab === 'profile' ? (
+                /* Profile & User Info sub-page */
+                <div className="w-full max-w-md mx-auto text-left space-y-6">
+                  {user ? (
+                    <div className="space-y-6">
+                      {/* Avatar & Basic Info Card */}
+                      <div className="flex items-center gap-4 bg-white/5 border border-white/10 p-4 rounded-2xl">
+                        <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white text-lg font-black shrink-0 shadow-md">
+                          {profileDisplayName ? profileDisplayName.slice(0, 2).toUpperCase() : user.email?.slice(0, 2).toUpperCase()}
+                        </div>
+                        <div className="min-w-0">
+                          <h3 className="text-sm font-bold text-white truncate">{profileDisplayName || "Anonymous"}</h3>
+                          <p className="text-[11px] text-gray-500 truncate mt-0.5">{user.email}</p>
+                          <p className="text-[9px] text-gray-600 font-mono truncate mt-0.5">UID: {user.uid}</p>
+                        </div>
                       </div>
 
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-1.5 pr-14">
-                          <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">
-                            {highlightText(char.name, personaSearchQuery)}
-                          </h4>
+                      {/* Editable Form */}
+                      <div className="space-y-4">
+                        <div className="space-y-1.5">
+                          <label className="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Display Name</label>
+                          <input
+                            type="text"
+                            value={profileDisplayName}
+                            onChange={(e) => setProfileDisplayName(e.target.value)}
+                            className="w-full bg-[#111] border border-white/10 rounded-xl text-xs p-3.5 text-white outline-none focus:border-white/30 transition-all"
+                          />
                         </div>
-                        <p className="text-[11px] text-slate-550 truncate mt-0.5">
-                          {highlightText(char.specialization, personaSearchQuery)}
+
+                        <div className="space-y-1.5">
+                          <label className="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Username</label>
+                          <input
+                            type="text"
+                            value={profileUsername}
+                            onChange={(e) => setProfileUsername(e.target.value)}
+                            className="w-full bg-[#111] border border-white/10 rounded-xl text-xs p-3.5 text-white outline-none focus:border-white/30 transition-all"
+                          />
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <label className="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Region</label>
+                          <div className="relative">
+                            <select
+                              value={profileLocation}
+                              onChange={(e) => setProfileLocation(e.target.value)}
+                              className="w-full bg-[#111] border border-white/10 hover:border-white/20 rounded-xl text-xs p-3.5 text-white outline-none focus:border-white/30 transition-all cursor-pointer appearance-none"
+                            >
+                              <option value="India">India</option>
+                              <option value="USA">United States</option>
+                              <option value="United Kingdom">United Kingdom</option>
+                              <option value="Canada">Canada</option>
+                              <option value="Australia">Australia</option>
+                              <option value="Singapore">Singapore</option>
+                              <option value="International">International</option>
+                            </select>
+                            <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 text-xs">▼</div>
+                          </div>
+                        </div>
+
+                        {/* 2x2 Grid of Conditions */}
+                        <div className="space-y-2">
+                          <label className="text-[10px] text-gray-500 uppercase tracking-wider font-bold block">History & Conditions</label>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            {[
+                              { id: "MEDS_CHRONIC", label: "Prescribed psychiatric medication" },
+                              { id: "DIAGNOSED_SEVERE", label: "Severe diagnosed history" },
+                              { id: "CLINICAL_SYMPTOMS", label: "Persistent clinical distress" },
+                              { id: "TRAUMA_GRIEF", label: "Trauma, grief, or domestic issues" }
+                            ].map(condition => (
+                              <button 
+                                type="button"
+                                key={condition.id} 
+                                onClick={() => {
+                                  if (profileConditions.includes(condition.id)) {
+                                    setProfileConditions(prev => prev.filter(c => c !== condition.id));
+                                  } else {
+                                    setProfileConditions(prev => [...prev, condition.id]);
+                                  }
+                                }}
+                                className="text-left flex items-center gap-3 p-3 rounded-xl border border-white/5 hover:border-white/10 bg-white/[0.02] cursor-pointer transition-all group"
+                              >
+                                <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-colors ${profileConditions.includes(condition.id) ? 'bg-white border-white' : 'border-gray-600 group-hover:border-gray-500'}`}>
+                                  {profileConditions.includes(condition.id) && <Check className="w-3 h-3 text-black stroke-[3]" />}
+                                </div>
+                                <span className={`text-[11px] transition-colors ${profileConditions.includes(condition.id) ? 'text-white' : 'text-gray-400 group-hover:text-gray-300'}`}>
+                                  {condition.label}
+                                </span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="space-y-1.5">
+                          <label className="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Specify Diagnosis / Symptoms (Optional)</label>
+                          <textarea
+                            value={profileCustomHistory}
+                            onChange={(e) => setProfileCustomHistory(e.target.value)}
+                            rows={2}
+                            className="w-full bg-[#111] border border-white/10 hover:border-white/20 rounded-xl text-xs p-3.5 text-white placeholder-gray-700 outline-none focus:border-white/30 transition-all resize-none"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Profile Actions */}
+                      <div className="pt-2 flex flex-col gap-3">
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            if (!user || !db) return;
+                            try {
+                              const { doc, updateDoc } = await import("firebase/firestore");
+                              const userRef = doc(db, "users", user.uid);
+                              await updateDoc(userRef, {
+                                displayName: profileDisplayName.trim(),
+                                username: profileUsername.trim(),
+                                location: profileLocation,
+                                medicalConditions: profileConditions,
+                                customMedicalHistory: profileCustomHistory
+                              });
+                              await refreshProfile();
+                              alert("Profile successfully updated in Friend AI cloud.");
+                            } catch (err) {
+                              alert("Failed to update profile: " + err.message);
+                            }
+                          }}
+                          className="w-full py-3 bg-white hover:bg-gray-200 text-black text-xs font-bold rounded-xl transition-all uppercase tracking-wider cursor-pointer text-center"
+                        >
+                          Save Changes
+                        </button>
+
+                        <div className="grid grid-cols-2 gap-3 pt-2">
+                          <button
+                            type="button"
+                            onClick={handleLogout}
+                            className="py-2.5 border border-white/10 hover:bg-white/5 text-gray-400 hover:text-white text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
+                          >
+                            Sign Out
+                          </button>
+                          <button
+                            type="button"
+                            onClick={async () => {
+                              if (!user || !db) return;
+                              if (!confirm("Are you absolutely sure you want to permanently delete your Friend AI account? This will erase all your synced cloud chats, journals, stats, and authentication profile forever. This action cannot be undone.")) {
+                                return;
+                              }
+                              try {
+                                const { deleteDoc, doc } = await import("firebase/firestore");
+                                await Promise.all([
+                                  deleteDoc(doc(db, "users", user.uid, "private", "chats")),
+                                  deleteDoc(doc(db, "users", user.uid, "private", "journals")),
+                                  deleteDoc(doc(db, "users", user.uid, "private", "stats")),
+                                  deleteDoc(doc(db, "users", user.uid))
+                                ]);
+                                const currentUser = auth?.currentUser;
+                                if (currentUser) {
+                                  await currentUser.delete();
+                                }
+                                handleLogout();
+                                alert("Your account and all associated data have been permanently deleted.");
+                              } catch (err) {
+                                console.error(err);
+                                alert("Account deletion failed. For safety, please sign out and sign in again before running this command.");
+                              }
+                            }}
+                            className="py-2.5 border border-red-500/20 hover:bg-red-500/10 text-red-400 hover:text-red-300 text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
+                          >
+                            Delete Account
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    /* Logged Out Placement Card */
+                    <div className="text-center p-8 bg-white/5 border border-white/10 rounded-3xl space-y-4">
+                      <Lock className="w-8 h-8 text-gray-500 mx-auto" />
+                      <div className="space-y-1.5">
+                        <h4 className="text-sm font-bold text-white">Cloud Sync Disabled</h4>
+                        <p className="text-xs text-gray-400 leading-relaxed">
+                          Authenticate your session to unlock private cloud back-ups for your chats, journals, and clinical Intake configuration.
                         </p>
                       </div>
-                    </button>
-                  );
-                });
-              })()}
-            </div>
+                      <button
+                        type="button"
+                        onClick={() => setIsAliasModalOpen(true)}
+                        className="px-6 py-2.5 bg-white hover:bg-gray-250 text-black font-bold text-xs rounded-xl transition-all cursor-pointer uppercase tracking-wider"
+                      >
+                        Sign In / Register
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                /* Preferences / Guides sub-page (original settings content) */
+                <div className="w-full max-w-md mx-auto text-left flex flex-col gap-4">
+                  <button 
+                    onClick={() => setShowSpecializedApproaches(!showSpecializedApproaches)}
+                    className="px-6 py-3 w-full bg-white dark:bg-[#0a0a0a] hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-white/10 text-slate-800 dark:text-slate-200 text-sm font-bold rounded-xl cursor-pointer transition-all shadow-sm"
+                  >
+                    {showSpecializedApproaches ? "Hide Specialized Approaches" : "Configure Specialized Approaches"}
+                  </button>
+                  {showSpecializedApproaches && (
+                    <div className="animate-fade-in">
+                      <div className={`p-5 rounded-2xl flex flex-col gap-4 shadow-sm border transition-all duration-300 ${themeClass("bg-white border-indigo-100 text-slate-800", "bg-[#0b0f19] border-white/10 text-slate-200", "bg-[#faf6ee] border-[#e3d5be] text-[#3e2723]")}`}>
+                        <div>
+                          <div className="flex items-center justify-between">
+                            <h3 className={`text-sm font-bold tracking-tight uppercase font-display ${themeClass("text-slate-800", "text-white", "text-[#3e2723]")}`}>Specialized Approaches</h3>
+                            {personaSearchQuery && (
+                              <span className="text-[9px] font-bold text-indigo-655 bg-indigo-50 dark:bg-white/[0.02] px-1.5 py-0.5 border border-indigo-150 dark:border-white/10 rounded shadow-2xs">
+                                Filtered
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-xs text-slate-555 mt-1">
+                            {personaSearchQuery ? (
+                              <span>
+                                Showing matching guides (or <button type="button" onClick={() => setPersonaSearchQuery("")} className="text-indigo-655 font-bold hover:underline cursor-pointer focus-visible:outline-none">clear search</button>):
+                              </span>
+                            ) : (
+                              "Select one of our 5 specialized empathetic room guides:"
+                            )}
+                          </p>
+                        </div>
 
+                        <div className="grid grid-cols-1 gap-2.5 max-h-[460px] overflow-y-auto pr-1 font-sans">
+                          {(() => {
+                            const filtered = CHARACTERS.filter((char) => {
+                              const query = personaSearchQuery.toLowerCase().trim();
+                              if (!query) return true;
+                              return char.specialization.toLowerCase().includes(query) || 
+                                     char.name.toLowerCase().includes(query) || 
+                                     char.title.toLowerCase().includes(query);
+                            });
+                            
+                            if (filtered.length === 0) {
+                              return (
+                                <div className="p-6 text-center text-slate-400 border border-dashed border-slate-200 dark:border-white/10 rounded-xl space-y-1.5 bg-white/20 dark:bg-white/[0.01]">
+                                  <p className="text-xs font-semibold text-slate-700 dark:text-slate-350">No matching guides found</p>
+                                  <button
+                                    type="button"
+                                    onClick={() => setPersonaSearchQuery("")}
+                                    className="text-[10px] text-indigo-655 font-mono font-bold hover:underline cursor-pointer"
+                                  >
+                                    Reset Search Filter
+                                  </button>
+                                </div>
+                              );
+                            }
+                            
+                            return filtered.map((char) => {
+                              const isSelected = char.id === selectedCharacterId;
+                              const isPremiumChar = char.id !== "inayat" && char.id !== "manji" && char.id !== "altaf" && char.id !== "veer";
+                              const isLocked = isPremiumChar && !isPremiumSubscribed;
+                              
+                              return (
+                                <button
+                                  key={char.id}
+                                  onClick={() => handleCharacterChange(char.id)}
+                                  className={`w-full text-left p-3 rounded-xl border transition-all cursor-pointer flex items-start gap-3 relative ${
+                                    isSelected
+                                      ? "bg-indigo-550 dark:bg-white/[0.02]/70 border-indigo-305 shadow-sm ring-1 ring-indigo-200/40"
+                                      : isLocked
+                                      ? "bg-slate-100/45 border-slate-201 opacity-80 hover:opacity-100 hover:bg-slate-105/60"
+                                      : "bg-white/20 dark:bg-white/[0.01] border-slate-200/80 hover:bg-slate-105/60 hover:border-slate-350"
+                                  }`}
+                                >
+                                  {isSelected && (
+                                    <span className="absolute top-2 right-2 flex h-2 w-2">
+                                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                                      <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                                    </span>
+                                  )}
 
-          </div>
-                  </div>
-                )}
-              </div>
+                                  {isLocked && (
+                                    <span className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-[#fee2e2] text-rose-750 text-[8px] font-mono font-bold px-1.5 py-0.5 rounded-md border border-rose-200 dark:border-rose-800">
+                                      <span>🔒 ₹250/mo</span>
+                                    </span>
+                                  )}
 
+                                  {char.id === "veer" && (
+                                    <span className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-rose-50 dark:bg-rose-950/20 text-rose-750 dark:text-rose-300 text-[8px] font-mono font-bold px-1.5 py-0.5 rounded border border-rose-200/30">
+                                      <span>⚖️ Legal Support</span>
+                                    </span>
+                                  )}
 
-              
-              <button 
-                onClick={() => setShowSafetyModal(true)}
-                className="mb-6 px-6 py-3 w-full max-w-xs mx-auto bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-900/30 dark:hover:bg-emerald-900/50 border border-emerald-250 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 text-sm font-bold rounded-xl cursor-pointer transition-all flex items-center justify-center gap-2 font-display shadow-sm"
-              >
-                <Shield className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                <span>Open AI Safety & Ethics Portal</span>
-              </button>
+                                  {char.id === "inayat" && (
+                                    <span className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-emerald-50 text-emerald-700 text-[8px] font-mono font-bold px-1.5 py-0.5 rounded border border-emerald-200/35">
+                                      <span>🟢 FREE</span>
+                                    </span>
+                                  )}
 
-              <button 
-                onClick={handleLogout}
-                className="px-6 py-3 bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/50 rounded-full font-bold text-sm transition-colors"
-              >
-                Wipe Local Data & Sign Out
-              </button>
+                                  <div className={`w-8 h-8 rounded-lg ${char.avatarColor} border shrink-0 flex items-center justify-center`}>
+                                    {(() => {
+                                      const IconComponent = CHARACTER_ICONS[char.id] || Sparkles;
+                                      return <IconComponent className="w-4 h-4" />;
+                                    })()}
+                                  </div>
+
+                                  <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-1.5 pr-14">
+                                      <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">
+                                        {highlightText(char.name, personaSearchQuery)}
+                                      </h4>
+                                    </div>
+                                    <p className="text-[11px] text-slate-550 truncate mt-0.5">
+                                      {highlightText(char.specialization, personaSearchQuery)}
+                                    </p>
+                                  </div>
+                                </button>
+                              );
+                            });
+                          })()}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  <button 
+                    onClick={() => setShowSafetyModal(true)}
+                    className="mb-4 mt-2 px-6 py-3 w-full max-w-xs mx-auto bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-900/30 dark:hover:bg-emerald-900/50 border border-emerald-250 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 text-sm font-bold rounded-xl cursor-pointer transition-all flex items-center justify-center gap-2 font-display shadow-sm"
+                  >
+                    <Shield className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                    <span>Open AI Safety & Ethics Portal</span>
+                  </button>
+
+                  <button 
+                    onClick={handleLogout}
+                    className="px-6 py-3 bg-red-500/10 hover:bg-red-500/20 text-red-650 dark:text-red-400 border border-red-200 dark:border-red-900/50 rounded-full font-bold text-sm transition-colors text-center cursor-pointer mx-auto w-full max-w-xs block"
+                  >
+                    Wipe Local Data & Sign Out
+                  </button>
+                </div>
+              )}
+
             </div>
           )}
-
           {activeCenterTab === 'chat' && (
             <>
               {/* Quick Grounder Banner */}
