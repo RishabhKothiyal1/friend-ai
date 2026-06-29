@@ -26,7 +26,7 @@ const Hero1 = ({ onGetStarted }: Hero1Props) => {
         <button
           type="submit"
           onClick={onGetStarted}
-          className="flex justify-center gap-2 items-center shadow-xl text-lg bg-gray-50 text-gray-800 backdrop-blur-md lg:font-semibold isolation-auto border-gray-50 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-right-full before:hover:right-0 before:rounded-full before:bg-indigo-600 hover:text-gray-50 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10 px-4 py-2 overflow-hidden border-2 rounded-full group"
+          className="flex justify-center gap-2 items-center shadow-xl text-lg bg-gray-50 text-gray-800 backdrop-blur-md lg:font-semibold isolation-auto border-gray-50 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-right-full before:hover:right-0 before:rounded-full before:bg-indigo-600 hover:text-gray-50 active:text-gray-50 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10 px-4 py-2 overflow-hidden border-2 rounded-full group"
         >
           SIGN IN
           <svg
@@ -50,7 +50,7 @@ const Hero1 = ({ onGetStarted }: Hero1Props) => {
             <img 
               src="/hero-logo.png" 
               alt="friend ai logo" 
-              className="h-16 w-16 object-contain shrink-0"
+              className="h-20 w-20 md:h-24 md:w-24 object-contain shrink-0"
             />
             <h1 className="text-6xl md:text-8xl font-black leading-none tracking-tighter text-white drop-shadow-sm">
               <DiaTextReveal
