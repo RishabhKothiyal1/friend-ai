@@ -3,7 +3,8 @@
   command = "npm run build"
 
 [build.environment]
-  VITE_API_URL = "https://friend-ai-production.up.railway.app"
+  # Using relative routing mapped to local Netlify functions
+
 
 [dev]
   command = "npx vite"
