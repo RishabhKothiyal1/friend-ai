@@ -1,0 +1,120 @@
+import React, { useState } from "react";
+import { motion } from "motion/react";
+import { Heart, MessageCircle, Bookmark, Share2, Eye, Clock } from "lucide-react";
+import type { Post } from "../../types/community";
+import { useAuth } from "../../contexts/AuthContext";
+import { toggleLike } from "../../hooks/useCommunity";
+
+interface PostCardProps {
+  post: Post;
+  onClick: () => void;
+}
+
+export default function PostCard({ post, onClick }: PostCardProps) {
+  const { user } = useAuth();
+  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(post.likes);
+  const [bookmarked, setBookmarked] = useState(false);
+
+  const timeAgo = (timestamp: any) => {
+    if (!timestamp?.toDate) return "";
+    const diff = Date.now() - timestamp.toDate().getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 60) return `${mins}m ago`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return `${hrs}h ago`;
+    const days = Math.floor(hrs / 24);
+    return `${days}d ago`;
+  };
+
+  const handleLike = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!user) return;
+    await toggleLike(post.id, user.uid);
+    setLiked(!liked);
+    setLikeCount((c) => (liked ? c - 1 : c + 1));
+  };
+
+  const handleBookmark = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setBookmarked(!bookmarked);
+  };
+
+  const handleShare = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    await navigator.clipboard.writeText(`${window.location.origin}/community/post/${post.id}`);
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      onClick={onClick}
+      className="group p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/[0.07] transition-all cursor-pointer"
+    >
+      <div className="flex items-start gap-3">
+        <img
+          src={post.authorAvatar || "/friend_ai_mascot.jpg"}
+          alt={post.authorName}
+          className="w-9 h-9 rounded-full object-cover shrink-0 bg-slate-700"
+        />
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 text-xs text-slate-400 mb-1">
+            <span className="font-medium text-slate-200">{post.authorName}</span>
+            <span>·</span>
+            <span className="flex items-center gap-1">
+              <Clock className="w-3 h-3" />
+              {timeAgo(post.createdAt)}
+            </span>
+            {post.edited && <span className="text-[10px] text-slate-500">(edited)</span>}
+          </div>
+
+          <span className="inline-block px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 text-[10px] font-medium mb-1.5">
+            {post.category}
+          </span>
+
+          <h3 className="text-sm font-bold text-white mb-1 group-hover:text-indigo-300 transition-colors line-clamp-2">
+            {post.title}
+          </h3>
+
+          <p className="text-xs text-slate-300 leading-relaxed line-clamp-3 mb-2">
+            {post.content.replace(/[#*`>\[\]]/g, "").slice(0, 300)}
+          </p>
+
+          {post.image && (
+            <img src={post.image} alt="" className="w-full max-h-48 object-cover rounded-lg mb-2" loading="lazy" />
+          )}
+
+          {post.tags.length > 0 && (
+            <div className="flex gap-1 flex-wrap mb-2">
+              {post.tags.map((t) => (
+                <span key={t} className="px-1.5 py-0.5 rounded bg-white/5 text-[10px] text-slate-400">#{t}</span>
+              ))}
+            </div>
+          )}
+
+          <div className="flex items-center gap-4 text-xs text-slate-400">
+            <button onClick={handleLike} className={`flex items-center gap-1 hover:text-red-400 transition-colors cursor-pointer ${liked ? "text-red-400" : ""}`}>
+              <Heart className={`w-3.5 h-3.5 ${liked ? "fill-red-400" : ""}`} />
+              {likeCount}
+            </button>
+            <span className="flex items-center gap-1 hover:text-indigo-400 transition-colors">
+              <MessageCircle className="w-3.5 h-3.5" />
+              {post.comments}
+            </span>
+            <button onClick={handleBookmark} className={`flex items-center gap-1 hover:text-yellow-400 transition-colors cursor-pointer ${bookmarked ? "text-yellow-400" : ""}`}>
+              <Bookmark className={`w-3.5 h-3.5 ${bookmarked ? "fill-yellow-400" : ""}`} />
+            </button>
+            <button onClick={handleShare} className="flex items-center gap-1 hover:text-indigo-400 transition-colors cursor-pointer">
+              <Share2 className="w-3.5 h-3.5" />
+            </button>
+            <span className="flex items-center gap-1 ml-auto">
+              <Eye className="w-3.5 h-3.5" />
+              {post.views}
+            </span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
