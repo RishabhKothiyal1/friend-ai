@@ -1465,7 +1465,7 @@ function getCharacterAccentBorder(charId: string): string {
 // Cozy Room Sketch Vector & Layout Illustrator
 // ============================================
 const CozyRoomSketch = ({ charId }: { charId: string }) => {
-  // 1. AIPAN ART (Uttarakhand) - Rooh (rooh)
+  // 1. AIPAN ART (Uttarakhand) - Soul (rooh)
   if (charId === "rooh") {
     return (
       <div id="cozy-room-rooh" className="w-full h-40 rounded-2xl border-2 border-[#d4af37]/30 bg-[#9c2a1b] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#fcfbf9] select-none group">
@@ -1578,7 +1578,7 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
     );
   }
 
-  // 2. CHITTARA ART (Karnataka) - Ganesh (ganesh)
+  // 2. CHITTARA ART (Karnataka) - Dionysus (ganesh)
   if (charId === "ganesh") {
     return (
       <div id="cozy-room-ganesh" className="w-full h-40 rounded-2xl border-2 border-[#b8860b]/30 bg-[#a63d23] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#fff8e7] select-none group">
@@ -1680,7 +1680,7 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
     );
   }
 
-  // 3. PICHWAI ART (Rajasthan) - Raag (raag)
+  // 3. PICHWAI ART (Rajasthan) - Sisyphus (raag)
   if (charId === "raag") {
     return (
       <div id="cozy-room-raag" className="w-full h-40 rounded-2xl border-2 border-[#e6b432]/30 bg-[#0d1c3a] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#ffa0b4] select-none group">
@@ -1788,7 +1788,7 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
     );
   }
 
-  // 4. PAITKAR SCROLL ART (Jharkhand) - Hope (manji)
+  // 4. PAITKAR SCROLL ART (Jharkhand) - Athena (manji)
   if (charId === "manji") {
     return (
       <div id="cozy-room-manji" className="w-full h-40 rounded-2xl border-2 border-[#8c5210]/30 bg-[#dfb582] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#4a2305] select-none group">
@@ -1993,7 +1993,7 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
     );
   }
 
-  // 6. MANJUSHA ART (Bihar) - Inayat (inayat)
+  // 6. MANJUSHA ART (Bihar) - Persephone (inayat)
   if (charId === "inayat") {
     return (
       <div id="cozy-room-inayat" className="w-full h-40 rounded-2xl border-2 border-[#1c854c]/30 bg-[#ffd23f] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#da286d] select-none group">
@@ -2071,7 +2071,7 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
     );
   }
 
-  // 7. ROGAN ART (Gujarat) - Altaf (altaf)
+  // 7. ROGAN ART (Gujarat) - Zeus (altaf)
   if (charId === "altaf") {
     return (
       <div id="cozy-room-altaf" className="w-full h-40 rounded-2xl border-2 border-[#ecc54a]/30 bg-[#084524] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#ecc54a] select-none group">
@@ -2150,7 +2150,7 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
     );
   }
 
-  // 8. PATA CHITRA ART (Odisha) - Veer (veer)
+  // 8. PATA CHITRA ART (Odisha) - Hades (veer)
   if (charId === "veer") {
     return (
       <div id="cozy-room-veer" className="w-full h-40 rounded-2xl border-2 border-[#814125]/30 bg-[#faf1e1] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#3e2723] select-none group">
@@ -2232,7 +2232,7 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
     );
   }
 
-  // 9. WARLI ART (Maharashtra) - Manjishtha (manjishtha) -> Now Warli instead of Wise Wood Attic
+  // 9. WARLI ART (Maharashtra) - Sappho (manjishtha) -> Now Warli instead of Wise Wood Attic
   if (charId === "manjishtha") {
     return (
       <div id="cozy-room-manjishtha" className="w-full h-40 rounded-2xl border-2 border-[#ebdca5]/35 bg-[#82442b] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#fffbf2] select-none group">
@@ -3327,6 +3327,7 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
   const [isSignAgreement, setIsSignAgreement] = useState<boolean>(false);
   const [isCrisisActive, setIsCrisisActive] = useState<boolean>(false);
   const [isDependencyActive, setIsDependencyActive] = useState<boolean>(false);
+  const [isMedicoLegalTriggered, setIsMedicoLegalTriggered] = useState<boolean>(false);
 
 
 
