@@ -10,7 +10,6 @@ import type { Post } from "../../types/community";
 import Feed from "./Feed";
 import Comments from "./Comments";
 import CreatePost from "./CreatePost";
-import AuthModal from "./AuthModal";
 import { CATEGORIES } from "../../types/community";
 
 type CommunityView = "home" | "trending" | "following" | "bookmarks" | "notifications" | "profile" | "settings" | "guidelines";
@@ -56,7 +55,6 @@ export default function CommunityPage({ onOpenAuth }: { onOpenAuth?: () => void 
 
   return (
     <div className="flex-1 flex h-full overflow-hidden font-sans">
-      {!onOpenAuth && <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} />}
       <CreatePost isOpen={showCreatePost} onClose={() => setShowCreatePost(false)} />
 
       <div className="w-48 shrink-0 border-r border-white/10 p-3 space-y-1 overflow-y-auto hidden md:block">
