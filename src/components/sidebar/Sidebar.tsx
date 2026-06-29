@@ -70,7 +70,7 @@ export function Sidebar({
   const toolsItems = [
     { id: 'blogs', label: 'Curated Blogs', icon: FileText },
     { id: 'doodle', label: 'Do Doodle', icon: Palette, externalUrl: 'https://do-doodle.netlify.app/' },
-    { id: 'investor', label: 'Power BI Analytics', icon: Briefcase },
+    { id: 'investor', label: 'Mood Analytics', icon: Briefcase },
     { id: 'community', label: 'Community Center', icon: Users },
   ];
 
