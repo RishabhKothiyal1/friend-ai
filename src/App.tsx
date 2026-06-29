@@ -10144,7 +10144,6 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     </p>
                     <ul className="space-y-3">
                       {[
-                        'AES-256 local encryption, keys never leave your browser',
                         'Zero third-party trackers or ad networks',
                         'One-click full data erasure from Settings',
                       ].map(point => (
