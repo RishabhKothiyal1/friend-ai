@@ -8637,14 +8637,6 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           )}
           {activeCenterTab === 'chat' && (
             <>
-              {/* Quick Grounder Banner */}
-              <div className={`border-b px-6 py-2 flex items-center gap-4 ${isDarkCharacter(activeChar.id, themeMode) ? 'bg-indigo-900/40 border-indigo-500/30 text-indigo-200' : 'bg-indigo-50/40 border-indigo-200/40 text-indigo-800'}`}>
-                <div className="flex items-center gap-2 min-w-0 italic">
-                  <span className="bg-indigo-50 dark:bg-white/[0.02] text-indigo-600 border border-indigo-150 dark:border-white/10 text-[9px] uppercase px-1.5 py-0.5 rounded font-mono font-bold shrink-0 not-italic">Active mantra</span>
-                  <span className="truncate">"{activeChar.groundingMantra}"</span>
-                </div>
-              </div>
-
               {/* Interactive Chat Board area */}
               <div 
                 className="flex-1 p-6 overflow-y-auto space-y-4 transition-all duration-300 ease-in-out"
