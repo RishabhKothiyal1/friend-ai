@@ -61,7 +61,8 @@ import {
   Wind,
   Settings,
   Palette,
-  Menu
+  Menu,
+  Linkedin
 } from "lucide-react";
 import { calmingMusic } from "./lib/calmingMusic";
 import { mozartPiano } from "./lib/mozartPiano";
@@ -10788,21 +10789,28 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {[
-                      { initials: 'MP', name: 'Manjishtha Pahilajani', role: 'Founder & Visionary', bio: 'Founder of Project Friend AI. Author, clinical researcher, and developer of localized emotional de-escalation models.' },
-                      { initials: 'AJ', name: 'Altaf Jasnaik', role: 'Founding Partner · Management', bio: 'CEO and Founder of Managemend Ltd. Master of brand strategy, commercial execution, and scaling.' },
-                      { initials: 'RK', name: 'Rishabh Kothiyal', role: 'Co-founder · Technical Lead', bio: 'Lead Software Architect building localized vector indices, local model execution layers, and privacy pipelines.' },
-                      { initials: 'AT', name: 'Abhay Tiwari', role: 'Co-founder · Head of AI Governance', bio: 'AI Governance lead at BlackRock. Directing ethical constraints, regulatory safety, and system data compliance.' },
-                      { initials: 'SV', name: 'Suryateja Vakkanti', role: 'Co-founder · Strategic Advisor', bio: 'Strategic advisory director, coordinating international partnerships, compliance metrics, and operations.' },
-                      { initials: 'VN', name: 'Vinod Nagar', role: 'Personal Branding Partner', bio: 'Expert brand mentor and digital growth architect, directing strategic positioning and outreach frameworks.' },
-                      { initials: 'KD', name: 'Adv. Kunal Dutta', role: 'Legal Advisor', bio: 'Legal counsel and founder of Binary SEO Marketing. Advising on patient advocacy, privacy, and data ethics.' },
-                      { initials: 'ED', name: 'Eshan Dutta', role: 'Co-founder · Engineering', bio: 'Deep learning NLP engineer at Tata Technologies. Architecting local contexts and semantic retrieval paths.' },
+                      { initials: 'MP', name: 'Manjishtha Pahilajani', role: 'Founder & Visionary', bio: 'Founder of Project Friend AI. Author, clinical researcher, and developer of localized emotional de-escalation models.', linkedin: '' },
+                      { initials: 'AJ', name: 'Altaf Jasnaik', role: 'Founding Partner · Management', bio: 'CEO and Founder of Managemend Ltd. Master of brand strategy, commercial execution, and scaling.', linkedin: 'https://www.linkedin.com/in/discoveraltafjasnaik/' },
+                      { initials: 'RK', name: 'Rishabh Kothiyal', role: 'Co-founder · Technical Lead', bio: 'Lead Software Architect building localized vector indices, local model execution layers, and privacy pipelines.', linkedin: 'https://www.linkedin.com/in/rishabhkothiyal/' },
+                      { initials: 'AT', name: 'Abhay Tiwari', role: 'Co-founder · Head of AI Governance', bio: 'AI Governance lead at BlackRock. Directing ethical constraints, regulatory safety, and system data compliance.', linkedin: 'https://www.linkedin.com/in/abhaytiwari94/' },
+                      { initials: 'SV', name: 'Suryateja Vakkanti', role: 'Co-founder · Strategic Advisor', bio: 'Strategic advisory director, coordinating international partnerships, compliance metrics, and operations.', linkedin: 'https://www.linkedin.com/in/suryateja-vakkanti-3833b4253/' },
+                      { initials: 'VN', name: 'Vinod Nagar', role: 'Personal Branding Partner', bio: 'Expert brand mentor and digital growth architect, directing strategic positioning and outreach frameworks.', linkedin: 'https://www.linkedin.com/in/vinodnaagar/' },
+                      { initials: 'KD', name: 'Adv. Kunal Dutta', role: 'Legal Advisor', bio: 'Legal counsel and founder of Binary SEO Marketing. Advising on patient advocacy, privacy, and data ethics.', linkedin: '' },
+                      { initials: 'ED', name: 'Eshan Dutta', role: 'Co-founder · Engineering', bio: 'Deep learning NLP engineer at Tata Technologies. Architecting local contexts and semantic retrieval paths.', linkedin: 'https://www.linkedin.com/in/eshan-dutta/' },
                     ].map(member => (
                       <div key={member.name} className="p-6 rounded-2xl border border-white/5 bg-white/[0.02] space-y-4 hover:border-indigo-500/10 hover:bg-white/[0.03] transition-colors flex flex-col justify-between">
                         <div className="space-y-3 flex-1 flex flex-col justify-between">
                           <div>
                             <div className="flex items-center justify-between mb-2 gap-3">
                               <span className="w-10 h-10 rounded-full bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center font-bold text-indigo-300 text-xs font-mono shrink-0 aspect-square">{member.initials}</span>
-                              <span className="text-[9px] font-mono text-white/30 uppercase text-right leading-tight">{member.role}</span>
+                              <div className="flex flex-col items-end gap-1.5">
+                                <span className="text-[9px] font-mono text-white/30 uppercase text-right leading-tight">{member.role}</span>
+                                {member.linkedin && (
+                                  <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="text-white/20 hover:text-indigo-400 transition-colors" title="LinkedIn Profile">
+                                    <Linkedin className="w-3.5 h-3.5" />
+                                  </a>
+                                )}
+                              </div>
                             </div>
                             <h4 className="font-bold text-white text-sm">{member.name}</h4>
                           </div>
