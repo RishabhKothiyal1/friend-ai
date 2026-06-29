@@ -10143,6 +10143,12 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                   {/* Video — autoplay, muted, loop */}
                   <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/60 bg-black order-1 md:order-1">
                     <video
+                      ref={(el) => {
+                        if (el) {
+                          el.muted = true;
+                          el.play().catch(err => console.log("Video autoplay blocked/failed:", err));
+                        }
+                      }}
                       autoPlay
                       muted
                       loop
