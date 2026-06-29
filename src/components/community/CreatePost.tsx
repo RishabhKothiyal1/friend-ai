@@ -4,6 +4,8 @@ import { X, Image, Link, Globe, Lock, Users, Loader2 } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import { createPost, uploadImage } from "../../hooks/useCommunity";
 import { CATEGORIES } from "../../types/community";
+import { db } from "../../firebase/config";
+
 
 interface CreatePostProps {
   isOpen: boolean;
@@ -192,24 +194,14 @@ export default function CreatePost({ isOpen, onClose }: CreatePostProps) {
 
               <div className="flex items-center gap-3">
                 <button
-                  onClick={() => fileRef.current?.click()}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-white/10 text-slate-300 text-xs hover:bg-white/5 transition-colors cursor-pointer"
+                  onClick={() => alert("Image uploads are currently disabled because Firebase Storage is not enabled for this project. Use Option A (upgrade to the Blaze plan in Firebase Console) to enable this feature.")}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-white/10 text-slate-500 text-xs cursor-not-allowed opacity-60 hover:bg-white/5 transition-colors"
+                  title="Image uploads are disabled (requires Firebase Storage)"
                 >
                   <Image className="w-3.5 h-3.5" />
-                  {image ? "Change Image" : "Add Image"}
+                  Add Image (Disabled)
                 </button>
-                <input ref={fileRef} type="file" accept="image/png,image/jpeg,image/webp" onChange={handleImageSelect} className="hidden" />
-                {imagePreview && (
-                  <div className="relative">
-                    <img src={imagePreview} alt="preview" className="h-12 rounded-lg object-cover" />
-                    <button
-                      onClick={() => { setImage(null); setImagePreview(""); }}
-                      className="absolute -top-1 -right-1 p-0.5 bg-red-500 rounded-full text-white cursor-pointer"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
-                  </div>
-                )}
+                <span className="text-[10px] text-slate-500 font-medium">Requires Firebase Storage (Blaze plan)</span>
               </div>
             </div>
 
@@ -233,5 +225,3 @@ export default function CreatePost({ isOpen, onClose }: CreatePostProps) {
     </AnimatePresence>
   );
 }
-
-import { db } from "../../firebase/config";

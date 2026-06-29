@@ -1,8 +1,8 @@
-import { initializeApp, getApps, FirebaseApp } from "firebase/app";
-import { getFirestore, Firestore } from "firebase/firestore";
-import { getAuth, Auth } from "firebase/auth";
-import { getStorage, FirebaseStorage } from "firebase/storage";
-import { getAnalytics } from "firebase/analytics";
+import { initializeApp, getApps } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { getStorage } from "firebase/storage";
+import { getAnalytics, isSupported } from "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: "AIzaSyApNAm2JL0hYr4JOUk9pFTcd2YFo_tQHqs",
@@ -14,19 +14,18 @@ const firebaseConfig = {
   measurementId: "G-WEDVHQJGT5",
 };
 
-let app: FirebaseApp | undefined;
-let db: Firestore | undefined;
-let auth: Auth | undefined;
-let storage: FirebaseStorage | undefined;
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+const db = getFirestore(app);
+const auth = getAuth(app);
+const storage = getStorage(app);
+
+isSupported().then((supported) => {
+  if (supported) {
+    getAnalytics(app);
+  }
+});
 
 const hasConfig = true;
 
-if (!getApps().length) {
-  app = initializeApp(firebaseConfig);
-  db = getFirestore(app);
-  auth = getAuth(app);
-  storage = getStorage(app);
-  getAnalytics(app);
-}
-
 export { app, db, auth, storage, hasConfig };
+
