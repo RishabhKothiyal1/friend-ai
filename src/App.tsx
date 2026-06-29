@@ -4472,11 +4472,12 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
     }
     
     // Customize starting bubble text to address the logged-in user alias
+    const activeChar = CHARACTERS.find(c => c.id === selectedCharacterId) || CHARACTERS[0];
     setChatHistory([
       {
         id: "init",
         sender: "bot",
-        text: `Welcome to Project Friend AI, ${loginAlias.trim()}. I am Soul, here as a Compassionate Witness. Based on your Clinical Intake, we have computed a Clinical Recommendation Profile for you. Under local laws, we are a de-escalation workspace—for clinical services, explore your Location Referrals. How are you carrying yourself right now?`,
+        text: `Welcome to Project Friend AI, ${loginAlias.trim()}. I am ${activeChar.name}, here as a Compassionate Witness. Based on your Clinical Intake, we have computed a Clinical Recommendation Profile for you. Under local laws, we are a de-escalation workspace—for clinical services, explore your Location Referrals. How are you carrying yourself right now?`,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }
     ]);
@@ -4512,11 +4513,12 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
     setIsCrisisActive(false);
     setIsDependencyActive(false);
     
+    const activeChar = CHARACTERS.find(c => c.id === selectedCharacterId) || CHARACTERS[0];
     setChatHistory([
       {
         id: "init",
         sender: "bot",
-        text: "Welcome to Project Friend AI. I am Soul, here as a Compassionate Witness. This is a fully confidential, non-clinical de-escalation workspace. Your identity is anonymized. No therapist replacements, no psychiatric medical pretension—just supportive grounding. How are you carrying yourself right now?",
+        text: `Welcome to Project Friend AI. I am ${activeChar.name}, here as a Compassionate Witness. This is a fully confidential, non-clinical de-escalation workspace. Your identity is anonymized. No therapist replacements, no psychiatric medical pretension—just supportive grounding. How are you carrying yourself right now?`,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       }
     ]);
