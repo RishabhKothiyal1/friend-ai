@@ -97,7 +97,7 @@ OPERATIONAL RULES:
 `;
 
 function stripMarkdown(text: string): string {
-  return text.replace(/\*\/g, '');
+  return text.replace(/\*\*/g, '');
 }
 
 function getOfflineFallbackResponse(characterId: string, userMessage: string): string {

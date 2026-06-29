@@ -13,7 +13,7 @@ const CHARACTERS: Record<string, { name: string; title: string; prompt: string }
 };
 
 function stripMarkdown(text: string): string {
-  return text.replace(/\*\/g, '');
+  return text.replace(/\*\*/g, '');
 }
 
 export const handler = async (event: any, context: any) => {
