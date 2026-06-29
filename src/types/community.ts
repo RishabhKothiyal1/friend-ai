@@ -20,6 +20,7 @@ export interface CommunityUser {
   location?: string;
   badges?: string[];
   achievements?: string[];
+  clinicalIntakeCompleted?: boolean;
 }
 
 export interface Post {

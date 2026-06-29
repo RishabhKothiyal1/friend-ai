@@ -15,7 +15,7 @@ import { CATEGORIES } from "../../types/community";
 
 type CommunityView = "home" | "trending" | "following" | "bookmarks" | "notifications" | "profile" | "settings" | "guidelines";
 
-export default function CommunityPage() {
+export default function CommunityPage({ onOpenAuth }: { onOpenAuth?: () => void }) {
   const { user, profile, firebaseReady, loading: authLoading } = useAuth();
   const [view, setView] = useState<CommunityView>("home");
   const [showAuth, setShowAuth] = useState(false);
@@ -56,7 +56,7 @@ export default function CommunityPage() {
 
   return (
     <div className="flex-1 flex h-full overflow-hidden font-sans">
-      <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} />
+      {!onOpenAuth && <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} />}
       <CreatePost isOpen={showCreatePost} onClose={() => setShowCreatePost(false)} />
 
       <div className="w-48 shrink-0 border-r border-white/10 p-3 space-y-1 overflow-y-auto hidden md:block">
@@ -99,7 +99,7 @@ export default function CommunityPage() {
               New Post
             </button>
           ) : (
-            <button onClick={() => setShowAuth(true)} className="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition-colors cursor-pointer">
+            <button onClick={() => onOpenAuth ? onOpenAuth() : setShowAuth(true)} className="px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition-colors cursor-pointer">
               Sign In
             </button>
           )}

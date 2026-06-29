@@ -217,8 +217,10 @@ import { BeamsBackground } from "./components/ui/beams-background";
 import { AliasModal, type LoginData } from "./components/modals/AliasModal";
 import { Sidebar } from "./components/sidebar/Sidebar";
 import { Dashboard } from "./components/dashboard/Dashboard";
-import { AuthProvider } from "./contexts/AuthContext";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import CommunityPage from "./components/community/CommunityPage";
+import { db } from "./firebase/config";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 interface ChatMessage {
   id: string;
@@ -2736,6 +2738,29 @@ const getApiUrl = (path: string): string => {
 };
 
 export default function App() {
+  const { user, profile, logout: firebaseLogout } = useAuth();
+
+  // Link Firebase auth state to isLoggedIn and loginAlias
+  useEffect(() => {
+    if (user) {
+      setIsLoggedIn(true);
+      if (profile?.displayName) {
+        setLoginAlias(profile.displayName);
+      } else if (user.displayName) {
+        setLoginAlias(user.displayName);
+      }
+    } else {
+      const localLoggedIn = localStorage.getItem("friend_ai_isLoggedIn") === "true";
+      setIsLoggedIn(localLoggedIn);
+      if (localLoggedIn) {
+        setLoginAlias(localStorage.getItem("friend_ai_loginAlias") || "");
+      } else {
+        setIsLoggedIn(false);
+        setLoginAlias("");
+      }
+    }
+  }, [user, profile]);
+
   // Authentication & Secure Session States (inspired by the Wellness Bot login prototype UI request)
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
     return localStorage.getItem("friend_ai_isLoggedIn") === "true";
@@ -3898,6 +3923,120 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
     return list;
   });
 
+  const isSyncingRef = React.useRef(false);
+
+  // Fetch Firestore user private data on login
+  useEffect(() => {
+    if (!user || !db) return;
+
+    const fetchUserData = async () => {
+      isSyncingRef.current = true;
+      try {
+        const chatsRef = doc(db, "users", user.uid, "private", "chats");
+        const journalsRef = doc(db, "users", user.uid, "private", "journals");
+        const statsRef = doc(db, "users", user.uid, "private", "stats");
+
+        const [chatsSnap, journalsSnap, statsSnap] = await Promise.all([
+          getDoc(chatsRef),
+          getDoc(journalsRef),
+          getDoc(statsRef)
+        ]);
+
+        if (chatsSnap.exists()) {
+          const data = chatsSnap.data();
+          if (data.chatHistory) setChatHistory(data.chatHistory);
+          if (data.chatSessions) setChatSessions(data.chatSessions);
+        } else {
+          await setDoc(chatsRef, { chatHistory, chatSessions });
+        }
+
+        if (journalsSnap.exists()) {
+          const data = journalsSnap.data();
+          if (data.journalEntries) setJournalEntries(data.journalEntries);
+        } else {
+          await setDoc(journalsRef, { journalEntries });
+        }
+
+        if (statsSnap.exists()) {
+          const data = statsSnap.data();
+          if (data.breathingSessions) setBreathingSessions(data.breathingSessions);
+        } else {
+          await setDoc(statsRef, { breathingSessions });
+        }
+
+      } catch (err) {
+        console.error("Error syncing Firestore user data:", err);
+      } finally {
+        isSyncingRef.current = false;
+      }
+    };
+
+    fetchUserData();
+  }, [user]);
+
+  // Restore local data on logout
+  useEffect(() => {
+    if (!user) {
+      try {
+        const savedCharId = localStorage.getItem("pfai_selected_character_id") || "inayat";
+        const savedHistory = localStorage.getItem("pfai_chat_history_" + savedCharId) || localStorage.getItem("pfai_chat_history");
+        if (savedHistory) setChatHistory(JSON.parse(savedHistory));
+        else setChatHistory([]);
+
+        const savedSessions = localStorage.getItem("pfai_chat_sessions");
+        if (savedSessions) setChatSessions(JSON.parse(savedSessions));
+        else setChatSessions([]);
+
+        const savedJournals = localStorage.getItem("pfai_journal_entries");
+        if (savedJournals) setJournalEntries(JSON.parse(savedJournals));
+        else setJournalEntries([]);
+
+        const savedStats = localStorage.getItem("pfai_breathing_sessions_list_v2");
+        if (savedStats) setBreathingSessions(JSON.parse(savedStats));
+        else setBreathingSessions([]);
+      } catch (e) {
+        console.error("Error restoring local state on logout:", e);
+      }
+    }
+  }, [user]);
+
+  // Sync state changes to Firestore
+  useEffect(() => {
+    if (isSyncingRef.current || !user || !db) return;
+    const saveChats = async () => {
+      try {
+        await setDoc(doc(db, "users", user.uid, "private", "chats"), { chatHistory, chatSessions });
+      } catch (err) {
+        console.error("Error saving chats to Firestore:", err);
+      }
+    };
+    saveChats();
+  }, [chatHistory, chatSessions, user]);
+
+  useEffect(() => {
+    if (isSyncingRef.current || !user || !db) return;
+    const saveJournals = async () => {
+      try {
+        await setDoc(doc(db, "users", user.uid, "private", "journals"), { journalEntries });
+      } catch (err) {
+        console.error("Error saving journals to Firestore:", err);
+      }
+    };
+    saveJournals();
+  }, [journalEntries, user]);
+
+  useEffect(() => {
+    if (isSyncingRef.current || !user || !db) return;
+    const saveStats = async () => {
+      try {
+        await setDoc(doc(db, "users", user.uid, "private", "stats"), { breathingSessions });
+      } catch (err) {
+        console.error("Error saving stats to Firestore:", err);
+      }
+    };
+    saveStats();
+  }, [breathingSessions, user]);
+
   const [currentSessionStartTime, setCurrentSessionStartTime] = useState<string | null>(null);
   const [currentSessionStartMs, setCurrentSessionStartMs] = useState<number | null>(null);
   const [currentSessionDuration, setCurrentSessionDuration] = useState<number>(0);
@@ -4328,6 +4467,9 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
       console.error("Failed to pause music on logout:", err);
     }
 
+    if (user) {
+      firebaseLogout().catch(console.error);
+    }
     localStorage.removeItem("friend_ai_isLoggedIn");
     localStorage.removeItem("friend_ai_loginAlias");
     setIsLoggedIn(false);
@@ -9823,9 +9965,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
           {activeCenterTab === 'community' && (
             <div className="flex-1 flex overflow-hidden">
-              <AuthProvider>
-                <CommunityPage />
-              </AuthProvider>
+              <CommunityPage onOpenAuth={() => setIsAliasModalOpen(true)} />
             </div>
           )}
 

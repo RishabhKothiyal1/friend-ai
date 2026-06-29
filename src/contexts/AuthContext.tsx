@@ -64,18 +64,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const userRef = doc(db, "users", firebaseUser.uid);
     const snap = await getDoc(userRef);
     if (!snap.exists()) {
-      const newProfile: Omit<CommunityUser, "joinedAt"> & { joinedAt: ReturnType<typeof serverTimestamp> } = {
+      const newProfile = {
         uid: firebaseUser.uid,
         displayName: displayName || firebaseUser.displayName || "Anonymous",
         username: username || firebaseUser.displayName?.toLowerCase().replace(/\s+/g, "_") || `user_${firebaseUser.uid.slice(0, 6)}`,
         email: firebaseUser.email || "",
         photoURL: firebaseUser.photoURL || "",
         bio: "",
-        joinedAt: serverTimestamp() as any,
+        joinedAt: serverTimestamp(),
         reputation: 0,
         followers: 0,
         following: 0,
         verified: false,
+        clinicalIntakeCompleted: false,
       };
       await setDoc(userRef, newProfile);
     }
