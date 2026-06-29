@@ -10084,6 +10084,29 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 </div>
               </div>
 
+              {/* Video Showcase */}
+              <div className="bg-slate-950 dark:bg-black py-14 px-8">
+                <div className="max-w-4xl mx-auto space-y-6">
+                  <div className="text-center space-y-2">
+                    <span className="text-xs font-mono font-bold tracking-widest text-indigo-400 uppercase">Watch Our Story</span>
+                    <h2 className="text-2xl md:text-3xl font-bold text-white">See friend ai in Action</h2>
+                  </div>
+                  <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-indigo-900/30">
+                    <video
+                      controls
+                      autoPlay={false}
+                      loop={false}
+                      playsInline
+                      className="w-full h-auto max-h-[60vh] object-contain bg-black"
+                      style={{ display: 'block' }}
+                    >
+                      <source src="/about-us.mp4" type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
+                  </div>
+                </div>
+              </div>
+
               {/* Core Values */}
               <div className="max-w-5xl mx-auto w-full px-8 py-16 space-y-16 font-sans">
                 <div className="text-center space-y-3">
