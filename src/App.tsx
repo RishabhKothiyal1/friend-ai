@@ -10060,153 +10060,174 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             </div>
           )}
 
-          {/* About Us Page */}
+          {/* About Us Page — Mitra-style dark feature page */}
           {activeCenterTab === 'about' && (
-            <div className="flex-1 flex flex-col overflow-y-auto animate-fade-in bg-white dark:bg-black">
-              {/* Hero */}
-              <div className="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white">
-                <div className="absolute inset-0 opacity-20" style={{backgroundImage: 'radial-gradient(circle at 20% 50%, white 0%, transparent 50%), radial-gradient(circle at 80% 20%, white 0%, transparent 50%)'}} />
-                <div className="relative z-10 max-w-4xl mx-auto px-8 py-20 text-center">
-                  <span className="inline-block px-4 py-1.5 mb-5 text-xs font-bold tracking-widest uppercase bg-white/20 border border-white/30 rounded-full backdrop-blur-sm">Our Mission</span>
-                  <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
-                    AI Companionship<br/>
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-pink-300">Built for You</span>
-                  </h1>
-                  <p className="text-lg md:text-xl text-white/85 max-w-2xl mx-auto leading-relaxed font-light">
-                    friend ai is a safe, private space where emotionally intelligent AI companions support your mental wellness journey — on your terms, at your pace.
-                  </p>
-                  <button
-                    onClick={() => setActiveCenterTab('chat' as any)}
-                    className="mt-8 px-8 py-3.5 bg-white text-indigo-700 font-bold rounded-xl hover:bg-indigo-50 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 cursor-pointer text-sm"
-                  >
-                    Start a Conversation →
+            <div className="flex-1 flex flex-col overflow-y-auto bg-[#0a0a0a] text-white font-sans animate-fade-in">
+
+              {/* Nav bar area — subtle back link */}
+              <div className="px-10 py-5 flex items-center justify-between border-b border-white/5">
+                <span className="font-extrabold text-lg tracking-tight">friend <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">ai</span></span>
+                <button onClick={() => setActiveCenterTab('chat' as any)} className="text-xs text-white/50 hover:text-white transition-colors cursor-pointer border border-white/10 hover:border-white/30 px-4 py-1.5 rounded-full">
+                  Open App →
+                </button>
+              </div>
+
+              {/* Hero — full width, dark, bold */}
+              <div className="px-10 md:px-20 py-24 text-center max-w-4xl mx-auto w-full space-y-6">
+                <p className="text-xs font-mono tracking-[0.25em] text-white/40 uppercase">Mental Wellness · AI Companionship · Privacy-first</p>
+                <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.08]">
+                  A companion<br/>for every moment
+                </h1>
+                <p className="text-lg text-white/50 max-w-xl mx-auto leading-relaxed font-light">
+                  friend ai gives everyone access to an emotionally intelligent AI that truly listens — privately, without judgment, 24/7.
+                </p>
+                <div className="flex flex-wrap gap-3 justify-center pt-2">
+                  <button onClick={() => setActiveCenterTab('chat' as any)} className="px-7 py-3 bg-white text-black font-bold rounded-full text-sm hover:bg-white/90 transition-all cursor-pointer">
+                    Start chatting
                   </button>
+                  <a href="mailto:pahilajani.manjishtha@gmail.com" className="px-7 py-3 bg-white/[0.07] border border-white/10 text-white font-medium rounded-full text-sm hover:bg-white/10 transition-all cursor-pointer">
+                    Contact us
+                  </a>
                 </div>
               </div>
 
-              {/* Video Showcase */}
-              <div className="bg-slate-950 dark:bg-black py-14 px-8">
-                <div className="max-w-4xl mx-auto space-y-6">
-                  <div className="text-center space-y-2">
-                    <span className="text-xs font-mono font-bold tracking-widest text-indigo-400 uppercase">Watch Our Story</span>
-                    <h2 className="text-2xl md:text-3xl font-bold text-white">See friend ai in Action</h2>
-                  </div>
-                  <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-indigo-900/30">
+              {/* ── Feature section 1: Video left, text right ── */}
+              <div className="border-t border-white/5 px-10 md:px-20 py-20">
+                <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                  {/* Video — autoplay, muted, loop */}
+                  <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/60 bg-black order-1 md:order-1">
                     <video
-                      controls
-                      autoPlay={false}
-                      loop={false}
+                      autoPlay
+                      muted
+                      loop
                       playsInline
-                      className="w-full h-auto max-h-[60vh] object-contain bg-black"
-                      style={{ display: 'block' }}
+                      className="w-full h-auto object-cover block"
                     >
                       <source src="/about-us.mp4" type="video/mp4" />
-                      Your browser does not support the video tag.
                     </video>
+                  </div>
+                  {/* Text */}
+                  <div className="space-y-6 order-2 md:order-2">
+                    <h2 className="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight">
+                      Chat with someone<br/>who actually gets it
+                    </h2>
+                    <p className="text-white/50 text-base leading-relaxed">
+                      Our companions aren't generic chatbots. Each one is specialised — in grief, anxiety, creativity, mindfulness, and more — so the support you get feels personal and real.
+                    </p>
+                    <ul className="space-y-3">
+                      {[
+                        '10+ emotionally intelligent companions',
+                        'Specialised in anxiety, grief, creativity & more',
+                        'Responds with warmth, not canned scripts',
+                      ].map(point => (
+                        <li key={point} className="flex items-start gap-3 text-sm text-white/60">
+                          <span className="mt-1 w-1.5 h-1.5 rounded-full bg-indigo-400 shrink-0" />
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
               </div>
 
-              {/* Core Values */}
-              <div className="max-w-5xl mx-auto w-full px-8 py-16 space-y-16 font-sans">
-                <div className="text-center space-y-3">
-                  <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">What We Believe</h2>
-                  <p className="text-slate-500 dark:text-slate-400 text-sm max-w-xl mx-auto">Every person deserves access to compassionate, judgment-free support. We built friend ai around three core pillars.</p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {[
-                    { emoji: '🔒', title: 'Radical Privacy', desc: 'Your conversations never leave your device. All data is stored locally and encrypted. We cannot read your messages — by design.' },
-                    { emoji: '🤝', title: 'Genuine Connection', desc: 'Our AI companions are trained to listen deeply, validate your emotions, and offer thoughtful support — not generic chatbot responses.' },
-                    { emoji: '🌱', title: 'Growth-Centered', desc: 'From mood journals to wellness check-ins, every feature is designed to help you understand yourself better over time.' },
-                  ].map(item => (
-                    <div key={item.title} className="p-7 bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 rounded-2xl space-y-3 hover:border-indigo-300 dark:hover:border-indigo-700 transition-colors group">
-                      <div className="text-3xl">{item.emoji}</div>
-                      <h3 className="font-bold text-slate-900 dark:text-white text-base group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">{item.title}</h3>
-                      <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{item.desc}</p>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Story Section */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                  <div className="space-y-5">
-                    <span className="text-xs font-mono font-bold tracking-widest text-indigo-500 uppercase">Our Story</span>
-                    <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white leading-snug">Born from a Simple Question</h2>
-                    <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                      What if everyone had access to a thoughtful companion who truly listens — anytime, anywhere, without judgment?
+              {/* ── Feature section 2: Text left, stats right ── */}
+              <div className="border-t border-white/5 px-10 md:px-20 py-20">
+                <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                  <div className="space-y-6">
+                    <h2 className="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight">
+                      Your data never<br/>leaves your device
+                    </h2>
+                    <p className="text-white/50 text-base leading-relaxed">
+                      Everything is stored locally and encrypted in your browser. We've architected friend ai so that it's mathematically impossible for us to read your conversations.
                     </p>
-                    <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                      We started friend ai after seeing how many people feel alone with their thoughts, especially during difficult moments. Therapy is inaccessible for many. Friends are busy. Support shouldn't depend on your schedule or budget.
-                    </p>
-                    <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                      friend ai combines the warmth of human-centered design with the power of modern AI — creating companions that specialize in emotional support, creative expression, grief, anxiety, and more.
-                    </p>
+                    <ul className="space-y-3">
+                      {[
+                        'AES-256 local encryption, keys never leave your browser',
+                        'Zero third-party trackers or ad networks',
+                        'One-click full data erasure from Settings',
+                      ].map(point => (
+                        <li key={point} className="flex items-start gap-3 text-sm text-white/60">
+                          <span className="mt-1 w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <div className="bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-indigo-950/40 dark:via-purple-950/40 dark:to-pink-950/40 rounded-2xl p-8 border border-indigo-100 dark:border-indigo-900/50 space-y-6">
+                  {/* Stats grid */}
+                  <div className="grid grid-cols-2 gap-4">
                     {[
-                      { stat: '10+', label: 'Specialized AI Companions' },
-                      { stat: '100%', label: 'Local — Your data stays with you' },
-                      { stat: '24/7', label: 'Available whenever you need support' },
-                      { stat: '0', label: 'Third-party trackers or ad networks' },
+                      { stat: '10+', label: 'AI Companions' },
+                      { stat: '100%', label: 'Local & Private' },
+                      { stat: '24/7', label: 'Always available' },
+                      { stat: '0', label: 'Trackers or ads' },
                     ].map(item => (
-                      <div key={item.stat} className="flex items-center gap-4">
-                        <span className="text-2xl font-extrabold text-indigo-600 dark:text-indigo-400 min-w-[4rem]">{item.stat}</span>
-                        <span className="text-sm text-slate-600 dark:text-slate-400">{item.label}</span>
+                      <div key={item.stat} className="bg-white/[0.04] border border-white/8 rounded-2xl p-6 space-y-1 hover:bg-white/[0.06] transition-colors">
+                        <p className="text-4xl font-extrabold tracking-tight text-white">{item.stat}</p>
+                        <p className="text-sm text-white/40">{item.label}</p>
                       </div>
                     ))}
                   </div>
                 </div>
+              </div>
 
-                {/* Team Section */}
-                <div className="space-y-8">
-                  <div className="text-center space-y-2">
-                    <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">Who We Are</h2>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">A passionate team at the intersection of mental health and technology.</p>
+              {/* ── Feature section 3: Companions ── */}
+              <div className="border-t border-white/5 px-10 md:px-20 py-20">
+                <div className="max-w-6xl mx-auto space-y-12">
+                  <div className="max-w-xl space-y-4">
+                    <h2 className="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight">
+                      Meet the companions
+                    </h2>
+                    <p className="text-white/50 text-base leading-relaxed">
+                      A passionate team of AI minds, each trained for a different emotional domain.
+                    </p>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {[
-                      { name: 'Solace', role: 'Emotional Wellness Lead', bio: 'Guiding people through anxiety, grief, and emotional overwhelm with evidence-backed compassion.', gradient: 'from-blue-500 to-indigo-600', letter: 'S' },
-                      { name: 'Melody', role: 'Creative & Expressive Arts', bio: 'Helping you process feelings through journaling, art, and music therapy-inspired conversations.', gradient: 'from-pink-500 to-rose-600', letter: 'M' },
-                      { name: 'Cosmic', role: 'Mindfulness & Reflection', bio: 'Facilitating deep self-inquiry and mindfulness practices to reconnect you with your inner wisdom.', gradient: 'from-purple-500 to-violet-600', letter: 'C' },
+                      { name: 'Solace', role: 'Emotional Wellness', bio: 'Anxiety, grief, and emotional overwhelm — Solace holds space with evidence-backed compassion.', color: 'bg-blue-500/10 border-blue-500/20', dot: 'bg-blue-400' },
+                      { name: 'Melody', role: 'Creative & Arts', bio: 'Process feelings through journaling, art, and music-therapy inspired conversations.', color: 'bg-pink-500/10 border-pink-500/20', dot: 'bg-pink-400' },
+                      { name: 'Cosmic', role: 'Mindfulness', bio: 'Deep self-inquiry and mindfulness practices to reconnect you with your inner wisdom.', color: 'bg-purple-500/10 border-purple-500/20', dot: 'bg-purple-400' },
                     ].map(member => (
-                      <div key={member.name} className="p-6 bg-white dark:bg-white/[0.03] border border-slate-200 dark:border-white/10 rounded-2xl space-y-4 text-center hover:shadow-md dark:hover:border-white/20 transition-all">
-                        <div className={`w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br ${member.gradient} flex items-center justify-center text-white text-2xl font-bold shadow-lg`}>
-                          {member.letter}
+                      <div key={member.name} className={`p-6 rounded-2xl border ${member.color} space-y-3 hover:bg-white/[0.03] transition-colors`}>
+                        <div className="flex items-center gap-2">
+                          <span className={`w-2 h-2 rounded-full ${member.dot}`} />
+                          <span className="text-xs text-white/40 font-mono">{member.role}</span>
                         </div>
-                        <div>
-                          <p className="font-bold text-slate-900 dark:text-white">{member.name}</p>
-                          <p className="text-xs text-indigo-500 font-medium mt-0.5">{member.role}</p>
-                        </div>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">{member.bio}</p>
+                        <p className="font-bold text-white text-lg">{member.name}</p>
+                        <p className="text-sm text-white/50 leading-relaxed">{member.bio}</p>
                       </div>
                     ))}
                   </div>
                 </div>
+              </div>
 
-                {/* Contact CTA */}
-                <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-10 text-center text-white space-y-4">
-                  <h2 className="text-2xl font-bold">Have Questions or Feedback?</h2>
-                  <p className="text-white/80 text-sm max-w-md mx-auto">We're a small team who genuinely cares. Reach out — we read every message.</p>
-                  <div className="flex flex-wrap gap-3 justify-center mt-2">
-                    <a href="mailto:pahilajani.manjishtha@gmail.com" className="px-6 py-2.5 bg-white text-indigo-700 font-bold rounded-xl hover:bg-indigo-50 transition-all text-sm shadow-lg cursor-pointer">
-                      Send us an email
-                    </a>
-                    <button onClick={() => setActiveCenterTab('chat' as any)} className="px-6 py-2.5 bg-white/20 border border-white/30 text-white font-bold rounded-xl hover:bg-white/30 transition-all text-sm cursor-pointer">
-                      Start chatting
+              {/* ── CTA footer ── */}
+              <div className="border-t border-white/5 px-10 md:px-20 py-20">
+                <div className="max-w-2xl mx-auto text-center space-y-6">
+                  <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">Ready to begin?</h2>
+                  <p className="text-white/40 text-base">No account needed. Start talking in seconds.</p>
+                  <div className="flex flex-wrap gap-3 justify-center">
+                    <button onClick={() => setActiveCenterTab('chat' as any)} className="px-8 py-3.5 bg-white text-black font-bold rounded-full text-sm hover:bg-white/90 transition-all cursor-pointer">
+                      Open the app
                     </button>
+                    <a href="mailto:pahilajani.manjishtha@gmail.com" className="px-8 py-3.5 bg-white/[0.07] border border-white/10 text-white font-medium rounded-full text-sm hover:bg-white/10 transition-all cursor-pointer">
+                      Get in touch
+                    </a>
                   </div>
                 </div>
+              </div>
 
-                {/* Legal back button */}
-                <div className="text-center pb-4">
-                  <button onClick={() => setActiveCenterTab('chat' as any)} className="text-sm text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors cursor-pointer">
-                    ← Back to Chat
-                  </button>
+              {/* mini footer */}
+              <div className="border-t border-white/5 px-10 py-6 flex flex-wrap gap-4 items-center justify-between text-xs text-white/25">
+                <span>© 2026 friend ai. All rights reserved.</span>
+                <div className="flex gap-5">
+                  <button onClick={() => setActiveCenterTab('terms' as any)} className="hover:text-white/60 transition-colors cursor-pointer">Terms</button>
+                  <button onClick={() => setActiveCenterTab('privacy' as any)} className="hover:text-white/60 transition-colors cursor-pointer">Privacy</button>
+                  <button onClick={() => setActiveCenterTab('chat' as any)} className="hover:text-white/60 transition-colors cursor-pointer">Back to Chat</button>
                 </div>
               </div>
             </div>
           )}
+
 
 {activeCenterTab === 'blogs' && (
 
