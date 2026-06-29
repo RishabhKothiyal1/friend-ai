@@ -46,11 +46,11 @@ const Hero1 = ({ onGetStarted }: Hero1Props) => {
       <main className="flex-1 flex flex-col items-center justify-center px-6 text-center z-10 relative pb-32">
         <div className="max-w-3xl mx-auto space-y-8 w-full flex flex-col items-center">
           
-          <div className="flex flex-col items-center gap-6 mb-4">
+          <div className="flex items-center justify-center gap-4 mb-4">
             <img 
               src="/friend_ai_mascot.jpg" 
               alt="friend ai logo" 
-              className="w-32 h-32 md:w-40 md:h-40 rounded-3xl object-cover border-2 border-white/20 shrink-0 shadow-2xl animate-fade-in"
+              className="h-16 w-16 object-cover shrink-0"
             />
             <h1 className="text-6xl md:text-8xl font-black leading-none tracking-tighter text-white drop-shadow-sm">
               <DiaTextReveal
