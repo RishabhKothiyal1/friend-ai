@@ -4990,7 +4990,7 @@ Below is the **International Crisis & Support Directory**, curated to guide you 
 
 ### Medico-Legal Crisis Support (Lawyers for domestic/harassment cases)
 - **Patient Rights & Legal Aid Directories**: Access pro-bono state legal aid, civil advocates, and domestic harassment lawyers.
-- **Veer (Medico-Legal Consultation)**: Use our interactive lawyers directory below to find verified legal aid networks, human rights lawyers, and domestic safety counsels.
+- **Hades (Medico-Legal Consultation)**: Use our interactive lawyers directory below to find verified legal aid networks, human rights lawyers, and domestic safety counsels.
 
 *This directory is curated to be LGBTQIA+ affirming.*
 
@@ -8750,7 +8750,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                             } else {
                               setSafetySimResult({
                                 status: 'PASS',
-                                message: '✅ Trigger Status: Safe dialogue boundaries. ACTION: Context successfully cleared security filters to proceed with chosen companion (Rooh, Ganesh, Altaf).'
+                                message: '✅ Trigger Status: Safe dialogue boundaries. ACTION: Context successfully cleared security filters to proceed with chosen companion (Soul, Dionysus, Zeus).'
                               });
                             }
                           }}
@@ -9292,8 +9292,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     </div>
                     <div className="space-y-1 text-center sm:text-left flex-1 min-w-0">
                       <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-                        <span className="text-[8.5px] font-bold font-mono tracking-wider bg-rose-500/10 text-rose-700 dark:text-rose-350 px-2 py-0.5 rounded uppercase">Altaf's Shield Panel</span>
-                        <h4 className="text-xs font-bold text-slate-850 dark:text-slate-105">Altaf's Zero-Trust Cybersecurity &amp; Threat Countermeasures Shield</h4>
+                        <span className="text-[8.5px] font-bold font-mono tracking-wider bg-rose-500/10 text-rose-700 dark:text-rose-350 px-2 py-0.5 rounded uppercase">Zeus's Shield Panel</span>
+                        <h4 className="text-xs font-bold text-slate-850 dark:text-slate-105">Zeus's Zero-Trust Cybersecurity &amp; Threat Countermeasures Shield</h4>
                       </div>
                       <p className="text-[10.5px] text-slate-605 dark:text-slate-405 italic leading-relaxed">
                         "Your privacy is our highest metric. I've bound custom client-side sandboxed anti-hacking and dark web monitors right into our core governance portal. No hacker can penetrate your Project Friend AI workspace."
@@ -9506,14 +9506,14 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     <div className={`p-4 rounded-xl border ${themeClass("bg-indigo-50/50 border-indigo-100", "bg-white/[0.02]/10 border-white/10/30", "bg-[#f5eeff] border-[#ebd9ff]")} space-y-3 text-left`}>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-1.5">
-                          <span className="p-1 px-1.5 rounded bg-indigo-650 text-white font-mono text-[9px] font-bold">ALTAF_MEDIA_INTEGRITY</span>
-                          <span className="text-xs font-bold text-slate-800 dark:text-slate-200 font-sans">📹 Altaf's Video Sanctuary &amp; Symmetrical Mirror</span>
+                          <span className="p-1 px-1.5 rounded bg-indigo-650 text-white font-mono text-[9px] font-bold">ZEUS_MEDIA_INTEGRITY</span>
+                          <span className="text-xs font-bold text-slate-800 dark:text-slate-200 font-sans">📹 Zeus's Video Sanctuary &amp; Symmetrical Mirror</span>
                         </div>
                         <span className="text-[9px] font-semibold text-indigo-500 uppercase font-mono">Webcam Calibration</span>
                       </div>
 
                       <p className="text-[10.5px] text-slate-600 dark:text-slate-350 leading-relaxed font-sans">
-                        Activate your camera and microphone in real time within our secure, sandboxed media module. Altaf guides you in aligning your physical posture, measuring breathing decibel feedback, and generating local AI posture analysis reports.
+                        Activate your camera and microphone in real time within our secure, sandboxed media module. Zeus guides you in aligning your physical posture, measuring breathing decibel feedback, and generating local AI posture analysis reports.
                       </p>
 
                       <button
@@ -9525,7 +9525,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                         className="w-full bg-indigo-600 hover:bg-indigo-700 border border-indigo-700 text-white font-mono font-bold text-[10.5px] py-2 px-4 rounded-xl cursor-pointer transition-all uppercase tracking-wide shadow-sm flex items-center justify-center gap-2"
                       >
                         <Video className="w-4 h-4 animate-pulse" />
-                        <span>Launch Altaf's Symmetrical Video Mirror</span>
+                        <span>Launch Zeus's Symmetrical Video Mirror</span>
                       </button>
                     </div>
 
@@ -11970,10 +11970,10 @@ I am speaking to you now as ${CHARACTERS.find(c => c.id === pendingCharId)?.name
               </div>
               <div className="space-y-1">
                 <h2 id="altaf-video-sanctuary-title" className="text-xl font-bold font-display tracking-tight text-purple-700 dark:text-purple-400">
-                  Altaf's Rogan Video Sanctuary & Grounding Mirror
+                  Zeus's Rogan Video Sanctuary & Grounding Mirror
                 </h2>
                 <p className="text-xs text-slate-500 font-sans max-w-2xl leading-relaxed">
-                  Presided over by Altaf, our Rogan symmetry master. In Kutch's Rogan painting, absolute symmetrical alignment makes art perfect. Here, use your camera as a secure somatic mirror to adjust your physical posture, center your breathing, and inspect audio decibel peaks. Fully sandboxed and encrypted.
+                  Presided over by Zeus, our Rogan symmetry master. In Kutch's Rogan painting, absolute symmetrical alignment makes art perfect. Here, use your camera as a secure somatic mirror to adjust your physical posture, center your breathing, and inspect audio decibel peaks. Fully sandboxed and encrypted.
                 </p>
               </div>
             </div>
@@ -12065,7 +12065,7 @@ I am speaking to you now as ${CHARACTERS.find(c => c.id === pendingCharId)?.name
                 <div className="flex items-center justify-between border-b pb-2 border-slate-150 border-dashed">
                   <h3 id="altaf-somatic-analyzer-title" className="text-xs font-bold uppercase tracking-wider font-mono text-purple-700 dark:text-purple-400 flex items-center gap-1.5">
                     <Sparkles className="w-4 h-3.5" />
-                    Altaf's AI Somatic & Posture Analyzer
+                    Zeus's AI Somatic & Posture Analyzer
                   </h3>
                   <span className="text-[10px] text-purple-600 font-bold font-mono uppercase">Rogan Calibration</span>
                 </div>

@@ -1,15 +1,15 @@
 import { GoogleGenAI } from "@google/genai";
 
 const CHARACTERS: Record<string, { name: string; title: string; prompt: string }> = {
-  inayat: { name: "Rooh", title: "Aipan Art Grounding Witness", prompt: "" },
-  tony: { name: "Ganesh", title: "Chittara Joy & Folk Companion", prompt: "" },
-  raag: { name: "Raag", title: "Pichwai Devotion & Lotus Guide", prompt: "" },
-  manji: { name: "Hope", title: "Paitkar Folk Scroll Guardian", prompt: "" },
-  tara: { name: "North Star", title: "Kalamezhuthu Cosmic Grounder", prompt: "" },
-  abhay: { name: "Inayat", title: "Manjusha Snake & Sun Companion", prompt: "" },
-  altaf: { name: "Altaf", title: "Rogan Tree of Life Architecture", prompt: "" },
-  adv_kunal: { name: "Veer", title: "Pata Chitra Miniature Counsel", prompt: "" },
-  billu: { name: "Manjishtha", title: "Warli Stick-Figure Attic Wit", prompt: "" }
+  inayat: {     name: "Soul", title: "Aipan Art Grounding Witness", prompt: "" },
+  tony: {     name: "Dionysus", title: "Chittara Joy & Folk Companion", prompt: "" },
+  raag: {     name: "Sisyphus", title: "Pichwai Devotion & Lotus Guide", prompt: "" },
+  manji: {     name: "Athena", title: "Paitkar Folk Scroll Guardian", prompt: "" },
+  tara: {     name: "Astra", title: "Kalamezhuthu Cosmic Grounder", prompt: "" },
+  abhay: {     name: "Persephone", title: "Manjusha Snake & Sun Companion", prompt: "" },
+  altaf: {     name: "Zeus", title: "Rogan Tree of Life Architecture", prompt: "" },
+  adv_kunal: {     name: "Hades", title: "Pata Chitra Miniature Counsel", prompt: "" },
+  billu: {     name: "Sappho", title: "Warli Stick-Figure Attic Wit", prompt: "" }
 };
 
 function stripMarkdown(text: string): string {
