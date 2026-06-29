@@ -3153,9 +3153,9 @@ export default function App() {
    const [safetySimText, setSafetySimText] = useState<string>("");
   const [safetySimResult, setSafetySimResult] = useState<{ status: 'PASS' | 'CRISIS_OVERRIDE' | 'MED_LIMIT', message: string } | null>(null);
   
-  const VALID_TABS = ['chat', 'safety', 'blogs', 'publishing', 'community', 'investor', 'terms', 'privacy', 'analytics', 'journal', 'wellness', 'settings', 'directory', 'about'] as const;
+  const VALID_TABS = ['chat', 'safety', 'blogs', 'publishing', 'community', 'investor', 'terms', 'privacy', 'analytics', 'journal', 'wellness', 'settings', 'directory', 'vision-mission'] as const;
 
-  const [activeCenterTab, setActiveCenterTab] = useState<'chat' | 'safety' | 'blogs' | 'publishing' | 'community' | 'investor' | 'terms' | 'privacy' | 'analytics' | 'journal' | 'wellness' | 'settings' | 'directory' | 'about'>(() => {
+  const [activeCenterTab, setActiveCenterTab] = useState<'chat' | 'safety' | 'blogs' | 'publishing' | 'community' | 'investor' | 'terms' | 'privacy' | 'analytics' | 'journal' | 'wellness' | 'settings' | 'directory' | 'vision-mission'>(() => {
     try {
       const path = window.location.pathname;
       const tab = path.replace(/^\//, ''); // strip leading slash
@@ -10284,187 +10284,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             </div>
           )}
 
-          {/* About Us Page — Mitra-style dark feature page */}
-          {activeCenterTab === 'about' && (
-            <div className="flex-1 flex flex-col overflow-y-auto bg-[#0a0a0a] text-white font-sans animate-fade-in">
 
-              {/* Nav bar area — subtle back link */}
-              <div className="px-10 py-5 flex items-center justify-between border-b border-white/5">
-                <span className="font-extrabold text-lg tracking-tight">friend <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">ai</span></span>
-                <button onClick={() => setActiveCenterTab('chat' as any)} className="text-xs text-white/50 hover:text-white transition-colors cursor-pointer border border-white/10 hover:border-white/30 px-4 py-1.5 rounded-full">
-                  Open App →
-                </button>
-              </div>
-
-              {/* Hero — full width, dark, bold */}
-              <div className="px-10 md:px-20 py-24 text-center max-w-4xl mx-auto w-full space-y-6">
-                <p className="text-xs font-mono tracking-[0.25em] text-white/40 uppercase">Mental Wellness · AI Companionship · Privacy-first</p>
-                <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.08]">
-                  A companion<br/>for every moment
-                </h1>
-                <p className="text-lg text-white/50 max-w-xl mx-auto leading-relaxed font-light">
-                  friend ai gives everyone access to an emotionally intelligent AI that truly listens — privately, without judgment, 24/7.
-                </p>
-                <div className="flex flex-wrap gap-3 justify-center pt-2">
-                  <button onClick={() => setActiveCenterTab('chat' as any)} className="px-7 py-3 bg-white text-black font-bold rounded-full text-sm hover:bg-white/90 transition-all cursor-pointer">
-                    Start chatting
-                  </button>
-                  <a href="mailto:pahilajani.manjishtha@gmail.com" className="px-7 py-3 bg-white/[0.07] border border-white/10 text-white font-medium rounded-full text-sm hover:bg-white/10 transition-all cursor-pointer">
-                    Contact us
-                  </a>
-                </div>
-              </div>
-
-              {/* ── Feature section 1: Video left, text right ── */}
-              <div className="border-t border-white/5 px-10 md:px-20 py-20">
-                <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-                  {/* Video — autoplay, muted, loop */}
-                  <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/60 bg-black order-1 md:order-1">
-                    <video
-                      ref={(el) => {
-                        if (el) {
-                          el.muted = true;
-                          el.play().catch(err => console.log("Video autoplay blocked/failed:", err));
-                        }
-                      }}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      preload="auto"
-                      poster="/about-us-poster.jpg"
-                      className="w-full h-auto block"
-                      style={{ maxHeight: '480px', objectFit: 'contain', background: '#000' }}
-                    >
-                      <source src="/about-us.mp4" type="video/mp4" />
-                    </video>
-                  </div>
-                  {/* Text */}
-                  <div className="space-y-6 order-2 md:order-2">
-                    <h2 className="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight">
-                      Chat with someone<br/>who actually gets it
-                    </h2>
-                    <p className="text-white/50 text-base leading-relaxed">
-                      Our companions aren't generic chatbots. Each one is specialised — in grief, anxiety, creativity, mindfulness, and more — so the support you get feels personal and real.
-                    </p>
-                    <ul className="space-y-3">
-                      {[
-                        '10+ emotionally intelligent companions',
-                        'Specialised in anxiety, grief, creativity & more',
-                        'Responds with warmth, not canned scripts',
-                      ].map(point => (
-                        <li key={point} className="flex items-start gap-3 text-sm text-white/60">
-                          <span className="mt-1 w-1.5 h-1.5 rounded-full bg-indigo-400 shrink-0" />
-                          {point}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              {/* ── Feature section 2: Text left, stats right ── */}
-              <div className="border-t border-white/5 px-10 md:px-20 py-20">
-                <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-                  <div className="space-y-6">
-                    <h2 className="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight">
-                      Your data never<br/>leaves your device
-                    </h2>
-                    <p className="text-white/50 text-base leading-relaxed">
-                      Everything is stored locally and encrypted in your browser. We've architected friend ai so that it's mathematically impossible for us to read your conversations.
-                    </p>
-                    <ul className="space-y-3">
-                      {[
-                        'Zero third-party trackers or ad networks',
-                        'One-click full data erasure from Settings',
-                      ].map(point => (
-                        <li key={point} className="flex items-start gap-3 text-sm text-white/60">
-                          <span className="mt-1 w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
-                          {point}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  {/* Stats grid */}
-                  <div className="grid grid-cols-2 gap-4">
-                    {[
-                      { stat: '10+', label: 'AI Companions' },
-                      { stat: '100%', label: 'Local & Private' },
-                      { stat: '24/7', label: 'Always available' },
-                      { stat: '0', label: 'Trackers or ads' },
-                    ].map(item => (
-                      <div key={item.stat} className="bg-white/[0.04] border border-white/8 rounded-2xl p-6 space-y-1 hover:bg-white/[0.06] transition-colors">
-                        <p className="text-4xl font-extrabold tracking-tight text-white">{item.stat}</p>
-                        <p className="text-sm text-white/40">{item.label}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-
-              {/* ── Feature section 3: Meet the Team ── */}
-              <div className="border-t border-white/5 px-10 md:px-20 py-20">
-                <div className="max-w-6xl mx-auto space-y-12">
-                  <div className="max-w-xl space-y-4">
-                    <h2 className="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight">
-                      Meet the team behind friend ai
-                    </h2>
-                    <p className="text-white/50 text-base leading-relaxed">
-                      A passionate group of developers, creators, clinicians, and advisors dedicated to making emotional wellness accessible and private.
-                    </p>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {[
-                      { name: 'Manjishtha Pahilajani', role: 'Founder & Wellness Lead', bio: 'Founder of Project Friend AI. Social psychologist and author focusing on accessible emotional support models.', color: 'bg-indigo-500/5 border-indigo-500/10', dot: 'bg-indigo-400' },
-                      { name: 'Altaf Jasnaik', role: 'Brand & Growth Lead', bio: 'CEO and Founder of Managemend Ltd. Expert in brand communications, marketing innovation, and digital growth.', color: 'bg-blue-500/5 border-blue-500/10', dot: 'bg-blue-400' },
-                      { name: 'Abhay Tiwari', role: 'Automation & Data Lead', bio: 'Lead Automation Engineer specializing in intelligent process workflow automation, RPA, and data science.', color: 'bg-emerald-500/5 border-emerald-500/10', dot: 'bg-emerald-400' },
-                      { name: 'Rishabh Kothiyal', role: 'Full Stack & AI Architect', bio: 'Full-stack software developer focusing on local browser LLM integrations, secure storage engines, and generative UI.', color: 'bg-purple-500/5 border-purple-500/10', dot: 'bg-purple-400' },
-                      { name: 'Suryateja Vakkanti', role: 'Strategy & Operations Lead', bio: 'Global business strategy director managing operations, compliance, and international partnerships.', color: 'bg-pink-500/5 border-pink-500/10', dot: 'bg-pink-400' },
-                      { name: 'Vinod Nagar', role: 'Martech & Growth Advisor', bio: 'Experienced growth mentor and digital strategist with a background in marketing execution at Nokia and Microsoft.', color: 'bg-amber-500/5 border-amber-500/10', dot: 'bg-amber-400' },
-                      { name: 'Eshan Dutta', role: 'NLP & Deep Learning Engineer', bio: 'Deep learning researcher implementing state-of-the-art Natural Language Processing models and context analyzers.', color: 'bg-orange-500/5 border-orange-500/10', dot: 'bg-orange-400' },
-                    ].map(member => (
-                      <div key={member.name} className={`p-6 rounded-2xl border ${member.color} space-y-3 hover:bg-white/[0.03] transition-colors`}>
-                        <div className="flex items-center gap-2">
-                          <span className={`w-2 h-2 rounded-full ${member.dot}`} />
-                          <span className="text-xs text-white/40 font-mono">{member.role}</span>
-                        </div>
-                        <p className="font-bold text-white text-lg">{member.name}</p>
-                        <p className="text-xs text-white/50 leading-relaxed">{member.bio}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* ── CTA footer ── */}
-              <div className="border-t border-white/5 px-10 md:px-20 py-20">
-                <div className="max-w-2xl mx-auto text-center space-y-6">
-                  <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">Ready to begin?</h2>
-                  <p className="text-white/40 text-base">No account needed. Start talking in seconds.</p>
-                  <div className="flex flex-wrap gap-3 justify-center">
-                    <button onClick={() => setActiveCenterTab('chat' as any)} className="px-8 py-3.5 bg-white text-black font-bold rounded-full text-sm hover:bg-white/90 transition-all cursor-pointer">
-                      Open the app
-                    </button>
-                    <a href="mailto:pahilajani.manjishtha@gmail.com" className="px-8 py-3.5 bg-white/[0.07] border border-white/10 text-white font-medium rounded-full text-sm hover:bg-white/10 transition-all cursor-pointer">
-                      Get in touch
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              {/* mini footer */}
-              <div className="border-t border-white/5 px-10 py-6 flex flex-wrap gap-4 items-center justify-between text-xs text-white/25">
-                <span>© 2026 friend ai. All rights reserved.</span>
-                <div className="flex gap-5">
-                  <button onClick={() => setActiveCenterTab('vision-mission' as any)} className="hover:text-white/60 transition-colors cursor-pointer">Vision &amp; Mission</button>
-                  <button onClick={() => setActiveCenterTab('terms' as any)} className="hover:text-white/60 transition-colors cursor-pointer">Terms</button>
-                  <button onClick={() => setActiveCenterTab('privacy' as any)} className="hover:text-white/60 transition-colors cursor-pointer">Privacy</button>
-                  <button onClick={() => setActiveCenterTab('chat' as any)} className="hover:text-white/60 transition-colors cursor-pointer">Back to Chat</button>
-                </div>
-              </div>
-            </div>
-          )}
 
           {activeCenterTab === 'vision-mission' && (
             <div className="flex-1 flex flex-col overflow-y-auto bg-[#0a0a0a] text-white font-sans animate-fade-in">
@@ -10581,7 +10401,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     </div>
                     
                     {/* Market Context Stats Grid */}
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 gap-4">
                       <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 space-y-1">
                         <p className="text-3xl font-extrabold tracking-tight text-white font-mono">3.5B</p>
                         <p className="text-xs text-white/40">smartphone users globally · GSMA</p>
@@ -10593,10 +10413,6 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 space-y-1">
                         <p className="text-3xl font-extrabold tracking-tight text-white font-mono">75%</p>
                         <p className="text-xs text-white/40">get zero mental-health support · WHO</p>
-                      </div>
-                      <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 space-y-1">
-                        <p className="text-3xl font-extrabold tracking-tight text-indigo-400 font-mono">$0</p>
-                        <p className="text-xs text-white/40">uncontested market — no incumbent owns "AI friend" at scale</p>
                       </div>
                     </div>
                   </div>
@@ -10723,54 +10539,31 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 <div className="max-w-5xl mx-auto space-y-16">
                   
                   {/* Opportunity Header */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                    <div className="space-y-6">
-                      <span className="text-[10px] font-mono tracking-[0.25em] text-emerald-400 uppercase">Market Validation</span>
-                      <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight font-serif">Blue Ocean Opportunity</h2>
-                      <ul className="space-y-3 text-xs text-white/60">
+                  <div className="max-w-3xl mx-auto space-y-6 text-center">
+                    <span className="text-[10px] font-mono tracking-[0.25em] text-emerald-400 uppercase">Market Validation</span>
+                    <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight font-serif">Blue Ocean Opportunity</h2>
+                    <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-8 space-y-6 mt-8 text-left">
+                      <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-white/60">
                         <li className="flex items-center gap-2.5">
-                          <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full" />
+                          <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full shrink-0" />
                           <span>3.5 billion smartphone users globally</span>
                         </li>
                         <li className="flex items-center gap-2.5">
-                          <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full" />
+                          <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full shrink-0" />
                           <span>450M individuals with untreated mental illness</span>
                         </li>
                         <li className="flex items-center gap-2.5">
-                          <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full" />
+                          <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full shrink-0" />
                           <span>No incumbent dominates emotional companionship at scale</span>
                         </li>
-                        <li className="flex items-center gap-2.5 bg-emerald-500/5 border border-emerald-500/10 p-2.5 rounded-lg text-emerald-300 font-semibold">
-                          <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+                        <li className="flex items-center gap-2.5 text-emerald-300 font-semibold">
+                          <span className="w-1.5 h-1.5 bg-emerald-450 rounded-full shrink-0 animate-pulse" />
                           <span>1% adoption = 35M users × $10/year = $350M ARR</span>
                         </li>
                       </ul>
-                      <p className="text-[11px] text-white/40 font-mono italic">"The market is uncontested. The window won't stay open long."</p>
-                    </div>
-
-                    <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-6 md:p-8 space-y-4">
-                      <h3 className="text-xs font-mono uppercase tracking-widest text-white/40">Financial Projections</h3>
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <p className="text-2xl font-bold text-white font-mono">$11M</p>
-                          <p className="text-[10px] text-white/40">ARR Year 1 Projected</p>
-                        </div>
-                        <div>
-                          <p className="text-2xl font-bold text-white font-mono">30%</p>
-                          <p className="text-[10px] text-white/40">Premium Conversion</p>
-                        </div>
-                        <div>
-                          <p className="text-2xl font-bold text-white font-mono">$2–3</p>
-                          <p className="text-[10px] text-white/40">Customer Acquisition Cost</p>
-                        </div>
-                        <div>
-                          <p className="text-2xl font-bold text-white font-mono">$180–240</p>
-                          <p className="text-[10px] text-white/40">Lifetime Value</p>
-                        </div>
-                      </div>
-                      <div className="border-t border-white/5 pt-3 text-center">
-                        <span className="text-[10px] font-mono text-indigo-400 bg-indigo-500/10 px-2.5 py-0.5 rounded">6–9 Months Payback Period</span>
-                      </div>
+                      <p className="text-[11px] text-white/40 font-mono italic text-center pt-4 border-t border-white/5">
+                        "The market is uncontested. The window won't stay open long."
+                      </p>
                     </div>
                   </div>
 
@@ -10995,21 +10788,21 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     {[
-                      { initials: 'MP', name: 'Manjishtha Pahilajani', role: 'Founder & Visionary', bio: 'Founder of Project Friend AI. Author, clinical researcher, and developer of localized emotional de-escalation models.', color: 'bg-indigo-500/5 border-indigo-500/10' },
-                      { initials: 'AJ', name: 'Altaf Jasnaik', role: 'Founding Partner · Management', bio: 'CEO and Founder of Managemend Ltd. Master of brand strategy, commercial execution, and scaling.', color: 'bg-blue-500/5 border-blue-500/10' },
-                      { initials: 'RK', name: 'Rishabh Kothiyal', role: 'Co-founder · Technical Lead', bio: 'Lead Software Architect building localized vector indices, local model execution layers, and privacy pipelines.', color: 'bg-purple-500/5 border-purple-500/10' },
-                      { initials: 'AT', name: 'Abhay Tiwari', role: 'Co-founder · Head of AI Governance', bio: 'AI Governance lead at BlackRock. Directing ethical constraints, regulatory safety, and system data compliance.', color: 'bg-emerald-500/5 border-emerald-500/10' },
-                      { initials: 'SV', name: 'Suryateja Vakkanti', role: 'Co-founder · Strategic Advisor', bio: 'Strategic advisory director, coordinating international partnerships, compliance metrics, and operations.', color: 'bg-pink-500/5 border-pink-500/10' },
-                      { initials: 'VN', name: 'Vinod Nagar', role: 'Personal Branding Partner', bio: 'Expert brand mentor and digital growth architect, directing strategic positioning and outreach frameworks.', color: 'bg-amber-500/5 border-amber-500/10' },
-                      { initials: 'KD', name: 'Adv. Kunal Dutta', role: 'Legal Advisor', bio: 'Legal counsel and founder of Binary SEO Marketing. Advising on patient advocacy, privacy, and data ethics.', color: 'bg-orange-500/5 border-orange-500/10' },
-                      { initials: 'ED', name: 'Eshan Dutta', role: 'Co-founder · Engineering', bio: 'Deep learning NLP engineer at Tata Technologies. Architecting local contexts and semantic retrieval paths.', color: 'bg-teal-500/5 border-teal-550/10' },
+                      { initials: 'MP', name: 'Manjishtha Pahilajani', role: 'Founder & Visionary', bio: 'Founder of Project Friend AI. Author, clinical researcher, and developer of localized emotional de-escalation models.' },
+                      { initials: 'AJ', name: 'Altaf Jasnaik', role: 'Founding Partner · Management', bio: 'CEO and Founder of Managemend Ltd. Master of brand strategy, commercial execution, and scaling.' },
+                      { initials: 'RK', name: 'Rishabh Kothiyal', role: 'Co-founder · Technical Lead', bio: 'Lead Software Architect building localized vector indices, local model execution layers, and privacy pipelines.' },
+                      { initials: 'AT', name: 'Abhay Tiwari', role: 'Co-founder · Head of AI Governance', bio: 'AI Governance lead at BlackRock. Directing ethical constraints, regulatory safety, and system data compliance.' },
+                      { initials: 'SV', name: 'Suryateja Vakkanti', role: 'Co-founder · Strategic Advisor', bio: 'Strategic advisory director, coordinating international partnerships, compliance metrics, and operations.' },
+                      { initials: 'VN', name: 'Vinod Nagar', role: 'Personal Branding Partner', bio: 'Expert brand mentor and digital growth architect, directing strategic positioning and outreach frameworks.' },
+                      { initials: 'KD', name: 'Adv. Kunal Dutta', role: 'Legal Advisor', bio: 'Legal counsel and founder of Binary SEO Marketing. Advising on patient advocacy, privacy, and data ethics.' },
+                      { initials: 'ED', name: 'Eshan Dutta', role: 'Co-founder · Engineering', bio: 'Deep learning NLP engineer at Tata Technologies. Architecting local contexts and semantic retrieval paths.' },
                     ].map(member => (
-                      <div key={member.name} className={`p-6 rounded-2xl border ${member.color} space-y-4 hover:bg-white/[0.03] transition-colors flex flex-col justify-between`}>
+                      <div key={member.name} className="p-6 rounded-2xl border border-white/5 bg-white/[0.02] space-y-4 hover:border-indigo-500/10 hover:bg-white/[0.03] transition-colors flex flex-col justify-between">
                         <div className="space-y-3 flex-1 flex flex-col justify-between">
                           <div>
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center font-bold text-white text-xs font-mono">{member.initials}</span>
-                              <span className="text-[9px] font-mono text-white/30 uppercase">{member.role}</span>
+                            <div className="flex items-center justify-between mb-2 gap-3">
+                              <span className="w-10 h-10 rounded-full bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center font-bold text-indigo-300 text-xs font-mono shrink-0 aspect-square">{member.initials}</span>
+                              <span className="text-[9px] font-mono text-white/30 uppercase text-right leading-tight">{member.role}</span>
                             </div>
                             <h4 className="font-bold text-white text-sm">{member.name}</h4>
                           </div>
@@ -11031,7 +10824,6 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 </div>
                 
                 <div className="flex justify-center gap-6 text-xs text-white/30">
-                  <button onClick={() => setActiveCenterTab('about' as any)} className="hover:text-white transition-colors cursor-pointer">About Us</button>
                   <button onClick={() => setActiveCenterTab('terms' as any)} className="hover:text-white transition-colors cursor-pointer">Terms</button>
                   <button onClick={() => setActiveCenterTab('privacy' as any)} className="hover:text-white transition-colors cursor-pointer">Privacy</button>
                   <button onClick={() => setActiveCenterTab('chat' as any)} className="hover:text-white transition-colors cursor-pointer font-bold text-indigo-400">Back to Chat</button>
@@ -11414,7 +11206,6 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           </div>
           <div className="text-sm text-slate-500 dark:text-slate-400 font-medium flex flex-wrap items-center justify-center gap-6">
             <span>© 2026 friend ai</span>
-            <button onClick={() => setActiveCenterTab('about' as any)} className="hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer">About Us</button>
             <button onClick={() => setActiveCenterTab('vision-mission' as any)} className="hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer">Vision &amp; Mission</button>
             <button onClick={() => setActiveCenterTab('terms' as any)} className="hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer">Terms</button>
             <button onClick={() => setActiveCenterTab('privacy' as any)} className="hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer">Privacy</button>
