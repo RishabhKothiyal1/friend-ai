@@ -10402,44 +10402,6 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 </div>
               </div>
 
-              {/* ── Feature section 2.5: Vision & Mission Columns ── */}
-              <div className="border-t border-white/5 px-10 md:px-20 py-20 bg-gradient-to-b from-[#0a0a0a] to-[#0d0d0d]">
-                <div className="max-w-6xl mx-auto space-y-12">
-                  <div className="text-center max-w-2xl mx-auto space-y-4">
-                    <span className="text-[10px] font-mono tracking-[0.25em] text-indigo-400 uppercase">Guiding Philosophy</span>
-                    <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">Our Core Purpose</h2>
-                    <p className="text-white/50 text-sm leading-relaxed">
-                      We believe that mental health support should be a fundamental human right—delivered instantly, without cost, and with absolute security.
-                    </p>
-                  </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-                    {/* Vision Card */}
-                    <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-8 md:p-10 space-y-6 hover:border-indigo-500/20 hover:bg-white/[0.03] transition-all duration-300 relative group overflow-hidden">
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-full blur-3xl group-hover:scale-150 transition-all duration-700 pointer-events-none"></div>
-                      <div className="w-12 h-12 bg-indigo-500/10 rounded-2xl flex items-center justify-center border border-indigo-500/20">
-                        <svg className="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                      </div>
-                      <h3 className="text-2xl font-bold text-white font-serif">Our Vision</h3>
-                      <p className="text-white/60 text-sm leading-relaxed">
-                        To construct a decentralized, zero-knowledge emotional support infrastructure where individuals retain absolute cognitive sovereignty. We envision a future where seeking mental wellness does not require compromising personal privacy or entering transactional commercial pipelines. By shifting intelligence to the client side, we create a secure space for human vulnerability.
-                      </p>
-                    </div>
-
-                    {/* Mission Card */}
-                    <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-8 md:p-10 space-y-6 hover:border-emerald-500/20 hover:bg-white/[0.03] transition-all duration-300 relative group overflow-hidden">
-                      <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl group-hover:scale-150 transition-all duration-700 pointer-events-none"></div>
-                      <div className="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20">
-                        <svg className="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                      </div>
-                      <h3 className="text-2xl font-bold text-white font-serif">Our Mission</h3>
-                      <p className="text-white/60 text-sm leading-relaxed">
-                        To democratize high-quality, culturally-grounded mental health support through browser-sandboxed artificial intelligence. We combine local LLM execution, neuroscience-backed grounding protocols, and traditional folk art aesthetics to deliver immediate relief for anxiety, grief, and burnout. Our architecture eliminates data transmission friction, ensuring absolute user safety.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               {/* ── Feature section 3: Meet the Team ── */}
               <div className="border-t border-white/5 px-10 md:px-20 py-20">
@@ -10495,6 +10457,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
               <div className="border-t border-white/5 px-10 py-6 flex flex-wrap gap-4 items-center justify-between text-xs text-white/25">
                 <span>© 2026 friend ai. All rights reserved.</span>
                 <div className="flex gap-5">
+                  <button onClick={() => setActiveCenterTab('vision-mission' as any)} className="hover:text-white/60 transition-colors cursor-pointer">Vision &amp; Mission</button>
                   <button onClick={() => setActiveCenterTab('terms' as any)} className="hover:text-white/60 transition-colors cursor-pointer">Terms</button>
                   <button onClick={() => setActiveCenterTab('privacy' as any)} className="hover:text-white/60 transition-colors cursor-pointer">Privacy</button>
                   <button onClick={() => setActiveCenterTab('chat' as any)} className="hover:text-white/60 transition-colors cursor-pointer">Back to Chat</button>
@@ -10503,8 +10466,583 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             </div>
           )}
 
+          {activeCenterTab === 'vision-mission' && (
+            <div className="flex-1 flex flex-col overflow-y-auto bg-[#0a0a0a] text-white font-sans animate-fade-in">
+              
+              {/* Nav Bar */}
+              <div className="px-10 py-5 flex items-center justify-between border-b border-white/5">
+                <span className="font-extrabold text-lg tracking-tight">friend <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">ai</span> <span className="text-[10px] uppercase font-mono tracking-widest bg-white/5 border border-white/10 text-white/40 px-2 py-0.5 rounded ml-2">Investor Pitch</span></span>
+                <button onClick={() => setActiveCenterTab('chat' as any)} className="text-xs text-white/50 hover:text-white transition-colors cursor-pointer border border-white/10 hover:border-white/30 px-4 py-1.5 rounded-full">
+                  Open App →
+                </button>
+              </div>
 
-{activeCenterTab === 'blogs' && (
+              {/* Hero Section */}
+              <div className="px-10 md:px-20 py-24 text-center max-w-4xl mx-auto w-full space-y-6">
+                <p className="text-xs font-mono tracking-[0.25em] text-indigo-400 uppercase">Investor Pitch · Corporate Vision &amp; Mission</p>
+                <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.08] font-serif">
+                  An AI friend that<br/>actually remembers<br/>your story.
+                </h1>
+                <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto leading-relaxed font-light">
+                  Mental-health-grade emotional support, framed as friendship rather than therapy — so the billions who'd never open a wellness app will still talk to us.
+                </p>
+                
+                {/* Hero Stats */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-10 max-w-3xl mx-auto">
+                  <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 text-center">
+                    <p className="text-4xl md:text-5xl font-extrabold tracking-tight text-indigo-400 font-mono">450M</p>
+                    <p className="text-xs text-white/40 mt-1 uppercase font-mono tracking-wider">untreated mental illness</p>
+                  </div>
+                  <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 text-center">
+                    <p className="text-4xl md:text-5xl font-extrabold tracking-tight text-emerald-400 font-mono">92%</p>
+                    <p className="text-xs text-white/40 mt-1 uppercase font-mono tracking-wider">2-week retention</p>
+                  </div>
+                  <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 text-center">
+                    <p className="text-4xl md:text-5xl font-extrabold tracking-tight text-purple-400 font-mono">0 PII</p>
+                    <p className="text-xs text-white/40 mt-1 uppercase font-mono tracking-wider">collected by design</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Blue Ocean Vision/Mission Callout */}
+              <div className="border-t border-white/5 px-10 md:px-20 py-20 bg-white/[0.01]">
+                <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                  <div className="space-y-6">
+                    <span className="text-[10px] font-mono tracking-[0.25em] text-indigo-400 uppercase">From the Blue Whale → to the Blue Ocean</span>
+                    <h2 className="text-3xl md:text-4xl font-extrabold leading-tight tracking-tight font-serif">
+                      A presence in the<br/>empty hours
+                    </h2>
+                    <p className="text-white/60 text-sm leading-relaxed">
+                      A decade ago, isolated teenagers were pulled into a deadly online game because no one else was listening at 2am. We're building the opposite of that: a safe, judgment-free presence in the same empty hours — and an uncontested market because no one else is building it this way.
+                    </p>
+                  </div>
+                  <div className="space-y-6">
+                    {/* Vision Card */}
+                    <div className="bg-gradient-to-br from-indigo-500/10 to-indigo-500/0 border border-indigo-500/10 rounded-2xl p-6 space-y-2">
+                      <div className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
+                        <span className="text-xs font-mono text-indigo-300 uppercase tracking-widest">Vision</span>
+                      </div>
+                      <h3 className="font-bold text-white text-base">A world where isolation never escalates unseen.</h3>
+                      <p className="text-xs text-white/50 leading-relaxed">
+                        Every person, in any language and at any hour, has somewhere to put their unspoken feelings before they curdle into crisis.
+                      </p>
+                    </div>
+                    {/* Mission Card */}
+                    <div className="bg-gradient-to-br from-emerald-500/10 to-emerald-500/0 border border-emerald-500/10 rounded-2xl p-6 space-y-2">
+                      <div className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                        <span className="text-xs font-mono text-emerald-300 uppercase tracking-widest">Mission</span>
+                      </div>
+                      <h3 className="font-bold text-white text-base">Replace predatory engagement with protective presence.</h3>
+                      <p className="text-xs text-white/50 leading-relaxed">
+                        Build the AI friend that listens, remembers, and routes real danger to real humans — without ever mining the people it serves.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* The Problem / Market Context */}
+              <div className="border-t border-white/5 px-10 md:px-20 py-20">
+                <div className="max-w-6xl mx-auto space-y-12">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+                    <div className="space-y-6">
+                      <span className="text-[10px] font-mono tracking-[0.25em] text-red-400 uppercase">The Problem</span>
+                      <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight font-serif">
+                        If only they had<br/>someone to talk to.
+                      </h2>
+                      <p className="text-white/60 text-sm leading-relaxed">
+                        From the Mahabharata to today: unheard pain has always found a way out — the question is whether it's destructive or held.
+                      </p>
+                      
+                      <div className="space-y-4 pt-4 border-t border-white/5">
+                        <div className="flex items-start gap-3">
+                          <span className="text-red-400 mt-0.5">✕</span>
+                          <p className="text-xs text-white/60 leading-relaxed"><strong>450M people</strong> globally live with untreated mental illness.</p>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <span className="text-red-400 mt-0.5">✕</span>
+                          <p className="text-xs text-white/60 leading-relaxed"><strong>75% of those</strong> in low-income countries receive zero support.</p>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <span className="text-red-400 mt-0.5">✕</span>
+                          <p className="text-xs text-white/60 leading-relaxed">Nearly everyone has a phone. Yet, almost <strong>no one has someone to talk to</strong>.</p>
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <span className="text-red-400 mt-0.5">✕</span>
+                          <p className="text-xs text-white/60 leading-relaxed">The clinical stigma of "mental health apps" keeps billions from seeking help.</p>
+                        </div>
+                        <div className="flex items-start gap-3 bg-emerald-500/5 border border-emerald-500/10 p-3 rounded-xl">
+                          <span className="text-emerald-400 mt-0.5">💡</span>
+                          <p className="text-xs text-emerald-300 leading-relaxed"><strong>Blue Ocean Insight:</strong> They won't open a health app — but they'll talk to a friend.</p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Market Context Stats Grid */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 space-y-1">
+                        <p className="text-3xl font-extrabold tracking-tight text-white font-mono">3.5B</p>
+                        <p className="text-xs text-white/40">smartphone users globally · GSMA</p>
+                      </div>
+                      <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 space-y-1">
+                        <p className="text-3xl font-extrabold tracking-tight text-white font-mono">1 in 4</p>
+                        <p className="text-xs text-white/40">adults report chronic loneliness · Gallup</p>
+                      </div>
+                      <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 space-y-1">
+                        <p className="text-3xl font-extrabold tracking-tight text-white font-mono">75%</p>
+                        <p className="text-xs text-white/40">get zero mental-health support · WHO</p>
+                      </div>
+                      <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 space-y-1">
+                        <p className="text-3xl font-extrabold tracking-tight text-indigo-400 font-mono">$0</p>
+                        <p className="text-xs text-white/40">uncontested market — no incumbent owns "AI friend" at scale</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* A Reckoning, Not An Anecdote */}
+              <div className="border-t border-white/5 px-10 md:px-20 py-20 bg-white/[0.01]">
+                <div className="max-w-5xl mx-auto space-y-10">
+                  <div className="max-w-3xl space-y-4">
+                    <span className="text-[10px] font-mono tracking-[0.25em] text-indigo-400 uppercase">Case Context</span>
+                    <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight font-serif">A Reckoning, Not An Anecdote</h2>
+                    <p className="text-white/60 text-sm leading-relaxed">
+                      In 2020, India watched a visibly successful young actor's death force a conversation the industry had avoided for decades — and the country hasn't fully closed it since.
+                    </p>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 space-y-3">
+                      <h3 className="font-bold text-white text-base">Stigma, unmasked</h3>
+                      <p className="text-xs text-white/50 leading-relaxed">
+                        Public figures are expected to perform wellness, not admit struggle. His death made "even him?" a question millions asked out loud for the first time.
+                      </p>
+                    </div>
+                    <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 space-y-3">
+                      <h3 className="font-bold text-white text-base">Isolation inside success</h3>
+                      <p className="text-xs text-white/50 leading-relaxed">
+                        The aftermath surfaced widely-reported accounts of nepotism, outsider exclusion, and isolation in high-pressure creative industries — success without a support structure underneath it.
+                      </p>
+                    </div>
+                    <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 space-y-3">
+                      <h3 className="font-bold text-white text-base">The gap it exposed</h3>
+                      <p className="text-xs text-white/50 leading-relaxed">
+                        Crisis helplines and mental-health platforms reported sharp spikes in outreach in the weeks after — proof that the need was always there, just unspoken until permission arrived.
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="bg-indigo-500/5 border border-indigo-500/15 p-6 rounded-2xl text-center max-w-3xl mx-auto mt-6">
+                    <p className="text-xs text-indigo-300 italic font-serif">
+                      "This is the gap Friend AI is built to sit inside — before the moment a person needs an industry-wide reckoning to finally ask for help."
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Product Architecture */}
+              <div className="border-t border-white/5 px-10 md:px-20 py-20">
+                <div className="max-w-5xl mx-auto space-y-12">
+                  <div className="text-center max-w-2xl mx-auto space-y-4">
+                    <span className="text-[10px] font-mono tracking-[0.25em] text-indigo-400 uppercase">Product &amp; Technology</span>
+                    <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight font-serif">A companion that remembers your story.</h2>
+                    <p className="text-white/60 text-sm leading-relaxed">
+                      Unlike generic chat agents, Friend AI is optimized for persistent, deeply-contextual emotional support.
+                    </p>
+                  </div>
+                  
+                  {/* Technology Bullets */}
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div className="bg-white/[0.02] border border-white/5 rounded-xl p-5 space-y-2">
+                      <span className="text-indigo-400 font-mono text-lg font-extrabold">01</span>
+                      <h4 className="text-xs font-bold text-white">Long-term Memory</h4>
+                      <p className="text-[11px] text-white/50 leading-relaxed">Every conversation is securely embedded into long-term vector storage.</p>
+                    </div>
+                    <div className="bg-white/[0.02] border border-white/5 rounded-xl p-5 space-y-2">
+                      <span className="text-indigo-400 font-mono text-lg font-extrabold">02</span>
+                      <h4 className="text-xs font-bold text-white">Relevant Retrieval</h4>
+                      <p className="text-[11px] text-white/50 leading-relaxed">When you message, we retrieve emotionally relevant past moments.</p>
+                    </div>
+                    <div className="bg-white/[0.02] border border-white/5 rounded-xl p-5 space-y-2">
+                      <span className="text-indigo-400 font-mono text-lg font-extrabold">03</span>
+                      <h4 className="text-xs font-bold text-white">Continuous Presence</h4>
+                      <p className="text-[11px] text-white/50 leading-relaxed">Responses feel continuous and personal — never robotic.</p>
+                    </div>
+                    <div className="bg-white/[0.02] border border-white/5 rounded-xl p-5 space-y-2">
+                      <span className="text-indigo-400 font-mono text-lg font-extrabold">04</span>
+                      <h4 className="text-xs font-bold text-white">24/7 Availability</h4>
+                      <p className="text-[11px] text-white/50 leading-relaxed">Available in any language, at any hour, with zero stigma and zero judgment.</p>
+                    </div>
+                  </div>
+
+                  {/* Flow Diagram */}
+                  <div className="bg-white/[0.01] border border-white/5 rounded-3xl p-6 md:p-8 space-y-6">
+                    <h3 className="text-xs font-mono uppercase tracking-widest text-white/40 text-center">Data Flow Architecture</h3>
+                    <div className="flex flex-wrap items-center justify-center gap-3 text-xs font-mono">
+                      <span className="px-3 py-1.5 bg-indigo-500/10 border border-indigo-500/20 rounded-lg text-white">Message</span>
+                      <span className="text-white/30">→</span>
+                      <span className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-white/80">Embedding (768-dim)</span>
+                      <span className="text-white/30">→</span>
+                      <span className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-white/80">Vector Search</span>
+                      <span className="text-white/30">→</span>
+                      <span className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-white/80">Retrieve Past Memories</span>
+                      <span className="text-white/30">→</span>
+                      <span className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-white/80">Inject Context</span>
+                      <span className="text-white/30">→</span>
+                      <span className="px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-lg text-emerald-300">Generate Response</span>
+                    </div>
+                    
+                    {/* Tech Stack Details */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-white/5">
+                      <div className="text-center">
+                        <p className="text-[10px] font-mono text-white/40 uppercase">LLM Engine</p>
+                        <p className="text-xs font-bold text-white mt-1">Google Gemini 2.5 Flash</p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-[10px] font-mono text-white/40 uppercase">Embeddings</p>
+                        <p className="text-xs font-bold text-white mt-1">text-embedding-004</p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-[10px] font-mono text-white/40 uppercase">Vector Database</p>
+                        <p className="text-xs font-bold text-white mt-1">Supabase + pgvector (HNSW, &lt;50ms)</p>
+                      </div>
+                      <div className="text-center">
+                        <p className="text-[10px] font-mono text-white/40 uppercase">Deployment</p>
+                        <p className="text-xs font-bold text-white mt-1">Production-ready on Google Cloud</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Blue Ocean Opportunity & Business Model */}
+              <div className="border-t border-white/5 px-10 md:px-20 py-20 bg-white/[0.01]">
+                <div className="max-w-5xl mx-auto space-y-16">
+                  
+                  {/* Opportunity Header */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div className="space-y-6">
+                      <span className="text-[10px] font-mono tracking-[0.25em] text-emerald-400 uppercase">Market Validation</span>
+                      <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight font-serif">Blue Ocean Opportunity</h2>
+                      <ul className="space-y-3 text-xs text-white/60">
+                        <li className="flex items-center gap-2.5">
+                          <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full" />
+                          <span>3.5 billion smartphone users globally</span>
+                        </li>
+                        <li className="flex items-center gap-2.5">
+                          <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full" />
+                          <span>450M individuals with untreated mental illness</span>
+                        </li>
+                        <li className="flex items-center gap-2.5">
+                          <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full" />
+                          <span>No incumbent dominates emotional companionship at scale</span>
+                        </li>
+                        <li className="flex items-center gap-2.5 bg-emerald-500/5 border border-emerald-500/10 p-2.5 rounded-lg text-emerald-300 font-semibold">
+                          <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+                          <span>1% adoption = 35M users × $10/year = $350M ARR</span>
+                        </li>
+                      </ul>
+                      <p className="text-[11px] text-white/40 font-mono italic">"The market is uncontested. The window won't stay open long."</p>
+                    </div>
+
+                    <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-6 md:p-8 space-y-4">
+                      <h3 className="text-xs font-mono uppercase tracking-widest text-white/40">Financial Projections</h3>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-2xl font-bold text-white font-mono">$11M</p>
+                          <p className="text-[10px] text-white/40">ARR Year 1 Projected</p>
+                        </div>
+                        <div>
+                          <p className="text-2xl font-bold text-white font-mono">30%</p>
+                          <p className="text-[10px] text-white/40">Premium Conversion</p>
+                        </div>
+                        <div>
+                          <p className="text-2xl font-bold text-white font-mono">$2–3</p>
+                          <p className="text-[10px] text-white/40">Customer Acquisition Cost</p>
+                        </div>
+                        <div>
+                          <p className="text-2xl font-bold text-white font-mono">$180–240</p>
+                          <p className="text-[10px] text-white/40">Lifetime Value</p>
+                        </div>
+                      </div>
+                      <div className="border-t border-white/5 pt-3 text-center">
+                        <span className="text-[10px] font-mono text-indigo-400 bg-indigo-500/10 px-2.5 py-0.5 rounded">6–9 Months Payback Period</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Business Model Cards */}
+                  <div className="space-y-6">
+                    <div className="text-center space-y-2">
+                      <span className="text-[10px] font-mono tracking-[0.25em] text-indigo-400 uppercase">Monetization</span>
+                      <h3 className="text-2xl md:text-3xl font-extrabold tracking-tight font-serif">Ethical freemium, priced for access.</h3>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      {/* Free Tier */}
+                      <div className="bg-white/[0.01] border border-white/5 rounded-2xl p-6 space-y-4">
+                        <h4 className="text-sm font-bold text-white/50 uppercase font-mono">Free — Friend</h4>
+                        <p className="text-3xl font-bold font-mono">$0</p>
+                        <ul className="text-xs text-white/60 space-y-2 border-t border-white/5 pt-3">
+                          <li>• Daily chats</li>
+                          <li>• Basic memory</li>
+                          <li>• Ad-free</li>
+                        </ul>
+                      </div>
+                      {/* Premium Tier */}
+                      <div className="bg-gradient-to-b from-indigo-500/5 to-indigo-500/0 border border-indigo-500/20 rounded-2xl p-6 space-y-4 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 bg-indigo-500 text-[9px] font-bold px-2 py-0.5 rounded-bl font-mono uppercase">Popular</div>
+                        <h4 className="text-sm font-bold text-indigo-400 uppercase font-mono">Paid — Companion</h4>
+                        <p className="text-3xl font-bold font-mono text-indigo-300">$4.99<span className="text-xs font-normal text-white/40 font-sans">/mo</span></p>
+                        <ul className="text-xs text-white/80 space-y-2 border-t border-white/5 pt-3">
+                          <li>• Full conversation history</li>
+                          <li>• All 8 support protocols</li>
+                          <li>• Customizable settings</li>
+                        </ul>
+                      </div>
+                      {/* Enterprise Tier */}
+                      <div className="bg-white/[0.01] border border-white/5 rounded-2xl p-6 space-y-4">
+                        <h4 className="text-sm font-bold text-white/50 uppercase font-mono">Enterprise — Guide</h4>
+                        <p className="text-3xl font-bold font-mono">$9.99<span className="text-xs font-normal text-white/40 font-sans">/mo</span></p>
+                        <ul className="text-xs text-white/60 space-y-2 border-t border-white/5 pt-3">
+                          <li>• Everything in Companion</li>
+                          <li>• Crisis escalation</li>
+                          <li>• Therapist integration</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              {/* The Tension & The Answer */}
+              <div className="border-t border-white/5 px-10 md:px-20 py-20">
+                <div className="max-w-5xl mx-auto space-y-12">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+                    <div className="space-y-6">
+                      <span className="text-[10px] font-mono tracking-[0.25em] text-red-400 uppercase">The Metric Conflict</span>
+                      <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight font-serif">The Tension</h2>
+                      <p className="text-white/60 text-sm leading-relaxed">
+                        Standard SaaS metrics ask you to monitor the people you promised not to. Time-on-site, daily engagement funnels, individual churn — the entire B2B traction playbook is built on session-level surveillance. That's structurally at odds with an anti-engagement, anti-addiction product.
+                      </p>
+                      
+                      {/* SaaS Comparison Table */}
+                      <div className="bg-white/[0.02] border border-white/5 rounded-2xl overflow-hidden text-xs">
+                        <div className="grid grid-cols-2 border-b border-white/5 p-3 bg-white/[0.02] font-bold">
+                          <div>What Investors Expect</div>
+                          <div className="text-indigo-400">What We Show Instead</div>
+                        </div>
+                        <div className="grid grid-cols-2 border-b border-white/5 p-3 text-white/50">
+                          <div>Time-on-site / daily active active active funnels</div>
+                          <div className="text-white/80">Aggregate, anonymized telemetry</div>
+                        </div>
+                        <div className="grid grid-cols-2 border-b border-white/5 p-3 text-white/50">
+                          <div>Individual churn cohorts</div>
+                          <div className="text-white/80">Macro conversion, not personal profiles</div>
+                        </div>
+                        <div className="grid grid-cols-2 p-3 text-white/50">
+                          <div>Session-level behavioral logs</div>
+                          <div className="text-white/80">Zero session logs, zero PII</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-6 bg-gradient-to-br from-indigo-500/5 to-purple-500/5 border border-white/5 p-6 md:p-8 rounded-3xl relative overflow-hidden">
+                      <span className="text-[10px] font-mono tracking-[0.25em] text-indigo-400 uppercase">Our Solution</span>
+                      <h3 className="text-2xl font-bold text-white font-serif">The Answer: The Ethical Freemium</h3>
+                      <p className="text-white/70 text-xs leading-relaxed">
+                        A Business &amp; System Health Dashboard built on Pandas and Altair, designed to prove sustainable traction without ever touching individual user data.
+                      </p>
+                      
+                      <div className="space-y-4 pt-3 border-t border-white/5">
+                        <div>
+                          <p className="text-xs font-bold text-white">PRINCIPLE 01 · No PII, ever</p>
+                          <p className="text-[11px] text-white/50 leading-relaxed">No session logs, no user-level identifiers — every metric is aggregated before it's drawn.</p>
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold text-white">PRINCIPLE 02 · Macro, not micro</p>
+                          <p className="text-[11px] text-white/50 leading-relaxed">We measure system and cohort health, never the behavior of a single person.</p>
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold text-white">PRINCIPLE 03 · Built for scrutiny</p>
+                          <p className="text-[11px] text-white/50 leading-relaxed">Designed to survive a Google-panel-grade diligence pass on data ethics.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Four Signals Banner */}
+                  <div className="bg-white/[0.01] border border-white/5 rounded-2xl p-6 text-center space-y-3">
+                    <p className="text-xs font-mono uppercase tracking-widest text-indigo-400">Four signals, zero surveillance</p>
+                    <p className="text-xs text-white/50 max-w-xl mx-auto leading-relaxed">
+                      Free vs Premium Conversion, Cost vs MRR, and Crisis Routing. Total anonymous active sessions, split between free and premium — tier split only, absolutely no user IDs.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* The Defense FAQ */}
+              <div className="border-t border-white/5 px-10 md:px-20 py-20 bg-white/[0.01]">
+                <div className="max-w-4xl mx-auto space-y-8">
+                  <div className="text-center space-y-2">
+                    <span className="text-[10px] font-mono tracking-[0.25em] text-red-400 uppercase">Traction &amp; Defensibility</span>
+                    <h2 className="text-3xl font-extrabold tracking-tight font-serif">The Defense</h2>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div className="bg-white/[0.02] border border-white/5 rounded-xl p-5 space-y-2">
+                      <p className="text-xs font-bold text-white">Q — Without engagement metrics, how do you know the business works?</p>
+                      <p className="text-xs text-white/50 leading-relaxed">
+                        We track macro conversion cohorts and subscription billing events. Financial health and paying customer counts prove product demand far more reliably than tracking micro-clicks or hook-cycles.
+                      </p>
+                    </div>
+                    <div className="bg-white/[0.02] border border-white/5 rounded-xl p-5 space-y-2">
+                      <p className="text-xs font-bold text-white">Q — Isn't anonymized data just engagement data with the names removed?</p>
+                      <p className="text-xs text-white/50 leading-relaxed">
+                        No. Our data ingestion layer aggregates telemetry mathematically on-device before transmission. It is not "stripped user data"; it is pre-computed aggregate cohort math.
+                      </p>
+                    </div>
+                    <div className="bg-white/[0.02] border border-white/5 rounded-xl p-5 space-y-2">
+                      <p className="text-xs font-bold text-white">Q — What happens to a user in crisis if you're not tracking them?</p>
+                      <p className="text-xs text-white/50 leading-relaxed">
+                        Crisis detection executes 100% locally in the browser sandbox. The moment a safety protocol triggers, the app immediately intercepts, displays localized helpline details, and alerts the user — with zero central database logs.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Built, Not Promised / Competitive Landscape */}
+              <div className="border-t border-white/5 px-10 md:px-20 py-20">
+                <div className="max-w-5xl mx-auto space-y-16">
+                  
+                  {/* Competitive Landscape (Standing on Shoulders) */}
+                  <div className="space-y-8">
+                    <div className="text-center space-y-2">
+                      <span className="text-[10px] font-mono tracking-[0.25em] text-indigo-400 uppercase">Competitive Landscape</span>
+                      <h3 className="text-2xl md:text-3xl font-extrabold tracking-tight font-serif">Standing on Shoulders</h3>
+                      <p className="text-xs text-white/50 font-mono italic">What we took. What we refused.</p>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="bg-white/[0.01] border border-white/5 rounded-2xl p-6 space-y-4 hover:bg-white/[0.02] transition-colors">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-bold text-white">01 Headspace</span>
+                          <span className="text-[10px] font-mono text-white/30">Meditation &amp; calm</span>
+                        </div>
+                        <div className="space-y-3 text-xs border-t border-white/5 pt-3">
+                          <p className="text-emerald-450"><strong>✓ Took:</strong> The ritual of a daily check-in that feels like self-care, not homework.</p>
+                          <p className="text-red-350"><strong>✕ Refused:</strong> A static content library that talks at you instead of listening back.</p>
+                        </div>
+                      </div>
+                      <div className="bg-white/[0.01] border border-white/5 rounded-2xl p-6 space-y-4 hover:bg-white/[0.02] transition-colors">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-bold text-white">02 Rocket Health</span>
+                          <span className="text-[10px] font-mono text-white/30">Clinical bridge, India</span>
+                        </div>
+                        <div className="space-y-3 text-xs border-t border-white/5 pt-3">
+                          <p className="text-emerald-450"><strong>✓ Took:</strong> The seriousness of a real escalation path to licensed care when it's needed.</p>
+                          <p className="text-red-350"><strong>✕ Refused:</strong> The clinical framing that makes someone feel like a patient before they've even said hello.</p>
+                        </div>
+                      </div>
+                      <div className="bg-white/[0.01] border border-white/5 rounded-2xl p-6 space-y-4 hover:bg-white/[0.02] transition-colors">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-bold text-white">03 Slowly</span>
+                          <span className="text-[10px] font-mono text-white/30">Async pen-pals, global</span>
+                        </div>
+                        <div className="space-y-3 text-xs border-t border-white/5 pt-3">
+                          <p className="text-emerald-450"><strong>✓ Took:</strong> The anti-instant pacing — connection that doesn't demand to be checked every five minutes.</p>
+                          <p className="text-red-350"><strong>✕ Refused:</strong> The wait itself as the product. Ours listens the moment you need it.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Built, Not Promised Stack */}
+                  <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-6 md:p-8 space-y-6 text-center">
+                    <span className="text-[10px] font-mono tracking-[0.25em] text-indigo-400 uppercase">Traction Stack</span>
+                    <h3 className="text-xl md:text-2xl font-extrabold font-serif">Built, Not Promised</h3>
+                    <p className="text-xs text-white/50 max-w-xl mx-auto leading-relaxed">
+                      Production groundwork already laid across Friend AI's Flask/Python backend on Cloud Run, with the dashboard layer sitting directly on top of it.
+                    </p>
+                    <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-mono pt-2">
+                      <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full">Streamlit</span>
+                      <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full">Pandas</span>
+                      <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full">Altair</span>
+                      <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full">Flask · Python · Gunicorn</span>
+                      <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full">Google Cloud Run</span>
+                      <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full">Anthropic Claude API</span>
+                    </div>
+                    <p className="text-xs text-indigo-300 italic pt-4 font-serif">
+                      "The cracks are not hidden — they're filled with gold, and the vessel is stronger for showing where it healed."
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* The Team Section */}
+              <div className="border-t border-white/5 px-10 md:px-20 py-20 bg-white/[0.01]">
+                <div className="max-w-5xl mx-auto space-y-12">
+                  <div className="text-center max-w-2xl mx-auto space-y-2">
+                    <span className="text-[10px] font-mono tracking-[0.25em] text-indigo-400 uppercase">Who We Are</span>
+                    <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight font-serif">The Team</h2>
+                    <p className="text-xs text-white/50 font-mono italic">Builders, not just believers.</p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {[
+                      { initials: 'MP', name: 'Manjishtha Pahilajani', role: 'Founder & Visionary', bio: 'Founder of Project Friend AI. Author, clinical researcher, and developer of localized emotional de-escalation models.', color: 'bg-indigo-500/5 border-indigo-500/10' },
+                      { initials: 'AJ', name: 'Altaf Jasnaik', role: 'Founding Partner · Management', bio: 'CEO and Founder of Managemend Ltd. Master of brand strategy, commercial execution, and scaling.', color: 'bg-blue-500/5 border-blue-500/10' },
+                      { initials: 'RK', name: 'Rishabh Kothiyal', role: 'Co-founder · Technical Lead', bio: 'Lead Software Architect building localized vector indices, local model execution layers, and privacy pipelines.', color: 'bg-purple-500/5 border-purple-500/10' },
+                      { initials: 'AT', name: 'Abhay Tiwari', role: 'Co-founder · Head of AI Governance', bio: 'AI Governance lead at BlackRock. Directing ethical constraints, regulatory safety, and system data compliance.', color: 'bg-emerald-500/5 border-emerald-500/10' },
+                      { initials: 'SV', name: 'Suryateja Vakkanti', role: 'Co-founder · Strategic Advisor', bio: 'Strategic advisory director, coordinating international partnerships, compliance metrics, and operations.', color: 'bg-pink-500/5 border-pink-500/10' },
+                      { initials: 'VN', name: 'Vinod Nagar', role: 'Personal Branding Partner', bio: 'Expert brand mentor and digital growth architect, directing strategic positioning and outreach frameworks.', color: 'bg-amber-500/5 border-amber-500/10' },
+                      { initials: 'KD', name: 'Adv. Kunal Dutta', role: 'Legal Advisor', bio: 'Legal counsel and founder of Binary SEO Marketing. Advising on patient advocacy, privacy, and data ethics.', color: 'bg-orange-500/5 border-orange-500/10' },
+                      { initials: 'ED', name: 'Eshan Dutta', role: 'Co-founder · Engineering', bio: 'Deep learning NLP engineer at Tata Technologies. Architecting local contexts and semantic retrieval paths.', color: 'bg-teal-500/5 border-teal-550/10' },
+                    ].map(member => (
+                      <div key={member.name} className={`p-6 rounded-2xl border ${member.color} space-y-4 hover:bg-white/[0.03] transition-colors flex flex-col justify-between`}>
+                        <div className="space-y-3 flex-1 flex flex-col justify-between">
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center font-bold text-white text-xs font-mono">{member.initials}</span>
+                              <span className="text-[9px] font-mono text-white/30 uppercase">{member.role}</span>
+                            </div>
+                            <h4 className="font-bold text-white text-sm">{member.name}</h4>
+                          </div>
+                          <p className="text-[11px] text-white/50 leading-relaxed mt-2">{member.bio}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Mini Footer */}
+              <div className="border-t border-white/5 px-10 py-10 text-center space-y-6">
+                <div className="max-w-md mx-auto space-y-3">
+                  <h4 className="text-base font-bold font-serif text-white">The Future of Human Connection</h4>
+                  <p className="text-xs text-white/50 leading-relaxed">
+                    Every person deserves a voice that listens — at any hour, in any language, without judgment.
+                  </p>
+                </div>
+                
+                <div className="flex justify-center gap-6 text-xs text-white/30">
+                  <button onClick={() => setActiveCenterTab('about' as any)} className="hover:text-white transition-colors cursor-pointer">About Us</button>
+                  <button onClick={() => setActiveCenterTab('terms' as any)} className="hover:text-white transition-colors cursor-pointer">Terms</button>
+                  <button onClick={() => setActiveCenterTab('privacy' as any)} className="hover:text-white transition-colors cursor-pointer">Privacy</button>
+                  <button onClick={() => setActiveCenterTab('chat' as any)} className="hover:text-white transition-colors cursor-pointer font-bold text-indigo-400">Back to Chat</button>
+                </div>
+                <p className="text-[10px] text-white/10 font-mono">© 2026 friend ai. All rights reserved.</p>
+              </div>
+
+            </div>
+          )}
+
+          {activeCenterTab === 'blogs' && (
 
             /* Self-Care Blog Corner - Auto generation & Founder Upload Portals */
             <div className={`flex-1 p-5 overflow-y-auto space-y-6 font-sans rounded-b-2xl h-[700px] xl:h-[750px] transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-black/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
@@ -10871,21 +11409,13 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
       <footer className="shrink-0 bg-white dark:bg-black border-t border-slate-200 dark:border-white/10 py-8 text-center px-4 relative z-50">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 font-sans">
           <div className="flex items-center gap-3">
-            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-8 h-8">
-              <circle cx="35" cy="25" r="12" fill="#3b82f6" />
-              <path d="M 50 45 C 30 35 15 45 15 65 C 15 85 25 90 35 90 C 45 90 45 75 50 75 Z" fill="#3b82f6" />
-              <circle cx="65" cy="25" r="12" fill="#a855f7" />
-              <path d="M 50 45 C 70 35 85 45 85 65 C 85 85 75 90 65 90 C 55 90 55 75 50 75 Z" fill="#a855f7" />
-              <circle cx="50" cy="55" r="24" fill="#ffffff" />
-              <circle cx="41" cy="50" r="3.5" fill="#0f172a" />
-              <circle cx="59" cy="50" r="3.5" fill="#0f172a" />
-              <path d="M43 59 Q 50 67 57 59" stroke="#0f172a" strokeWidth="4" strokeLinecap="round" fill="none" />
-            </svg>
+            <img src="/friend_ai_mascot.jpg" alt="Friend AI Logo" className="w-8 h-8 rounded-full border border-slate-200 dark:border-white/10 object-cover shrink-0" />
             <span className="font-extrabold text-xl tracking-tight text-slate-800 dark:text-white">friend <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">ai</span></span>
           </div>
           <div className="text-sm text-slate-500 dark:text-slate-400 font-medium flex flex-wrap items-center justify-center gap-6">
             <span>© 2026 friend ai</span>
             <button onClick={() => setActiveCenterTab('about' as any)} className="hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer">About Us</button>
+            <button onClick={() => setActiveCenterTab('vision-mission' as any)} className="hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer">Vision &amp; Mission</button>
             <button onClick={() => setActiveCenterTab('terms' as any)} className="hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer">Terms</button>
             <button onClick={() => setActiveCenterTab('privacy' as any)} className="hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer">Privacy</button>
             <a href="mailto:pahilajani.manjishtha@gmail.com" className="hover:text-slate-800 dark:hover:text-white transition-colors">Contact</a>
