@@ -205,6 +205,25 @@ export function AliasModal({ isOpen, onClose, onLogin, error: externalError }: A
 
             {mode === "sync" && (
               <div className="space-y-4">
+                {/* Tabs to Switch between Login and Signup */}
+                <div className="flex gap-2 mb-2">
+                  <button
+                    type="button"
+                    onClick={() => setEmailTab("login")}
+                    className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${emailTab === "login" ? "bg-white/10 text-white" : "text-slate-500 hover:text-slate-400"}`}
+                  >
+                    Sign In
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEmailTab("signup")}
+                    className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${emailTab === "signup" ? "bg-white/10 text-white" : "text-slate-500 hover:text-slate-400"}`}
+                  >
+                    Create Account
+                  </button>
+                </div>
+
+                {/* Google Sign In / Sign Up Button */}
                 <button
                   type="button"
                   onClick={handleGoogleSignIn}
@@ -214,33 +233,20 @@ export function AliasModal({ isOpen, onClose, onLogin, error: externalError }: A
                   <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                     <path d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-5.136 4.114-3.555 0-6.44-2.885-6.44-6.44s2.885-6.44 6.44-6.44c1.633 0 3.129.61 4.27 1.621l3.03-3.03C19.07 2.38 15.82 1 12.24 1 6.033 1 1 6.033 1 12.24s5.033 11.24 11.24 11.24c6.236 0 11.265-5.029 11.265-11.24 0-.78-.069-1.536-.205-2.255H12.24z"/>
                   </svg>
-                  Continue with Google
+                  {emailTab === "signup" ? "Sign Up with Google" : "Sign In with Google"}
                 </button>
 
+                {/* Separator */}
                 <div className="flex items-center my-4">
                   <div className="flex-1 h-px bg-white/10"></div>
-                  <span className="px-3 text-[10px] uppercase font-mono tracking-widest text-slate-500">or use email</span>
+                  <span className="px-3 text-[10px] uppercase font-mono tracking-widest text-slate-500">
+                    {emailTab === "signup" ? "or register with email" : "or sign in with email"}
+                  </span>
                   <div className="flex-1 h-px bg-white/10"></div>
                 </div>
 
+                {/* Email/Password Auth Form */}
                 <form onSubmit={handleEmailAuth} className="space-y-3">
-                  <div className="flex gap-2 mb-2">
-                    <button
-                      type="button"
-                      onClick={() => setEmailTab("login")}
-                      className={`px-3 py-1 rounded-lg text-[10px] font-bold ${emailTab === "login" ? "bg-white/10 text-white" : "text-slate-500"}`}
-                    >
-                      Sign In
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setEmailTab("signup")}
-                      className={`px-3 py-1 rounded-lg text-[10px] font-bold ${emailTab === "signup" ? "bg-white/10 text-white" : "text-slate-500"}`}
-                    >
-                      Create Account
-                    </button>
-                  </div>
-
                   <input
                     type="email"
                     placeholder="Email Address"
@@ -259,7 +265,7 @@ export function AliasModal({ isOpen, onClose, onLogin, error: externalError }: A
                   />
 
                   {emailTab === "signup" && (
-                    <div className="grid grid-cols-2 gap-2">
+                    <div className="grid grid-cols-2 gap-2 animate-in fade-in slide-in-from-top-2 duration-200">
                       <input
                         type="text"
                         placeholder="Display Name"
