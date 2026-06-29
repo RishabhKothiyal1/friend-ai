@@ -36,16 +36,11 @@ const Hero1 = ({ onGetStarted }: Hero1Props) => {
         <div className="max-w-3xl mx-auto space-y-8 w-full flex flex-col items-center">
           
           <div className="flex flex-col items-center gap-6 mb-4">
-            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-32 h-32 md:w-40 md:h-40 shrink-0 drop-shadow-2xl">
-              <circle cx="35" cy="25" r="12" fill="#3b82f6" />
-              <path d="M 50 45 C 30 35 15 45 15 65 C 15 85 25 90 35 90 C 45 90 45 75 50 75 Z" fill="#3b82f6" />
-              <circle cx="65" cy="25" r="12" fill="#a855f7" />
-              <path d="M 50 45 C 70 35 85 45 85 65 C 85 85 75 90 65 90 C 55 90 55 75 50 75 Z" fill="#a855f7" />
-              <circle cx="50" cy="55" r="24" fill="#ffffff" />
-              <circle cx="41" cy="50" r="3.5" fill="#0f172a" />
-              <circle cx="59" cy="50" r="3.5" fill="#0f172a" />
-              <path d="M43 59 Q 50 67 57 59" stroke="#0f172a" strokeWidth="4" strokeLinecap="round" fill="none" />
-            </svg>
+            <img 
+              src="/friend_ai_mascot.jpg" 
+              alt="friend ai logo" 
+              className="w-32 h-32 md:w-40 md:h-40 rounded-3xl object-cover border-2 border-white/20 shrink-0 shadow-2xl animate-fade-in"
+            />
             <h1 className="text-6xl md:text-8xl font-black leading-none tracking-tighter text-white drop-shadow-sm">
               <DiaTextReveal
                 className="text-6xl md:text-8xl font-black tracking-tighter"

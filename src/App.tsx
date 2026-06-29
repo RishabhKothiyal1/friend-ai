@@ -724,10 +724,10 @@ const CHARACTERS: Character[] = [
   },
   {
     id: "manji",
-    name: "Hope",
+    name: "Athena",
     title: "Paitkar Folk Scroll Guardian",
     specialization: "Jharkhand Natural Dye Earthy Storytelling",
-    avatarInitials: "Ho",
+    avatarInitials: "At",
     avatarColor: "bg-[#e1ba8a] text-[#7a3219] border-[#b07844] font-serif",
     accentColor: "rose",
     tagline: "Ancient scroll journeys, natural ochre dyes, and elongated folk-figure wisdom.",
@@ -1788,7 +1788,7 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
     );
   }
 
-  // 4. PAITKAR SCROLL ART (Jharkhand) - Hope (manji)
+  // 4. PAITKAR SCROLL ART (Jharkhand) - Athena (manji)
   if (charId === "manji") {
     return (
       <div id="cozy-room-manji" className="w-full h-40 rounded-2xl border-2 border-[#8c5210]/30 bg-[#dfb582] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#4a2305] select-none group">
@@ -10084,7 +10084,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6 pr-2">
                 {[
                   {
-                    name: "Rooh",
+                    name: "Soul",
                     avatar: "Ro",
                     bgCol: "bg-[#f8ebe4] text-[#aa6b51]",
                     role: "Grounded Empathic Witness",
@@ -10092,7 +10092,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     seedling: "Pink Lotus"
                   },
                   {
-                    name: "Ganesh",
+                    name: "Dionysus",
                     avatar: "Ga",
                     bgCol: "bg-[#fff7d6] text-[#8c6239]",
                     role: "Reframer & Joy Companion",
@@ -10100,7 +10100,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     seedling: "SunFlower"
                   },
                   {
-                    name: "Raag",
+                    name: "Sisyphus",
                     avatar: "Ra",
                     bgCol: "bg-[#ebd3da] text-[#a0526e]",
                     role: "Melodic Acoustic Scholar",
@@ -10108,7 +10108,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     seedling: "Lavender Spike"
                   },
                   {
-                    name: "Hope",
+                    name: "Athena",
                     avatar: "Ho",
                     bgCol: "bg-[#fbeee6] text-[#b25835]",
                     role: "Traditional Diya Guardian",
@@ -10116,7 +10116,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     seedling: "Gilded Rose"
                   },
                   {
-                    name: "Tara",
+                    name: "Astra",
                     avatar: "Tara",
                     bgCol: "bg-[#0f162c] text-[#cbd5e1]",
                     role: "Cosmic Astrological Dreamer",
@@ -10124,7 +10124,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     seedling: "Midnight Lotus"
                   },
                   {
-                    name: "Inayat",
+                    name: "Persephone",
                     avatar: "In",
                     bgCol: "bg-[#0a1128] text-[#818cf8]",
                     role: "Silent Moment Companion",
@@ -10132,7 +10132,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     seedling: "Nostalgic Iris"
                   },
                   {
-                    name: "Altaf",
+                    name: "Zeus",
                     avatar: "Al",
                     bgCol: "bg-[#f3e8ff] text-[#7e22ce]",
                     role: "Support & Encryption Specialist",
@@ -10140,7 +10140,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     seedling: "Secure Aloe"
                   },
                   {
-                    name: "Veer",
+                    name: "Hades",
                     avatar: "Ve",
                     bgCol: "bg-[#FAF9F6] text-[#5c4033]",
                     role: "Legal & Patient Advocate Specialist",
@@ -10148,7 +10148,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     seedling: "Guard Fern"
                   },
                   {
-                    name: "Manjishtha",
+                    name: "Sappho",
                     avatar: "Ma",
                     bgCol: "bg-[#fef3c7] text-[#d97706]",
                     role: "Sharp Attic Wise Cat",
@@ -10402,6 +10402,45 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 </div>
               </div>
 
+              {/* ── Feature section 2.5: Vision & Mission Columns ── */}
+              <div className="border-t border-white/5 px-10 md:px-20 py-20 bg-gradient-to-b from-[#0a0a0a] to-[#0d0d0d]">
+                <div className="max-w-6xl mx-auto space-y-12">
+                  <div className="text-center max-w-2xl mx-auto space-y-4">
+                    <span className="text-[10px] font-mono tracking-[0.25em] text-indigo-400 uppercase">Guiding Philosophy</span>
+                    <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">Our Core Purpose</h2>
+                    <p className="text-white/50 text-sm leading-relaxed">
+                      We believe that mental health support should be a fundamental human right—delivered instantly, without cost, and with absolute security.
+                    </p>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                    {/* Vision Card */}
+                    <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-8 md:p-10 space-y-6 hover:border-indigo-500/20 hover:bg-white/[0.03] transition-all duration-300 relative group overflow-hidden">
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-full blur-3xl group-hover:scale-150 transition-all duration-700 pointer-events-none"></div>
+                      <div className="w-12 h-12 bg-indigo-500/10 rounded-2xl flex items-center justify-center border border-indigo-500/20">
+                        <svg className="w-6 h-6 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                      </div>
+                      <h3 className="text-2xl font-bold text-white font-serif">Our Vision</h3>
+                      <p className="text-white/60 text-sm leading-relaxed">
+                        To construct a decentralized, zero-knowledge emotional support infrastructure where individuals retain absolute cognitive sovereignty. We envision a future where seeking mental wellness does not require compromising personal privacy or entering transactional commercial pipelines. By shifting intelligence to the client side, we create a secure space for human vulnerability.
+                      </p>
+                    </div>
+
+                    {/* Mission Card */}
+                    <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-8 md:p-10 space-y-6 hover:border-emerald-500/20 hover:bg-white/[0.03] transition-all duration-300 relative group overflow-hidden">
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl group-hover:scale-150 transition-all duration-700 pointer-events-none"></div>
+                      <div className="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center border border-emerald-500/20">
+                        <svg className="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                      </div>
+                      <h3 className="text-2xl font-bold text-white font-serif">Our Mission</h3>
+                      <p className="text-white/60 text-sm leading-relaxed">
+                        To democratize high-quality, culturally-grounded mental health support through browser-sandboxed artificial intelligence. We combine local LLM execution, neuroscience-backed grounding protocols, and traditional folk art aesthetics to deliver immediate relief for anxiety, grief, and burnout. Our architecture eliminates data transmission friction, ensuring absolute user safety.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               {/* ── Feature section 3: Meet the Team ── */}
               <div className="border-t border-white/5 px-10 md:px-20 py-20">
                 <div className="max-w-6xl mx-auto space-y-12">
@@ -10574,15 +10613,15 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           className="w-full pl-3 pr-8 py-2 text-xs border border-slate-205 dark:border-white/10 rounded-xl bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 dark:text-[#f3f4f6] focus:outline-none focus:ring-1 focus:ring-indigo-400 cursor-pointer appearance-none shadow-xs font-semibold"
                         >
                           <option value="Manjishtha Pahilajani, Founder">Manjishtha Pahilajani, Founder</option>
-                          <option value="Rooh (Grounded Empathic Witness)">Rooh (Grounded Empathic Witness)</option>
-                          <option value="Ganesh (Reframer & Joy Companion)">Ganesh (Reframer & Joy Companion)</option>
-                          <option value="Raag (Melodic Acoustic Scholar)">Raag (Melodic Acoustic Scholar)</option>
-                          <option value="Hope (Traditional Diya Guardian)">Hope (Traditional Diya Guardian)</option>
-                          <option value="North Star (Cosmic Astrological Dreamer)">North Star (Cosmic Astrological Dreamer)</option>
-                          <option value="Inayat (Silent Moment Companion)">Inayat (Silent Moment Companion)</option>
-                          <option value="Altaf (Support & Encryption Specialist)">Altaf (Support & Encryption Specialist)</option>
-                          <option value="Veer (Legal & Patient Advocate Specialist)">Veer (Legal & Patient Advocate Specialist)</option>
-                          <option value="Manjishtha (Sharp Attic Wise Cat)">Manjishtha (Sharp Attic Wise Cat)</option>
+                          <option value="Soul (Grounded Empathic Witness)">Soul (Grounded Empathic Witness)</option>
+                          <option value="Dionysus (Reframer & Joy Companion)">Dionysus (Reframer & Joy Companion)</option>
+                          <option value="Sisyphus (Melodic Acoustic Scholar)">Sisyphus (Melodic Acoustic Scholar)</option>
+                          <option value="Athena (Traditional Diya Guardian)">Athena (Traditional Diya Guardian)</option>
+                          <option value="Astra (Cosmic Astrological Dreamer)">Astra (Cosmic Astrological Dreamer)</option>
+                          <option value="Persephone (Silent Moment Companion)">Persephone (Silent Moment Companion)</option>
+                          <option value="Zeus (Support & Encryption Specialist)">Zeus (Support & Encryption Specialist)</option>
+                          <option value="Hades (Legal & Patient Advocate Specialist)">Hades (Legal & Patient Advocate Specialist)</option>
+                          <option value="Sappho (Sharp Attic Wise Cat)">Sappho (Sharp Attic Wise Cat)</option>
                         </select>
                         <div className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none text-[8px]">▼</div>
                       </div>
@@ -11427,7 +11466,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 <span className="text-lg font-bold text-purple-900 font-mono">₹250<span className="text-xs font-normal text-slate-500 font-sans">/mo</span></span>
               </div>
               <p className="text-[11px] text-slate-650 dark:text-slate-350 leading-normal">
-                Unlock immediate unlimited chat access to all our specialized de-escalation guides: Rooh (Earthy Boho Witness), Ganesh (Tail-wagging joy), Raag (Acoustic Melodic guide), North Star (Cosmic Astrology dreamer), Altaf (Rogan Video &amp; Voice Specialist), Manjishtha (Attic Wise cat), Inayat (Silent Space companion), and Veer (Medico-Legal counsel).
+                Unlock immediate unlimited chat access to all our specialized de-escalation guides: Soul (Earthy Boho Witness), Dionysus (Tail-wagging joy), Sisyphus (Acoustic Melodic guide), Astra (Cosmic Astrology dreamer), Zeus (Rogan Video &amp; Voice Specialist), Sappho (Attic Wise cat), Persephone (Silent Space companion), and Hades (Medico-Legal counsel).
               </p>
               <div className="text-[10px] text-slate-500 flex items-center gap-1 font-mono pt-1">
                 <span className="text-emerald-600">🛡️</span> Secure AES-256 local verification. Cancel anytime.
