@@ -8420,14 +8420,28 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           Save Changes
                         </button>
 
-                        <div className="grid grid-cols-2 gap-3 pt-2">
+                        <div className="flex items-center justify-between pt-4 border-t border-slate-200/20 dark:border-white/10">
                           <button
                             type="button"
                             onClick={handleLogout}
-                            className="py-2.5 border border-white/10 hover:bg-white/5 text-gray-400 hover:text-white text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
+                            className="Btn"
                           >
-                            Sign Out
+                            <div className="sign">
+                              <svg viewBox="0 0 512 512" className="w-[17px] h-[17px]">
+                                <path fill="white" d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z" />
+                              </svg>
+                            </div>
+                            <div className="text font-sans">SignOut</div>
                           </button>
+
+                          <button
+                            type="button"
+                            onClick={() => setShowWipeConfirm(true)}
+                            className="px-4 py-2.5 border border-orange-500/20 hover:bg-orange-500/10 text-orange-400 hover:text-orange-300 text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
+                          >
+                            Wipe Local Data
+                          </button>
+
                           <button
                             type="button"
                             onClick={async () => {
@@ -8454,7 +8468,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                                 alert("Account deletion failed. For safety, please sign out and sign in again before running this command.");
                               }
                             }}
-                            className="py-2.5 border border-red-500/20 hover:bg-red-500/10 text-red-400 hover:text-red-300 text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
+                            className="px-4 py-2.5 border border-red-500/20 hover:bg-red-500/10 text-red-400 hover:text-red-300 text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
                           >
                             Delete Account
                           </button>
@@ -8614,12 +8628,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     <span>Open AI Safety & Ethics Portal</span>
                   </button>
 
-                  <button 
-                    onClick={handleLogout}
-                    className="px-6 py-3 bg-red-500/10 hover:bg-red-500/20 text-red-650 dark:text-red-400 border border-red-200 dark:border-red-900/50 rounded-full font-bold text-sm transition-colors text-center cursor-pointer mx-auto w-full max-w-xs block"
-                  >
-                    Wipe Local Data & Sign Out
-                  </button>
+
                 </div>
               )}
 
