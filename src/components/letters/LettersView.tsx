@@ -9,10 +9,11 @@ import { LetterReader } from './LetterReader';
 
 interface LettersViewProps {
   alias: string;
+  username?: string;
   userId?: string;
 }
 
-export function LettersView({ alias, userId }: LettersViewProps) {
+export function LettersView({ alias, username, userId }: LettersViewProps) {
   const [activeTab, setActiveTab] = useState<'home' | 'inbox' | 'find' | 'write' | 'profile'>('home');
 
   const [readingLetter, setReadingLetter] = useState<any | null>(null);
@@ -85,7 +86,7 @@ export function LettersView({ alias, userId }: LettersViewProps) {
           )}
 
           {activeTab === 'find' && (
-            <FindFriends onMatched={handleMatchedFriend} userId={userId} alias={alias} />
+            <FindFriends onMatched={handleMatchedFriend} userId={userId} alias={alias} username={username} />
           )}
 
           {activeTab === 'write' && (

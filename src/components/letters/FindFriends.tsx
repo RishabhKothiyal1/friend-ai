@@ -5,9 +5,10 @@ interface FindFriendsProps {
   onMatched: (friendName: string) => void;
   userId?: string;
   alias: string;
+  username?: string;
 }
 
-export const FindFriends: React.FC<FindFriendsProps> = ({ onMatched, userId, alias }) => {
+export const FindFriends: React.FC<FindFriendsProps> = ({ onMatched, userId, alias, username }) => {
   const [mode, setMode] = useState<'selection' | 'auto'>('selection');
   const [friendIdInput, setFriendIdInput] = useState('');
 
@@ -70,7 +71,7 @@ export const FindFriends: React.FC<FindFriendsProps> = ({ onMatched, userId, ali
 
         {mode === 'auto' && (
           <div className="bg-white dark:bg-gray-900 border border-[#E5E7EB] dark:border-gray-800 rounded-2xl p-8 shadow-sm">
-            <AutoMatch onMatched={onMatched} userId={userId} alias={alias} />
+            <AutoMatch onMatched={onMatched} userId={userId} alias={alias} username={username} />
           </div>
         )}
 
