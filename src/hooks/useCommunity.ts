@@ -252,7 +252,7 @@ export async function toggleLike(postId: string, userId: string) {
     const likeSnap = await tx.get(likeRef);
     const isActive = likeSnap.exists() && !!likeSnap.data()?.active;
 
-    tx.set(likeRef, { active: !isActive, updatedAt: serverTimestamp() }, { merge: true });
+    tx.set(likeRef, { active: !isActive, userId, updatedAt: serverTimestamp() }, { merge: true });
     tx.update(postRef, {
       likes: isActive ? increment(-1) : increment(1),
     });

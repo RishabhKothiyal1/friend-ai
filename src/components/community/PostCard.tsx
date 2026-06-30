@@ -16,7 +16,7 @@ export default function PostCard({ post, onClick }: PostCardProps) {
   const { user } = useAuth();
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(post.likes ?? 0);
-  const [commentCount, setCommentCount] = useState(post.commentCount ?? post.comments ?? 0);
+  const [commentCount, setCommentCount] = useState(post.comments ?? 0);
   const [bookmarked, setBookmarked] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
 
@@ -27,7 +27,7 @@ export default function PostCard({ post, onClick }: PostCardProps) {
       if (snap.exists()) {
         const data = snap.data();
         setLikeCount(data.likes ?? 0);
-        setCommentCount(data.commentCount ?? data.comments ?? 0);
+        setCommentCount(data.comments ?? 0);
       }
     });
     return unsub;
