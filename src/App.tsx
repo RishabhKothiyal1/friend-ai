@@ -223,6 +223,7 @@ import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import CommunityPage from "./components/community/CommunityPage";
 import { db, auth } from "./firebase/config";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import { createPost } from "./hooks/useCommunity";
 
 interface ChatMessage {
   id: string;
@@ -5026,7 +5027,23 @@ For those currently trapped in a high-demand, hostile workplace: know that setti
       const updated = [newMsg, ...currentMessages];
       localStorage.setItem("pfai_solace_messages", JSON.stringify(updated));
 
-      setShareSuccessToast("Your anonymous dialogue summary was pinned to the Compassion Circle Wall!");
+      try {
+        await createPost({
+          title: "Anonymous Reflection",
+          content: sharedDialogueSummary.trim(),
+          category: "General",
+          tags: [],
+          image: "",
+          authorId: "anonymous",
+          authorName: "Anonymous",
+          authorAvatar: "",
+          visibility: "public",
+        });
+      } catch (firestoreErr) {
+        console.error("Failed to save to community feed:", firestoreErr);
+      }
+
+      setShareSuccessToast("Your anonymous dialogue summary was pinned to the Community Wall!");
       setShowShareConfirmPane(false);
       setSharedDialogueSummary("");
       setSolaceMessages(updated);
