@@ -5,6 +5,7 @@ import {
   setDoc,
   deleteDoc,
   getDocs,
+  getDoc,
   query,
   where,
   limit,
@@ -109,10 +110,20 @@ export const AutoMatch: React.FC<AutoMatchProps> = ({ onMatched, userId, alias }
       if (!matched) {
         const unsub = onSnapshot(
           doc(db, 'matchmaking', userId),
-          (snap) => {
+          async (snap) => {
             const data = snap.data();
             if (data?.status === 'matched' && data.matchedWith) {
-              setMatchedAlias(data.matchedWithAlias || data.matchedWith);
+              if (data.matchedWithAlias) {
+                setMatchedAlias(data.matchedWithAlias);
+              } else {
+                try {
+                  const partnerSnap = await getDoc(doc(db, 'matchmaking', data.matchedWith));
+                  const partnerData = partnerSnap.data();
+                  setMatchedAlias(partnerData?.alias || data.matchedWith);
+                } catch {
+                  setMatchedAlias(data.matchedWith);
+                }
+              }
               setMatchingState('found');
               if (unsub) unsub();
             }
