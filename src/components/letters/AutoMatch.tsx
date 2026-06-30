@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { db } from '../../firebase/config';
+import { db, auth } from '../../firebase/config';
 import {
   doc,
   setDoc,
@@ -10,7 +10,6 @@ import {
   where,
   limit,
   collection,
-  onSnapshot,
   serverTimestamp,
 } from 'firebase/firestore';
 
@@ -25,7 +24,7 @@ export const AutoMatch: React.FC<AutoMatchProps> = ({ onMatched, userId, alias }
   const [matchedAlias, setMatchedAlias] = useState('');
   const [dots, setDots] = useState('');
   const [error, setError] = useState('');
-  const unsubscribeRef = useRef<(() => void) | null>(null);
+  const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     if (matchingState !== 'searching') return;
@@ -37,20 +36,36 @@ export const AutoMatch: React.FC<AutoMatchProps> = ({ onMatched, userId, alias }
 
   useEffect(() => {
     return () => {
-      cleanup();
+      stopPolling();
+      if (userId) {
+        deleteDoc(doc(db, 'matchmaking', userId)).catch(() => {});
+      }
     };
   }, []);
 
-  const cleanup = async () => {
-    if (unsubscribeRef.current) {
-      unsubscribeRef.current();
-      unsubscribeRef.current = null;
+  const stopPolling = () => {
+    if (pollRef.current) {
+      clearInterval(pollRef.current);
+      pollRef.current = null;
     }
-    if (userId && matchingState === 'searching') {
+  };
+
+  const startPolling = () => {
+    if (!userId) return;
+    stopPolling();
+    pollRef.current = setInterval(async () => {
       try {
-        await deleteDoc(doc(db, 'matchmaking', userId));
+        const snap = await getDoc(doc(db, 'matchmaking', userId));
+        const data = snap.data();
+        if (data?.status === 'matched' && data.matchedWith) {
+          stopPolling();
+          const partnerSnap = await getDoc(doc(db, 'matchmaking', data.matchedWith));
+          const partnerData = partnerSnap.data();
+          setMatchedAlias(partnerData?.alias || data.matchedWith);
+          setMatchingState('found');
+        }
       } catch {}
-    }
+    }, 2000);
   };
 
   const startMatching = async () => {
@@ -96,11 +111,10 @@ export const AutoMatch: React.FC<AutoMatchProps> = ({ onMatched, userId, alias }
             ...data,
             status: 'matched',
             matchedWith: userId,
-            matchedWithAlias: alias || 'Anonymous',
             createdAt: serverTimestamp(),
           });
 
-          setMatchedAlias(data.alias || 'A new friend');
+          setMatchedAlias(data.alias || partnerId);
           setMatchingState('found');
           matched = true;
           break;
@@ -108,29 +122,7 @@ export const AutoMatch: React.FC<AutoMatchProps> = ({ onMatched, userId, alias }
       }
 
       if (!matched) {
-        const unsub = onSnapshot(
-          doc(db, 'matchmaking', userId),
-          async (snap) => {
-            const data = snap.data();
-            if (data?.status === 'matched' && data.matchedWith) {
-              if (data.matchedWithAlias) {
-                setMatchedAlias(data.matchedWithAlias);
-              } else {
-                try {
-                  const partnerSnap = await getDoc(doc(db, 'matchmaking', data.matchedWith));
-                  const partnerData = partnerSnap.data();
-                  setMatchedAlias(partnerData?.alias || data.matchedWith);
-                } catch {
-                  setMatchedAlias(data.matchedWith);
-                }
-              }
-              setMatchingState('found');
-              if (unsub) unsub();
-            }
-          },
-          () => {}
-        );
-        unsubscribeRef.current = unsub;
+        startPolling();
       }
     } catch (e) {
       setError('Connection error. Try again.');
@@ -139,10 +131,7 @@ export const AutoMatch: React.FC<AutoMatchProps> = ({ onMatched, userId, alias }
   };
 
   const handleSendLetter = () => {
-    if (unsubscribeRef.current) {
-      unsubscribeRef.current();
-      unsubscribeRef.current = null;
-    }
+    stopPolling();
     onMatched(matchedAlias || 'New Friend');
   };
 
