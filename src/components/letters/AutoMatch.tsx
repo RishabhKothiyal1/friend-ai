@@ -26,6 +26,16 @@ export const AutoMatch: React.FC<AutoMatchProps> = ({ onMatched, userId }) => {
   const [error, setError] = useState('');
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  const fetchUserDisplayName = async (uid: string): Promise<string> => {
+    try {
+      const snap = await getDoc(doc(db, 'users', uid));
+      const data = snap.data();
+      return data?.displayName || data?.username || uid;
+    } catch {
+      return uid;
+    }
+  };
+
   useEffect(() => {
     if (matchingState !== 'searching') return;
     const interval = setInterval(() => {
@@ -59,7 +69,8 @@ export const AutoMatch: React.FC<AutoMatchProps> = ({ onMatched, userId }) => {
         const data = snap.data();
         if (data?.status === 'matched' && data.matchedWith) {
           stopPolling();
-          setMatchedAlias(data.matchedWithLabel || 'a new friend');
+          const name = await fetchUserDisplayName(data.matchedWith);
+          setMatchedAlias(name);
           setMatchingState('found');
         }
       } catch {}
@@ -113,7 +124,8 @@ export const AutoMatch: React.FC<AutoMatchProps> = ({ onMatched, userId }) => {
             createdAt: serverTimestamp(),
           });
 
-          setMatchedAlias(data.alias && data.alias !== 'Anonymous' ? data.alias : 'a new friend');
+          const displayName = await fetchUserDisplayName(partnerId);
+          setMatchedAlias(displayName);
           setMatchingState('found');
           matched = true;
           break;

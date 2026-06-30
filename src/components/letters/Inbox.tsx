@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { db, auth } from '../../firebase/config';
-import { collection, query, where, onSnapshot, orderBy } from 'firebase/firestore';
+import { doc, getDoc, collection, query, where, onSnapshot, orderBy } from 'firebase/firestore';
 
 interface Letter {
   id: string;
@@ -25,6 +25,22 @@ export const Inbox: React.FC<{
   const [letters, setLetters] = useState<Letter[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
+  const [profileCache, setProfileCache] = useState<Record<string, string>>({});
+
+  const isLikelyUid = (str: string) => str.length > 20 && !/\s/.test(str);
+
+  const fetchProfileName = useCallback(async (uid: string): Promise<string> => {
+    if (profileCache[uid]) return profileCache[uid];
+    try {
+      const snap = await getDoc(doc(db, 'users', uid));
+      const data = snap.data();
+      const name = data?.displayName || data?.username || uid;
+      setProfileCache(prev => ({ ...prev, [uid]: name }));
+      return name;
+    } catch {
+      return uid;
+    }
+  }, [profileCache]);
 
   useEffect(() => {
     if (!auth.currentUser) {
@@ -57,7 +73,16 @@ export const Inbox: React.FC<{
     return () => unsubscribe();
   }, [activeTab]);
 
-  const displayName = (letter: Letter) => (activeTab === 'inbox' ? letter.senderName : letter.receiverName) || 'Anonymous';
+  const displayName = (letter: Letter) => {
+    const raw = (activeTab === 'inbox' ? letter.senderName : letter.receiverName) || 'Anonymous';
+    const uid = activeTab === 'inbox' ? letter.senderId : letter.receiverId;
+    if (isLikelyUid(raw) && uid) {
+      const cached = profileCache[uid];
+      if (cached) return cached;
+      fetchProfileName(uid);
+    }
+    return raw;
+  };
 
   const filteredLetters = letters.filter(letter =>
     letter.title.toLowerCase().includes(searchQuery.toLowerCase()) ||

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { db, auth } from '../../firebase/config';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { STAMP_LIST } from './StampAlbum';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface ComposeProps {
   preselectedFriend?: string;
@@ -10,6 +11,7 @@ interface ComposeProps {
 }
 
 export const Compose: React.FC<ComposeProps> = ({ preselectedFriend = 'a friend', onLetterSent, userId }) => {
+  const { profile } = useAuth();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [deliveryMode, setDeliveryMode] = useState('distance');
@@ -53,7 +55,7 @@ export const Compose: React.FC<ComposeProps> = ({ preselectedFriend = 'a friend'
     try {
       await addDoc(collection(db, 'letters'), {
         senderId: auth.currentUser.uid,
-        senderName: userId || auth.currentUser?.uid || 'Anonymous',
+        senderName: profile?.displayName || 'Anonymous',
         receiverId: 'anonymous_friend',
         receiverName: preselectedFriend,
         title: title || 'A letter from afar',

@@ -6,12 +6,14 @@ import { Compose } from './Compose';
 import { StampAlbum } from './StampAlbum';
 import { AvatarCreator, Avatar, AvatarConfig } from './AvatarCreator';
 import { LetterReader } from './LetterReader';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface LettersViewProps {
   userId?: string;
 }
 
 export function LettersView({ userId }: LettersViewProps) {
+  const { profile } = useAuth();
   const [activeTab, setActiveTab] = useState<'home' | 'inbox' | 'find' | 'write' | 'profile'>('home');
 
   const [readingLetter, setReadingLetter] = useState<any | null>(null);
@@ -103,7 +105,7 @@ export function LettersView({ userId }: LettersViewProps) {
                   <div className="space-y-3 text-center md:text-left flex-1">
                     <div>
                       <p className="text-2xl font-[family-name:var(--font-letters-serif)] font-bold text-[#13294B] dark:text-gray-100">
-                        {userId || 'Anonymous'}
+                        {profile?.displayName || 'Anonymous'}
                       </p>
                       <p className="text-[#13294B]/50 dark:text-gray-400 text-xs mt-1">UID: {userId || 'anonymous'}</p>
                     </div>
