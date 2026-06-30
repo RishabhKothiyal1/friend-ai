@@ -252,11 +252,31 @@ export async function toggleLike(postId: string, userId: string) {
     const likeSnap = await tx.get(likeRef);
     const isActive = likeSnap.exists() && !!likeSnap.data()?.active;
 
-    tx.set(likeRef, { active: !isActive, userId, updatedAt: serverTimestamp() }, { merge: true });
+    tx.set(
+      likeRef,
+      {
+        active: !isActive,
+        userId,
+        updatedAt: serverTimestamp(),
+      },
+      { merge: true }
+    );
+
     tx.update(postRef, {
       likes: isActive ? increment(-1) : increment(1),
     });
   });
+}
+
+export async function incrementViews(postId: string) {
+  if (!db) return;
+  try {
+    await updateDoc(doc(db, "posts", postId), {
+      views: increment(1),
+    });
+  } catch (err) {
+    // silently ignore — view count is non-critical
+  }
 }
 
 export async function uploadImage(file: File, path: string): Promise<string> {

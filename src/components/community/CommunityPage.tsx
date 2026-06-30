@@ -5,7 +5,7 @@ import {
   Plus, Search, Hash, Loader2, Heart, MessageCircle, Eye, ArrowLeft, Sparkles
 } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
-import { useComments, useNotifications, toggleLike } from "../../hooks/useCommunity";
+import { useComments, useNotifications, toggleLike, incrementViews } from "../../hooks/useCommunity";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase/config";
 import type { Post } from "../../types/community";
@@ -155,12 +155,18 @@ function PostDetailView({ post, onBack }: { post: Post; onBack: () => void }) {
     return unsub;
   }, [post.id, user?.uid]);
 
+  // Increment view count once when post is opened
+  useEffect(() => {
+    incrementViews(post.id);
+  }, [post.id]);
+
   const handleLike = async () => {
     if (!user) return;
     await toggleLike(post.id, user.uid);
   };
 
-  const commentCount = comments.length;
+  // Use the live Firestore counter, fall back to fetched array length
+  const commentCount = livePost.comments ?? comments.length;
 
   const timeAgo = (timestamp: any) => {
     if (!timestamp?.toDate) return "";

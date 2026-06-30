@@ -19,6 +19,7 @@ export default function PostCard({ post, onClick }: PostCardProps) {
   const [commentCount, setCommentCount] = useState(post.comments ?? 0);
   const [bookmarked, setBookmarked] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
+  const isLikingRef = React.useRef(false);
 
   // Live listener on post doc for like + comment counts
   useEffect(() => {
@@ -26,7 +27,9 @@ export default function PostCard({ post, onClick }: PostCardProps) {
     const unsub = onSnapshot(doc(db, "posts", post.id), (snap) => {
       if (snap.exists()) {
         const data = snap.data();
-        setLikeCount(data.likes ?? 0);
+        if (!isLikingRef.current) {
+          setLikeCount(data.likes ?? 0);
+        }
         setCommentCount(data.comments ?? 0);
       }
     });
@@ -56,18 +59,18 @@ export default function PostCard({ post, onClick }: PostCardProps) {
     e.stopPropagation();
     if (!user || isLiking) return;
     setIsLiking(true);
-    // Optimistic update
+    isLikingRef.current = true;
     setLiked(prev => !prev);
     setLikeCount(prev => liked ? prev - 1 : prev + 1);
     try {
       await toggleLike(post.id, user.uid);
     } catch (err) {
-      // Revert on failure
       setLiked(prev => !prev);
       setLikeCount(prev => liked ? prev + 1 : prev - 1);
       console.error("Like failed:", err);
     } finally {
       setIsLiking(false);
+      isLikingRef.current = false;
     }
   };
 
