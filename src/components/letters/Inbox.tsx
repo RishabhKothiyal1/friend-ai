@@ -26,7 +26,10 @@ export const Inbox: React.FC<{
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!auth.currentUser) return;
+    if (!auth.currentUser) {
+      setLoading(false);
+      return;
+    }
 
     const q = query(
       collection(db, 'letters'),
@@ -45,52 +48,8 @@ export const Inbox: React.FC<{
 
       setLetters(filtered);
       setLoading(false);
-    }, (error) => {
-      console.warn("Firestore listener failed. Using mock data for inbox display.", error);
-
-      const mockLetters: Letter[] = activeTab === 'inbox'
-        ? [
-            {
-              id: 'demo1',
-              title: 'First Greeting from Denmark',
-              body: 'Hej! (This is hello in Danish!) I\'m Jens from Copenhagen, Denmark. I\'m 24 and I work as a designer. I really love writing physical letters because it forces us to express ourselves with detail instead of one-line chat bubbles. Tell me about your city! What hobbies do you enjoy? Looking forward to your response.',
-              status: 'delivered',
-              createdAt: { seconds: Date.now() / 1000 - 86400 },
-              senderId: 'mock_sender',
-              receiverId: auth.currentUser?.uid || 'user',
-              receiverName: 'Me',
-              stampImage: '🧜‍♀️',
-              seal: 'classic_red'
-            },
-            {
-              id: 'demo2',
-              title: 'Letter from Sweden',
-              body: 'Hi there! – it\'s my first time writing a letter here. I\'m a 17 year old student from Stockholm. I see that we both enjoy travel and board games! Have you ever visited Sweden? What is your favorite board game? Speak soon.',
-              status: 'opened',
-              createdAt: { seconds: Date.now() / 1000 - 172800 },
-              senderId: 'mock_sender_2',
-              receiverId: auth.currentUser?.uid || 'user',
-              receiverName: 'Me',
-              stampImage: '🗽',
-              seal: 'emerald'
-            }
-          ]
-        : [
-            {
-              id: 'demo3',
-              title: 'Replying to Jens',
-              body: 'Hello Jens! Nice to hear from you. I really like your concept of slow correspondence too. My hobbies include reading and hiking...',
-              status: 'travelling',
-              deliverAt: { seconds: Date.now() / 1000 + 14400 },
-              createdAt: { seconds: Date.now() / 1000 },
-              senderId: auth.currentUser?.uid || 'user',
-              receiverId: 'mock_sender',
-              receiverName: 'Jens',
-              stampImage: '✈️',
-              seal: 'midnight_blue'
-            }
-          ];
-      setLetters(mockLetters);
+    }, () => {
+      setLetters([]);
       setLoading(false);
     });
 
@@ -170,7 +129,7 @@ export const Inbox: React.FC<{
                         <span className="w-2.5 h-2.5 rounded-full bg-[#F4B400] dark:bg-amber-500 block animate-pulse" />
                       )}
                       <span className="text-xs uppercase tracking-wider text-[#13294B]/40 dark:text-gray-500 font-bold">
-                        {activeTab === 'inbox' ? `From ${letter.senderId === 'mock_sender' ? 'Jens' : 'Little penpal'}` : `To ${letter.receiverName || 'Friend'}`}
+                        {activeTab === 'inbox' ? `From ${letter.senderId}` : `To ${letter.receiverName || 'Friend'}`}
                       </span>
                     </div>
 
@@ -198,7 +157,7 @@ export const Inbox: React.FC<{
                   <div className="flex gap-2">
                     {activeTab === 'inbox' && (
                       <button
-                        onClick={() => onReply(letter.senderId === 'mock_sender' ? 'Jens' : 'Little penpal')}
+                        onClick={() => onReply(letter.senderId)}
                         className="px-3.5 py-1.5 border border-[#E5E7EB] dark:border-gray-800 hover:bg-[#FAFAF7] dark:hover:bg-gray-800 rounded-full text-xs font-bold text-[#13294B] dark:text-gray-100 transition"
                       >
                         Reply

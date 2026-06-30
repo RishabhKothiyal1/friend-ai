@@ -87,14 +87,14 @@ export const AutoMatch: React.FC<{ onMatched: (friendName: string) => void }> = 
       {matchingState === 'found' && (
         <div className="max-w-md w-full bg-white dark:bg-gray-900 border border-[#E5E7EB] dark:border-gray-800 rounded-2xl p-8 shadow-lg space-y-6">
           <div className="w-24 h-24 mx-auto bg-[#F4B400]/20 dark:bg-amber-500/20 rounded-full flex items-center justify-center text-4xl">
-            🧑‍💻
+            ✨
           </div>
 
           <div className="space-y-2">
             <span className="text-xs uppercase tracking-widest text-[#F4B400] dark:text-amber-400 font-bold">New Connection Found!</span>
-            <h2 className="text-2xl font-[family-name:var(--font-letters-serif)] font-bold text-[#13294B] dark:text-gray-100">Jens from Copenhagen</h2>
+            <h2 className="text-2xl font-[family-name:var(--font-letters-serif)] font-bold text-[#13294B] dark:text-gray-100">A new friend is waiting!</h2>
             <p className="text-[#13294B]/70 dark:text-gray-300 text-sm">
-              Denmark &bull; Danish, English &bull; Loves Board Games, Travel & Reading
+              Someone with similar interests is looking for a pen-pal. Write them a letter to get started!
             </p>
           </div>
 
@@ -106,7 +106,7 @@ export const AutoMatch: React.FC<{ onMatched: (friendName: string) => void }> = 
               Skip
             </button>
             <button
-              onClick={() => onMatched("Jens")}
+              onClick={() => onMatched("New Friend")}
               className="flex-1 bg-[#13294B] dark:bg-gray-800 text-white font-bold py-2.5 rounded-full hover:bg-[#13294B]/95 dark:hover:bg-gray-700 transition text-sm"
             >
               Send First Letter

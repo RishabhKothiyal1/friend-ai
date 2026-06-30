@@ -8,7 +8,7 @@ interface ComposeProps {
   onLetterSent?: () => void;
 }
 
-export const Compose: React.FC<ComposeProps> = ({ preselectedFriend = 'Jens', onLetterSent }) => {
+export const Compose: React.FC<ComposeProps> = ({ preselectedFriend = 'a friend', onLetterSent }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [deliveryMode, setDeliveryMode] = useState('distance');
@@ -66,7 +66,7 @@ export const Compose: React.FC<ComposeProps> = ({ preselectedFriend = 'Jens', on
       });
       if (onLetterSent) onLetterSent();
     } catch (e) {
-      console.warn("Firestore error. Simulating success for demo.", e);
+      console.warn("Firestore error.", e);
       if (onLetterSent) onLetterSent();
     }
   };
