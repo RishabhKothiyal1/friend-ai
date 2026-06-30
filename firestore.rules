@@ -18,13 +18,22 @@ service cloud.firestore {
     // Posts: authenticated users can create; author can update/delete
     match /posts/{postId} {
       allow read: if true;
+
+      // Any authenticated user can create a post
       allow create: if request.auth != null
         && request.resource.data.title is string
         && request.resource.data.title.size() <= 200
         && request.resource.data.content is string
         && request.resource.data.content.size() <= 50000;
-      allow update, delete: if request.auth != null
+
+      // Only the post author can edit content, delete, or change any other fields
+      allow update: if request.auth != null
         && request.auth.uid == resource.data.authorId;
+
+      // Any authenticated user can increment/decrement likes and views only
+      allow update: if request.auth != null
+        && request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(['likes', 'views', 'comments']);
     }
 
     // Comments: authenticated users can create; author can update/delete
