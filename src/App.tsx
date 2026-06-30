@@ -223,7 +223,7 @@ import { Dashboard } from "./components/dashboard/Dashboard";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import CommunityPage from "./components/community/CommunityPage";
 import { db, auth } from "./firebase/config";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { createPost } from "./hooks/useCommunity";
 
 interface ChatMessage {
@@ -2785,6 +2785,33 @@ export default function App() {
       }
     }
   }, [user, profile]);
+
+  // Track daily login streak for stamp unlocks
+  useEffect(() => {
+    if (!user || !profile) return;
+    const today = new Date().toISOString().split('T')[0];
+    const lastLogin = profile.lastLoginDate || '';
+    let newStreak = profile.loginStreak || 0;
+
+    if (lastLogin === today) {
+      return;
+    }
+
+    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+    if (lastLogin === yesterday) {
+      newStreak += 1;
+    } else {
+      newStreak = 1;
+    }
+
+    const userRef = doc(db, 'users', user.uid);
+    updateDoc(userRef, {
+      lastLoginDate: today,
+      loginStreak: newStreak,
+    }).catch(() => {}).then(() => {
+      refreshProfile();
+    });
+  }, [user, profile?.loginStreak, profile?.lastLoginDate]);
 
   // Authentication & Secure Session States (inspired by the Wellness Bot login prototype UI request)
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {

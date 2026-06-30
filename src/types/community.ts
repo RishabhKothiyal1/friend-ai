@@ -23,6 +23,9 @@ export interface CommunityUser {
   clinicalIntakeCompleted?: boolean;
   medicalConditions?: string[];
   customMedicalHistory?: string;
+  loginStreak?: number;
+  lastLoginDate?: string;
+  unlockedStamps?: string[];
 }
 
 export interface Post {

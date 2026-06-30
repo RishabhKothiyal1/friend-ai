@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db, auth } from '../../firebase/config';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { STAMP_LIST } from './StampAlbum';
+import { STAMP_LIST, getUnlockedStamps } from './StampAlbum';
 import { useAuth } from '../../contexts/AuthContext';
 
 interface ComposeProps {
@@ -12,10 +12,12 @@ interface ComposeProps {
 
 export const Compose: React.FC<ComposeProps> = ({ preselectedFriend = 'a friend', onLetterSent, userId }) => {
   const { profile } = useAuth();
+  const loginStreak = (profile as any)?.loginStreak || 0;
+  const unlockedStamps = getUnlockedStamps(loginStreak);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [deliveryMode, setDeliveryMode] = useState('distance');
-  const [selectedStamp, setSelectedStamp] = useState(STAMP_LIST[0]);
+  const [selectedStamp, setSelectedStamp] = useState(unlockedStamps[0] || STAMP_LIST[0]);
   const [seal, setSeal] = useState('classic_red');
   const [status, setStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
   const [aiTone, setAiTone] = useState('');
@@ -258,7 +260,7 @@ export const Compose: React.FC<ComposeProps> = ({ preselectedFriend = 'a friend'
               <p className="text-xs text-[#13294B]/60 dark:text-gray-400">Each outgoing letter requires exactly one postage stamp.</p>
 
               <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 pt-2">
-                {STAMP_LIST.filter(s => s.unlocked).map((stamp) => (
+                {unlockedStamps.map((stamp) => (
                   <div
                     key={stamp.id}
                     onClick={() => {

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
 
 export interface Stamp {
   id: string;
@@ -68,16 +69,44 @@ export const STAMP_LIST: Stamp[] = [
   { id: 'st_chili', name: 'Spicy Chili', image: '🌶️', rarity: 'Common', region: 'Global', unlocked: true, unlockCondition: 'Write a letter with a passionate or heated discussion.', dateUnlocked: '2026-06-30', description: 'A bright red hot chili pepper, representing zest and passion.' }
 ];
 
+const STREAK_UNLOCK_TIERS: [number, string[]][] = [
+  [1, ['st_cassette', 'st_compass', 'st_pisa', 'st_tennis', 'st_alien', 'st_rainbow']],
+  [3, ['st_egypt', 'st_eiffel', 'st_chichen']],
+  [7, ['st_pyramids', 'st_greatwall', 'st_moai']],
+  [14, ['st_sydney', 'st_stonehenge', 'st_trophy', 'st_rocket', 'st_crystal']],
+  [21, ['st_aurora', 'st_voyager', 'st_barrierreef', 'st_everest', 'st_torch']],
+  [30, ['st_ghibli', 'st_arcade', 'st_crown']],
+];
+
+function computeUnlocked(stamp: Stamp, streak: number): boolean {
+  if (stamp.unlocked) return true;
+  for (const [required, ids] of STREAK_UNLOCK_TIERS) {
+    if (streak >= required && ids.includes(stamp.id)) return true;
+  }
+  return false;
+}
+
+export function getUnlockedStamps(streak: number): Stamp[] {
+  return STAMP_LIST.filter(s => computeUnlocked(s, streak));
+}
+
 export const StampAlbum: React.FC = () => {
+  const { profile } = useAuth();
+  const loginStreak = (profile as any)?.loginStreak || 0;
   const [search, setSearch] = useState('');
   const [rarityFilter, setRarityFilter] = useState<string>('All');
   const [selectedStamp, setSelectedStamp] = useState<Stamp | null>(null);
 
+  const stampsWithUnlock = useMemo(() =>
+    STAMP_LIST.map(s => ({ ...s, unlocked: computeUnlocked(s, loginStreak) })),
+    [loginStreak]
+  );
+
   const totalStamps = STAMP_LIST.length;
-  const unlockedCount = STAMP_LIST.filter(s => s.unlocked).length;
+  const unlockedCount = stampsWithUnlock.filter(s => s.unlocked).length;
   const completionPercentage = Math.round((unlockedCount / totalStamps) * 100);
 
-  const filteredStamps = STAMP_LIST.filter(stamp => {
+  const filteredStamps = stampsWithUnlock.filter(stamp => {
     const matchesSearch = stamp.name.toLowerCase().includes(search.toLowerCase()) ||
                           stamp.region.toLowerCase().includes(search.toLowerCase());
     const matchesRarity = rarityFilter === 'All' || stamp.rarity === rarityFilter;
