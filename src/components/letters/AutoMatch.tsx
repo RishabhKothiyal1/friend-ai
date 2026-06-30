@@ -20,6 +20,7 @@ interface AutoMatchProps {
 }
 
 export const AutoMatch: React.FC<AutoMatchProps> = ({ onMatched, userId, alias }) => {
+  const userLabel = auth.currentUser?.displayName || alias || auth.currentUser?.email?.split('@')[0] || auth.currentUser?.uid?.slice(0, 8) || 'Anonymous';
   const [matchingState, setMatchingState] = useState<'idle' | 'searching' | 'found'>('idle');
   const [matchedAlias, setMatchedAlias] = useState('');
   const [dots, setDots] = useState('');
@@ -59,9 +60,7 @@ export const AutoMatch: React.FC<AutoMatchProps> = ({ onMatched, userId, alias }
         const data = snap.data();
         if (data?.status === 'matched' && data.matchedWith) {
           stopPolling();
-          const partnerSnap = await getDoc(doc(db, 'matchmaking', data.matchedWith));
-          const partnerData = partnerSnap.data();
-          setMatchedAlias(partnerData?.alias || data.matchedWith);
+          setMatchedAlias(data.matchedWithLabel || 'a new friend');
           setMatchingState('found');
         }
       } catch {}
@@ -80,7 +79,7 @@ export const AutoMatch: React.FC<AutoMatchProps> = ({ onMatched, userId, alias }
     try {
       await setDoc(doc(db, 'matchmaking', userId), {
         userId,
-        alias: alias || 'Anonymous',
+        alias: userLabel,
         status: 'searching',
         createdAt: serverTimestamp(),
       });
@@ -101,7 +100,7 @@ export const AutoMatch: React.FC<AutoMatchProps> = ({ onMatched, userId, alias }
         try {
           await setDoc(doc(db, 'matchmaking', userId), {
             userId,
-            alias: alias || 'Anonymous',
+            alias: userLabel,
             status: 'matched',
             matchedWith: partnerId,
             createdAt: serverTimestamp(),
@@ -111,10 +110,11 @@ export const AutoMatch: React.FC<AutoMatchProps> = ({ onMatched, userId, alias }
             ...data,
             status: 'matched',
             matchedWith: userId,
+            matchedWithLabel: userLabel,
             createdAt: serverTimestamp(),
           });
 
-          setMatchedAlias(data.alias || partnerId);
+          setMatchedAlias(data.alias && data.alias !== 'Anonymous' ? data.alias : 'a new friend');
           setMatchingState('found');
           matched = true;
           break;
