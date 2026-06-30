@@ -92,6 +92,7 @@ export function LettersView({ alias, userId }: LettersViewProps) {
             <Compose
               preselectedFriend={composeTargetFriend}
               onLetterSent={() => setActiveTab('inbox')}
+              alias={alias}
             />
           )}
 

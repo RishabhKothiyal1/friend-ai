@@ -20,7 +20,7 @@ interface AutoMatchProps {
 }
 
 export const AutoMatch: React.FC<AutoMatchProps> = ({ onMatched, userId, alias }) => {
-  const userLabel = auth.currentUser?.displayName || alias || auth.currentUser?.email?.split('@')[0] || 'Anonymous';
+  const userLabel = alias || auth.currentUser?.displayName || auth.currentUser?.email?.split('@')[0] || 'Anonymous';
   const [matchingState, setMatchingState] = useState<'idle' | 'searching' | 'found'>('idle');
   const [matchedAlias, setMatchedAlias] = useState('');
   const [dots, setDots] = useState('');
