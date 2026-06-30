@@ -9,4 +9,7 @@ coverage/
 
 # Local Netlify folder
 .netlify
+
+# Firebase service account key
+serviceAccountKey.json
 package-lock.json
