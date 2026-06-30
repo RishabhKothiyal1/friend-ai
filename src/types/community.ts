@@ -81,15 +81,11 @@ export interface Report {
 }
 
 export type Category =
-  | "Cybersecurity"
-  | "Career"
   | "Showcase"
   | "General"
   | "Announcements";
 
 export const CATEGORIES: Category[] = [
-  "Cybersecurity",
-  "Career",
   "Showcase",
   "General",
   "Announcements",
