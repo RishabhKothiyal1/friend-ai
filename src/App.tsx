@@ -6236,28 +6236,16 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
       {/* Main App Content Area (Right of Sidebar) */}
       <div className="flex-1 flex flex-col relative min-h-screen overflow-x-hidden">
         {isLoggedIn && (
-          <div className="md:hidden flex items-center justify-between px-4 py-3 bg-slate-50 dark:bg-black border-b border-slate-200 dark:border-white/10 z-40 sticky top-0">
+          <div className="md:hidden flex items-center gap-3 px-4 py-2.5 bg-slate-50 dark:bg-black border-b border-slate-200 dark:border-white/10 z-40 sticky top-0">
             <button 
               onClick={() => setIsSidebarOpen(true)}
-              className="p-2 -ml-2 text-slate-600 dark:text-slate-350 hover:text-slate-900 dark:hover:text-white rounded-lg transition-colors cursor-pointer"
+              className="p-1.5 -ml-1.5 text-slate-600 dark:text-slate-350 hover:text-slate-900 dark:hover:text-white rounded-lg transition-colors cursor-pointer shrink-0"
             >
               <Menu className="w-5 h-5" />
             </button>
-            <span className="font-extrabold text-sm tracking-tight text-slate-800 dark:text-white flex items-center gap-1.5">
-              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-6 h-6">
-                <circle cx="35" cy="25" r="12" fill="#3b82f6" />
-                <path d="M 50 45 C 30 35 15 45 15 65 C 15 85 25 90 35 90 C 45 90 45 75 50 75 Z" fill="#3b82f6" />
-                <circle cx="65" cy="25" r="12" fill="#a855f7" />
-                <path d="M 50 45 C 70 35 85 45 85 65 C 85 85 75 90 65 90 C 55 90 55 75 50 75 Z" fill="#a855f7" />
-                <circle cx="50" cy="55" r="24" fill="#ffffff" />
-                <circle cx="41" cy="50" r="3.5" fill="#0f172a" />
-                <circle cx="59" cy="50" r="3.5" fill="#0f172a" />
-                <path d="M43 59 Q 50 67 57 59" stroke="#0f172a" strokeWidth="4" strokeLinecap="round" fill="none" />
-              </svg>
-              <span>friend <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">ai</span></span>
-            </span>
-            <div className="w-8 h-8 rounded-full bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-xs font-mono font-bold uppercase">
-              {loginAlias ? loginAlias.slice(0, 2) : 'AI'}
+            <div className="flex items-center gap-2.5">
+              <img src="/friend_ai_mascot.png" alt="friend ai logo" className="w-9 h-9 rounded-full object-cover border border-slate-200 dark:border-white/10 shrink-0" />
+              <span className="font-extrabold text-sm tracking-tight text-slate-800 dark:text-white">friend <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">ai</span></span>
             </div>
           </div>
         )}
@@ -11271,7 +11259,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
       <footer className="shrink-0 bg-white dark:bg-black border-t border-slate-200 dark:border-white/10 py-8 text-center px-4 relative z-50">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 font-sans">
           <div className="flex items-center gap-3">
-            <img src="/friend_ai_mascot.jpg" alt="Friend AI Logo" className="w-8 h-8 rounded-full border border-slate-200 dark:border-white/10 object-cover shrink-0" />
+            <img src="/friend_ai_mascot.png" alt="Friend AI Logo" className="w-8 h-8 rounded-full border border-slate-200 dark:border-white/10 object-cover shrink-0" />
             <span className="font-extrabold text-xl tracking-tight text-slate-800 dark:text-white">friend <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">ai</span></span>
           </div>
           <div className="text-sm text-slate-500 dark:text-slate-400 font-medium flex flex-wrap items-center justify-center gap-6">

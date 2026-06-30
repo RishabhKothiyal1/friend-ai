@@ -22,6 +22,29 @@ interface AliasModalProps {
   initialTab?: "login" | "signup";
 }
 
+const getFriendlyErrorMessage = (err: any): string => {
+  const code = err?.code || "";
+  switch (code) {
+    case "auth/invalid-credential":
+      return "Incorrect email or password, or this account does not exist. Please check your credentials or click 'Create an account' to register.";
+    case "auth/user-not-found":
+      return "No account found with this email. Please check your email or sign up to create an account.";
+    case "auth/wrong-password":
+      return "Incorrect password. If you forgot your password, enter your email and click 'Forgot password?'.";
+    case "auth/email-already-in-use":
+      return "This email address is already registered. Please go to the 'Sign In' screen to log in instead.";
+    case "auth/weak-password":
+      return "Password is too weak. Please choose a stronger password.";
+    case "auth/invalid-email":
+      return "Please enter a valid email address.";
+    case "auth/popup-closed-by-user":
+      return "The Google sign-in window was closed before completion. Please try again.";
+    default:
+      const msg = err?.message || "An unexpected error occurred. Please try again.";
+      return msg.replace(/^Firebase:\s*/i, "");
+  }
+};
+
 export function AliasModal({ isOpen, onClose, onLogin, error: externalError, initialTab = "signup" }: AliasModalProps) {
   const { user, profile, signInWithGoogle, signInWithEmail, signUpWithEmail, resetPassword, loading: authLoading } = useAuth();
 
@@ -82,7 +105,7 @@ export function AliasModal({ isOpen, onClose, onLogin, error: externalError, ini
     try {
       await signInWithGoogle();
     } catch (err: any) {
-      setErrorState(err.message || "Failed to sign in with Google.");
+      setErrorState(getFriendlyErrorMessage(err));
     }
   };
 
@@ -96,7 +119,7 @@ export function AliasModal({ isOpen, onClose, onLogin, error: externalError, ini
       await resetPassword(email.trim());
       setResetSent(true);
     } catch (err: any) {
-      setErrorState(err.message || "Failed to send reset email.");
+      setErrorState(getFriendlyErrorMessage(err));
     }
   };
 
@@ -191,7 +214,7 @@ export function AliasModal({ isOpen, onClose, onLogin, error: externalError, ini
         onClose();
       }
     } catch (err: any) {
-      setErrorState(err.message || "Verification failed. Please try again.");
+      setErrorState(getFriendlyErrorMessage(err));
     } finally {
       setSubmitting(false);
     }
