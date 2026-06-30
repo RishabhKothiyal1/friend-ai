@@ -16,20 +16,28 @@ export default function PostCard({ post, onClick }: PostCardProps) {
   const { user } = useAuth();
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(post.likes ?? 0);
+  const [commentCount, setCommentCount] = useState(post.commentCount ?? post.comments ?? 0);
   const [bookmarked, setBookmarked] = useState(false);
+  const [isLiking, setIsLiking] = useState(false);
 
+  // Live listener on post doc for like + comment counts
   useEffect(() => {
-    setLikeCount(post.likes ?? 0);
-  }, [post.likes]);
+    if (!db) return;
+    const unsub = onSnapshot(doc(db, "posts", post.id), (snap) => {
+      if (snap.exists()) {
+        const data = snap.data();
+        setLikeCount(data.likes ?? 0);
+        setCommentCount(data.commentCount ?? data.comments ?? 0);
+      }
+    });
+    return unsub;
+  }, [post.id]);
 
+  // Live listener for whether current user liked this post
   useEffect(() => {
     if (!db || !user) return;
     const unsub = onSnapshot(doc(db, "likes", `${post.id}_${user.uid}`), (snap) => {
-      if (snap.exists()) {
-        setLiked(!!snap.data().active);
-      } else {
-        setLiked(false);
-      }
+      setLiked(snap.exists() && !!snap.data()?.active);
     });
     return unsub;
   }, [post.id, user?.uid]);
@@ -41,17 +49,25 @@ export default function PostCard({ post, onClick }: PostCardProps) {
     if (mins < 60) return `${mins}m ago`;
     const hrs = Math.floor(mins / 60);
     if (hrs < 24) return `${hrs}h ago`;
-    const days = Math.floor(hrs / 24);
-    return `${days}d ago`;
+    return `${Math.floor(hrs / 24)}d ago`;
   };
 
   const handleLike = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!user) return;
+    if (!user || isLiking) return;
+    setIsLiking(true);
+    // Optimistic update
+    setLiked(prev => !prev);
+    setLikeCount(prev => liked ? prev - 1 : prev + 1);
     try {
       await toggleLike(post.id, user.uid);
     } catch (err) {
+      // Revert on failure
+      setLiked(prev => !prev);
+      setLikeCount(prev => liked ? prev + 1 : prev - 1);
       console.error("Like failed:", err);
+    } finally {
+      setIsLiking(false);
     }
   };
 
@@ -116,13 +132,17 @@ export default function PostCard({ post, onClick }: PostCardProps) {
           )}
 
           <div className="flex items-center gap-4 text-xs text-slate-400">
-            <button onClick={handleLike} className={`flex items-center gap-1 hover:text-red-400 transition-colors cursor-pointer ${liked ? "text-red-400" : ""}`}>
+            <button
+              onClick={handleLike}
+              disabled={isLiking}
+              className={`flex items-center gap-1 hover:text-red-400 transition-colors cursor-pointer ${liked ? "text-red-400" : ""}`}
+            >
               <Heart className={`w-3.5 h-3.5 ${liked ? "fill-red-400" : ""}`} />
-              {likeCount}
+              <span>{likeCount}</span>
             </button>
             <span className="flex items-center gap-1 hover:text-indigo-400 transition-colors">
               <MessageCircle className="w-3.5 h-3.5" />
-              {post.comments ?? 0}
+              <span>{commentCount}</span>
             </span>
             <button onClick={handleBookmark} className={`flex items-center gap-1 hover:text-yellow-400 transition-colors cursor-pointer ${bookmarked ? "text-yellow-400" : ""}`}>
               <Bookmark className={`w-3.5 h-3.5 ${bookmarked ? "fill-yellow-400" : ""}`} />
@@ -132,7 +152,7 @@ export default function PostCard({ post, onClick }: PostCardProps) {
             </button>
             <span className="flex items-center gap-1 ml-auto">
               <Eye className="w-3.5 h-3.5" />
-              {post.views}
+              <span>{post.views}</span>
             </span>
           </div>
         </div>

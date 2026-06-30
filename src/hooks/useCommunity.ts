@@ -19,6 +19,7 @@ import {
   startAfter,
   DocumentSnapshot,
   Timestamp,
+  runTransaction,
 } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../firebase/config";
@@ -244,42 +245,18 @@ export async function addComment(data: {
 }
 
 export async function toggleLike(postId: string, userId: string) {
-  if (!db) return;
-  const postRef = doc(db, "posts", postId);
   const likeRef = doc(db, "likes", `${postId}_${userId}`);
+  const postRef = doc(db, "posts", postId);
 
-  const likeSnap = await getDoc(likeRef);
-  const postSnap = await getDoc(postRef);
-  const currentLikes = postSnap.data()?.likes ?? 0;
+  await runTransaction(db, async (tx) => {
+    const likeSnap = await tx.get(likeRef);
+    const isActive = likeSnap.exists() && !!likeSnap.data()?.active;
 
-  if (likeSnap.exists() && likeSnap.data().active) {
-    await updateDoc(postRef, { likes: Math.max(0, currentLikes - 1) });
-    await updateDoc(likeRef, { active: false });
-  } else if (likeSnap.exists() && !likeSnap.data().active) {
-    await updateDoc(postRef, { likes: currentLikes + 1 });
-    await updateDoc(likeRef, { active: true });
-  } else {
-    await setDoc(likeRef, {
-      postId,
-      userId,
-      createdAt: serverTimestamp(),
-      active: true,
+    tx.set(likeRef, { active: !isActive, updatedAt: serverTimestamp() }, { merge: true });
+    tx.update(postRef, {
+      likes: isActive ? increment(-1) : increment(1),
     });
-    await updateDoc(postRef, { likes: currentLikes + 1 });
-  }
-
-  if (postSnap.data()?.authorId !== userId) {
-    await addDoc(collection(db, "notifications"), {
-      type: "like",
-      fromUid: userId,
-      fromName: "",
-      fromAvatar: "",
-      toUid: postSnap.data()?.authorId,
-      postId,
-      createdAt: serverTimestamp(),
-      read: false,
-    }).catch((err) => console.error("Failed to send like notification:", err));
-  }
+  });
 }
 
 export async function uploadImage(file: File, path: string): Promise<string> {
