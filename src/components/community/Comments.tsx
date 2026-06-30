@@ -21,11 +21,13 @@ export default function Comments({ postId, comments, loading }: CommentsProps) {
   const [replyTo, setReplyTo] = useState<string | null>(null);
   const [replyContent, setReplyContent] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [commentError, setCommentError] = useState<string | null>(null);
   const [expandedReplies, setExpandedReplies] = useState<Set<string>>(new Set());
 
   const handleSubmit = async () => {
     if (!user || !profile || !newComment.trim()) return;
     setSubmitting(true);
+    setCommentError(null);
     try {
       await addComment({
         postId,
@@ -36,6 +38,9 @@ export default function Comments({ postId, comments, loading }: CommentsProps) {
         content: newComment.trim(),
       });
       setNewComment("");
+    } catch (err) {
+      setCommentError("Failed to post comment. Check console for details.");
+      console.error("Comment submission failed:", err);
     } finally {
       setSubmitting(false);
     }
@@ -97,22 +102,25 @@ export default function Comments({ postId, comments, loading }: CommentsProps) {
               {(profile?.displayName || "U").charAt(0).toUpperCase()}
             </div>
           )}
-          <div className="flex-1 flex gap-2">
-            <input
-              type="text"
-              placeholder="Write a comment..."
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-              className="flex-1 px-3 py-1.5 rounded-xl border border-white/10 bg-white/5 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-indigo-500"
-            />
-            <button
-              onClick={handleSubmit}
-              disabled={submitting || !newComment.trim()}
-              className="px-3 py-1.5 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-500 transition-colors cursor-pointer disabled:opacity-50"
-            >
-              {submitting ? <Loader2 className="w-3 h-3 animate-spin" /> : "Post"}
-            </button>
+          <div className="flex-1">
+            <div className="flex gap-2">
+              <input
+                type="text"
+                placeholder="Write a comment..."
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+                className="flex-1 px-3 py-1.5 rounded-xl border border-white/10 bg-white/5 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-indigo-500"
+              />
+              <button
+                onClick={handleSubmit}
+                disabled={submitting || !newComment.trim()}
+                className="px-3 py-1.5 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-500 transition-colors cursor-pointer disabled:opacity-50"
+              >
+                {submitting ? <Loader2 className="w-3 h-3 animate-spin" /> : "Post"}
+              </button>
+            </div>
+            {commentError && <p className="text-[10px] text-red-400 mt-1">{commentError}</p>}
           </div>
         </div>
       )}
