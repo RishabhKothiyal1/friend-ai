@@ -249,16 +249,24 @@ export async function toggleLike(postId: string, userId: string) {
   const postRef = doc(db, "posts", postId);
 
   await runTransaction(db, async (tx) => {
-    const likeSnap = await tx.get(likeRef);
+    const [likeSnap, postSnap] = await Promise.all([
+      tx.get(likeRef),
+      tx.get(postRef),
+    ]);
+
     const isActive = likeSnap.exists() && !!likeSnap.data()?.active;
+    const currentLikes = postSnap.exists() ? (postSnap.data()?.likes ?? 0) : 0;
 
     tx.set(
       likeRef,
       { active: !isActive, userId, updatedAt: serverTimestamp() },
       { merge: true }
     );
+
     tx.update(postRef, {
-      likes: isActive ? increment(-1) : increment(1),
+      likes: isActive
+        ? Math.max(0, currentLikes - 1)
+        : currentLikes + 1,
     });
   });
 }

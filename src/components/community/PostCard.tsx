@@ -15,28 +15,24 @@ interface PostCardProps {
 export default function PostCard({ post, onClick }: PostCardProps) {
   const { user } = useAuth();
   const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(post.likes ?? 0);
-  const [commentCount, setCommentCount] = useState(post.comments ?? 0);
+  const [likeCount, setLikeCount] = useState(Math.max(0, post.likes ?? 0));
+  const [commentCount, setCommentCount] = useState(Math.max(0, post.comments ?? 0));
   const [bookmarked, setBookmarked] = useState(false);
   const [isLiking, setIsLiking] = useState(false);
-  const isLikingRef = useRef(false); // prevents onSnapshot overwriting optimistic update
+  const isLikingRef = useRef(false);
 
-  // Live listener on post doc — skips likeCount update while a like is in flight
   useEffect(() => {
     if (!db) return;
     const unsub = onSnapshot(doc(db, "posts", post.id), (snap) => {
-      if (snap.exists()) {
+      if (snap.exists() && !isLikingRef.current) {
         const data = snap.data();
-        if (!isLikingRef.current) {
-          setLikeCount(data.likes ?? 0);
-        }
-        setCommentCount(data.comments ?? 0);
+        setLikeCount(Math.max(0, data.likes ?? 0));
+        setCommentCount(Math.max(0, data.comments ?? 0));
       }
     });
     return unsub;
   }, [post.id]);
 
-  // Live listener for whether current user liked this post
   useEffect(() => {
     if (!db || !user) return;
     const unsub = onSnapshot(doc(db, "likes", `${post.id}_${user.uid}`), (snap) => {
@@ -61,21 +57,17 @@ export default function PostCard({ post, onClick }: PostCardProps) {
     e.stopPropagation();
     if (!user || isLiking) return;
 
-    // Capture current values before any state changes
     const wasLiked = liked;
     const prevCount = likeCount;
 
     setIsLiking(true);
     isLikingRef.current = true;
-
-    // Optimistic update using captured values — not stale closure
     setLiked(!wasLiked);
-    setLikeCount(wasLiked ? prevCount - 1 : prevCount + 1);
+    setLikeCount(Math.max(0, wasLiked ? prevCount - 1 : prevCount + 1));
 
     try {
       await toggleLike(post.id, user.uid);
     } catch (err) {
-      // Revert to captured values on failure
       setLiked(wasLiked);
       setLikeCount(prevCount);
       console.error("Like failed:", err);
