@@ -1,0 +1,223 @@
+import React, { useEffect, useState } from 'react';
+import { db, auth } from '../../firebase/config';
+import { collection, query, where, onSnapshot, orderBy } from 'firebase/firestore';
+
+interface Letter {
+  id: string;
+  title: string;
+  body: string;
+  status: string;
+  deliverAt?: any;
+  createdAt?: any;
+  senderId: string;
+  receiverId: string;
+  receiverName?: string;
+  stampImage?: string;
+  seal?: string;
+}
+
+export const Inbox: React.FC<{
+  onOpenLetter: (letter: Letter) => void;
+  onReply: (friendName: string) => void;
+}> = ({ onOpenLetter, onReply }) => {
+  const [activeTab, setActiveTab] = useState<'inbox' | 'outbox'>('inbox');
+  const [letters, setLetters] = useState<Letter[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!auth.currentUser) return;
+
+    const q = query(
+      collection(db, 'letters'),
+      where(activeTab === 'inbox' ? 'receiverId' : 'senderId', '==', auth.currentUser.uid),
+      orderBy('createdAt', 'desc')
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const data: Letter[] = [];
+      snapshot.forEach(doc => data.push({ id: doc.id, ...doc.data() } as Letter));
+
+      const filtered = data.filter(l => {
+        if (activeTab === 'inbox') return l.status === 'delivered' || l.status === 'opened';
+        return l.status === 'waiting' || l.status === 'travelling' || l.status === 'scheduled';
+      });
+
+      setLetters(filtered);
+      setLoading(false);
+    }, (error) => {
+      console.warn("Firestore listener failed. Using mock data for inbox display.", error);
+
+      const mockLetters: Letter[] = activeTab === 'inbox'
+        ? [
+            {
+              id: 'demo1',
+              title: 'First Greeting from Denmark',
+              body: 'Hej! (This is hello in Danish!) I\'m Jens from Copenhagen, Denmark. I\'m 24 and I work as a designer. I really love writing physical letters because it forces us to express ourselves with detail instead of one-line chat bubbles. Tell me about your city! What hobbies do you enjoy? Looking forward to your response.',
+              status: 'delivered',
+              createdAt: { seconds: Date.now() / 1000 - 86400 },
+              senderId: 'mock_sender',
+              receiverId: auth.currentUser?.uid || 'user',
+              receiverName: 'Me',
+              stampImage: '🧜‍♀️',
+              seal: 'classic_red'
+            },
+            {
+              id: 'demo2',
+              title: 'Letter from Sweden',
+              body: 'Hi there! – it\'s my first time writing a letter here. I\'m a 17 year old student from Stockholm. I see that we both enjoy travel and board games! Have you ever visited Sweden? What is your favorite board game? Speak soon.',
+              status: 'opened',
+              createdAt: { seconds: Date.now() / 1000 - 172800 },
+              senderId: 'mock_sender_2',
+              receiverId: auth.currentUser?.uid || 'user',
+              receiverName: 'Me',
+              stampImage: '🗽',
+              seal: 'emerald'
+            }
+          ]
+        : [
+            {
+              id: 'demo3',
+              title: 'Replying to Jens',
+              body: 'Hello Jens! Nice to hear from you. I really like your concept of slow correspondence too. My hobbies include reading and hiking...',
+              status: 'travelling',
+              deliverAt: { seconds: Date.now() / 1000 + 14400 },
+              createdAt: { seconds: Date.now() / 1000 },
+              senderId: auth.currentUser?.uid || 'user',
+              receiverId: 'mock_sender',
+              receiverName: 'Jens',
+              stampImage: '✈️',
+              seal: 'midnight_blue'
+            }
+          ];
+      setLetters(mockLetters);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [activeTab]);
+
+  const filteredLetters = letters.filter(letter =>
+    letter.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (letter.receiverName || 'Someone').toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  return (
+    <div className="bg-[#FAFAF7] pb-24">
+      <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
+
+        {/* Header */}
+        <header className="flex justify-between items-center border-b border-[#E5E7EB] pb-4">
+          <div>
+            <h1 className="text-3xl font-[family-name:var(--font-letters-serif)] font-bold text-[#13294B]">Inbox</h1>
+            <p className="text-[#13294B]/60 text-xs">Read and keep track of your incoming letters</p>
+          </div>
+
+          <input
+            type="text"
+            placeholder="Search letters..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="px-4 py-2 border border-[#E5E7EB] rounded-full text-xs outline-none bg-white text-[#13294B] focus:ring-1 focus:ring-[#F4B400] max-w-[200px]"
+          />
+        </header>
+
+        {/* Toggle tabs */}
+        <div className="flex gap-4 border-b border-[#E5E7EB]">
+          <button
+            onClick={() => setActiveTab('inbox')}
+            className={`pb-2 text-sm font-bold transition-all relative ${
+              activeTab === 'inbox' ? 'text-[#13294B]' : 'text-[#13294B]/40'
+            }`}
+          >
+            Delivered Letters
+            {activeTab === 'inbox' && (
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#F4B400]" />
+            )}
+          </button>
+
+          <button
+            onClick={() => setActiveTab('outbox')}
+            className={`pb-2 text-sm font-bold transition-all relative ${
+              activeTab === 'outbox' ? 'text-[#13294B]' : 'text-[#13294B]/40'
+            }`}
+          >
+            Travelling Letters
+            {activeTab === 'outbox' && (
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#F4B400]" />
+            )}
+          </button>
+        </div>
+
+        {/* List of letters */}
+        {loading ? (
+          <div className="text-center py-12 text-[#13294B]/40 italic">Retrieving letters...</div>
+        ) : filteredLetters.length === 0 ? (
+          <div className="text-center py-20 bg-white border border-[#E5E7EB] rounded-2xl p-6 text-[#13294B]/50 italic">
+            No letters found here. Write letters or find new friends to fill up your inbox!
+          </div>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2">
+            {filteredLetters.map((letter) => (
+              <div
+                key={letter.id}
+                className="bg-white border border-[#E5E7EB] rounded-2xl p-5 shadow-sm flex flex-col justify-between hover:shadow-md transition relative min-h-[180px]"
+              >
+                <div>
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="flex items-center gap-2">
+                      {letter.status === 'delivered' && (
+                        <span className="w-2.5 h-2.5 rounded-full bg-[#F4B400] block animate-pulse" />
+                      )}
+                      <span className="text-xs uppercase tracking-wider text-[#13294B]/40 font-bold">
+                        {activeTab === 'inbox' ? `From ${letter.senderId === 'mock_sender' ? 'Jens' : 'Little penpal'}` : `To ${letter.receiverName || 'Friend'}`}
+                      </span>
+                    </div>
+
+                    <div className="w-10 h-12 bg-[#FAFAF7] rounded border border-[#E8E6E1] border-dashed flex items-center justify-center text-xl select-none">
+                      {letter.stampImage || '✈️'}
+                    </div>
+                  </div>
+
+                  <h3 className="text-lg font-[family-name:var(--font-letters-serif)] font-bold text-[#13294B] leading-snug">
+                    {letter.title}
+                  </h3>
+                  <p className="text-[#13294B]/75 text-sm line-clamp-3 mt-2 font-[family-name:var(--font-letters-serif)] leading-relaxed">
+                    {letter.body}
+                  </p>
+                </div>
+
+                <div className="border-t border-[#E8E6E1] pt-3 mt-4 flex justify-between items-center">
+                  <span className="text-[10px] text-[#13294B]/50 font-bold uppercase tracking-wider">
+                    {activeTab === 'inbox'
+                      ? 'Delivered'
+                      : `Arrival: ${letter.deliverAt ? new Date(letter.deliverAt.seconds * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'travelling'}`
+                    }
+                  </span>
+
+                  <div className="flex gap-2">
+                    {activeTab === 'inbox' && (
+                      <button
+                        onClick={() => onReply(letter.senderId === 'mock_sender' ? 'Jens' : 'Little penpal')}
+                        className="px-3.5 py-1.5 border border-[#E5E7EB] hover:bg-[#FAFAF7] rounded-full text-xs font-bold text-[#13294B] transition"
+                      >
+                        Reply
+                      </button>
+                    )}
+                    <button
+                      onClick={() => onOpenLetter(letter)}
+                      className="px-4 py-1.5 bg-[#13294B] text-white hover:bg-[#13294B]/95 rounded-full text-xs font-bold transition shadow-sm"
+                    >
+                      {activeTab === 'inbox' ? 'Open' : 'Preview'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+      </div>
+    </div>
+  );
+};

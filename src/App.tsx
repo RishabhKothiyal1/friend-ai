@@ -71,6 +71,7 @@ import { mozartPiano } from "./lib/mozartPiano";
 import { horrorMusic } from "./lib/horrorMusic";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Cell, LabelList } from "recharts";
 const PowerBIDashboard = React.lazy(() => import("./components/PowerBIDashboard"));
+import { LettersView } from "./components/letters/LettersView";
 import CardNav from "./components/CardNav";
 import { WhiteboardDrawingTool } from "./components/WhiteboardDrawingTool";
 
@@ -3206,9 +3207,9 @@ export default function App() {
    const [safetySimText, setSafetySimText] = useState<string>("");
   const [safetySimResult, setSafetySimResult] = useState<{ status: 'PASS' | 'CRISIS_OVERRIDE' | 'MED_LIMIT', message: string } | null>(null);
   
-  const VALID_TABS = ['chat', 'safety', 'blogs', 'publishing', 'community', 'investor', 'terms', 'privacy', 'analytics', 'journal', 'wellness', 'settings', 'directory', 'vision-mission'] as const;
+  const VALID_TABS = ['chat', 'safety', 'blogs', 'publishing', 'community', 'investor', 'terms', 'privacy', 'analytics', 'journal', 'wellness', 'letters', 'settings', 'directory', 'vision-mission'] as const;
 
-  const [activeCenterTab, setActiveCenterTab] = useState<'chat' | 'safety' | 'blogs' | 'publishing' | 'community' | 'investor' | 'terms' | 'privacy' | 'analytics' | 'journal' | 'wellness' | 'settings' | 'directory' | 'vision-mission'>(() => {
+  const [activeCenterTab, setActiveCenterTab] = useState<'chat' | 'safety' | 'blogs' | 'publishing' | 'community' | 'investor' | 'terms' | 'privacy' | 'analytics' | 'journal' | 'wellness' | 'letters' | 'settings' | 'directory' | 'vision-mission'>(() => {
     try {
       const path = window.location.pathname;
       const tab = path.replace(/^\//, ''); // strip leading slash
@@ -10208,6 +10209,10 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 </div>
               </div>
             </div>
+          )}
+
+          {activeCenterTab === 'letters' && (
+            <LettersView />
           )}
 
           {activeCenterTab === 'community' && (

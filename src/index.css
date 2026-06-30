@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 @import "tailwindcss";
 
 @font-face {
@@ -19,6 +20,16 @@
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+
+  --color-brand-bg: #FAFAF7;
+  --color-brand-primary: #13294B;
+  --color-brand-accent: #F4B400;
+  --color-brand-secondary: #E8E6E1;
+  --color-brand-paper: #FFFFFF;
+  --color-brand-border: #E5E7EB;
+
+  --font-letters-sans: 'Nunito', system-ui, -apple-system, sans-serif;
+  --font-letters-serif: 'Playfair Display', Georgia, serif;
 }
 
 /* Custom premium variables for themes */
@@ -131,6 +142,25 @@ body {
 
 .animate-fade-in-up {
   animation: fade-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes orbit1 {
+  0%, 100% { transform: translate(0, -80px) scale(0.8); }
+  25% { transform: translate(80px, 0) scale(1.2); }
+  50% { transform: translate(0, 80px) scale(0.8); }
+  75% { transform: translate(-80px, 0) scale(0.6); }
+}
+
+@keyframes orbit2 {
+  0%, 100% { transform: translate(0, 70px) scale(1.1); }
+  25% { transform: translate(-70px, 0) scale(0.7); }
+  50% { transform: translate(0, -70px) scale(1.1); }
+  75% { transform: translate(70px, 0) scale(1.3); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* Custom scrollbars */

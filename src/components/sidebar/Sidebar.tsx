@@ -61,6 +61,7 @@ export function Sidebar({
   const [historySearchQuery, setHistorySearchQuery] = useState("");
   const navItems = [
     { id: 'chat', label: 'Chat', icon: MessageSquare },
+    { id: 'letters', label: 'Letters', icon: Mail },
     { id: 'analytics', label: 'Analytics', icon: BarChart2 },
     { id: 'journal', label: 'Journal', icon: Book },
     { id: 'wellness', label: 'Wellness', icon: Wind },
