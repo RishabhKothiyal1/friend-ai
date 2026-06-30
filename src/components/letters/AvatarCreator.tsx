@@ -261,20 +261,20 @@ export const AvatarCreator: React.FC<{ onSave: (config: AvatarConfig) => void; i
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-[#E5E7EB] p-6 shadow-sm max-w-xl mx-auto flex flex-col md:flex-row gap-8 items-center">
+    <div className="bg-white dark:bg-gray-900 rounded-2xl border border-[#E5E7EB] dark:border-gray-800 p-6 shadow-sm max-w-xl mx-auto flex flex-col md:flex-row gap-8 items-center">
       <div className="flex flex-col items-center gap-4">
         <Avatar config={config} className="w-48 h-48 md:w-56 md:h-56" />
 
         <div className="flex gap-2">
           <button
             onClick={randomize}
-            className="px-4 py-2 border border-[#E5E7EB] text-[#13294B] rounded-full hover:bg-[#FAFAF7] transition text-xs font-bold"
+            className="px-4 py-2 border border-[#E5E7EB] dark:border-gray-800 text-[#13294B] dark:text-gray-100 rounded-full hover:bg-[#FAFAF7] dark:hover:bg-gray-800 transition text-xs font-bold"
           >
             🎲 Randomize
           </button>
           <button
             onClick={() => onSave(config)}
-            className="px-6 py-2 bg-[#F4B400] text-[#13294B] rounded-full hover:bg-yellow-500 transition text-xs font-bold shadow-sm"
+            className="px-6 py-2 bg-[#F4B400] dark:bg-amber-500 text-[#13294B] dark:text-gray-100 rounded-full hover:bg-yellow-500 transition text-xs font-bold shadow-sm"
           >
             Save Character
           </button>
@@ -283,7 +283,7 @@ export const AvatarCreator: React.FC<{ onSave: (config: AvatarConfig) => void; i
 
       <div className="flex-1 w-full space-y-4">
         <div>
-          <label className="text-xs uppercase tracking-wider text-[#13294B]/60 font-bold block mb-3">Select Animal Base</label>
+          <label className="text-xs uppercase tracking-wider text-[#13294B]/60 dark:text-gray-400 font-bold block mb-3">Select Animal Base</label>
           <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
             {ANIMAL_PRESETS.map((preset) => (
               <button
@@ -291,26 +291,26 @@ export const AvatarCreator: React.FC<{ onSave: (config: AvatarConfig) => void; i
                 onClick={() => setConfig({ animal: preset.id as any, bg: preset.bg })}
                 className={`flex flex-col items-center justify-center p-3.5 rounded-xl border-2 transition ${
                   config.animal === preset.id
-                    ? 'border-[#F4B400] bg-[#F4B400]/5'
-                    : 'border-[#E5E7EB] hover:bg-[#E8E6E1] bg-white'
+                    ? 'border-[#F4B400] dark:border-amber-400 bg-[#F4B400]/5 dark:bg-amber-500/10'
+                    : 'border-[#E5E7EB] dark:border-gray-800 hover:bg-[#E8E6E1] dark:hover:bg-gray-700 bg-white dark:bg-gray-900'
                 }`}
               >
                 <span className="text-3xl mb-1.5 select-none">{preset.icon}</span>
-                <span className="text-[10px] font-bold text-[#13294B]">{preset.name}</span>
+                <span className="text-[10px] font-bold text-[#13294B] dark:text-gray-100">{preset.name}</span>
               </button>
             ))}
           </div>
         </div>
 
         <div>
-          <label className="text-xs uppercase tracking-wider text-[#13294B]/60 font-bold block mb-2">Background Color</label>
+          <label className="text-xs uppercase tracking-wider text-[#13294B]/60 dark:text-gray-400 font-bold block mb-2">Background Color</label>
           <div className="flex gap-2 flex-wrap">
             {ANIMAL_PRESETS.map((preset) => (
               <button
                 key={preset.id}
                 onClick={() => setConfig(c => ({ ...c, bg: preset.bg }))}
                 style={{ backgroundColor: preset.bg }}
-                className={`w-7 h-7 rounded-full border-2 ${config.bg === preset.bg ? 'border-white ring-2 ring-[#13294B] scale-105' : 'border-transparent'}`}
+                className={`w-7 h-7 rounded-full border-2 ${config.bg === preset.bg ? 'border-white ring-2 ring-[#13294B] dark:ring-gray-100 scale-105' : 'border-transparent'}`}
                 title={preset.name + ' Color'}
               />
             ))}

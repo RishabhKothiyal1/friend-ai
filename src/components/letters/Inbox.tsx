@@ -103,14 +103,14 @@ export const Inbox: React.FC<{
   );
 
   return (
-    <div className="bg-[#FAFAF7] pb-24">
+    <div className="bg-[#FAFAF7] dark:bg-gray-950 pb-24">
       <div className="max-w-4xl mx-auto px-4 py-8 space-y-6">
 
         {/* Header */}
-        <header className="flex justify-between items-center border-b border-[#E5E7EB] pb-4">
+        <header className="flex justify-between items-center border-b border-[#E5E7EB] dark:border-gray-800 pb-4">
           <div>
-            <h1 className="text-3xl font-[family-name:var(--font-letters-serif)] font-bold text-[#13294B]">Inbox</h1>
-            <p className="text-[#13294B]/60 text-xs">Read and keep track of your incoming letters</p>
+            <h1 className="text-3xl font-[family-name:var(--font-letters-serif)] font-bold text-[#13294B] dark:text-gray-100">Inbox</h1>
+            <p className="text-[#13294B]/60 dark:text-gray-400 text-xs">Read and keep track of your incoming letters</p>
           </div>
 
           <input
@@ -118,42 +118,42 @@ export const Inbox: React.FC<{
             placeholder="Search letters..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="px-4 py-2 border border-[#E5E7EB] rounded-full text-xs outline-none bg-white text-[#13294B] focus:ring-1 focus:ring-[#F4B400] max-w-[200px]"
+            className="px-4 py-2 border border-[#E5E7EB] dark:border-gray-800 rounded-full text-xs outline-none bg-white dark:bg-gray-900 text-[#13294B] dark:text-gray-100 focus:ring-1 focus:ring-[#F4B400] dark:focus:ring-amber-400 max-w-[200px]"
           />
         </header>
 
         {/* Toggle tabs */}
-        <div className="flex gap-4 border-b border-[#E5E7EB]">
+        <div className="flex gap-4 border-b border-[#E5E7EB] dark:border-gray-800">
           <button
             onClick={() => setActiveTab('inbox')}
             className={`pb-2 text-sm font-bold transition-all relative ${
-              activeTab === 'inbox' ? 'text-[#13294B]' : 'text-[#13294B]/40'
+              activeTab === 'inbox' ? 'text-[#13294B] dark:text-gray-100' : 'text-[#13294B]/40 dark:text-gray-500'
             }`}
           >
             Delivered Letters
             {activeTab === 'inbox' && (
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#F4B400]" />
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#F4B400] dark:bg-amber-500" />
             )}
           </button>
 
           <button
             onClick={() => setActiveTab('outbox')}
             className={`pb-2 text-sm font-bold transition-all relative ${
-              activeTab === 'outbox' ? 'text-[#13294B]' : 'text-[#13294B]/40'
+              activeTab === 'outbox' ? 'text-[#13294B] dark:text-gray-100' : 'text-[#13294B]/40 dark:text-gray-500'
             }`}
           >
             Travelling Letters
             {activeTab === 'outbox' && (
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#F4B400]" />
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#F4B400] dark:bg-amber-500" />
             )}
           </button>
         </div>
 
         {/* List of letters */}
         {loading ? (
-          <div className="text-center py-12 text-[#13294B]/40 italic">Retrieving letters...</div>
+          <div className="text-center py-12 text-[#13294B]/40 dark:text-gray-500 italic">Retrieving letters...</div>
         ) : filteredLetters.length === 0 ? (
-          <div className="text-center py-20 bg-white border border-[#E5E7EB] rounded-2xl p-6 text-[#13294B]/50 italic">
+          <div className="text-center py-20 bg-white dark:bg-gray-900 border border-[#E5E7EB] dark:border-gray-800 rounded-2xl p-6 text-[#13294B]/50 dark:text-gray-400 italic">
             No letters found here. Write letters or find new friends to fill up your inbox!
           </div>
         ) : (
@@ -161,34 +161,34 @@ export const Inbox: React.FC<{
             {filteredLetters.map((letter) => (
               <div
                 key={letter.id}
-                className="bg-white border border-[#E5E7EB] rounded-2xl p-5 shadow-sm flex flex-col justify-between hover:shadow-md transition relative min-h-[180px]"
+                className="bg-white dark:bg-gray-900 border border-[#E5E7EB] dark:border-gray-800 rounded-2xl p-5 shadow-sm flex flex-col justify-between hover:shadow-md transition relative min-h-[180px]"
               >
                 <div>
                   <div className="flex justify-between items-start mb-3">
                     <div className="flex items-center gap-2">
                       {letter.status === 'delivered' && (
-                        <span className="w-2.5 h-2.5 rounded-full bg-[#F4B400] block animate-pulse" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-[#F4B400] dark:bg-amber-500 block animate-pulse" />
                       )}
-                      <span className="text-xs uppercase tracking-wider text-[#13294B]/40 font-bold">
+                      <span className="text-xs uppercase tracking-wider text-[#13294B]/40 dark:text-gray-500 font-bold">
                         {activeTab === 'inbox' ? `From ${letter.senderId === 'mock_sender' ? 'Jens' : 'Little penpal'}` : `To ${letter.receiverName || 'Friend'}`}
                       </span>
                     </div>
 
-                    <div className="w-10 h-12 bg-[#FAFAF7] rounded border border-[#E8E6E1] border-dashed flex items-center justify-center text-xl select-none">
+                    <div className="w-10 h-12 bg-[#FAFAF7] dark:bg-gray-950 rounded border border-[#E8E6E1] dark:border-gray-700 border-dashed flex items-center justify-center text-xl select-none">
                       {letter.stampImage || '✈️'}
                     </div>
                   </div>
 
-                  <h3 className="text-lg font-[family-name:var(--font-letters-serif)] font-bold text-[#13294B] leading-snug">
+                  <h3 className="text-lg font-[family-name:var(--font-letters-serif)] font-bold text-[#13294B] dark:text-gray-100 leading-snug">
                     {letter.title}
                   </h3>
-                  <p className="text-[#13294B]/75 text-sm line-clamp-3 mt-2 font-[family-name:var(--font-letters-serif)] leading-relaxed">
+                  <p className="text-[#13294B]/75 dark:text-gray-300 text-sm line-clamp-3 mt-2 font-[family-name:var(--font-letters-serif)] leading-relaxed">
                     {letter.body}
                   </p>
                 </div>
 
-                <div className="border-t border-[#E8E6E1] pt-3 mt-4 flex justify-between items-center">
-                  <span className="text-[10px] text-[#13294B]/50 font-bold uppercase tracking-wider">
+                <div className="border-t border-[#E8E6E1] dark:border-gray-700 pt-3 mt-4 flex justify-between items-center">
+                  <span className="text-[10px] text-[#13294B]/50 dark:text-gray-400 font-bold uppercase tracking-wider">
                     {activeTab === 'inbox'
                       ? 'Delivered'
                       : `Arrival: ${letter.deliverAt ? new Date(letter.deliverAt.seconds * 1000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : 'travelling'}`
@@ -199,14 +199,14 @@ export const Inbox: React.FC<{
                     {activeTab === 'inbox' && (
                       <button
                         onClick={() => onReply(letter.senderId === 'mock_sender' ? 'Jens' : 'Little penpal')}
-                        className="px-3.5 py-1.5 border border-[#E5E7EB] hover:bg-[#FAFAF7] rounded-full text-xs font-bold text-[#13294B] transition"
+                        className="px-3.5 py-1.5 border border-[#E5E7EB] dark:border-gray-800 hover:bg-[#FAFAF7] dark:hover:bg-gray-800 rounded-full text-xs font-bold text-[#13294B] dark:text-gray-100 transition"
                       >
                         Reply
                       </button>
                     )}
                     <button
                       onClick={() => onOpenLetter(letter)}
-                      className="px-4 py-1.5 bg-[#13294B] text-white hover:bg-[#13294B]/95 rounded-full text-xs font-bold transition shadow-sm"
+                      className="px-4 py-1.5 bg-[#13294B] dark:bg-gray-800 text-white hover:bg-[#13294B]/95 dark:hover:bg-gray-700 rounded-full text-xs font-bold transition shadow-sm"
                     >
                       {activeTab === 'inbox' ? 'Open' : 'Preview'}
                     </button>
