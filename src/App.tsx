@@ -6244,7 +6244,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
               <Menu className="w-5 h-5" />
             </button>
             <div className="flex items-center gap-2.5">
-              <img src="/friend_ai_mascot.png" alt="friend ai logo" className="w-9 h-9 rounded-full object-cover border border-slate-200 dark:border-white/10 shrink-0" />
+              <img src="/friend_ai_logo.png" alt="friend ai logo" className="w-9 h-9 rounded-full object-cover border border-slate-200 dark:border-white/10 shrink-0" />
               <span className="font-extrabold text-sm tracking-tight text-slate-800 dark:text-white">friend <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">ai</span></span>
             </div>
           </div>
@@ -11259,7 +11259,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
       <footer className="shrink-0 bg-white dark:bg-black border-t border-slate-200 dark:border-white/10 py-8 text-center px-4 relative z-50">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 font-sans">
           <div className="flex items-center gap-3">
-            <img src="/friend_ai_mascot.png" alt="Friend AI Logo" className="w-8 h-8 rounded-full border border-slate-200 dark:border-white/10 object-cover shrink-0" />
+            <img src="/friend_ai_logo.png" alt="Friend AI Logo" className="w-8 h-8 rounded-full border border-slate-200 dark:border-white/10 object-cover shrink-0" />
             <span className="font-extrabold text-xl tracking-tight text-slate-800 dark:text-white">friend <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">ai</span></span>
           </div>
           <div className="text-sm text-slate-500 dark:text-slate-400 font-medium flex flex-wrap items-center justify-center gap-6">

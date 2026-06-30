@@ -97,7 +97,7 @@ export function Sidebar({
         <div className="p-4 border-b border-slate-200 dark:border-white/10 flex items-center justify-between">
           <div className={`flex items-center gap-3 ${!isSidebarOpen && 'hidden'}`}>
             <img 
-              src="/friend_ai_mascot.jpg" 
+              src="/friend_ai_logo.png" 
               alt="friend ai logo" 
               className="w-10 h-10 rounded-xl object-cover border border-slate-200 dark:border-white/10 shrink-0 shadow-sm"
             />
@@ -115,7 +115,7 @@ export function Sidebar({
               <PanelLeftClose className="w-5 h-5" />
             ) : (
               <img 
-                src="/friend_ai_mascot.jpg" 
+                src="/friend_ai_logo.png" 
                 alt="Mascot Logo" 
                 className="w-8 h-8 rounded-full border border-slate-200 dark:border-white/20 object-cover hover:scale-105 active:scale-95 transition-all shadow"
               />
