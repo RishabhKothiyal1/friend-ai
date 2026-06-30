@@ -246,8 +246,14 @@ export async function toggleLike(postId: string, userId: string) {
   const likeSnap = await getDoc(likeRef);
 
   if (likeSnap.exists()) {
-    await updateDoc(postRef, { likes: increment(-1) });
-    await updateDoc(likeRef, { active: false });
+    const isActive = likeSnap.data().active;
+    if (isActive) {
+      await updateDoc(postRef, { likes: increment(-1) });
+      await updateDoc(likeRef, { active: false });
+    } else {
+      await updateDoc(postRef, { likes: increment(1) });
+      await updateDoc(likeRef, { active: true });
+    }
   } else {
     await setDoc(likeRef, {
       postId,

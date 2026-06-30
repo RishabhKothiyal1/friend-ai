@@ -102,7 +102,7 @@ export default function PostCard({ post, onClick }: PostCardProps) {
             </button>
             <span className="flex items-center gap-1 hover:text-indigo-400 transition-colors">
               <MessageCircle className="w-3.5 h-3.5" />
-              {post.comments}
+              {post.comments ?? 0}
             </span>
             <button onClick={handleBookmark} className={`flex items-center gap-1 hover:text-yellow-400 transition-colors cursor-pointer ${bookmarked ? "text-yellow-400" : ""}`}>
               <Bookmark className={`w-3.5 h-3.5 ${bookmarked ? "fill-yellow-400" : ""}`} />
