@@ -258,6 +258,9 @@ export async function toggleLike(postId: string, userId: string) {
       if (likeSnap.exists() && likeSnap.data().active) {
         transaction.update(postRef, { likes: Math.max(0, currentLikes - 1) });
         transaction.update(likeRef, { active: false });
+      } else if (likeSnap.exists() && !likeSnap.data().active) {
+        transaction.update(postRef, { likes: currentLikes + 1 });
+        transaction.update(likeRef, { active: true });
       } else {
         transaction.set(likeRef, {
           postId,

@@ -13,7 +13,7 @@ interface PostCardProps {
 export default function PostCard({ post, onClick }: PostCardProps) {
   const { user } = useAuth();
   const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(post.likes);
+  const [likeCount, setLikeCount] = useState(post.likes ?? 0);
   const [bookmarked, setBookmarked] = useState(false);
 
   const timeAgo = (timestamp: any) => {
