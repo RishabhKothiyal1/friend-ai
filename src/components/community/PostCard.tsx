@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { Heart, MessageCircle, Bookmark, Share2, Eye, Clock } from "lucide-react";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../firebase/config";
 import type { Post } from "../../types/community";
 import { useAuth } from "../../contexts/AuthContext";
 import { toggleLike } from "../../hooks/useCommunity";
@@ -16,6 +18,22 @@ export default function PostCard({ post, onClick }: PostCardProps) {
   const [likeCount, setLikeCount] = useState(post.likes ?? 0);
   const [bookmarked, setBookmarked] = useState(false);
 
+  useEffect(() => {
+    setLikeCount(post.likes ?? 0);
+  }, [post.likes]);
+
+  useEffect(() => {
+    if (!db || !user) return;
+    const unsub = onSnapshot(doc(db, "likes", `${post.id}_${user.uid}`), (snap) => {
+      if (snap.exists()) {
+        setLiked(!!snap.data().active);
+      } else {
+        setLiked(false);
+      }
+    });
+    return unsub;
+  }, [post.id, user?.uid]);
+
   const timeAgo = (timestamp: any) => {
     if (!timestamp?.toDate) return "";
     const diff = Date.now() - timestamp.toDate().getTime();
@@ -30,9 +48,11 @@ export default function PostCard({ post, onClick }: PostCardProps) {
   const handleLike = async (e: React.MouseEvent) => {
     e.stopPropagation();
     if (!user) return;
-    await toggleLike(post.id, user.uid);
-    setLiked(!liked);
-    setLikeCount((c) => (liked ? c - 1 : c + 1));
+    try {
+      await toggleLike(post.id, user.uid);
+    } catch (err) {
+      console.error("Like failed:", err);
+    }
   };
 
   const handleBookmark = (e: React.MouseEvent) => {

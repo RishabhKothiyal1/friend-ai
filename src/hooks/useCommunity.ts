@@ -19,7 +19,6 @@ import {
   startAfter,
   DocumentSnapshot,
   Timestamp,
-  runTransaction,
 } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { db, storage } from "../firebase/config";
@@ -249,50 +248,37 @@ export async function toggleLike(postId: string, userId: string) {
   const postRef = doc(db, "posts", postId);
   const likeRef = doc(db, "likes", `${postId}_${userId}`);
 
-  try {
-    await runTransaction(db, async (transaction) => {
-      const likeSnap = await transaction.get(likeRef);
-      const postSnap = await transaction.get(postRef);
-      const currentLikes = postSnap.data()?.likes ?? 0;
+  const likeSnap = await getDoc(likeRef);
+  const postSnap = await getDoc(postRef);
+  const currentLikes = postSnap.data()?.likes ?? 0;
 
-      if (likeSnap.exists() && likeSnap.data().active) {
-        transaction.update(postRef, { likes: Math.max(0, currentLikes - 1) });
-        transaction.update(likeRef, { active: false });
-      } else if (likeSnap.exists() && !likeSnap.data().active) {
-        transaction.update(postRef, { likes: currentLikes + 1 });
-        transaction.update(likeRef, { active: true });
-      } else {
-        transaction.set(likeRef, {
-          postId,
-          userId,
-          createdAt: serverTimestamp(),
-          active: true,
-        });
-        transaction.update(postRef, { likes: currentLikes + 1 });
-      }
+  if (likeSnap.exists() && likeSnap.data().active) {
+    await updateDoc(postRef, { likes: Math.max(0, currentLikes - 1) });
+    await updateDoc(likeRef, { active: false });
+  } else if (likeSnap.exists() && !likeSnap.data().active) {
+    await updateDoc(postRef, { likes: currentLikes + 1 });
+    await updateDoc(likeRef, { active: true });
+  } else {
+    await setDoc(likeRef, {
+      postId,
+      userId,
+      createdAt: serverTimestamp(),
+      active: true,
     });
-  } catch (err) {
-    console.error("Toggle like failed:", err);
-    return;
+    await updateDoc(postRef, { likes: currentLikes + 1 });
   }
 
-  const postSnap = await getDoc(postRef);
-  const post = postSnap.data() as Post;
-  if (post?.authorId !== userId) {
-    try {
-      await addDoc(collection(db, "notifications"), {
-        type: "like",
-        fromUid: userId,
-        fromName: "",
-        fromAvatar: "",
-        toUid: post?.authorId,
-        postId,
-        createdAt: serverTimestamp(),
-        read: false,
-      });
-    } catch (err) {
-      console.error("Failed to send like notification:", err);
-    }
+  if (postSnap.data()?.authorId !== userId) {
+    await addDoc(collection(db, "notifications"), {
+      type: "like",
+      fromUid: userId,
+      fromName: "",
+      fromAvatar: "",
+      toUid: postSnap.data()?.authorId,
+      postId,
+      createdAt: serverTimestamp(),
+      read: false,
+    }).catch((err) => console.error("Failed to send like notification:", err));
   }
 }
 
