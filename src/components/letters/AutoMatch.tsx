@@ -72,13 +72,13 @@ export const AutoMatch: React.FC<AutoMatchProps> = ({ onMatched, userId, alias }
       const q = query(
         collection(db, 'matchmaking'),
         where('status', '==', 'searching'),
-        where('userId', '!=', userId),
-        limit(10)
+        limit(20)
       );
       const snapshot = await getDocs(q);
 
       let matched = false;
       for (const matchDoc of snapshot.docs) {
+        if (matchDoc.id === userId) continue;
         const data = matchDoc.data();
         const partnerId = matchDoc.id;
 
@@ -95,6 +95,7 @@ export const AutoMatch: React.FC<AutoMatchProps> = ({ onMatched, userId, alias }
             ...data,
             status: 'matched',
             matchedWith: userId,
+            matchedWithAlias: alias || 'Anonymous',
             createdAt: serverTimestamp(),
           });
 
@@ -111,7 +112,7 @@ export const AutoMatch: React.FC<AutoMatchProps> = ({ onMatched, userId, alias }
           (snap) => {
             const data = snap.data();
             if (data?.status === 'matched' && data.matchedWith) {
-              setMatchedAlias(data.matchedWith);
+              setMatchedAlias(data.matchedWithAlias || data.matchedWith);
               setMatchingState('found');
               if (unsub) unsub();
             }
