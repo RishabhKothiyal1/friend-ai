@@ -3234,9 +3234,9 @@ export default function App() {
    const [safetySimText, setSafetySimText] = useState<string>("");
   const [safetySimResult, setSafetySimResult] = useState<{ status: 'PASS' | 'CRISIS_OVERRIDE' | 'MED_LIMIT', message: string } | null>(null);
   
-  const VALID_TABS = ['chat', 'safety', 'blogs', 'publishing', 'community', 'investor', 'terms', 'privacy', 'analytics', 'journal', 'wellness', 'letters', 'settings', 'directory', 'vision-mission'] as const;
+  const VALID_TABS = ['chat', 'safety', 'blogs', 'publishing', 'community', 'mood', 'terms', 'privacy', 'analytics', 'journal', 'wellness', 'letters', 'settings', 'directory', 'vision-mission'] as const;
 
-  const [activeCenterTab, setActiveCenterTab] = useState<'chat' | 'safety' | 'blogs' | 'publishing' | 'community' | 'investor' | 'terms' | 'privacy' | 'analytics' | 'journal' | 'wellness' | 'letters' | 'settings' | 'directory' | 'vision-mission'>(() => {
+  const [activeCenterTab, setActiveCenterTab] = useState<'chat' | 'safety' | 'blogs' | 'publishing' | 'community' | 'mood' | 'terms' | 'privacy' | 'analytics' | 'journal' | 'wellness' | 'letters' | 'settings' | 'directory' | 'vision-mission'>(() => {
     try {
       const path = window.location.pathname;
       const tab = path.replace(/^\//, ''); // strip leading slash
@@ -10248,7 +10248,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             </div>
           )}
 
-          {activeCenterTab === 'investor' && (
+          {activeCenterTab === 'mood' && (
             <div className={`flex-1 p-5 overflow-y-auto space-y-6 font-sans rounded-b-2xl h-[700px] xl:h-[750px] transition-all duration-300 ${themeClass("bg-white text-slate-800", "bg-black/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
               <React.Suspense fallback={
                 <div className="flex flex-col items-center justify-center p-12 space-y-3">
