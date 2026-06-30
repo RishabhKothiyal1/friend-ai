@@ -254,14 +254,9 @@ export async function toggleLike(postId: string, userId: string) {
 
     tx.set(
       likeRef,
-      {
-        active: !isActive,
-        userId,
-        updatedAt: serverTimestamp(),
-      },
+      { active: !isActive, userId, updatedAt: serverTimestamp() },
       { merge: true }
     );
-
     tx.update(postRef, {
       likes: isActive ? increment(-1) : increment(1),
     });
