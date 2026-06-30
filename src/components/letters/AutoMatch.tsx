@@ -1,8 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { db } from '../../firebase/config';
+import {
+  doc,
+  setDoc,
+  deleteDoc,
+  getDocs,
+  query,
+  where,
+  limit,
+  collection,
+  onSnapshot,
+  serverTimestamp,
+} from 'firebase/firestore';
 
-export const AutoMatch: React.FC<{ onMatched: (friendName: string) => void }> = ({ onMatched }) => {
+interface AutoMatchProps {
+  onMatched: (friendName: string) => void;
+  userId?: string;
+  alias: string;
+}
+
+export const AutoMatch: React.FC<AutoMatchProps> = ({ onMatched, userId, alias }) => {
   const [matchingState, setMatchingState] = useState<'idle' | 'searching' | 'found'>('idle');
+  const [matchedAlias, setMatchedAlias] = useState('');
   const [dots, setDots] = useState('');
+  const [error, setError] = useState('');
+  const unsubscribeRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     if (matchingState !== 'searching') return;
@@ -12,11 +34,104 @@ export const AutoMatch: React.FC<{ onMatched: (friendName: string) => void }> = 
     return () => clearInterval(interval);
   }, [matchingState]);
 
-  const startMatching = () => {
+  useEffect(() => {
+    return () => {
+      cleanup();
+    };
+  }, []);
+
+  const cleanup = async () => {
+    if (unsubscribeRef.current) {
+      unsubscribeRef.current();
+      unsubscribeRef.current = null;
+    }
+    if (userId && matchingState === 'searching') {
+      try {
+        await deleteDoc(doc(db, 'matchmaking', userId));
+      } catch {}
+    }
+  };
+
+  const startMatching = async () => {
+    if (!userId || userId === 'Guest') {
+      setError('Sign in to use Auto-Match');
+      return;
+    }
+
     setMatchingState('searching');
-    setTimeout(() => {
-      setMatchingState('found');
-    }, 4500);
+    setError('');
+
+    try {
+      await setDoc(doc(db, 'matchmaking', userId), {
+        userId,
+        alias: alias || 'Anonymous',
+        status: 'searching',
+        createdAt: serverTimestamp(),
+      });
+
+      const q = query(
+        collection(db, 'matchmaking'),
+        where('status', '==', 'searching'),
+        where('userId', '!=', userId),
+        limit(10)
+      );
+      const snapshot = await getDocs(q);
+
+      let matched = false;
+      for (const matchDoc of snapshot.docs) {
+        const data = matchDoc.data();
+        const partnerId = matchDoc.id;
+
+        try {
+          await setDoc(doc(db, 'matchmaking', userId), {
+            userId,
+            alias: alias || 'Anonymous',
+            status: 'matched',
+            matchedWith: partnerId,
+            createdAt: serverTimestamp(),
+          });
+
+          await setDoc(doc(db, 'matchmaking', partnerId), {
+            ...data,
+            status: 'matched',
+            matchedWith: userId,
+            createdAt: serverTimestamp(),
+          });
+
+          setMatchedAlias(data.alias || 'A new friend');
+          setMatchingState('found');
+          matched = true;
+          break;
+        } catch {}
+      }
+
+      if (!matched) {
+        const unsub = onSnapshot(
+          doc(db, 'matchmaking', userId),
+          (snap) => {
+            const data = snap.data();
+            if (data?.status === 'matched' && data.matchedWith) {
+              setMatchedAlias(data.matchedWith);
+              setMatchingState('found');
+              if (unsub) unsub();
+            }
+          },
+          () => {}
+        );
+        unsubscribeRef.current = unsub;
+      }
+    } catch (e) {
+      setError('Connection error. Try again.');
+      setMatchingState('idle');
+    }
+  };
+
+  const handleSendLetter = () => {
+    if (unsubscribeRef.current) {
+      unsubscribeRef.current();
+      unsubscribeRef.current = null;
+    }
+    onMatched(matchedAlias || 'New Friend');
   };
 
   return (
@@ -34,8 +149,12 @@ export const AutoMatch: React.FC<{ onMatched: (friendName: string) => void }> = 
 
           <h2 className="text-2xl font-[family-name:var(--font-letters-serif)] font-bold text-[#13294B] dark:text-gray-100">Ready to meet a new pen-pal?</h2>
           <p className="text-[#13294B]/70 dark:text-gray-300 text-sm">
-            Press Auto-Match, and our delivery engine will pair you with a compatible friend somewhere around the world based on your shared interests and language.
+            Press Auto-Match, and our delivery engine will pair you with a compatible friend somewhere around the world.
           </p>
+
+          {error && (
+            <p className="text-red-500 dark:text-red-400 text-xs font-bold">{error}</p>
+          )}
 
           <button
             onClick={startMatching}
@@ -79,7 +198,7 @@ export const AutoMatch: React.FC<{ onMatched: (friendName: string) => void }> = 
             Searching around the world{dots}
           </h3>
           <p className="text-[#13294B]/60 dark:text-gray-400 text-xs max-w-xs">
-            Calculating relationship values, location matrices, and letter frequencies...
+            Scanning the globe for a fellow letter-writer...
           </p>
         </div>
       )}
@@ -92,7 +211,7 @@ export const AutoMatch: React.FC<{ onMatched: (friendName: string) => void }> = 
 
           <div className="space-y-2">
             <span className="text-xs uppercase tracking-widest text-[#F4B400] dark:text-amber-400 font-bold">New Connection Found!</span>
-            <h2 className="text-2xl font-[family-name:var(--font-letters-serif)] font-bold text-[#13294B] dark:text-gray-100">A new friend is waiting!</h2>
+            <h2 className="text-2xl font-[family-name:var(--font-letters-serif)] font-bold text-[#13294B] dark:text-gray-100">Matched with {matchedAlias}!</h2>
             <p className="text-[#13294B]/70 dark:text-gray-300 text-sm">
               Someone with similar interests is looking for a pen-pal. Write them a letter to get started!
             </p>
@@ -106,7 +225,7 @@ export const AutoMatch: React.FC<{ onMatched: (friendName: string) => void }> = 
               Skip
             </button>
             <button
-              onClick={() => onMatched("New Friend")}
+              onClick={handleSendLetter}
               className="flex-1 bg-[#13294B] dark:bg-gray-800 text-white font-bold py-2.5 rounded-full hover:bg-[#13294B]/95 dark:hover:bg-gray-700 transition text-sm"
             >
               Send First Letter

@@ -85,7 +85,7 @@ export function LettersView({ alias, userId }: LettersViewProps) {
           )}
 
           {activeTab === 'find' && (
-            <FindFriends onMatched={handleMatchedFriend} />
+            <FindFriends onMatched={handleMatchedFriend} userId={userId} alias={alias} />
           )}
 
           {activeTab === 'write' && (

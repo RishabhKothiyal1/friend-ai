@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { AutoMatch } from './AutoMatch';
 
-export const FindFriends: React.FC<{ onMatched: (friendName: string) => void }> = ({ onMatched }) => {
+interface FindFriendsProps {
+  onMatched: (friendName: string) => void;
+  userId?: string;
+  alias: string;
+}
+
+export const FindFriends: React.FC<FindFriendsProps> = ({ onMatched, userId, alias }) => {
   const [mode, setMode] = useState<'selection' | 'auto'>('selection');
   const [friendIdInput, setFriendIdInput] = useState('');
 
@@ -64,7 +70,7 @@ export const FindFriends: React.FC<{ onMatched: (friendName: string) => void }> 
 
         {mode === 'auto' && (
           <div className="bg-white dark:bg-gray-900 border border-[#E5E7EB] dark:border-gray-800 rounded-2xl p-8 shadow-sm">
-            <AutoMatch onMatched={onMatched} />
+            <AutoMatch onMatched={onMatched} userId={userId} alias={alias} />
           </div>
         )}
 
