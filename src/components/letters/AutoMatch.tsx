@@ -16,12 +16,10 @@ import {
 interface AutoMatchProps {
   onMatched: (friendName: string) => void;
   userId?: string;
-  alias: string;
-  username?: string;
 }
 
-export const AutoMatch: React.FC<AutoMatchProps> = ({ onMatched, userId, alias, username }) => {
-  const userLabel = username || alias || auth.currentUser?.displayName || auth.currentUser?.email?.split('@')[0] || 'Anonymous';
+export const AutoMatch: React.FC<AutoMatchProps> = ({ onMatched, userId }) => {
+  const userLabel = auth.currentUser?.uid || 'Anonymous';
   const [matchingState, setMatchingState] = useState<'idle' | 'searching' | 'found'>('idle');
   const [matchedAlias, setMatchedAlias] = useState('');
   const [dots, setDots] = useState('');

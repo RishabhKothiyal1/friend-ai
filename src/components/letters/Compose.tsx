@@ -6,10 +6,10 @@ import { STAMP_LIST } from './StampAlbum';
 interface ComposeProps {
   preselectedFriend?: string;
   onLetterSent?: () => void;
-  alias?: string;
+  userId?: string;
 }
 
-export const Compose: React.FC<ComposeProps> = ({ preselectedFriend = 'a friend', onLetterSent, alias }) => {
+export const Compose: React.FC<ComposeProps> = ({ preselectedFriend = 'a friend', onLetterSent, userId }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [deliveryMode, setDeliveryMode] = useState('distance');
@@ -53,7 +53,7 @@ export const Compose: React.FC<ComposeProps> = ({ preselectedFriend = 'a friend'
     try {
       await addDoc(collection(db, 'letters'), {
         senderId: auth.currentUser.uid,
-        senderName: alias || auth.currentUser?.displayName || auth.currentUser?.email?.split('@')[0] || 'Someone',
+        senderName: userId || auth.currentUser?.uid || 'Anonymous',
         receiverId: 'anonymous_friend',
         receiverName: preselectedFriend,
         title: title || 'A letter from afar',

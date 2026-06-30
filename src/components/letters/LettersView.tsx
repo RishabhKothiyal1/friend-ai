@@ -8,12 +8,10 @@ import { AvatarCreator, Avatar, AvatarConfig } from './AvatarCreator';
 import { LetterReader } from './LetterReader';
 
 interface LettersViewProps {
-  alias: string;
-  username?: string;
   userId?: string;
 }
 
-export function LettersView({ alias, username, userId }: LettersViewProps) {
+export function LettersView({ userId }: LettersViewProps) {
   const [activeTab, setActiveTab] = useState<'home' | 'inbox' | 'find' | 'write' | 'profile'>('home');
 
   const [readingLetter, setReadingLetter] = useState<any | null>(null);
@@ -86,14 +84,14 @@ export function LettersView({ alias, username, userId }: LettersViewProps) {
           )}
 
           {activeTab === 'find' && (
-            <FindFriends onMatched={handleMatchedFriend} userId={userId} alias={alias} username={username} />
+            <FindFriends onMatched={handleMatchedFriend} userId={userId} />
           )}
 
           {activeTab === 'write' && (
-            <Compose
+              <Compose
               preselectedFriend={composeTargetFriend}
               onLetterSent={() => setActiveTab('inbox')}
-              alias={alias}
+              userId={userId}
             />
           )}
 
@@ -105,9 +103,9 @@ export function LettersView({ alias, username, userId }: LettersViewProps) {
                   <div className="space-y-3 text-center md:text-left flex-1">
                     <div>
                       <p className="text-2xl font-[family-name:var(--font-letters-serif)] font-bold text-[#13294B] dark:text-gray-100">
-                        {alias || 'Anonymous'}
+                        {userId || 'Anonymous'}
                       </p>
-                      <p className="text-[#13294B]/50 dark:text-gray-400 text-xs mt-1">@{alias || 'anonymous'}</p>
+                      <p className="text-[#13294B]/50 dark:text-gray-400 text-xs mt-1">UID: {userId || 'anonymous'}</p>
                     </div>
                     <div className="flex flex-wrap gap-2 justify-center md:justify-start">
                       <button

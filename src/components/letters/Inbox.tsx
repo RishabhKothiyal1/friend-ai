@@ -57,7 +57,7 @@ export const Inbox: React.FC<{
     return () => unsubscribe();
   }, [activeTab]);
 
-  const displayName = (letter: Letter) => letter.senderName || letter.receiverName || 'Someone';
+  const displayName = (letter: Letter) => (activeTab === 'inbox' ? letter.senderName : letter.receiverName) || 'Anonymous';
 
   const filteredLetters = letters.filter(letter =>
     letter.title.toLowerCase().includes(searchQuery.toLowerCase()) ||

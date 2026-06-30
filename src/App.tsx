@@ -10212,7 +10212,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           )}
 
           {activeCenterTab === 'letters' && (
-            <LettersView alias={loginAlias} username={profileUsername} userId={auth.currentUser?.uid || loginAlias || 'Guest'} />
+            <LettersView userId={auth.currentUser?.uid || loginAlias || 'Guest'} />
           )}
 
           {activeCenterTab === 'community' && (
