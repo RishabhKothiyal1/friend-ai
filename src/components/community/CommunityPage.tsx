@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import {
   Home, TrendingUp, Users, Bookmark, Bell, User, Settings, Shield,
   Plus, Search, Hash, Loader2, Heart, MessageCircle, Eye, ArrowLeft, Sparkles
 } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
-import { useComments, useNotifications } from "../../hooks/useCommunity";
+import { useComments, useNotifications, toggleLike } from "../../hooks/useCommunity";
+import { doc, onSnapshot } from "firebase/firestore";
+import { db } from "../../firebase/config";
 import type { Post } from "../../types/community";
 import Feed from "./Feed";
 import Comments from "./Comments";
@@ -126,7 +128,39 @@ export default function CommunityPage({ onOpenAuth }: { onOpenAuth?: () => void 
 }
 
 function PostDetailView({ post, onBack }: { post: Post; onBack: () => void }) {
+  const { user } = useAuth();
   const { comments, loading } = useComments(post.id);
+  const [livePost, setLivePost] = useState(post);
+  const [liked, setLiked] = useState(false);
+
+  useEffect(() => {
+    if (!db) return;
+    const unsub = onSnapshot(doc(db, "posts", post.id), (snap) => {
+      if (snap.exists()) {
+        setLivePost({ id: snap.id, ...snap.data() } as Post);
+      }
+    });
+    return unsub;
+  }, [post.id]);
+
+  useEffect(() => {
+    if (!db || !user) return;
+    const unsub = onSnapshot(doc(db, "likes", `${post.id}_${user.uid}`), (snap) => {
+      if (snap.exists()) {
+        setLiked(!!snap.data().active);
+      } else {
+        setLiked(false);
+      }
+    });
+    return unsub;
+  }, [post.id, user?.uid]);
+
+  const handleLike = async () => {
+    if (!user) return;
+    await toggleLike(post.id, user.uid);
+  };
+
+  const commentCount = comments.length;
 
   const timeAgo = (timestamp: any) => {
     if (!timestamp?.toDate) return "";
@@ -168,15 +202,21 @@ function PostDetailView({ post, onBack }: { post: Post; onBack: () => void }) {
           </div>
         )}
         <div className="flex items-center gap-4 text-xs text-slate-400 border-t border-white/10 pt-3">
-          <span className="flex items-center gap-1"><Heart className="w-3.5 h-3.5" />{post.likes}</span>
-          <span className="flex items-center gap-1"><MessageCircle className="w-3.5 h-3.5" />{post.comments}</span>
-          <span className="flex items-center gap-1 ml-auto"><Eye className="w-3.5 h-3.5" />{post.views}</span>
+          <button onClick={handleLike} className={`flex items-center gap-1 hover:text-red-400 transition-colors cursor-pointer ${liked ? "text-red-400" : ""}`}>
+            <Heart className={`w-3.5 h-3.5 ${liked ? "fill-red-400" : ""}`} />
+            {livePost.likes}
+          </button>
+          <span className="flex items-center gap-1">
+            <MessageCircle className="w-3.5 h-3.5" />
+            {commentCount}
+          </span>
+          <span className="flex items-center gap-1 ml-auto"><Eye className="w-3.5 h-3.5" />{livePost.views}</span>
         </div>
       </div>
       <div className="p-4 rounded-xl border border-white/10 bg-white/[0.03]">
         <h3 className="text-xs font-bold text-slate-200 mb-3 flex items-center gap-1.5">
           <MessageCircle className="w-3.5 h-3.5" />
-          Comments ({post.comments})
+          Comments ({commentCount})
         </h3>
         <Comments postId={post.id} comments={comments} loading={loading} onRefresh={() => {}} />
       </div>
