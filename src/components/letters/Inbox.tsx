@@ -10,6 +10,7 @@ interface Letter {
   deliverAt?: any;
   createdAt?: any;
   senderId: string;
+  senderName?: string;
   receiverId: string;
   receiverName?: string;
   stampImage?: string;
@@ -56,9 +57,11 @@ export const Inbox: React.FC<{
     return () => unsubscribe();
   }, [activeTab]);
 
+  const displayName = (letter: Letter) => letter.senderName || letter.receiverName || 'Someone';
+
   const filteredLetters = letters.filter(letter =>
     letter.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (letter.receiverName || 'Someone').toLowerCase().includes(searchQuery.toLowerCase())
+    displayName(letter).toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -129,7 +132,7 @@ export const Inbox: React.FC<{
                         <span className="w-2.5 h-2.5 rounded-full bg-[#F4B400] dark:bg-amber-500 block animate-pulse" />
                       )}
                       <span className="text-xs uppercase tracking-wider text-[#13294B]/40 dark:text-gray-500 font-bold">
-                        {activeTab === 'inbox' ? `From ${letter.senderId}` : `To ${letter.receiverName || 'Friend'}`}
+                        {activeTab === 'inbox' ? `From ${displayName(letter)}` : `To ${displayName(letter)}`}
                       </span>
                     </div>
 
@@ -157,7 +160,7 @@ export const Inbox: React.FC<{
                   <div className="flex gap-2">
                     {activeTab === 'inbox' && (
                       <button
-                        onClick={() => onReply(letter.senderId)}
+                        onClick={() => onReply(displayName(letter))}
                         className="px-3.5 py-1.5 border border-[#E5E7EB] dark:border-gray-800 hover:bg-[#FAFAF7] dark:hover:bg-gray-800 rounded-full text-xs font-bold text-[#13294B] dark:text-gray-100 transition"
                       >
                         Reply

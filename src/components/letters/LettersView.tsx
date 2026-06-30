@@ -105,7 +105,7 @@ export function LettersView({ alias, userId }: LettersViewProps) {
                       <p className="text-2xl font-[family-name:var(--font-letters-serif)] font-bold text-[#13294B] dark:text-gray-100">
                         {alias || 'Anonymous'}
                       </p>
-                      <p className="text-[#13294B]/50 dark:text-gray-400 text-xs mt-1">User ID: {userId}</p>
+                      <p className="text-[#13294B]/50 dark:text-gray-400 text-xs mt-1">@{alias || 'anonymous'}</p>
                     </div>
                     <div className="flex flex-wrap gap-2 justify-center md:justify-start">
                       <button

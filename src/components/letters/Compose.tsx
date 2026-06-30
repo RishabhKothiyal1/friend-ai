@@ -52,6 +52,7 @@ export const Compose: React.FC<ComposeProps> = ({ preselectedFriend = 'a friend'
     try {
       await addDoc(collection(db, 'letters'), {
         senderId: auth.currentUser.uid,
+        senderName: auth.currentUser.displayName || preselectedFriend || auth.currentUser.email?.split('@')[0] || 'Someone',
         receiverId: 'anonymous_friend',
         receiverName: preselectedFriend,
         title: title || 'A letter from afar',
