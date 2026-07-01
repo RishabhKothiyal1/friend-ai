@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dashboard } from './Dashboard';
 import { Inbox } from './Inbox';
 import { FindFriends } from './FindFriends';
@@ -20,10 +20,17 @@ export function LettersView({ userId }: LettersViewProps) {
 
   const [composeTargetFriend, setComposeTargetFriend] = useState<string>('');
 
-  const [avatarConfig, setAvatarConfig] = useState<AvatarConfig>({
-    animal: 'pig',
-    bg: '#7A9E85'
+  const [avatarConfig, setAvatarConfig] = useState<AvatarConfig>(() => {
+    try {
+      const saved = localStorage.getItem('pfai_avatar_config');
+      if (saved) return JSON.parse(saved);
+    } catch {}
+    return { animal: 'pig' as const, bg: '#7A9E85' };
   });
+
+  useEffect(() => {
+    localStorage.setItem('pfai_avatar_config', JSON.stringify(avatarConfig));
+  }, [avatarConfig]);
 
   const [editAvatar, setEditAvatar] = useState(false);
 
