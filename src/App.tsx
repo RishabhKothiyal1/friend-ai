@@ -6527,7 +6527,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       >
                         <div className="flex items-center justify-between gap-2 mb-2">
                           <div className="flex items-center gap-1.5 min-w-0">
-                            <span className="text-[11px] font-bold uppercase tracking-wider font-mono bg-indigo-50 dark:bg-white/[0.02] text-indigo-700 dark:text-indigo-300 px-1.5 py-0.5 rounded truncate">
+                            <span className="text-[11px] font-bold uppercase tracking-wider font-mono bg-indigo-50 dark:bg-white/[0.02] text-[#7A9E85] dark:text-indigo-300 px-1.5 py-0.5 rounded truncate">
                               {clickedTrendPoint.entry.mood}
                             </span>
                             <span className="text-[10px] font-bold text-indigo-505 font-mono shrink-0">
@@ -6743,12 +6743,12 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                   const getIntensityStyle = (intensity: number) => {
                     if (intensity <= 3) {
                       return {
-                        border: themeClass("border-emerald-250 hover:border-emerald-300", "border-emerald-800/40 hover:border-emerald-700/50", "border-emerald-700/25 hover:border-emerald-700/40"),
-                        bg: themeClass("bg-emerald-50/15 hover:bg-emerald-50/25", "bg-emerald-950/15 hover:bg-emerald-950/25", "bg-emerald-100/10 hover:bg-emerald-100/15"),
+                        border: themeClass("border-[#7A9E85]/30 hover:border-[#7A9E85]/50", "border-emerald-800/40 hover:border-emerald-700/50", "border-emerald-700/25 hover:border-emerald-700/40"),
+                        bg: themeClass("bg-[#7A9E85]/5 hover:bg-[#7A9E85]/10", "bg-emerald-950/15 hover:bg-emerald-950/25", "bg-emerald-100/10 hover:bg-emerald-100/15"),
                         text: themeClass("text-slate-800", "text-emerald-100", "text-[#3e2723]"),
                         subText: themeClass("text-slate-600", "text-slate-400", "text-amber-900/70"),
                         badge: themeClass(
-                          "bg-emerald-50/80 text-emerald-700 border-emerald-200",
+                          "bg-[#7A9E85]/10 text-[#7A9E85] border-[#7A9E85]/30",
                           "bg-emerald-950/45 text-emerald-400 border-emerald-900/50",
                           "bg-emerald-100/45 text-emerald-900 border-emerald-300/30"
                         )
@@ -6880,7 +6880,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                   >
                     <p className="text-xs text-slate-700 dark:text-slate-300 leading-normal font-sans italic">"{msg.text}"</p>
                     <div className="flex items-center justify-between mt-2.5 pt-2 border-t border-slate-100 dark:border-white/10">
-                      <span className="text-[10px] text-indigo-700 dark:text-indigo-300 font-semibold font-sans">{msg.location}</span>
+                      <span className="text-[10px] text-[#7A9E85] dark:text-indigo-300 font-semibold font-sans">{msg.location}</span>
                       
                       <motion.button
                         whileHover="hover"
@@ -7257,19 +7257,19 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             </div>
           )}
           {activeCenterTab === 'wellness' && (
-            <div className={`flex-1 flex flex-col items-center justify-start p-4 md:p-8 animate-fade-in overflow-y-auto relative ${themeClass("bg-gradient-to-b from-emerald-50/40 to-white", "bg-gradient-to-b from-emerald-950/10 to-transparent", "bg-gradient-to-b from-[#f2eadd]/40 to-transparent")}`}>
-              <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-emerald-200 dark:via-emerald-800 to-transparent opacity-50"></div>
+            <div className={`flex-1 flex flex-col items-center justify-start p-4 md:p-8 animate-fade-in overflow-y-auto relative ${themeClass("bg-gradient-to-b from-[#FAF8F5] to-white", "bg-gradient-to-b from-emerald-950/10 to-transparent", "bg-gradient-to-b from-[#f2eadd]/40 to-transparent")}`}>
+              <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#7A9E85]/30 dark:via-[#7A9E85]/50 to-transparent opacity-50"></div>
               
-              <div className="w-full max-w-4xl mx-auto flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-6 mb-10 shrink-0 p-6 md:p-8 rounded-3xl border shadow-sm transition-all duration-500 hover:shadow-md bg-white/60 dark:bg-black/40 backdrop-blur-md border-emerald-100/50 dark:border-emerald-800/30 relative overflow-hidden group">
-                <div className="absolute -right-20 -top-20 w-40 h-40 bg-emerald-400/10 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-150"></div>
+              <div className="w-full max-w-4xl mx-auto flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-6 mb-10 shrink-0 p-6 md:p-8 rounded-3xl border shadow-sm transition-all duration-500 hover:shadow-md bg-white/60 dark:bg-black/40 backdrop-blur-md border-[#EDEBE7] dark:border-[#7A9E85]/30 relative overflow-hidden group">
+                <div className="absolute -right-20 -top-20 w-40 h-40 bg-[#7A9E85]/10 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-150"></div>
                 <div className="absolute -left-10 -bottom-10 w-32 h-32 bg-teal-400/10 rounded-full blur-2xl transition-transform duration-1000 group-hover:scale-150"></div>
                 
-                <div className="w-20 h-20 bg-gradient-to-br from-emerald-100 to-teal-50 dark:from-emerald-900/60 dark:to-teal-900/40 rounded-2xl flex items-center justify-center shrink-0 shadow-inner border border-emerald-200/50 dark:border-emerald-700/30 transform transition-transform group-hover:rotate-3 group-hover:scale-105">
-                  <Wind className="w-10 h-10 text-emerald-600 dark:text-emerald-400" />
+                <div className="w-20 h-20 bg-gradient-to-br from-[#7A9E85]/10 to-[#7A9E85]/5 dark:from-[#7A9E85]/30 dark:to-[#7A9E85]/20 rounded-2xl flex items-center justify-center shrink-0 shadow-inner border border-[#EDEBE7] dark:border-[#7A9E85]/30 transform transition-transform group-hover:rotate-3 group-hover:scale-105">
+                  <Wind className="w-10 h-10 text-[#7A9E85] dark:text-[#7A9E85]" />
                 </div>
                 <div className="relative z-10 flex flex-col justify-center">
                   <h2 className="text-3xl font-black font-display tracking-tight text-slate-800 dark:text-slate-100 mb-2">
-                    Wellness <span className="text-emerald-600 dark:text-emerald-400">&amp; Somatics</span>
+                    Wellness <span className="text-[#7A9E85] dark:text-[#7A9E85]">&amp; Somatics</span>
                   </h2>
                   <p className="text-sm text-slate-600 dark:text-slate-400 max-w-lg leading-relaxed font-medium">
                     Explore clinically-aligned guided breathing, physiological anchoring, and localized nervous system de-escalation tools. Completely private.
@@ -8030,7 +8030,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 <h3 className={`text-sm font-bold font-display ${themeClass("text-slate-800", "text-white", "text-[#3e2723]")}`}>Somatic State Embodiment</h3>
                 <p className={`text-[11px] font-sans mt-0.5 ${themeClass("text-slate-500", "text-slate-400", "text-amber-900/70")}`}>Visual templates for nervous system states.</p>
               </div>
-              <span className={`text-[9px] uppercase font-mono font-bold px-2 py-0.5 rounded border ${themeClass("bg-indigo-50 text-indigo-705 border-indigo-200", "bg-indigo-950/40 text-indigo-400 border-indigo-850", "bg-indigo-100/30 text-indigo-900 border-[#e3d5be]")}`}>
+              <span className={`text-[9px] uppercase font-mono font-bold px-2 py-0.5 rounded border ${themeClass("bg-[#7A9E85]/10 text-[#7A9E85] border-[#7A9E85]/30", "bg-indigo-950/40 text-indigo-400 border-indigo-850", "bg-indigo-100/30 text-indigo-900 border-[#e3d5be]")}`}>
                 Protocols
               </span>
             </div>
@@ -9138,12 +9138,12 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                         <div className={`p-2.5 rounded-lg border flex items-center justify-between ${themeClass("bg-slate-50 border-slate-220", "bg-black/40 border-slate-805", "bg-[#f5f0e3] border-[#ebdcb9]")}`}>
                           <div>
                             <span className="text-[9.5px] text-slate-500 block uppercase font-mono tracking-wider">Active Dialogue Load</span>
-                            <span className={`text-[11px] font-bold mt-0.5 block ${themeClass("text-indigo-700", "text-indigo-400", "text-[#5c3e21]")}`}>{chatHistory.length} query exchanges completed</span>
+                            <span className={`text-[11px] font-bold mt-0.5 block ${themeClass("text-[#7A9E85]", "text-indigo-400", "text-[#5c3e21]")}`}>{chatHistory.length} query exchanges completed</span>
                           </div>
                           <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded font-mono border ${
                             chatHistory.length >= 8 
-                              ? "bg-amber-100 text-amber-850 border-amber-300"
-                              : "bg-emerald-100 text-emerald-850 border-emerald-300"
+                              ? "bg-[#F0EBD6] text-[#6B6B6B] border-[#EDEBE7]"
+                              : "bg-[#7A9E85]/10 text-[#7A9E85] border-[#7A9E85]/30"
                           }`}>
                             {chatHistory.length >= 8 ? "Take a physical walk" : "Session healthy"}
                           </span>
@@ -9423,7 +9423,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           <div className={`p-4 rounded-xl border space-y-3 mt-4 animate-fade-in ${themeClass("bg-white border-slate-200", "bg-slate-950/60 border-white/10", "bg-[#faf6ee] border-[#ebdcb9]")}`}>
                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-1.5">
                               <span className="font-mono text-[9px] font-bold text-slate-500 uppercase">Differential Privacy Simulator</span>
-                              <span className="font-mono text-[9px] font-bold bg-indigo-100 dark:bg-indigo-900/35 px-2 py-0.5 rounded text-indigo-700 dark:text-indigo-300 select-none">
+                              <span className="font-mono text-[9px] font-bold bg-indigo-100 dark:bg-indigo-900/35 px-2 py-0.5 rounded text-[#7A9E85] dark:text-indigo-300 select-none">
                                 Noise param Budget (Epsilon: ε = {differentialEpsilon})
                               </span>
                             </div>
@@ -9446,7 +9446,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                               <div className={`p-2.5 rounded text-[8.5px] font-mono leading-relaxed select-none ${themeClass("bg-slate-50 text-slate-600", "bg-black text-slate-300", "bg-[#fffcf5] text-[#5e4337]")}`}>
                                 <p className="font-bold uppercase text-[8px] text-slate-400 mb-1">Differential Privacy Evaluation:</p>
                                 {differentialEpsilon <= 1.5 ? (
-                                  <p className="text-emerald-600 dark:text-emerald-400 font-bold">
+                                  <p className="text-[#7A9E85] dark:text-[#7A9E85] font-bold">
                                     🟢 STATE-OF-THE-ART VALUE: Robust noise floor active. Individual user records (such as sensitive PTSD/mood history) are perfectly blurred, making personal profiling mathematically impossible.
                                   </p>
                                 ) : differentialEpsilon <= 3.2 ? (
@@ -9517,19 +9517,19 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                             <span className="font-mono text-[9px] font-bold text-indigo-600 dark:text-indigo-400 block uppercase">Regulatory Alignment Scores:</span>
                             
                             <div className="grid grid-cols-2 gap-2 text-[9px] font-sans font-semibold">
-                              <span className="flex items-center gap-2 select-none text-emerald-600 dark:text-emerald-400">
+                              <span className="flex items-center gap-2 select-none text-[#7A9E85] dark:text-[#7A9E85]">
                                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
                                 <span>IEEE Global Initiative Compliant</span>
                               </span>
-                              <span className="flex items-center gap-2 select-none text-emerald-600 dark:text-emerald-400">
+                              <span className="flex items-center gap-2 select-none text-[#7A9E85] dark:text-[#7A9E85]">
                                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
                                 <span>GDPR Data Provisions Active</span>
                               </span>
-                              <span className="flex items-center gap-2 select-none text-emerald-600 dark:text-emerald-400">
+                              <span className="flex items-center gap-2 select-none text-[#7A9E85] dark:text-[#7A9E85]">
                                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
                                 <span>Sandbox Offline Sovereign</span>
                               </span>
-                              <span className="flex items-center gap-2 select-none text-emerald-600 dark:text-emerald-400">
+                              <span className="flex items-center gap-2 select-none text-[#7A9E85] dark:text-[#7A9E85]">
                                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
                                 <span>Differential Epsilon Control</span>
                               </span>
@@ -9611,7 +9611,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 <div className="space-y-5 animate-fade-in text-[11px] text-left">
                   {/* Altaf Character Ownership Banner */}
                   <div className="p-4 rounded-xl border border-indigo-100 dark:border-indigo-950/25 bg-indigo-50/30 dark:bg-white/[0.02]/10 text-slate-750 dark:text-slate-250 flex flex-col sm:flex-row items-center gap-4.5 mb-5 select-none shadow-xs">
-                    <div className="w-11 h-11 rounded-lg bg-indigo-600/10 border border-indigo-200/50 text-indigo-700 dark:text-indigo-400 shrink-0 flex items-center justify-center font-bold text-lg select-none shadow-3xs">
+                    <div className="w-11 h-11 rounded-lg bg-indigo-600/10 border border-indigo-200/50 text-[#7A9E85] dark:text-indigo-400 shrink-0 flex items-center justify-center font-bold text-lg select-none shadow-3xs">
                       🎧
                     </div>
                     <div className="space-y-1 text-center sm:text-left flex-1 min-w-0">
@@ -9625,12 +9625,12 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     </div>
                   </div>
 
-                  <div className={`border p-4.5 rounded-2xl space-y-4 ${themeClass("bg-[#f0f9f4]/80 border-emerald-100", "bg-emerald-950/10 border-emerald-900/20", "bg-[#eaf5ec] border-[#cbe4d1]")}`}>
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b pb-3.5 border-emerald-100 dark:border-emerald-900/30">
+                  <div className={`border p-4.5 rounded-2xl space-y-4 ${themeClass("bg-[#FAF8F5] border-[#EDEBE7]", "bg-emerald-950/10 border-emerald-900/20", "bg-[#eaf5ec] border-[#cbe4d1]")}`}>
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b pb-3.5 border-[#EDEBE7] dark:border-[#7A9E85]/30">
                       <div className="space-y-1">
                         <div className="flex items-center gap-2">
-                          <span className="p-1 px-1.5 rounded bg-emerald-500 text-white font-mono text-[9px] font-bold">CORE_ENG_ACTIVE</span>
-                          <h4 className={`text-xs md:text-sm font-bold font-display ${themeClass("text-emerald-950", "text-emerald-300", "text-[#1b3d24]")}`}>
+                          <span className="p-1 px-1.5 rounded bg-[#7A9E85] text-white font-mono text-[9px] font-bold">CORE_ENG_ACTIVE</span>
+                          <h4 className={`text-xs md:text-sm font-bold font-display ${themeClass("text-[#2B2B2B]", "text-emerald-300", "text-[#1b3d24]")}`}>
                             Zero-Trust Antivirus Shield &amp; Threat Detection Framework
                           </h4>
                         </div>
@@ -9827,13 +9827,13 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     </div>
 
                     {/* Altaf's Video Sanctuary Activation Panel */}
-                    <div className={`p-4 rounded-xl border ${themeClass("bg-indigo-50/50 border-indigo-100", "bg-white/[0.02]/10 border-white/10/30", "bg-[#f5eeff] border-[#ebd9ff]")} space-y-3 text-left`}>
+                    <div className={`p-4 rounded-xl border ${themeClass("bg-[#7A9E85]/5 border-[#EDEBE7]", "bg-white/[0.02]/10 border-white/10/30", "bg-[#f5eeff] border-[#ebd9ff]")} space-y-3 text-left`}>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-1.5">
-                          <span className="p-1 px-1.5 rounded bg-indigo-650 text-white font-mono text-[9px] font-bold">ZEUS_MEDIA_INTEGRITY</span>
+                          <span className="p-1 px-1.5 rounded bg-[#7A9E85] text-white font-mono text-[9px] font-bold">ZEUS_MEDIA_INTEGRITY</span>
                           <span className="text-xs font-bold text-slate-800 dark:text-slate-200 font-sans">📹 Zeus's Video Sanctuary &amp; Symmetrical Mirror</span>
                         </div>
-                        <span className="text-[9px] font-semibold text-indigo-500 uppercase font-mono">Webcam Calibration</span>
+                        <span className="text-[9px] font-semibold text-[#7A9E85] uppercase font-mono">Webcam Calibration</span>
                       </div>
 
                       <p className="text-[10.5px] text-slate-600 dark:text-slate-350 leading-relaxed font-sans">
@@ -10181,7 +10181,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     <h2 className="text-3xl font-bold text-slate-900 dark:text-white font-serif">Terms of Service</h2>
                     <p className="text-sm text-slate-500 mt-2">Effective Date: June 20, 2026</p>
                   </div>
-                  <button onClick={() => setActiveCenterTab('chat' as any)} className="px-4 py-2 bg-indigo-50 text-indigo-700 rounded-lg hover:bg-indigo-100 text-sm font-bold">Back to Chat</button>
+                  <button onClick={() => setActiveCenterTab('chat' as any)} className="px-4 py-2 bg-indigo-50 text-[#7A9E85] rounded-lg hover:bg-indigo-100 text-sm font-bold">Back to Chat</button>
                 </div>
                 
                 <section className="space-y-3 text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
@@ -10216,7 +10216,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     <h2 className="text-3xl font-bold text-slate-900 dark:text-white font-serif">Privacy Policy</h2>
                     <p className="text-sm text-slate-500 mt-2">Your data is yours. Period.</p>
                   </div>
-                  <button onClick={() => setActiveCenterTab('chat' as any)} className="px-4 py-2 bg-indigo-50 text-indigo-700 rounded-lg hover:bg-indigo-100 text-sm font-bold">Back to Chat</button>
+                  <button onClick={() => setActiveCenterTab('chat' as any)} className="px-4 py-2 bg-indigo-50 text-[#7A9E85] rounded-lg hover:bg-indigo-100 text-sm font-bold">Back to Chat</button>
                 </div>
 
                 <div className="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800 p-4 rounded-xl mb-6">
@@ -10817,10 +10817,10 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
               
 
               {/* Premium Editorial Header */}
-              <div className={`border p-5 rounded-2xl relative overflow-hidden flex flex-col gap-3 transition-all duration-300 ${themeClass("bg-[#f0f4ff] border-[#dbe4ff]", "bg-white/[0.02]/20 border-white/10/20", "bg-[#ebdcb9]/40 border-[#d3c299]")}`}>
+              <div className={`border p-5 rounded-2xl relative overflow-hidden flex flex-col gap-3 transition-all duration-300 ${themeClass("bg-[#FAF8F5] border-[#EDEBE7]", "bg-white/[0.02]/20 border-white/10/20", "bg-[#ebdcb9]/40 border-[#d3c299]")}`}>
                 <div className="absolute right-3 top-3 text-[50px] opacity-10 select-none">✍️</div>
                 <div className="flex flex-col gap-1.5 z-10 text-left">
-                  <span className="text-[9.5px] uppercase font-mono tracking-widest px-2.5 py-0.5 rounded-md font-bold bg-[#4359e6] text-white self-start">
+                  <span className="text-[9.5px] uppercase font-mono tracking-widest px-2.5 py-0.5 rounded-md font-bold bg-[#7A9E85] text-white self-start">
                     MIND &amp; NERVE WISDOM CORNER
                   </span>
                   <h3 className={`text-base md:text-lg font-bold flex items-center gap-2 font-display ${themeClass("text-slate-900", "text-indigo-200", "text-[#3e2723]")}`}>
@@ -10954,7 +10954,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                               onClick={() => setBlogTopicInput(theme)}
                               className={`px-2 py-0.5 rounded text-[10px] font-semibold transition-all border ${
                                 blogTopicInput === theme 
-                                  ? "bg-emerald-500 text-white border-emerald-500" 
+                                  ? "bg-[#7A9E85] text-white border-emerald-500" 
                                   : "bg-white dark:bg-black border-slate-205 dark:border-slate-850 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-[#0a0a0a]"
                               }`}
                             >
@@ -11482,7 +11482,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     <div className="text-right shrink-0">
                       <a 
                         href={`tel:${item.phone}`} 
-                        className="inline-flex items-center gap-1 px-3 py-1 bg-indigo-55 bg-indigo-50 dark:bg-white/[0.02] hover:bg-slate-200 text-indigo-700 dark:text-indigo-300 font-bold rounded-lg text-[10.5px] transition-all font-mono"
+                        className="inline-flex items-center gap-1 px-3 py-1 bg-indigo-55 bg-indigo-50 dark:bg-white/[0.02] hover:bg-slate-200 text-[#7A9E85] dark:text-indigo-300 font-bold rounded-lg text-[10.5px] transition-all font-mono"
                       >
                         📞 {item.phone}
                       </a>
@@ -11555,7 +11555,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             {/* Global Directory Country Selector */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-100/30 dark:bg-white/[0.02] p-3 rounded-xl border border-slate-250/20 dark:border-white/[0.05] backdrop-blur-xs">
               <div className="space-y-0.5">
-                <span className="text-[9.5px] uppercase font-mono tracking-widest text-indigo-700 dark:text-indigo-300 block font-bold">Select Directory Location:</span>
+                <span className="text-[9.5px] uppercase font-mono tracking-widest text-[#7A9E85] dark:text-indigo-300 block font-bold">Select Directory Location:</span>
                 <p className="text-[11px] text-slate-600 dark:text-slate-400">Filters numbers and registries by country code laws.</p>
               </div>
               <div className="relative shrink-0">
@@ -11952,7 +11952,7 @@ I am speaking to you now as ${CHARACTERS.find(c => c.id === pendingCharId)?.name
               {/* Left Column: Visual self-mirror feedback */}
               <div className={`p-4 rounded-xl border space-y-4 ${themeClass("bg-slate-50 border-slate-200", "bg-slate-950/40 border-white/10", "bg-[#f5ebd6]/50 border-[#ebdcb9]")}`}>
                 <div className="flex items-center justify-between border-b pb-2 mb-2 border-slate-150 border-dashed">
-                  <h3 className="text-xs font-bold uppercase tracking-wider font-mono text-indigo-700 dark:text-indigo-300 flex items-center gap-1.5">
+                  <h3 className="text-xs font-bold uppercase tracking-wider font-mono text-[#7A9E85] dark:text-indigo-300 flex items-center gap-1.5">
                     <Camera className="w-4.5 h-4.5" />
                     Live Mirror Feed
                   </h3>
@@ -12178,7 +12178,7 @@ I am speaking to you now as ${CHARACTERS.find(c => c.id === pendingCharId)?.name
             
             {/* Header */}
             <div className="flex items-start gap-3.5">
-              <div className="w-11 h-11 rounded-xl bg-indigo-50 dark:bg-white/[0.02] text-indigo-700 dark:text-indigo-300 flex items-center justify-center shrink-0">
+              <div className="w-11 h-11 rounded-xl bg-indigo-50 dark:bg-white/[0.02] text-[#7A9E85] dark:text-indigo-300 flex items-center justify-center shrink-0">
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div className="space-y-1">
@@ -12186,7 +12186,7 @@ I am speaking to you now as ${CHARACTERS.find(c => c.id === pendingCharId)?.name
                   <h3 className="text-base font-bold text-slate-900 font-sans">
                     Log Download Complete
                   </h3>
-                  <span className="text-[9px] bg-indigo-100 text-indigo-700 dark:text-indigo-300 px-2 py-0.5 rounded-full font-bold font-mono">
+                  <span className="text-[9px] bg-indigo-100 text-[#7A9E85] dark:text-indigo-300 px-2 py-0.5 rounded-full font-bold font-mono">
                     Local Only
                   </span>
                 </div>

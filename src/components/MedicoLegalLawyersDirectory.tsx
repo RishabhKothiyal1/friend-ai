@@ -119,7 +119,7 @@ export function MedicoLegalLawyersDirectory({ initialLocation = "Delhi" }: Medic
                 📞 <span className="font-bold text-slate-700 dark:text-slate-200">{lawyer.phone}</span>
               </div>
               <div className="text-slate-500 dark:text-slate-400 truncate">
-                🌐 <a href={lawyer.website} target="_blank" rel="noreferrer" className="text-indigo-600 dark:text-indigo-400 font-bold hover:underline">{lawyer.website.replace("https://", "").replace("http://", "")}</a>
+                🌐 <a href={lawyer.website} target="_blank" rel="noreferrer" className="text-[#7A9E85] dark:text-[#7A9E85] font-bold hover:underline">{lawyer.website.replace("https://", "").replace("http://", "")}</a>
               </div>
             </div>
             <div className="text-[10px] text-slate-405 dark:text-slate-455 font-mono">

@@ -1,4 +1,4 @@
-﻿import React, { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import {
   TrendingUp,
   Clock,
@@ -202,7 +202,7 @@ export default function PowerBIDashboard({
     });
     
     const colors: Record<string, string> = {
-      Calm: "#10b981",
+      Calm: "#6B6B6B",
       Anxious: "#f59e0b",
       Overwhelmed: "#6366f1",
       Sad: "#ef4444",
@@ -270,12 +270,12 @@ export default function PowerBIDashboard({
       <div className={`p-5 rounded-2xl border transition-all duration-300 relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-4 ${themeClass("bg-slate-50 dark:bg-[#0a0a0a] border-slate-200 dark:border-white/10 shadow-sm dark:shadow-slate-900/30", "bg-black/30 border-white/10", "bg-[#fcf7ee] border-[#ebdcb9]")}`}>
         <div className="space-y-1 z-10 text-left">
           <div className="flex items-center gap-2">
-            <span className="text-[10px] uppercase font-mono tracking-widest px-2.5 py-0.5 rounded-md font-bold bg-indigo-650 text-white">
+            <span className="text-[10px] uppercase font-mono tracking-widest px-2.5 py-0.5 rounded-md font-bold bg-[#7A9E85] text-white">
               Analytical Control Panel
             </span>
             {dataRefreshCount > 0 && (
-              <span className="text-[9px] font-mono text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40 px-1.5 py-0.5 rounded animate-pulse font-bold">
-                ✓ Auto-Refreshed ({dataRefreshCount})
+              <span className="text-[9px] font-mono text-[#7A9E85] bg-[#7A9E85]/10 dark:bg-emerald-950/40 px-1.5 py-0.5 rounded animate-pulse font-bold">
+                ? Auto-Refreshed ({dataRefreshCount})
               </span>
             )}
           </div>
@@ -315,7 +315,7 @@ export default function PowerBIDashboard({
       <div className={`p-4 rounded-xl border flex flex-wrap gap-4 items-center justify-between ${themeClass("bg-slate-50/ dark:bg-[#0a0a0a]/50 border-slate-150", "bg-slate-950/20 border-slate-850", "bg-[#fbf7ee] border-[#ebdcb9]/60")}`}>
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-slate-400 dark:text-slate-500 uppercase">
-            <Filter className="w-3.5 h-3.5 text-indigo-505" />
+            <Filter className="w-3.5 h-3.5 text-[#7A9E85]" />
             <span>Slicers:</span>
           </div>
 
@@ -327,7 +327,7 @@ export default function PowerBIDashboard({
                 onClick={() => setTimeFilter(opt)}
                 className={`px-3 py-1 text-[10.5px] font-bold rounded-md transition-all cursor-pointer ${
                   timeFilter === opt
-                    ? "bg-indigo-650 text-white shadow-xs"
+                    ? "bg-[#7A9E85] text-white shadow-xs"
                     : "text-slate-500 hover:text-slate-850 dark:text-slate-200"
                 }`}
               >
@@ -350,7 +350,7 @@ export default function PowerBIDashboard({
         </div>
 
         <div className="text-[10px] font-mono text-slate-450">
-          Source Connection: <strong className="text-indigo-650 dark:text-indigo-400 font-extrabold uppercase">Firestore Live Stream</strong>
+          Source Connection: <strong className="text-[#7A9E85] dark:text-indigo-400 font-extrabold uppercase">Firestore Live Stream</strong>
         </div>
       </div>
 
@@ -365,12 +365,12 @@ export default function PowerBIDashboard({
                 {aggregateStats.activeSessions.toLocaleString()}
               </h2>
             </div>
-            <div className="p-2 bg-indigo-50 dark:bg-white/[0.02]/40 text-indigo-650 dark:text-indigo-350 rounded-lg">
+            <div className="p-2 bg-[#7A9E85]/10 dark:bg-white/[0.02]/40 text-[#7A9E85] dark:text-indigo-350 rounded-lg">
               <TrendingUp className="w-5 h-5" />
             </div>
           </div>
-          <div className="flex items-center gap-1.5 mt-3 text-[10.5px] text-emerald-600 font-medium leading-none">
-            <span>● Dynamic Action Track</span>
+          <div className="flex items-center gap-1.5 mt-3 text-[10.5px] text-[#7A9E85] font-medium leading-none">
+            <span>? Dynamic Action Track</span>
             <span className="text-slate-400 dark:text-slate-500 font-normal">Based on user interactions</span>
           </div>
         </div>
@@ -388,8 +388,8 @@ export default function PowerBIDashboard({
               <ShieldAlert className="w-5 h-5" />
             </div>
           </div>
-          <div className="flex items-center gap-1.5 mt-3 text-[10.5px] text-indigo-650 font-medium leading-none">
-            <span>● Secured & Isolated</span>
+          <div className="flex items-center gap-1.5 mt-3 text-[10.5px] text-[#7A9E85] font-medium leading-none">
+            <span>? Secured & Isolated</span>
             <span className="text-slate-400 dark:text-slate-500 font-normal">Zero cloud logs</span>
           </div>
         </div>
@@ -403,12 +403,12 @@ export default function PowerBIDashboard({
                 {aggregateStats.favouriteArt}
               </h2>
             </div>
-            <div className="p-2 bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-450 rounded-lg">
+            <div className="p-2 bg-[#F0EBD6] dark:bg-amber-950/40 text-[#6B6B6B] dark:text-amber-450 rounded-lg">
               <Palette className="w-5 h-5" />
             </div>
           </div>
-          <div className="flex items-center gap-1.5 mt-3 text-[10.5px] text-amber-600 font-medium leading-none">
-            <span>● Active Companion</span>
+          <div className="flex items-center gap-1.5 mt-3 text-[10.5px] text-[#6B6B6B] font-medium leading-none">
+            <span>? Active Companion</span>
             <span className="text-slate-400 dark:text-slate-500 font-normal">Currently in session</span>
           </div>
         </div>
@@ -422,12 +422,12 @@ export default function PowerBIDashboard({
                 {aggregateStats.syncCount.toLocaleString()} Posts
               </h2>
             </div>
-            <div className="p-2 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-450 rounded-lg">
+            <div className="p-2 bg-[#7A9E85]/10 dark:bg-emerald-950/40 text-[#7A9E85] dark:text-emerald-450 rounded-lg">
               <FolderSync className="w-5 h-5" />
             </div>
           </div>
-          <div className="flex items-center gap-1.5 mt-3 text-[10.5px] text-emerald-600 font-medium leading-none">
-            <span>● Solace Wall Sync</span>
+          <div className="flex items-center gap-1.5 mt-3 text-[10.5px] text-[#7A9E85] font-medium leading-none">
+            <span>? Solace Wall Sync</span>
             <span className="text-slate-400 dark:text-slate-500 font-normal">Encrypted index active</span>
           </div>
         </div>
@@ -452,12 +452,12 @@ export default function PowerBIDashboard({
               <AreaChart data={currentDailyData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <defs>
                   <linearGradient id="sessionsColor" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.25}/>
-                    <stop offset="95%" stopColor="#4f46e5" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#7A9E85" stopOpacity={0.25}/>
+                    <stop offset="95%" stopColor="#7A9E85" stopOpacity={0}/>
                   </linearGradient>
                   <linearGradient id="syncsColor" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.25}/>
-                    <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#6B6B6B" stopOpacity={0.25}/>
+                    <stop offset="95%" stopColor="#6B6B6B" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" opacity={0.15} />
@@ -473,8 +473,8 @@ export default function PowerBIDashboard({
                     fontSize: "11px"
                   }} 
                 />
-                <Area type="monotone" name="Grounding Sessions" dataKey="sessions" stroke="#4f46e5" strokeWidth={2} fillOpacity={1} fill="url(#sessionsColor)" />
-                <Area type="monotone" name="Wall Posts" dataKey="keepSyncs" stroke="#10b981" strokeWidth={2} fillOpacity={1} fill="url(#syncsColor)" />
+                <Area type="monotone" name="Grounding Sessions" dataKey="sessions" stroke="#7A9E85" strokeWidth={2} fillOpacity={1} fill="url(#sessionsColor)" />
+                <Area type="monotone" name="Wall Posts" dataKey="keepSyncs" stroke="#6B6B6B" strokeWidth={2} fillOpacity={1} fill="url(#syncsColor)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
