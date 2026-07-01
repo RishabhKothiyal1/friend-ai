@@ -561,6 +561,10 @@ const Hero1 = ({ onSignIn, onGetStarted }: Hero1Props) => {
           </div>
         </div>
 
+        <div className="max-w-[1200px] mx-auto px-5 md:px-16 mt-12 pt-8 border-t border-[#EDEBE7] flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-[#73796F]">
+          <p>&copy; 2026 Friend AI. All rights reserved.</p>
+          <p>Crafted for peaceful minds.</p>
+        </div>
       </footer>
     </div>
   );
