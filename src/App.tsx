@@ -3164,7 +3164,7 @@ export default function App() {
 
 
   // Daylight and Midnight ambient lighting theme state & selector helper
-  const [themeMode, setThemeMode] = useState<"daylight" | "midnight">("midnight");
+  const [themeMode, setThemeMode] = useState<"daylight" | "midnight">("daylight");
 
   const handleSetThemeMode = (theme: "daylight" | "midnight") => {
     setThemeMode(theme);
