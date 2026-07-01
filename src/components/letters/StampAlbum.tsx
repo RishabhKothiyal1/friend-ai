@@ -114,24 +114,24 @@ export const StampAlbum: React.FC = () => {
   });
 
   return (
-    <div className="bg-[#FAFAF7] dark:bg-gray-950 py-8 px-4 md:px-8">
+    <div className="bg-[#FAF8F5] dark:bg-gray-950 py-8 px-4 md:px-8">
       <div className="max-w-4xl mx-auto">
 
         {/* Album Header & Metrics */}
-        <div className="bg-white dark:bg-gray-900 rounded-2xl border border-[#E5E7EB] dark:border-gray-800 p-6 shadow-sm mb-8">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl border border-[#EDEBE7] dark:border-gray-800 p-6 shadow-sm mb-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div>
-              <h1 className="text-3xl font-[family-name:var(--font-letters-serif)] text-[#13294B] dark:text-gray-100 font-bold">Stamp Album</h1>
-              <p className="text-[#13294B]/60 dark:text-gray-400 text-sm mt-1">Every letter tells a story, and every stamp marks a journey.</p>
+              <h1 className="text-3xl font-[family-name:var(--font-letters-serif)] text-[#2B2B2B] dark:text-gray-100 font-bold">Stamp Album</h1>
+              <p className="text-[#2B2B2B]/60 dark:text-gray-400 text-sm mt-1">Every letter tells a story, and every stamp marks a journey.</p>
             </div>
             <div className="w-full md:w-64 text-right space-y-2">
-              <div className="flex justify-between text-sm font-semibold text-[#13294B] dark:text-gray-100">
+              <div className="flex justify-between text-sm font-semibold text-[#2B2B2B] dark:text-gray-100">
                 <span>Album Progress</span>
                 <span>{unlockedCount} / {totalStamps} ({completionPercentage}%)</span>
               </div>
-              <div className="w-full h-3 bg-[#E8E6E1] dark:bg-gray-800 rounded-full overflow-hidden">
+              <div className="w-full h-3 bg-[#EDEBE7] dark:bg-gray-800 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-[#F4B400] dark:bg-amber-500 transition-all duration-500 rounded-full"
+                  className="h-full bg-[#7A9E85] dark:bg-amber-500 transition-all duration-500 rounded-full"
                   style={{ width: `${completionPercentage}%` }}
                 />
               </div>
@@ -146,7 +146,7 @@ export const StampAlbum: React.FC = () => {
             placeholder="Search stamp or country..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="flex-1 px-4 py-2 rounded-full border border-[#E5E7EB] dark:border-gray-800 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-[#F4B400] dark:focus:ring-amber-400 text-sm"
+            className="flex-1 px-4 py-2 rounded-full border border-[#EDEBE7] dark:border-gray-800 bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-[#7A9E85] dark:focus:ring-amber-400 text-sm"
           />
           <div className="flex gap-2">
             {['All', 'Common', 'Rare', 'Epic', 'Legendary', 'Limited'].map((rarity) => (
@@ -155,8 +155,8 @@ export const StampAlbum: React.FC = () => {
                 onClick={() => setRarityFilter(rarity)}
                 className={`px-3 py-1.5 rounded-full text-xs font-bold border transition ${
                     rarityFilter === rarity
-                      ? 'bg-[#13294B] dark:bg-gray-800 text-white border-[#13294B]'
-                      : 'bg-white dark:bg-gray-900 border-[#E5E7EB] dark:border-gray-800 text-[#13294B] dark:text-gray-100 hover:bg-[#E8E6E1] dark:hover:bg-gray-700'
+                      ? 'bg-[#2B2B2B] dark:bg-gray-800 text-white border-[#2B2B2B]'
+                      : 'bg-white dark:bg-gray-900 border-[#EDEBE7] dark:border-gray-800 text-[#2B2B2B] dark:text-gray-100 hover:bg-[#EDEBE7] dark:hover:bg-gray-700'
                 }`}
               >
                 {rarity}
@@ -173,14 +173,14 @@ export const StampAlbum: React.FC = () => {
               onClick={() => setSelectedStamp(stamp)}
               className={`cursor-pointer group aspect-square bg-white dark:bg-gray-900 border-2 rounded-xl flex flex-col items-center justify-center p-3 transition relative ${
                 stamp.unlocked
-                  ? 'border-[#E5E7EB] dark:border-gray-800 shadow-sm hover:shadow-md hover:-translate-y-1'
-                  : 'border-dashed border-gray-300 opacity-50 bg-gray-50 dark:bg-gray-800 dark:border-gray-600'
+                  ? 'border-[#EDEBE7] dark:border-gray-800 shadow-sm hover:shadow-md hover:-translate-y-1'
+                  : 'border-dashed border-[#EDEBE7] opacity-50 bg-[#FAF8F5] dark:bg-gray-800 dark:border-gray-600'
               }`}
             >
               <div className={`text-4xl mb-2 select-none filter transition ${stamp.unlocked ? '' : 'grayscale contrast-75'}`}>
                 {stamp.image}
               </div>
-              <span className="text-xs font-semibold text-[#13294B] dark:text-gray-100 text-center leading-tight truncate w-full">
+              <span className="text-xs font-semibold text-[#2B2B2B] dark:text-gray-100 text-center leading-tight truncate w-full">
                 {stamp.name}
               </span>
 
@@ -189,7 +189,7 @@ export const StampAlbum: React.FC = () => {
                   stamp.rarity === 'Legendary' ? 'bg-yellow-500' :
                   stamp.rarity === 'Limited' ? 'bg-red-500' :
                   stamp.rarity === 'Epic' ? 'bg-purple-500' :
-                  stamp.rarity === 'Rare' ? 'bg-blue-500' : 'bg-gray-400'
+                  stamp.rarity === 'Rare' ? 'bg-blue-500' : 'bg-[#6B6B6B]'
                 }`} />
               </div>
             </div>
@@ -198,48 +198,48 @@ export const StampAlbum: React.FC = () => {
 
         {/* Detail Modal Overlay */}
         {selectedStamp && (
-          <div className="fixed inset-0 bg-[#13294B]/40 dark:bg-gray-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="bg-white dark:bg-gray-900 border border-[#E5E7EB] dark:border-gray-800 max-w-md w-full rounded-2xl p-6 shadow-2xl relative">
+          <div className="fixed inset-0 bg-[#2B2B2B]/40 dark:bg-gray-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div className="bg-white dark:bg-gray-900 border border-[#EDEBE7] dark:border-gray-800 max-w-md w-full rounded-2xl p-6 shadow-2xl relative">
               <button
                 onClick={() => setSelectedStamp(null)}
-                className="absolute top-4 right-4 text-[#13294B]/60 dark:text-gray-400 hover:text-[#13294B] dark:hover:text-gray-100 text-xl font-bold"
+                className="absolute top-4 right-4 text-[#2B2B2B]/60 dark:text-gray-400 hover:text-[#2B2B2B] dark:hover:text-gray-100 text-xl font-bold"
               >
                 ✕
               </button>
 
               <div className="flex flex-col items-center text-center mt-2">
-                <div className="text-6xl mb-4 bg-[#FAFAF7] dark:bg-gray-950 w-20 h-20 rounded-full flex items-center justify-center border border-[#E5E7EB] dark:border-gray-800">
+                <div className="text-6xl mb-4 bg-[#FAF8F5] dark:bg-gray-950 w-20 h-20 rounded-full flex items-center justify-center border border-[#EDEBE7] dark:border-gray-800">
                   {selectedStamp.image}
                 </div>
-                <h3 className="text-2xl font-[family-name:var(--font-letters-serif)] font-bold text-[#13294B] dark:text-gray-100">{selectedStamp.name}</h3>
+                <h3 className="text-2xl font-[family-name:var(--font-letters-serif)] font-bold text-[#2B2B2B] dark:text-gray-100">{selectedStamp.name}</h3>
                 <div className="flex gap-2 mt-2">
-                  <span className="px-2 py-0.5 bg-[#E8E6E1] dark:bg-gray-800 text-[#13294B] dark:text-gray-100 text-[10px] uppercase font-bold rounded">
+                  <span className="px-2 py-0.5 bg-[#EDEBE7] dark:bg-gray-800 text-[#2B2B2B] dark:text-gray-100 text-[10px] uppercase font-bold rounded">
                     {selectedStamp.region}
                   </span>
                   <span className={`px-2 py-0.5 text-white text-[10px] uppercase font-bold rounded ${
                     selectedStamp.rarity === 'Legendary' ? 'bg-yellow-500' :
                     selectedStamp.rarity === 'Limited' ? 'bg-red-500' :
                     selectedStamp.rarity === 'Epic' ? 'bg-purple-500' :
-                    selectedStamp.rarity === 'Rare' ? 'bg-blue-500' : 'bg-gray-400'
+                    selectedStamp.rarity === 'Rare' ? 'bg-blue-500' : 'bg-[#6B6B6B]'
                   }`}>
                     {selectedStamp.rarity}
                   </span>
                 </div>
 
-                <p className="text-[#13294B]/80 dark:text-gray-300 text-sm mt-4 italic font-[family-name:var(--font-letters-serif)] px-2">
+                <p className="text-[#2B2B2B]/80 dark:text-gray-300 text-sm mt-4 italic font-[family-name:var(--font-letters-serif)] px-2">
                   "{selectedStamp.description}"
                 </p>
 
-                <div className="w-full mt-6 bg-[#FAFAF7] dark:bg-gray-950 rounded-xl p-4 border border-[#E5E7EB] dark:border-gray-800 text-left">
-                  <span className="text-xs uppercase text-[#13294B]/50 dark:text-gray-400 tracking-wider font-bold block mb-1">
+                <div className="w-full mt-6 bg-[#FAF8F5] dark:bg-gray-950 rounded-xl p-4 border border-[#EDEBE7] dark:border-gray-800 text-left">
+                  <span className="text-xs uppercase text-[#2B2B2B]/50 dark:text-gray-400 tracking-wider font-bold block mb-1">
                     How to unlock
                   </span>
-                  <p className="text-sm text-[#13294B] dark:text-gray-100 font-medium">
+                  <p className="text-sm text-[#2B2B2B] dark:text-gray-100 font-medium">
                     {selectedStamp.unlockCondition}
                   </p>
 
                   {selectedStamp.unlocked && (
-                    <div className="mt-3 border-t border-[#E8E6E1] dark:border-gray-700 pt-2 flex justify-between text-xs text-[#13294B]/70 dark:text-gray-300">
+                    <div className="mt-3 border-t border-[#EDEBE7] dark:border-gray-700 pt-2 flex justify-between text-xs text-[#2B2B2B]/70 dark:text-gray-300">
                       <span>Unlocked on:</span>
                       <span className="font-semibold">{selectedStamp.dateUnlocked}</span>
                     </div>
