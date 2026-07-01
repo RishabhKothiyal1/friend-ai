@@ -6,7 +6,6 @@ import {
   Wind, 
   Settings, 
   ShieldCheck, 
-  FileText, 
   Palette, 
   Briefcase, 
   Mail, 
@@ -69,7 +68,6 @@ export function Sidebar({
   ];
 
   const toolsItems = [
-    { id: 'blogs', label: 'Curated Blogs', icon: FileText },
     { id: 'doodle', label: 'Do Doodle', icon: Palette, externalUrl: 'https://do-doodle.netlify.app/' },
     { id: 'mood', label: 'Mood Analytics', icon: Briefcase },
     { id: 'community', label: 'Community Center', icon: Users },
