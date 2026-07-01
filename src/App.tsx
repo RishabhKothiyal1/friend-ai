@@ -8622,7 +8622,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 </div>
               </div>
 
-              <div className="shrink-0 border-t border-[#EDEBE7] bg-white/90 backdrop-blur-sm">
+              <div className="shrink-0">
                 <form onSubmit={handleSendMessage} className="max-w-[900px] mx-auto w-full px-5 py-4 space-y-3">
                   {shareSuccessToast && (
                     <div className="p-3 bg-[#E8F0EA] border border-[#7A9E85]/30 rounded-2xl text-xs text-[#2B2B2B] font-sans flex items-start gap-2 leading-normal">
