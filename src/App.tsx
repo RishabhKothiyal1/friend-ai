@@ -64,7 +64,8 @@ import {
   Settings,
   Palette,
   Menu,
-  Linkedin
+  Linkedin,
+  MoreHorizontal
 } from "lucide-react";
 import { calmingMusic } from "./lib/calmingMusic";
 import { mozartPiano } from "./lib/mozartPiano";
@@ -212,6 +213,14 @@ const CHARACTER_ICONS: Record<string, React.ComponentType<any>> = {
   sappho: Cat,
   hades: ShieldCheck,
 };
+
+const SUGGESTION_CHIPS = [
+  "Tell me more",
+  "Help me calm down",
+  "Grounding Exercise",
+  "Breathing Exercise",
+  "Practice CBT",
+];
 
 import { MedicoLegalLawyersDirectory } from "./components/MedicoLegalLawyersDirectory";
 import { Hero1 } from "./components/ui/hero-1";
@@ -4132,6 +4141,30 @@ export default function App() {
   }, []);
 
   const chatEndRef = useRef<HTMLDivElement | null>(null);
+  const chatScrollRef = useRef<HTMLDivElement | null>(null);
+  const [showSuggestions, setShowSuggestions] = useState<boolean>(true);
+  const [showScrollButton, setShowScrollButton] = useState<boolean>(false);
+
+  const scrollToBottom = () => {
+    chatScrollRef.current?.scrollTo({ top: chatScrollRef.current.scrollHeight, behavior: 'smooth' });
+    setShowScrollButton(false);
+  };
+
+  const handleChatScroll = () => {
+    const el = chatScrollRef.current;
+    if (!el) return;
+    const isNearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 100;
+    setShowScrollButton(!isNearBottom);
+  };
+
+  const handleSuggestionClick = (text: string) => {
+    setMessageText(text);
+    setShowSuggestions(false);
+    setTimeout(() => {
+      const input = document.querySelector('input[placeholder*="Message Friend AI"]') as HTMLInputElement;
+      input?.focus();
+    }, 50);
+  };
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -4870,6 +4903,7 @@ export default function App() {
     const currentText = messageText;
     setMessageText("");
     setIsTyping(true);
+    setShowSuggestions(false);
     registerInteraction();
 
     const normalizedText = currentText.toLowerCase();
@@ -4886,6 +4920,7 @@ export default function App() {
     if (clientCrisisTriggered) {
       setTimeout(() => {
         setIsTyping(false);
+        setShowSuggestions(true);
         setChatHistory(prev => [...prev, {
           id: "crisis-override-" + Date.now(),
           sender: "bot",
@@ -4940,6 +4975,7 @@ Let's regulate your physical autonomic nervous system immediately:
     if (clientMedTriggered) {
       setTimeout(() => {
         setIsTyping(false);
+        setShowSuggestions(true);
         setChatHistory(prev => [...prev, {
           id: "med-override-" + Date.now(),
           sender: "bot",
@@ -4978,6 +5014,7 @@ I am an automated grounding AI companion, not a medical doctor, psychiatrist, or
     if (isIdentityQuery) {
       setTimeout(() => {
         setIsTyping(false);
+        setShowSuggestions(true);
         setChatHistory(prev => [...prev, {
           id: "bot-" + Date.now(),
           sender: 'bot',
@@ -4997,6 +5034,7 @@ I am an automated grounding AI companion, not a medical doctor, psychiatrist, or
     if (isTelemetryTrigger) {
       setTimeout(() => {
         setIsTyping(false);
+        setShowSuggestions(true);
         setChatHistory(prev => [...prev, {
           id: "bot-" + Date.now(),
           sender: 'bot',
@@ -5036,6 +5074,7 @@ I am an automated grounding AI companion, not a medical doctor, psychiatrist, or
         const isDependencyWarning = resData.safetyFlags?.isDependencyWarning;
         
         setIsTyping(false);
+        setShowSuggestions(true);
         setChatHistory(prev => [...prev, {
           id: "bot-" + Date.now(),
           sender: 'bot',
@@ -5057,6 +5096,7 @@ I am an automated grounding AI companion, not a medical doctor, psychiatrist, or
     } catch (err) {
       console.error("Direct Chat API call failed, calling fallback:", err);
       setIsTyping(false);
+      setShowSuggestions(true);
       const activeChar = CHARACTERS.find(c => c.id === selectedCharacterId);
       const fallbackText = generateLocalFallbackResponse(currentText, activeChar);
       setChatHistory(prev => [...prev, {
@@ -8361,12 +8401,77 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             </div>
           )}
           {activeCenterTab === 'chat' && (
-            <>
+            <div className="flex-1 flex flex-col relative overflow-hidden">
+              {/* Animated aurora background */}
+              <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+                <div className="absolute -top-[30%] -left-[20%] w-[60%] h-[60%] rounded-full bg-[#7A9E85]/5 blur-[120px] animate-aurora-1" />
+                <div className="absolute -bottom-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-[#DEE8F0]/20 blur-[100px] animate-aurora-2" />
+                <div className="absolute top-[40%] left-[50%] w-[40%] h-[40%] rounded-full bg-[#E8F0EA]/15 blur-[80px] animate-aurora-3" />
+              </div>
+
+              {/* Floating glass header */}
+              <div className="shrink-0 sticky top-0 z-10 px-4 pt-4 pb-2">
+                <div className="max-w-[820px] mx-auto w-full backdrop-blur-xl bg-white/70 border border-white/30 rounded-2xl shadow-lg shadow-black/[0.02] px-5 py-3 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#7A9E85] to-[#6B9080] flex items-center justify-center shadow-sm shrink-0">
+                      <Sparkles className="w-5 h-5 text-white" />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="flex items-center gap-2">
+                        <h2 className="text-sm font-semibold text-[#2B2B2B] font-sans truncate">Friend AI</h2>
+                        <div className="flex items-center gap-1.5 px-2 py-0.5 bg-[#E8F0EA] rounded-full shrink-0">
+                          <div className="w-1.5 h-1.5 rounded-full bg-[#7A9E85] animate-pulse" />
+                          <span className="text-[9px] text-[#5D7E68] font-medium font-mono">Online</span>
+                        </div>
+                      </div>
+                      <p className="text-[10px] text-[#6B6B6B] font-mono truncate">{activeChar.name} &middot; Your companion</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1 shrink-0">
+                    <button 
+                      type="button"
+                      onClick={() => {}} 
+                      className="w-8 h-8 rounded-xl hover:bg-[#E8F0EA] flex items-center justify-center text-[#6B6B6B] hover:text-[#7A9E85] transition-colors cursor-pointer" 
+                      title="Help &amp; Support"
+                    >
+                      <HelpCircle className="w-[18px] h-[18px]" />
+                    </button>
+                    <button 
+                      type="button"
+                      onClick={() => setIsHeaderMenuOpen(!isHeaderMenuOpen)} 
+                      className="w-8 h-8 rounded-xl hover:bg-[#E8F0EA] flex items-center justify-center text-[#6B6B6B] hover:text-[#7A9E85] transition-colors cursor-pointer" 
+                      title="More options"
+                    >
+                      <MoreHorizontal className="w-[18px] h-[18px]" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
               <div 
                 className="flex-1 overflow-y-auto scroll-smooth"
-                style={{ background: getCharacterBg(activeChar.id, themeMode) }}
+                ref={chatScrollRef}
+                onScroll={handleChatScroll}
               >
-                <div className="max-w-[900px] mx-auto w-full px-5 py-4 space-y-4 transition-all duration-300 ease-in-out">
+                <div className="max-w-[820px] mx-auto w-full px-6 py-6 space-y-6">
+                  {/* Empty welcome state */}
+                  {chatHistory.length <= 1 && !isTyping && (
+                    <div className="flex flex-col items-center justify-center py-20 text-center animate-fade-in-up">
+                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#7A9E85] to-[#6B9080] flex items-center justify-center shadow-lg shadow-[#7A9E85]/20 mb-6">
+                        <Sparkles className="w-8 h-8 text-white" />
+                      </div>
+                      <h1 className="text-2xl font-semibold text-[#2B2B2B] font-sans mb-2">Hello 👋</h1>
+                      <h2 className="text-xl font-medium text-[#4A4A4A] font-sans mb-2">I'm Friend AI</h2>
+                      <p className="text-[#6B6B6B] text-base">How are you feeling today?</p>
+                    </div>
+                  )}
+
+                  <div className="flex justify-center">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#EDEBE7] bg-white/80 text-[10px] text-[#6B6B6B] font-mono tracking-wide shadow-sm">
+                      <Lock className="w-3 h-3 text-[#7A9E85]" />
+                      Chats are encrypted and private
+                    </div>
+                  </div>
                 
                 {isCrisisActive && (
                   <div className="p-4 bg-[#F5E6E0] border border-[#EDEBE7] rounded-2xl relative space-y-2 mb-4 animate-fade-in-up">
@@ -8430,85 +8535,119 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                   </div>
                 )}
                  {(() => {
-                   const filteredHistory = chatHistory.filter((msg) => {
-                     const query = chatSearchQuery.toLowerCase().trim();
-                     if (!query) return true;
-                     return msg.text.toLowerCase().includes(query);
-                   });
-                   
-                   if (filteredHistory.length === 0 && chatHistory.length > 0) {
-                     return (
-                       <div className="p-8 text-center text-[#6B6B6B] border border-dashed border-[#EDEBE7] rounded-2xl space-y-1 bg-white/50">
-                         <p className="text-xs font-semibold text-[#2B2B2B]">No matching messages found</p>
+                    const filteredHistory = chatHistory.filter((msg) => {
+                      const query = chatSearchQuery.toLowerCase().trim();
+                      if (!query) return true;
+                      return msg.text.toLowerCase().includes(query);
+                    });
+                    
+                    if (filteredHistory.length === 0 && chatHistory.length > 0) {
+                      return (
+                        <div className="p-8 text-center text-[#6B6B6B] border border-dashed border-[#EDEBE7] rounded-2xl space-y-1 bg-white/50">
+                          <p className="text-xs font-semibold text-[#2B2B2B]">No matching messages found</p>
+                          <button
+                            type="button"
+                            onClick={() => setChatSearchQuery("")}
+                            className="text-[10px] text-[#7A9E85] font-mono font-bold hover:underline cursor-pointer"
+                          >
+                            Clear Search Filter
+                          </button>
+                        </div>
+                      );
+                    }
+                    
+                    return filteredHistory.map((msg, idx) => {
+                      const isUser = msg.sender === 'user';
+                      return (
+                        <motion.div
+                          key={msg.id}
+                          initial={{ opacity: 0, y: 12, scale: 0.98 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          transition={{ duration: 0.25, ease: "easeOut", delay: idx * 0.03 }}
+                          className={`flex gap-4 ${isUser ? "justify-end" : "justify-start"}`}
+                        >
+                          {!isUser && (
+                            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#7A9E85] to-[#6B9080] flex items-center justify-center shadow-sm shrink-0 mt-0.5">
+                              {(() => {
+                                const IconComponent = CHARACTER_ICONS[activeChar.id] || Sparkles;
+                                return <IconComponent className="w-4 h-4 text-white" />;
+                              })()}
+                            </div>
+                          )}
+
+                          <div className={`max-w-[75%] flex flex-col ${isUser ? "items-end" : "items-start"}`}>
+                            <div 
+                              className={`px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap ${
+                                isUser
+                                  ? "bg-[#7A9E85] text-white rounded-2xl rounded-tr-md shadow-sm"
+                                  : "bg-white border border-[#EDEBE7] text-[#4A4A4A] rounded-2xl rounded-tl-md shadow-sm"
+                              }`}
+                            >
+                              {showEncryptedView 
+                                ? generateCiphertext(msg.text) 
+                                : msg.text.replace(/\*\*/g, '')
+                              }
+                            </div>
+                            
+                            {msg.isMedicoLegal && (
+                               <MedicoLegalLawyersDirectory initialLocation={userLocation} />
+                            )}
+                            
+                            <span className={`text-[10px] text-[#6B6B6B] mt-1.5 px-1 font-mono ${isUser ? "text-right" : "text-left"}`}>
+                              {msg.timestamp} {showEncryptedView && "(CLIENT-ENCRYPTED SHA-256)"}
+                            </span>
+                          </div>
+                        </motion.div>
+                      );
+                    });
+                  })()}
+
+                 {isTyping && (
+                   <motion.div
+                     initial={{ opacity: 0, y: 8 }}
+                     animate={{ opacity: 1, y: 0 }}
+                     transition={{ duration: 0.2 }}
+                     className="flex gap-4"
+                   >
+                     <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#7A9E85] to-[#6B9080] flex items-center justify-center shadow-sm shrink-0">
+                       {(() => {
+                         const IconComponent = CHARACTER_ICONS[activeChar.id] || Sparkles;
+                         return <IconComponent className="w-4 h-4 text-white" />;
+                       })()}
+                     </div>
+                     <div className="bg-white border border-[#EDEBE7] px-5 py-4 rounded-2xl rounded-tl-md shadow-sm">
+                       <div className="flex gap-1.5">
+                         <div className="w-2 h-2 rounded-full bg-[#7A9E85] typing-dot" />
+                         <div className="w-2 h-2 rounded-full bg-[#7A9E85] typing-dot" />
+                         <div className="w-2 h-2 rounded-full bg-[#7A9E85] typing-dot" />
+                       </div>
+                     </div>
+                   </motion.div>
+                 )}
+
+                 {showSuggestions && !isTyping && chatHistory.length > 1 && (
+                   <motion.div
+                     initial={{ opacity: 0, y: 8 }}
+                     animate={{ opacity: 1, y: 0 }}
+                     transition={{ duration: 0.2 }}
+                     className="flex justify-start"
+                   >
+                     <div className="flex flex-wrap gap-2 pl-[52px]">
+                       {SUGGESTION_CHIPS.map((chip) => (
                          <button
+                           key={chip}
                            type="button"
-                           onClick={() => setChatSearchQuery("")}
-                           className="text-[10px] text-[#7A9E85] font-mono font-bold hover:underline cursor-pointer"
+                           onClick={() => handleSuggestionClick(chip)}
+                           className="px-4 py-2 text-xs font-medium rounded-xl bg-white/80 backdrop-blur-sm border border-[#EDEBE7] text-[#4A4A4A] hover:bg-[#E8F0EA] hover:border-[#7A9E85]/30 transition-all shadow-sm cursor-pointer"
                          >
-                           Clear Search Filter
+                           {chip}
                          </button>
-                       </div>
-                     );
-                   }
-                   
-                   return filteredHistory.map((msg, idx) => {
-                     const isUser = msg.sender === 'user';
-                     return (
-                       <div key={msg.id} className={`flex gap-3.5 ${isUser ? "justify-end" : "justify-start"} message-enter`} style={{ animationDelay: `${idx * 0.05}s` }}>
-                         
-                         {!isUser && (
-                           <div className="w-8 h-8 rounded-xl bg-white border border-[#EDEBE7] flex-shrink-0 flex items-center justify-center shadow-sm">
-                             {(() => {
-                               const IconComponent = CHARACTER_ICONS[activeChar.id] || Sparkles;
-                               return <IconComponent className="w-4 h-4 text-[#7A9E85]" />;
-                             })()}
-                           </div>
-                         )}
+                       ))}
+                     </div>
+                   </motion.div>
+                 )}
 
-                         <div className="max-w-[85%] flex flex-col">
-                           <div 
-                             className={`p-3.5 text-sm leading-relaxed whitespace-pre-wrap ${
-                               getCharacterBubbleStyle(activeChar.id, isUser)
-                             }`}
-                           >
-                             {showEncryptedView 
-                               ? generateCiphertext(msg.text) 
-                               : msg.text.replace(/\*\*/g, '')
-                             }
-                           </div>
-                           
-                           {msg.isMedicoLegal && (
-                              <MedicoLegalLawyersDirectory initialLocation={userLocation} />
-                           )}
-                           
-                           <span className={`text-[10px] text-[#6B6B6B] mt-1 px-1 font-mono ${isUser ? "text-right" : "text-left"}`}>
-                             {msg.timestamp} {showEncryptedView && "(CLIENT-ENCRYPTED SHA-256)"}
-                           </span>
-                         </div>
-                       </div>
-                     );
-                   });
-                 })()}
-
-                {isTyping && (
-                  <div className="flex gap-3.5 message-enter">
-                    <div className="w-8 h-8 rounded-xl bg-white border border-[#EDEBE7] flex-shrink-0 flex items-center justify-center shadow-sm">
-                      {(() => {
-                        const IconComponent = CHARACTER_ICONS[activeChar.id] || Sparkles;
-                        return <IconComponent className="w-4 h-4 text-[#7A9E85]" />;
-                      })()}
-                    </div>
-                    <div className="bg-white border border-[#EDEBE7] p-4 rounded-2xl rounded-bl-sm text-sm flex items-center gap-3 shadow-sm">
-                      <div className="flex gap-1.5">
-                        <div className="w-2 h-2 rounded-full bg-[#7A9E85] typing-dot"></div>
-                        <div className="w-2 h-2 rounded-full bg-[#7A9E85] typing-dot"></div>
-                        <div className="w-2 h-2 rounded-full bg-[#7A9E85] typing-dot"></div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                <div ref={chatEndRef} />
+                 <div ref={chatEndRef} />
                 </div>
               </div>
 
@@ -8678,7 +8817,18 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
                 </form>
               </div>
-            </>
+
+              {showScrollButton && (
+                <motion.button
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  onClick={scrollToBottom}
+                  className="absolute bottom-[100px] left-1/2 -translate-x-1/2 w-9 h-9 rounded-full bg-white border border-[#EDEBE7] shadow-lg flex items-center justify-center text-[#6B6B6B] hover:text-[#7A9E85] hover:border-[#7A9E85]/30 transition-all z-10 cursor-pointer"
+                >
+                  <ChevronDown className="w-4 h-4" />
+                </motion.button>
+              )}
+            </div>
           )}
 
           {activeCenterTab === 'safety' && (
