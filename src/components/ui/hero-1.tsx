@@ -481,6 +481,91 @@ const Hero1 = ({ onSignIn, onGetStarted }: Hero1Props) => {
         </div>
       </section>
 
+      {/* ============ FOOTER ============ */}
+      <footer className="bg-[#FAF8F5] py-16 border-t border-[#EDEBE7]">
+        <div className="max-w-[1200px] mx-auto px-5 md:px-16 grid grid-cols-2 md:grid-cols-4 gap-10">
+          <div className="col-span-2 md:col-span-1 space-y-5">
+            <div className="flex items-center gap-3">
+              <img
+                src="/friend_ai_logo.png"
+                alt="Friend AI"
+                className="w-8 h-8 rounded-lg object-cover"
+              />
+              <span className="font-serif-display text-lg font-semibold text-[#2E2A22]">
+                Friend AI
+              </span>
+            </div>
+            <p className="text-sm text-[#73796F] leading-relaxed max-w-xs">
+              Nurturing digital peace through mindful AI and reflective design
+              principles.
+            </p>
+            <div className="flex gap-3">
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full border border-[#EDEBE7] flex items-center justify-center text-[#73796F] hover:text-[#2E2A22] hover:border-[#C9A45C] transition-all"
+                aria-label="Social link"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <circle cx="12" cy="12" r="10" />
+                  <circle cx="12" cy="12" r="4" />
+                  <path d="M21 12h0" />
+                </svg>
+              </a>
+              <a
+                href="#"
+                className="w-10 h-10 rounded-full border border-[#EDEBE7] flex items-center justify-center text-[#73796F] hover:text-[#2E2A22] hover:border-[#C9A45C] transition-all"
+                aria-label="Social link"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <h4 className="text-xs font-semibold uppercase tracking-[0.15em] text-[#2E2A22]">
+              Platform
+            </h4>
+            <ul className="space-y-3 text-sm text-[#73796F]">
+              <li><a href="/chat" className="hover:text-[#2E2A22] transition-colors">AI Chat</a></li>
+              <li><a href="/journal" className="hover:text-[#2E2A22] transition-colors">Journaling</a></li>
+              <li><a href="/analytics" className="hover:text-[#2E2A22] transition-colors">Mood Analytics</a></li>
+              <li><a href="/letters" className="hover:text-[#2E2A22] transition-colors">Letters</a></li>
+              <li><a href="/community" className="hover:text-[#2E2A22] transition-colors">Community</a></li>
+            </ul>
+          </div>
+
+          <div className="space-y-4">
+            <h4 className="text-xs font-semibold uppercase tracking-[0.15em] text-[#2E2A22]">
+              Resources
+            </h4>
+            <ul className="space-y-3 text-sm text-[#73796F]">
+              <li><a href="/wellness" className="hover:text-[#2E2A22] transition-colors">Wellness Tools</a></li>
+              <li><a href="/safety" className="hover:text-[#2E2A22] transition-colors">Safety Guide</a></li>
+              <li><a href="/directory" className="hover:text-[#2E2A22] transition-colors">Clinical Directory</a></li>
+              <li><a href="/blogs" className="hover:text-[#2E2A22] transition-colors">Therapeutic Blog</a></li>
+            </ul>
+          </div>
+
+          <div className="space-y-4">
+            <h4 className="text-xs font-semibold uppercase tracking-[0.15em] text-[#2E2A22]">
+              Company
+            </h4>
+            <ul className="space-y-3 text-sm text-[#73796F]">
+              <li><a href="/vision-mission" className="hover:text-[#2E2A22] transition-colors">Vision & Mission</a></li>
+              <li><a href="/privacy" className="hover:text-[#2E2A22] transition-colors">Privacy</a></li>
+              <li><a href="/terms" className="hover:text-[#2E2A22] transition-colors">Terms of Service</a></li>
+              <li><a href="/chat" className="hover:text-[#2E2A22] transition-colors">9 Companion Guides</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="max-w-[1200px] mx-auto px-5 md:px-16 mt-12 pt-8 border-t border-[#EDEBE7] flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-[#73796F]">
+          <p>&copy; 2026 Friend AI. All rights reserved.</p>
+          <p>Crafted for peaceful minds.</p>
+        </div>
+      </footer>
     </div>
   );
 };

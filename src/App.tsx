@@ -11172,23 +11172,6 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
       </div>
       )}
 
-      {/* Footer */}
-      <footer className="shrink-0 bg-white dark:bg-black border-t border-slate-200 dark:border-white/10 py-8 text-center px-4 relative z-50">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 font-sans">
-          <div className="flex items-center gap-3">
-            <img src="/friend_ai_logo.png" alt="Friend AI Logo" className="w-8 h-8 rounded-full border border-slate-200 dark:border-white/10 object-cover shrink-0" />
-            <span className="font-extrabold text-xl tracking-tight text-slate-800 dark:text-white">friend <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">ai</span></span>
-          </div>
-          <div className="text-sm text-slate-500 dark:text-slate-400 font-medium flex flex-wrap items-center justify-center gap-6">
-            <span>© 2026 friend ai</span>
-            <button onClick={() => setActiveCenterTab('vision-mission' as any)} className="hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer">Vision &amp; Mission</button>
-            <button onClick={() => setActiveCenterTab('terms' as any)} className="hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer">Terms</button>
-            <button onClick={() => setActiveCenterTab('privacy' as any)} className="hover:text-slate-800 dark:hover:text-white transition-colors cursor-pointer">Privacy</button>
-            <a href="mailto:pahilajani.manjishtha@gmail.com" className="hover:text-slate-800 dark:hover:text-white transition-colors">Contact</a>
-          </div>
-        </div>
-      </footer>
-      
       </div> {/* End of Main App Content Area */}
 
       {/* AI Ethics & Safety Hub Modal */}
