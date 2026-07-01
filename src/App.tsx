@@ -64,10 +64,7 @@ import {
   Settings,
   Palette,
   Menu,
-  Linkedin,
-  Paperclip,
-  MessageCircle,
-  Lightbulb
+  Linkedin
 } from "lucide-react";
 import { calmingMusic } from "./lib/calmingMusic";
 import { mozartPiano } from "./lib/mozartPiano";
@@ -6950,9 +6947,9 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             : "xl:h-[820px]"
         } shadow-sm relative animate-fade-in border transition-all duration-300 ${
           activeCenterTab === 'chat'
-            ? "bg-white border-[#EDEBE7] dark:bg-black/30 dark:border-white/10"
+            ? "bg-white/80 border-[#EDEBE7] dark:bg-black/30 dark:border-white/10"
             : themeClass("bg-white border-[#EDEBE7]", "bg-[#0b0f19] border-white/10", "bg-[#faf6ee] border-[#e3d5be]")
-        } ${activeCenterTab === 'chat' ? 'aurora-bg' : ''}`}>
+        }`}>
           
           
           {activeCenterTab === 'journal' && (
@@ -8615,47 +8612,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           )}
           {activeCenterTab === 'chat' && (
             <>
-              <div className="shrink-0 bg-white/90 backdrop-blur-sm border-b border-[#EDEBE7] px-5 py-3 flex items-center justify-between z-10">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-white border border-[#EDEBE7] flex items-center justify-center shadow-sm">
-                    {(() => {
-                      const IconComponent = CHARACTER_ICONS[activeChar.id] || Sparkles;
-                      return <IconComponent className="w-5 h-5 text-[#7A9E85]" />;
-                    })()}
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <h3 className="text-sm font-bold text-[#2B2B2B]">{activeChar.name}</h3>
-                      <span className="flex items-center gap-1 text-[9px] text-[#6B6B6B] font-mono bg-[#FAF8F5] px-1.5 py-0.5 rounded-full border border-[#EDEBE7]">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#7A9E85]"></span>
-                        Online
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-[#6B6B6B] mt-0.5">{activeChar.specialization}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setIsSharePersonaModalOpen(true)}
-                    className="w-8 h-8 rounded-lg bg-[#FAF8F5] hover:bg-[#EDEBE7] border border-[#EDEBE7] flex items-center justify-center cursor-pointer transition-all text-[#6B6B6B] hover:text-[#2B2B2B]"
-                    title="Share this character"
-                  >
-                    <Share2 className="w-4 h-4" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setIsAboutGuideOpen(true)}
-                    className="w-8 h-8 rounded-lg bg-[#FAF8F5] hover:bg-[#EDEBE7] border border-[#EDEBE7] flex items-center justify-center cursor-pointer transition-all text-[#6B6B6B] hover:text-[#2B2B2B]"
-                    title="About this guide"
-                  >
-                    <Settings className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-
               <div 
-                className="flex-1 overflow-y-auto px-5 py-4 space-y-4 transition-all duration-300 ease-in-out scroll-smooth"
+                className="flex-1 p-6 overflow-y-auto space-y-4 transition-all duration-300 ease-in-out"
                 style={{ background: getCharacterBg(activeChar.id, themeMode) }}
               >
                 
@@ -8720,119 +8678,76 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     </div>
                   </div>
                 )}
+                 {(() => {
+                   const filteredHistory = chatHistory.filter((msg) => {
+                     const query = chatSearchQuery.toLowerCase().trim();
+                     if (!query) return true;
+                     return msg.text.toLowerCase().includes(query);
+                   });
+                   
+                   if (filteredHistory.length === 0 && chatHistory.length > 0) {
+                     return (
+                       <div className="p-8 text-center text-[#6B6B6B] border border-dashed border-[#EDEBE7] rounded-2xl space-y-1 bg-white/50">
+                         <p className="text-xs font-semibold text-[#2B2B2B]">No matching messages found</p>
+                         <button
+                           type="button"
+                           onClick={() => setChatSearchQuery("")}
+                           className="text-[10px] text-[#7A9E85] font-mono font-bold hover:underline cursor-pointer"
+                         >
+                           Clear Search Filter
+                         </button>
+                       </div>
+                     );
+                   }
+                   
+                   return filteredHistory.map((msg, idx) => {
+                     const isUser = msg.sender === 'user';
+                     return (
+                       <div key={msg.id} className={`flex gap-3.5 ${isUser ? "justify-end" : "justify-start"} message-enter`} style={{ animationDelay: `${idx * 0.05}s` }}>
+                         
+                         {!isUser && (
+                           <div className="w-8 h-8 rounded-xl bg-white border border-[#EDEBE7] flex-shrink-0 flex items-center justify-center shadow-sm">
+                             {(() => {
+                               const IconComponent = CHARACTER_ICONS[activeChar.id] || Sparkles;
+                               return <IconComponent className="w-4 h-4 text-[#7A9E85]" />;
+                             })()}
+                           </div>
+                         )}
 
-                {chatHistory.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center min-h-[400px] text-center px-6 py-12">
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#C9A45C] to-[#A3AE86] flex items-center justify-center shadow-lg mb-5">
-                      {(() => {
-                        const IconComponent = CHARACTER_ICONS[activeChar.id] || Sparkles;
-                        return <IconComponent className="w-8 h-8 text-white" />;
-                      })()}
-                    </div>
-                    <h2 className="text-2xl font-bold font-serif-display aurora-gradient-text mb-2">
-                      Chat with {activeChar.name}
-                    </h2>
-                    <p className="text-sm text-[#6B6B6B] max-w-md mb-8">
-                      {activeChar.specialization}. Start a conversation below or try one of these prompts:
-                    </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-xl">
-                      {[
-                        { icon: <MessageCircle className="w-4 h-4" />, label: "Tell me about yourself", text: "Learn about this guide's background and approach" },
-                        { icon: <Heart className="w-4 h-4" />, label: "I need support today", text: "Share what's on your mind in a safe space" },
-                        { icon: <Lightbulb className="w-4 h-4" />, label: "Give me a new perspective", text: "Get a fresh take on a situation you're facing" },
-                        { icon: <Sparkles className="w-4 h-4" />, label: "Start a guided exercise", text: "Begin a breathing or reflection practice" },
-                      ].map((suggestion, i) => (
-                        <button
-                          key={i}
-                          type="button"
-                          onClick={() => setMessageText(suggestion.label)}
-                          className="suggestion-card flex items-start gap-3 p-4 rounded-xl bg-white/80 border border-[#EDEBE7] hover:border-[#C9A45C]/30 text-left cursor-pointer group"
-                        >
-                          <div className="w-8 h-8 rounded-lg bg-[#FAF8F5] border border-[#EDEBE7] flex items-center justify-center shrink-0 text-[#C9A45C] group-hover:bg-[#F6F1E6] transition-colors">
-                            {suggestion.icon}
-                          </div>
-                          <div>
-                            <p className="text-xs font-semibold text-[#2B2B2B]">{suggestion.label}</p>
-                            <p className="text-[10px] text-[#6B6B6B] mt-0.5">{suggestion.text}</p>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  (() => {
-                    const filteredHistory = chatHistory.filter((msg) => {
-                      const query = chatSearchQuery.toLowerCase().trim();
-                      if (!query) return true;
-                      return msg.text.toLowerCase().includes(query);
-                    });
-                    
-                    if (filteredHistory.length === 0 && chatHistory.length > 0) {
-                      return (
-                        <div className="p-8 text-center text-[#6B6B6B] border border-dashed border-[#EDEBE7] rounded-2xl space-y-1 bg-white/50">
-                          <p className="text-xs font-semibold text-[#2B2B2B]">No matching messages found</p>
-                          <button
-                            type="button"
-                            onClick={() => setChatSearchQuery("")}
-                            className="text-[10px] text-[#7A9E85] font-mono font-bold hover:underline cursor-pointer"
-                          >
-                            Clear Search Filter
-                          </button>
-                        </div>
-                      );
-                    }
-                    
-                    return filteredHistory.map((msg, idx) => {
-                      const isUser = msg.sender === 'user';
-                      return (
-                        <div key={msg.id} className={`flex gap-3 ${isUser ? "justify-end" : "justify-start"} message-enter`} style={{ animationDelay: `${idx * 0.05}s` }}>
-                          
-                          {!isUser && (
-                            <div className="w-8 h-8 rounded-xl bg-white border border-[#EDEBE7] flex-shrink-0 flex items-center justify-center shadow-sm mt-1">
-                              {(() => {
-                                const IconComponent = CHARACTER_ICONS[activeChar.id] || Sparkles;
-                                return <IconComponent className="w-4 h-4 text-[#7A9E85]" />;
-                              })()}
-                            </div>
-                          )}
-
-                          <div className={`max-w-[80%] flex flex-col ${isUser ? "items-end" : "items-start"}`}>
-                            <div 
-                              className={`text-sm leading-relaxed whitespace-pre-wrap ${
-                                isUser
-                                  ? "bg-[#7A9E85] text-white rounded-2xl rounded-br-sm px-4 py-3 shadow-sm"
-                                  : "bg-white border border-[#EDEBE7] text-[#4A4A4A] rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm"
-                              }`}
-                            >
-                              {showEncryptedView 
-                                ? generateCiphertext(msg.text) 
-                                : msg.text.replace(/\*\*/g, '')
-                              }
-                            </div>
-                            
-                            {msg.isMedicoLegal && (
-                               <MedicoLegalLawyersDirectory initialLocation={userLocation} />
-                            )}
-                            
-                            <span className={`text-[10px] text-[#6B6B6B] mt-1.5 px-1 font-mono ${isUser ? "text-right" : "text-left"}`}>
-                              {msg.timestamp} {showEncryptedView && "(CLIENT-ENCRYPTED SHA-256)"}
-                            </span>
-                          </div>
-                        </div>
-                      );
-                    });
-                  })()
-                )}
+                         <div className="max-w-[85%] flex flex-col">
+                           <div 
+                             className={`p-3.5 text-sm leading-relaxed whitespace-pre-wrap ${
+                               getCharacterBubbleStyle(activeChar.id, isUser)
+                             }`}
+                           >
+                             {showEncryptedView 
+                               ? generateCiphertext(msg.text) 
+                               : msg.text.replace(/\*\*/g, '')
+                             }
+                           </div>
+                           
+                           {msg.isMedicoLegal && (
+                              <MedicoLegalLawyersDirectory initialLocation={userLocation} />
+                           )}
+                           
+                           <span className={`text-[10px] text-[#6B6B6B] mt-1 px-1 font-mono ${isUser ? "text-right" : "text-left"}`}>
+                             {msg.timestamp} {showEncryptedView && "(CLIENT-ENCRYPTED SHA-256)"}
+                           </span>
+                         </div>
+                       </div>
+                     );
+                   });
+                 })()}
 
                 {isTyping && (
-                  <div className="flex gap-3 message-enter">
-                    <div className="w-8 h-8 rounded-xl bg-white border border-[#EDEBE7] flex-shrink-0 flex items-center justify-center shadow-sm mt-1">
+                  <div className="flex gap-3.5 message-enter">
+                    <div className="w-8 h-8 rounded-xl bg-white border border-[#EDEBE7] flex-shrink-0 flex items-center justify-center shadow-sm">
                       {(() => {
                         const IconComponent = CHARACTER_ICONS[activeChar.id] || Sparkles;
                         return <IconComponent className="w-4 h-4 text-[#7A9E85]" />;
                       })()}
                     </div>
-                    <div className="bg-white border border-[#EDEBE7] px-4 py-3 rounded-2xl rounded-bl-sm shadow-sm">
+                    <div className="bg-white border border-[#EDEBE7] p-4 rounded-2xl rounded-bl-sm text-sm flex items-center gap-3 shadow-sm">
                       <div className="flex gap-1.5">
                         <div className="w-2 h-2 rounded-full bg-[#7A9E85] typing-dot"></div>
                         <div className="w-2 h-2 rounded-full bg-[#7A9E85] typing-dot"></div>
@@ -8845,8 +8760,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 <div ref={chatEndRef} />
               </div>
 
-              <div className="shrink-0 px-5 py-4 bg-gradient-to-t from-white/95 via-white/90 to-transparent">
-                <form onSubmit={handleSendMessage} className="space-y-3 max-w-4xl mx-auto">
+              <div className="p-4 bg-white border-t border-[#EDEBE7]">
+                <form onSubmit={handleSendMessage} className="space-y-3">
                   {shareSuccessToast && (
                     <div className="p-3 bg-[#E8F0EA] border border-[#7A9E85]/30 rounded-2xl text-xs text-[#2B2B2B] font-sans flex items-start gap-2 leading-normal">
                       <CheckCircle2 className="w-4 h-4 text-[#7A9E85] shrink-0 mt-0.5" />
@@ -8947,7 +8862,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     )
                   )}
 
-                  <div className="flex items-center gap-3 w-full rounded-xl border border-[#EDEBE7] bg-white shadow-sm focus-within:border-[#C9A45C]/40 focus-within:ring-2 focus-within:ring-[#C9A45C]/10 transition-all duration-200 px-2 py-1">
+                  <div className="flex items-center gap-3 w-full">
                     <button
                       type="button"
                       onClick={() => {
@@ -8956,10 +8871,10 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           (fileInput as HTMLInputElement).click();
                         }
                       }}
-                      className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-all duration-200 text-[#6B6B6B] hover:text-[#C9A45C] hover:bg-[#F6F1E6] active:scale-95 cursor-pointer"
+                      className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 bg-[#FAF8F5] hover:bg-[#EDEBE7] text-[#6B6B6B] border border-[#EDEBE7] shadow-sm active:scale-95 cursor-pointer"
                       title="Attach media or reflection snapshot"
                     >
-                      <Paperclip className="w-[18px] h-[18px]" />
+                      <Plus className="w-5 h-5 stroke-[1.8]" />
                     </button>
 
                     <input
@@ -8974,52 +8889,59 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       }}
                     />
 
-                    <div className="flex-1 flex items-center gap-2">
+                    <div className={`flex-1 flex items-center gap-2 px-4 py-2 rounded-2xl border transition-all duration-200 shadow-sm bg-white border-[#EDEBE7] ${getCharacterAccentBorder(activeChar.id)}`}>
                       <input
                         type="text"
                         value={messageText}
                         onChange={(e) => setMessageText(e.target.value)}
                         placeholder={isListening ? "Listening... speak now..." : "Message..."}
-                        className="bg-transparent border-none outline-none text-sm flex-1 font-sans px-2 py-2 text-[#2B2B2B] placeholder-[#6B6B6B] focus:ring-0"
+                        className="bg-transparent border-none outline-none text-sm flex-1 font-sans px-1 py-1 text-[#2B2B2B] placeholder-[#6B6B6B] focus:ring-0"
                       />
+
+                      <button
+                        type="button"
+                        onClick={toggleListening}
+                        className={`p-2 rounded-full transition-all duration-200 shrink-0 flex items-center justify-center cursor-pointer ${
+                          isListening 
+                            ? "bg-[#7A9E85]/10 text-[#7A9E85] scale-105" 
+                            : "hover:bg-[#FAF8F5] text-[#6B6B6B] hover:text-[#2B2B2B]"
+                        }`}
+                        title={isListening ? "Voice matching active. Press to pause dictation." : "Physically exhausted? Dictate your thoughts."}
+                      >
+                        <Mic className={`w-[17px] h-[17px] ${isListening ? 'animate-pulse' : ''}`} />
+                      </button>
+
+                      <button
+                        type={messageText.trim() ? "submit" : "button"}
+                        onClick={() => {
+                          if (!messageText.trim()) {
+                            toggleListening();
+                          }
+                        }}
+                        className={`w-[34px] h-[34px] rounded-full flex items-center justify-center shrink-0 transition-all duration-200 active:scale-95 cursor-pointer hover:scale-105 ${
+                          messageText.trim() 
+                            ? getCharacterSubmitBg(activeChar.id) + " shadow-sm" 
+                            : "bg-[#FAF8F5] hover:bg-[#EDEBE7] text-[#6B6B6B]"
+                        }`}
+                        title={messageText.trim() ? "Send Safe Message" : "Voice dictation action"}
+                      >
+                        {messageText.trim() ? (
+                          <svg className="w-3.5 h-3.5 text-white transform rotate-45 -translate-x-[1px] translate-y-[0.5px]" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                          </svg>
+                        ) : (
+                          <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round">
+                            <line x1="6" y1="10" x2="6" y2="14" />
+                            <line x1="10" y1="6" x2="10" y2="18" />
+                            <line x1="14" y1="8" x2="14" y2="16" />
+                            <line x1="18" y1="10" x2="18" y2="14" />
+                          </svg>
+                        )}
+                      </button>
                     </div>
-
-                    <button
-                      type="button"
-                      onClick={toggleListening}
-                      className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer ${
-                        isListening 
-                          ? "bg-[#7A9E85]/10 text-[#7A9E85]" 
-                          : "text-[#6B6B6B] hover:text-[#C9A45C] hover:bg-[#F6F1E6]"
-                      }`}
-                      title={isListening ? "Voice matching active. Press to pause dictation." : "Physically exhausted? Dictate your thoughts."}
-                    >
-                      <Mic className={`w-[18px] h-[18px] ${isListening ? 'animate-pulse' : ''}`} />
-                    </button>
-
-                    <button
-                      type={messageText.trim() ? "submit" : "button"}
-                      onClick={() => {
-                        if (!messageText.trim()) {
-                          toggleListening();
-                        }
-                      }}
-                      className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-all duration-200 active:scale-95 cursor-pointer hover:scale-105 ${
-                        messageText.trim() 
-                          ? "bg-gradient-to-r from-[#C9A45C] to-[#A3AE86] text-white shadow-sm hover:shadow-md" 
-                          : "text-[#6B6B6B] hover:text-[#C9A45C] hover:bg-[#F6F1E6]"
-                      }`}
-                      title={messageText.trim() ? "Send Safe Message" : "Voice dictation action"}
-                    >
-                      {messageText.trim() ? (
-                        <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-                        </svg>
-                      ) : (
-                        <Mic className="w-[18px] h-[18px]" />
-                      )}
-                    </button>
                   </div>
+
+
                 </form>
               </div>
             </>
