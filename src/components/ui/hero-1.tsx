@@ -525,37 +525,38 @@ const Hero1 = ({ onSignIn, onGetStarted }: Hero1Props) => {
 
           <div className="space-y-4">
             <h4 className="text-xs font-semibold uppercase tracking-[0.15em] text-[#2E2A22]">
-              Product
+              Platform
             </h4>
             <ul className="space-y-3 text-sm text-[#73796F]">
-              <li><a href="#features" className="hover:text-[#2E2A22] transition-colors">Features</a></li>
-              <li><a href="#" className="hover:text-[#2E2A22] transition-colors">Methodology</a></li>
+              <li><a href="#features" className="hover:text-[#2E2A22] transition-colors">AI Chat</a></li>
+              <li><a href="#features" className="hover:text-[#2E2A22] transition-colors">Journaling</a></li>
+              <li><a href="#features" className="hover:text-[#2E2A22] transition-colors">Mood Analytics</a></li>
+              <li><a href="#features" className="hover:text-[#2E2A22] transition-colors">Letters</a></li>
+              <li><a href="#features" className="hover:text-[#2E2A22] transition-colors">Community</a></li>
+            </ul>
+          </div>
+
+          <div className="space-y-4">
+            <h4 className="text-xs font-semibold uppercase tracking-[0.15em] text-[#2E2A22]">
+              Resources
+            </h4>
+            <ul className="space-y-3 text-sm text-[#73796F]">
+              <li><a href="#features" className="hover:text-[#2E2A22] transition-colors">Wellness Tools</a></li>
               <li><a href="#safety" className="hover:text-[#2E2A22] transition-colors">Safety Guide</a></li>
-              <li><a href="#" className="hover:text-[#2E2A22] transition-colors">Pricing</a></li>
+              <li><a href="#features" className="hover:text-[#2E2A22] transition-colors">Clinical Directory</a></li>
+              <li><a href="#features" className="hover:text-[#2E2A22] transition-colors">Therapeutic Blog</a></li>
             </ul>
           </div>
 
           <div className="space-y-4">
             <h4 className="text-xs font-semibold uppercase tracking-[0.15em] text-[#2E2A22]">
-              Philosophy
+              Company
             </h4>
             <ul className="space-y-3 text-sm text-[#73796F]">
-              <li><a href="#" className="hover:text-[#2E2A22] transition-colors">The Manifesto</a></li>
-              <li><a href="#" className="hover:text-[#2E2A22] transition-colors">Mindfulness AI</a></li>
-              <li><a href="#" className="hover:text-[#2E2A22] transition-colors">Ethics of Slow Tech</a></li>
-              <li><a href="#" className="hover:text-[#2E2A22] transition-colors">Journaling Rituals</a></li>
-            </ul>
-          </div>
-
-          <div className="space-y-4">
-            <h4 className="text-xs font-semibold uppercase tracking-[0.15em] text-[#2E2A22]">
-              Support
-            </h4>
-            <ul className="space-y-3 text-sm text-[#73796F]">
-              <li><a href="#" className="hover:text-[#2E2A22] transition-colors">Help Center</a></li>
-              <li><a href="#" className="hover:text-[#2E2A22] transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="hover:text-[#2E2A22] transition-colors">Terms of Service</a></li>
-              <li><a href="#" className="hover:text-[#2E2A22] transition-colors">Contact Us</a></li>
+              <li><a href="#philosophy" className="hover:text-[#2E2A22] transition-colors">Vision & Mission</a></li>
+              <li><a href="#safety" className="hover:text-[#2E2A22] transition-colors">Privacy</a></li>
+              <li><a href="#safety" className="hover:text-[#2E2A22] transition-colors">Terms of Service</a></li>
+              <li><a href="#features" className="hover:text-[#2E2A22] transition-colors">9 Companion Guides</a></li>
             </ul>
           </div>
         </div>
