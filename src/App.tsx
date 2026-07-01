@@ -8417,7 +8417,11 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       return <IconComponent className="w-5 h-5 text-white" />;
                     })()}
                   </div>
-                  <h2 className="text-sm font-semibold text-[#2B2B2B] font-sans truncate">{activeChar.name}</h2>
+                  <h2 className="text-sm font-semibold text-[#2B2B2B] font-sans">{activeChar.name}</h2>
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-[#EDEBE7] bg-white/80 text-[9px] text-[#6B6B6B] font-sans tracking-wide shadow-sm ml-auto">
+                    <Lock className="w-2.5 h-2.5 text-[#7A9E85]" />
+                    Chats are encrypted and private
+                  </div>
                 </div>
               </div>
 
@@ -8439,12 +8443,6 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     </div>
                   )}
 
-                  <div className="flex justify-center">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#EDEBE7] bg-white/80 text-[10px] text-[#6B6B6B] font-mono tracking-wide shadow-sm">
-                      <Lock className="w-3 h-3 text-[#7A9E85]" />
-                      Chats are encrypted and private
-                    </div>
-                  </div>
                 
                 {isCrisisActive && (
                   <div className="p-4 bg-[#F5E6E0] border border-[#EDEBE7] rounded-2xl relative space-y-2 mb-4 animate-fade-in-up">
@@ -8649,7 +8647,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                         </button>
                       </div>
 
-                      <p className="text-[11px] text-[#6B6B6B] leading-relaxed italic">
+                      <p className="text-[11px] text-[#6B6B6B] leading-relaxed italic font-serif">
                         This summary was compiled server-side by our de-escalation sanitization model. Your names, unique metadata, and severe triggering expressions have been stripped.
                       </p>
 
@@ -8660,7 +8658,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           onChange={(e) => setSharedDialogueSummary(e.target.value)}
                           maxLength={300}
                           placeholder="Refining dialogue..."
-                          className="w-full bg-transparent border-none outline-none text-xs text-[#2B2B2B] placeholder-[#6B6B6B] resize-none focus:ring-0 leading-relaxed"
+                          className="w-full bg-transparent border-none outline-none text-xs text-[#2B2B2B] placeholder-[#6B6B6B] resize-none focus:ring-0 leading-relaxed font-serif"
                         />
                         <div className="text-right text-[9px] font-mono text-[#6B6B6B] mt-1">
                           {sharedDialogueSummary.length}/300 chars
