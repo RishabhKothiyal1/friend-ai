@@ -6952,7 +6952,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           activeCenterTab === 'chat'
             ? "bg-white border-[#EDEBE7] dark:bg-black/30 dark:border-white/10"
             : themeClass("bg-white border-[#EDEBE7]", "bg-[#0b0f19] border-white/10", "bg-[#faf6ee] border-[#e3d5be]")
-        } ${activeCenterTab === 'chat' ? 'aurora-bg-wellness' : ''}`}>
+        } ${activeCenterTab === 'chat' ? 'aurora-bg' : ''}`}>
           
           
           {activeCenterTab === 'journal' && (
@@ -8721,15 +8721,6 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                   </div>
                 )}
 
-                {chatHistory.length > 0 && (
-                  <div className="flex justify-center">
-                    <div className="bg-[#E8F0EA]/80 backdrop-blur px-4 py-1.5 rounded-full flex items-center gap-1.5">
-                      <Lock className="w-3 h-3 text-[#6B6B6B]" />
-                      <span className="text-[10px] text-[#6B6B6B] font-medium">Chats are encrypted and private</span>
-                    </div>
-                  </div>
-                )}
-
                 {chatHistory.length === 0 ? (
                   <div className="flex flex-col items-center justify-center min-h-[400px] text-center px-6 py-12">
                     <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#C9A45C] to-[#A3AE86] flex items-center justify-center shadow-lg mb-5">
@@ -8809,7 +8800,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                             <div 
                               className={`text-sm leading-relaxed whitespace-pre-wrap ${
                                 isUser
-                                  ? "bg-[#E8F0EA] text-[#2B2B2B] rounded-2xl rounded-br-sm px-4 py-3 shadow-sm"
+                                  ? "bg-[#7A9E85] text-white rounded-2xl rounded-br-sm px-4 py-3 shadow-sm"
                                   : "bg-white border border-[#EDEBE7] text-[#4A4A4A] rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm"
                               }`}
                             >

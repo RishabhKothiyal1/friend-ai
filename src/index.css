@@ -307,26 +307,3 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(201, 164, 92, 0.15);
 }
-
-.aurora-bg-wellness {
-  position: relative;
-  overflow: hidden;
-}
-
-.aurora-bg-wellness::before {
-  content: '';
-  position: absolute;
-  inset: -50%;
-  z-index: 0;
-  background: radial-gradient(ellipse 80% 60% at 20% 20%, rgba(122, 158, 133, 0.1) 0%, transparent 60%),
-              radial-gradient(ellipse 60% 50% at 80% 30%, rgba(245, 230, 224, 0.09) 0%, transparent 55%),
-              radial-gradient(ellipse 50% 40% at 50% 80%, rgba(222, 232, 240, 0.12) 0%, transparent 50%),
-              radial-gradient(ellipse 70% 50% at 10% 70%, rgba(122, 158, 133, 0.06) 0%, transparent 50%);
-  animation: aurora-shift 12s ease-in-out infinite;
-  pointer-events: none;
-}
-
-.aurora-bg-wellness > * {
-  position: relative;
-  z-index: 1;
-}
