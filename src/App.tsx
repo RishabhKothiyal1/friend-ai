@@ -63,7 +63,8 @@ import {
   Settings,
   Palette,
   Menu,
-  Linkedin
+  Linkedin,
+  MoreHorizontal
 } from "lucide-react";
 import { calmingMusic } from "./lib/calmingMusic";
 import { mozartPiano } from "./lib/mozartPiano";
@@ -8687,27 +8688,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                         </div>
                       </div>
                     </div>
-                  ) : (
-                    chatHistory.length > 1 && (
-                      <div className="flex items-center justify-between gap-2 px-1">
-                        <div className="flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#7A9E85] animate-ping shrink-0" />
-                          <span className="text-[10px] text-[#6B6B6B]">Share an anonymous summary to Community Wall?</span>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={handleGenerateDialogueSummary}
-                          disabled={isSummarizingAndSharing}
-                          className="px-2.5 py-1 bg-[#7A9E85] hover:bg-[#6B9080] disabled:opacity-40 text-white font-bold text-[9px] uppercase tracking-wider rounded-lg cursor-pointer transition-all shrink-0"
-                        >
-                          {isSummarizingAndSharing ? "Generating..." : "Share"}
-                        </button>
-                        {shareError && (
-                          <span className="text-[9px] text-[#6B6B6B]">{shareError}</span>
-                        )}
-                      </div>
-                    )
-                  )}
+                  ) : null}
 
                   <div className="flex items-center gap-2 w-full rounded-[28px] border border-[#EDEBE7] bg-white shadow-sm focus-within:border-[#7A9E85]/40 focus-within:ring-2 focus-within:ring-[#7A9E85]/10 transition-all duration-200 px-3 h-[52px]">
                     <button
@@ -8746,15 +8727,11 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
                     <button
                       type="button"
-                      onClick={toggleListening}
-                      className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors cursor-pointer ${
-                        isListening 
-                          ? "bg-[#7A9E85]/10 text-[#7A9E85]" 
-                          : "text-[#6B6B6B] hover:text-[#7A9E85] hover:bg-[#E8F0EA]"
-                      }`}
-                      title={isListening ? "Voice matching active. Press to pause dictation." : "Physically exhausted? Dictate your thoughts."}
+                      onClick={handleGenerateDialogueSummary}
+                      className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-[#6B6B6B] hover:text-[#7A9E85] hover:bg-[#E8F0EA] transition-colors cursor-pointer"
+                      title="Share anonymous summary to Community Wall"
                     >
-                      <Mic className={`w-[18px] h-[18px] ${isListening ? 'animate-pulse' : ''}`} />
+                      <MoreHorizontal className="w-[18px] h-[18px]" />
                     </button>
 
                     <button
