@@ -7,7 +7,6 @@ import {
   Lock,
   Check,
   Clock, 
-  HelpCircle, 
   Heart, 
   Sparkles, 
   Video,
@@ -64,8 +63,7 @@ import {
   Settings,
   Palette,
   Menu,
-  Linkedin,
-  MoreHorizontal
+  Linkedin
 } from "lucide-react";
 import { calmingMusic } from "./lib/calmingMusic";
 import { mozartPiano } from "./lib/mozartPiano";
@@ -8411,40 +8409,14 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
               {/* Floating glass header */}
               <div className="shrink-0 sticky top-0 z-10 px-4 pt-4 pb-2">
-                <div className="max-w-[820px] mx-auto w-full backdrop-blur-xl bg-white/70 border border-white/30 rounded-2xl shadow-lg shadow-black/[0.02] px-5 py-3 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#7A9E85] to-[#6B9080] flex items-center justify-center shadow-sm shrink-0">
-                      <Sparkles className="w-5 h-5 text-white" />
-                    </div>
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-2">
-                        <h2 className="text-sm font-semibold text-[#2B2B2B] font-sans truncate">Friend AI</h2>
-                        <div className="flex items-center gap-1.5 px-2 py-0.5 bg-[#E8F0EA] rounded-full shrink-0">
-                          <div className="w-1.5 h-1.5 rounded-full bg-[#7A9E85] animate-pulse" />
-                          <span className="text-[9px] text-[#5D7E68] font-medium font-mono">Online</span>
-                        </div>
-                      </div>
-                      <p className="text-[10px] text-[#6B6B6B] font-mono truncate">{activeChar.name} &middot; Your companion</p>
-                    </div>
+                <div className="max-w-[820px] mx-auto w-full backdrop-blur-xl bg-white/70 border border-white/30 rounded-2xl shadow-lg shadow-black/[0.02] px-5 py-3 flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#7A9E85] to-[#6B9080] flex items-center justify-center shadow-sm shrink-0">
+                    {(() => {
+                      const IconComponent = CHARACTER_ICONS[activeChar.id] || Sparkles;
+                      return <IconComponent className="w-5 h-5 text-white" />;
+                    })()}
                   </div>
-                  <div className="flex items-center gap-1 shrink-0">
-                    <button 
-                      type="button"
-                      onClick={() => {}} 
-                      className="w-8 h-8 rounded-xl hover:bg-[#E8F0EA] flex items-center justify-center text-[#6B6B6B] hover:text-[#7A9E85] transition-colors cursor-pointer" 
-                      title="Help &amp; Support"
-                    >
-                      <HelpCircle className="w-[18px] h-[18px]" />
-                    </button>
-                    <button 
-                      type="button"
-                      onClick={() => setIsHeaderMenuOpen(!isHeaderMenuOpen)} 
-                      className="w-8 h-8 rounded-xl hover:bg-[#E8F0EA] flex items-center justify-center text-[#6B6B6B] hover:text-[#7A9E85] transition-colors cursor-pointer" 
-                      title="More options"
-                    >
-                      <MoreHorizontal className="w-[18px] h-[18px]" />
-                    </button>
-                  </div>
+                  <h2 className="text-sm font-semibold text-[#2B2B2B] font-sans truncate">{activeChar.name}</h2>
                 </div>
               </div>
 
