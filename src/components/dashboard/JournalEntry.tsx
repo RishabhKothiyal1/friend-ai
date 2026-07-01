@@ -23,16 +23,9 @@ export function JournalEntry({ onNewEntry }: JournalEntryProps) {
           </div>
         </div>
 
-        <div className="space-y-2">
-          {[
-            { title: "Today's reflections", preview: "Finding moments of calm..." },
-            { title: "Weekly check-in", preview: "Noticing patterns in..." },
-          ].map((entry, idx) => (
-            <div key={idx} className="p-3 rounded-xl border border-[#EDEBE7] bg-[#FAF8F5] hover:border-[#7A9E85]/30 hover:bg-[#E8F0EA]/30 transition-all cursor-pointer group/item">
-              <h4 className="font-semibold text-[#2B2B2B] group-hover/item:text-[#7A9E85] transition-colors text-xs">{entry.title}</h4>
-              <p className="text-[11px] text-[#6B6B6B] mt-0.5 truncate">{entry.preview}</p>
-            </div>
-          ))}
+        <div className="flex flex-col items-center justify-center py-6 border border-dashed border-[#EDEBE7] rounded-xl bg-[#FAF8F5]">
+          <p className="text-xs font-semibold text-[#2B2B2B]">No journal entries yet</p>
+          <p className="text-[10px] text-[#6B6B6B] mt-1 text-center">Tap 'New Entry' below to write your first reflection.</p>
         </div>
       </div>
 
