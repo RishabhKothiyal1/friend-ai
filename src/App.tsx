@@ -1412,62 +1412,18 @@ function isDarkCharacter(charId: string, themeMode?: string): boolean {
 
 function getCharacterBubbleStyle(charId: string, isUser: boolean): string {
   if (isUser) {
-    switch (charId) {
-      case "rooh": return "bg-[#aa6b51] text-white rounded-tr-none shadow-sm shadow-orange-100";
-      case "ganesh": return "bg-[#d97706] text-white rounded-tr-none shadow-sm shadow-amber-100";
-      case "raag": return "bg-[#a0526e] text-white rounded-tr-none shadow-sm shadow-pink-150";
-      case "manji": return "bg-[#b25835] text-white rounded-tr-none shadow-sm shadow-rose-100";
-      case "tara": return "bg-[#4f46e5] text-indigo-50 rounded-tr-none shadow-sm shadow-indigo-900/30";
-      case "inayat": return "bg-[#312e81] text-indigo-50 rounded-tr-none shadow-sm shadow-blue-900/40";
-      case "altaf": return "bg-[#7e22ce] text-white rounded-tr-none shadow-sm shadow-purple-100";
-      case "veer": return "bg-[#5c4033] text-white rounded-tr-none shadow-sm shadow-amber-100";
-      case "manjishtha": return "bg-[#804a30] text-white rounded-tr-none shadow-sm shadow-amber-150";
-      default: return "bg-indigo-650 text-white rounded-tr-none shadow-sm shadow-indigo-200";
-    }
+    return "bg-[#7A9E85] text-white rounded-2xl rounded-br-sm shadow-sm";
   } else {
-    switch (charId) {
-      case "rooh": return "bg-white dark:bg-black/95 text-[#5c4033] dark:text-[#e2d0c4] border border-[#e2d0c4]/80 rounded-tl-none shadow-sm";
-      case "ganesh": return "bg-white dark:bg-black/95 text-[#8c6239] dark:text-[#ecdca5] border border-[#ecdca5]/80 rounded-tl-none shadow-sm";
-      case "raag": return "bg-white dark:bg-black/95 text-[#5a2e3d] dark:text-[#dbb2be] border border-[#dbb2be]/80 rounded-tl-none shadow-sm";
-      case "manji": return "bg-[#fbf4ee]/95 text-[#713018] border border-[#f4e6de]/80 rounded-tl-none shadow-sm";
-      case "tara": return "bg-[#1e293b]/95 text-[#e2e8f0] border border-[#334155]/80 rounded-tl-none shadow-inner";
-      case "inayat": return "bg-[#0f172a]/95 text-slate-200 border border-[#1e293b]/80 rounded-tl-none shadow-sm";
-      case "altaf": return "bg-white dark:bg-black/95 text-[#581c87] dark:text-[#e9d5ff] border border-[#e9d5ff]/80 rounded-tl-none shadow-sm";
-      case "veer": return "bg-white dark:bg-black/95 text-[#3e2723] dark:text-[#dfd4c5] border border-[#dfd4c5]/80 rounded-tl-none shadow-sm";
-      case "manjishtha": return "bg-[#fbf4ee]/95 text-[#7a3219] border border-[#ebdcb9]/80 rounded-tl-none shadow-sm";
-      default: return "bg-slate-50 dark:bg-[#0a0a0a] text-slate-800 dark:text-slate-200 border border-slate-200/80 rounded-tl-none shadow-sm";
-    }
+    return "bg-white dark:bg-[#0f172a] text-[#4A4A4A] dark:text-[#e2e8f0] border border-[#EDEBE7] dark:border-[#334155] rounded-2xl rounded-bl-sm shadow-sm";
   }
 }
 
 function getCharacterSubmitBg(charId: string): string {
-  switch (charId) {
-    case "rooh": return "bg-[#aa6b51] hover:bg-[#965a41] text-white";
-    case "ganesh": return "bg-[#d97706] hover:bg-[#b45309] text-white";
-    case "raag": return "bg-[#a0526e] hover:bg-[#853f56] text-white";
-    case "manji": return "bg-[#b25835] hover:bg-[#9c4523] text-white";
-    case "tara": return "bg-[#4f46e5] hover:bg-[#4338ca] text-[#e2e8f0]";
-    case "inayat": return "bg-[#312e81] hover:bg-[#221f66] text-white";
-    case "altaf": return "bg-[#7e22ce] hover:bg-[#6b21a8] text-white";
-    case "veer": return "bg-[#5c4033] hover:bg-[#402d24] text-white";
-    case "manjishtha": return "bg-[#804a30] hover:bg-[#663b26] text-white";
-    default: return "bg-indigo-600 hover:bg-indigo-50 dark:hover:bg-white/[0.02]0 text-white";
-  }
+  return "bg-[#7A9E85] hover:bg-[#6B9080] text-white";
 }
 
 function getCharacterAccentBorder(charId: string): string {
-  switch (charId) {
-    case "rooh": return "focus-within:border-[#aa6b51] focus-within:ring-2 focus-within:ring-[#aa6b51]/10";
-    case "ganesh": return "focus-within:border-[#d97706] focus-within:ring-2 focus-within:ring-[#d97706]/10";
-    case "raag": return "focus-within:border-[#a0526e] focus-within:ring-2 focus-within:ring-[#a0526e]/10";
-    case "manji": return "focus-within:border-[#b25835] focus-within:ring-2 focus-within:ring-[#b25835]/10";
-    case "tara": return "focus-within:border-[#4f46e5] focus-within:ring-2 focus-within:ring-[#4f46e5]/10";
-    case "inayat": return "focus-within:border-[#312e81] focus-within:ring-2 focus-within:ring-[#312e81]/10";
-    case "altaf": return "focus-within:border-[#7e22ce] focus-within:ring-2 focus-within:ring-[#7e22ce]/10";
-    case "veer": return "focus-within:border-[#5c4033] focus-within:ring-2 focus-within:ring-[#5c4033]/10";
-    case "manjishtha": return "focus-within:border-[#804a30] focus-within:ring-2 focus-within:ring-[#804a30]/10";
-    default: return "focus-within:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-100";
-  }
+  return "focus-within:border-[#7A9E85] focus-within:ring-2 focus-within:ring-[#7A9E85]/10";
 }
 
 // ============================================
@@ -6183,8 +6139,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
     <div 
       className={`w-full min-h-screen font-sans flex antialiased transition-all duration-500 ${
         activeCenterTab === 'chat' && activeChar 
-          ? (isDarkCharacter(activeChar.id, themeMode) ? "text-slate-100" : "text-slate-850")
-          : themeClass("bg-slate-50 text-slate-800", "bg-transparent text-slate-200", "bg-[#f4efe6] text-[#3e2723]")
+          ? (isDarkCharacter(activeChar.id, themeMode) ? "text-slate-100" : "text-[#2B2B2B]")
+          : themeClass("bg-[#FAF8F5] text-[#2B2B2B]", "bg-transparent text-slate-200", "bg-[#f4efe6] text-[#3e2723]")
       }`}
       style={
         themeMode === "midnight" 
@@ -6236,16 +6192,16 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
       {/* Main App Content Area (Right of Sidebar) */}
       <div className="flex-1 flex flex-col relative min-h-screen overflow-x-hidden">
         {isLoggedIn && (
-          <div className="md:hidden flex items-center gap-3 px-4 py-2.5 bg-slate-50 dark:bg-black border-b border-slate-200 dark:border-white/10 z-40 sticky top-0">
+          <div className="md:hidden flex items-center gap-3 px-4 py-2.5 bg-white border-b border-[#EDEBE7] z-40 sticky top-0">
             <button 
               onClick={() => setIsSidebarOpen(true)}
-              className="p-1.5 -ml-1.5 text-slate-600 dark:text-slate-350 hover:text-slate-900 dark:hover:text-white rounded-lg transition-colors cursor-pointer shrink-0"
+              className="p-1.5 -ml-1.5 text-[#6B6B6B] hover:text-[#2B2B2B] rounded-xl transition-colors cursor-pointer shrink-0"
             >
               <Menu className="w-5 h-5" />
             </button>
             <div className="flex items-center gap-2.5">
-              <img src="/friend_ai_logo.png" alt="friend ai logo" className="w-9 h-9 rounded-full object-cover border border-slate-200 dark:border-white/10 shrink-0" />
-              <span className="font-extrabold text-sm tracking-tight text-slate-800 dark:text-white">friend <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">ai</span></span>
+              <img src="/friend_ai_logo.png" alt="friend ai logo" className="w-9 h-9 rounded-xl object-cover border border-[#EDEBE7] shrink-0 shadow-sm" />
+              <span className="font-extrabold text-sm tracking-tight text-[#2B2B2B]">friend <span className="text-[#7A9E85]">ai</span></span>
             </div>
           </div>
         )}
@@ -6255,14 +6211,13 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           </div>
         ) : (
         <div className="flex-1 max-w-[1700px] w-full mx-auto p-4 md:p-6 grid grid-cols-1 xl:grid-cols-12 gap-6">
-          {/* Main Grid Content */}
         {activeCenterTab === 'analytics' ? (
           <div className="col-span-1 xl:col-span-12">
             
             <div className="flex justify-end mb-4">
               <button 
                 onClick={() => setShowMoodLog(true)}
-                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition-all shadow-md"
+                className="px-4 py-2 bg-[#7A9E85] hover:bg-[#6B9080] text-white text-xs font-bold rounded-xl transition-all shadow-sm"
               >
                 Open Mood Log
               </button>
@@ -6270,31 +6225,30 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             <Dashboard alias={loginAlias} onStartChat={() => setActiveCenterTab('chat')} onNewEntry={() => setActiveCenterTab('journal')} />
             
             {showMoodLog && (
-              <div className="fixed inset-0 z-[2000] flex items-center justify-center p-4 md:p-6 bg-black/60 backdrop-blur-sm animate-fade-in">
-                <div className="relative w-full max-w-6xl max-h-[90vh] overflow-y-auto bg-white dark:bg-[#0c101a] rounded-3xl shadow-2xl border border-slate-200 dark:border-white/10 p-2 sm:p-6 animate-slide-up">
+              <div className="fixed inset-0 z-[2000] flex items-center justify-center p-4 md:p-6 bg-black/30 backdrop-blur-sm animate-fade-in">
+                <div className="relative w-full max-w-6xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-lg border border-[#EDEBE7] p-2 sm:p-6 animate-slide-up">
                   <button 
                     onClick={() => setShowMoodLog(false)}
-                    className="absolute top-6 right-6 p-2 bg-slate-100 dark:bg-[#0a0a0a] hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white transition-colors z-10"
+                    className="absolute top-6 right-6 p-2 bg-[#FAF8F5] hover:bg-[#EDEBE7] rounded-full text-[#6B6B6B] hover:text-[#2B2B2B] transition-colors z-10"
                   >
                     ✕
                   </button>
                   
-              {/* Section 2: Encrypted Local Mood Tracker & Dynamic Trend Graph */}
-          <div className="bg-white dark:bg-black border border-slate-200 dark:border-white/10 shadow-xl p-6 rounded-2xl flex flex-col gap-4">
+          <div className="bg-white border border-[#EDEBE7] shadow-sm p-6 rounded-2xl flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className={`text-sm font-bold font-display ${themeClass("text-slate-800", "text-white", "text-[#3e2723]")}`}>Browser-Secure Mood Log</h3>
-                <p className={`text-xs font-sans ${themeClass("text-slate-500", "text-slate-400", "text-amber-900/70")}`}>Zero database storage. Encrypted on-device.</p>
+                <h3 className="text-sm font-bold font-display text-[#2B2B2B]">Browser-Secure Mood Log</h3>
+                <p className="text-xs font-sans text-[#6B6B6B]">Zero database storage. Encrypted on-device.</p>
               </div>
               <div className="flex items-center gap-2">
                 <button
                   id="download-mood-log-btn"
                   type="button"
                   onClick={handleDownloadMoodLog}
-                  className="px-2 py-1 flex items-center gap-1.5 text-[9px] font-mono leading-none border border-indigo-200 dark:border-indigo-800 hover:border-indigo-350 bg-indigo-50/ dark:bg-white/[0.02]/50 hover:bg-indigo-100/50 text-indigo-700 dark:text-indigo-300 rounded-lg transition-all cursor-pointer shadow-sm"
+                  className="px-2 py-1 flex items-center gap-1.5 text-[9px] font-mono leading-none border border-[#EDEBE7] hover:border-[#7A9E85] bg-[#FAF8F5] hover:bg-[#E8F0EA] text-[#7A9E85] rounded-xl transition-all cursor-pointer shadow-sm"
                   title="Download secure JSON backup of your moods locally"
                 >
-                  <Download className="w-3 h-3 text-indigo-650" />
+                  <Download className="w-3 h-3" />
                   Download Log
                 </button>
                 <button
@@ -6993,23 +6947,22 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             : "xl:h-[820px]"
         } shadow-sm relative animate-fade-in border transition-all duration-300 ${
           activeCenterTab === 'chat'
-            ? "backdrop-blur-md bg-white/40 border-indigo-100 dark:bg-black/30 dark:border-white/10"
-            : themeClass("bg-white border-indigo-100", "bg-[#0b0f19] border-white/10", "bg-[#faf6ee] border-[#e3d5be]")
+            ? "bg-white/80 border-[#EDEBE7] dark:bg-black/30 dark:border-white/10"
+            : themeClass("bg-white border-[#EDEBE7]", "bg-[#0b0f19] border-white/10", "bg-[#faf6ee] border-[#e3d5be]")
         }`}>
           
           
           {activeCenterTab === 'journal' && (
-            <div className="flex-1 flex flex-col p-6 animate-fade-in bg-white dark:bg-black rounded-2xl shadow-sm border border-slate-200 dark:border-white/10 min-h-[600px]">
+            <div className="flex-1 flex flex-col p-6 animate-fade-in bg-white rounded-2xl shadow-sm border border-[#EDEBE7] min-h-[600px]">
               
-              {/* Journal Title & Header Info */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-100 dark:border-white/5">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-[#EDEBE7]">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-indigo-50 dark:bg-white/[0.02] rounded-xl flex items-center justify-center border border-indigo-100 dark:border-white/10">
-                    <Book className="w-5 h-5 text-indigo-500" />
+                  <div className="w-10 h-10 bg-[#E8F0EA] rounded-xl flex items-center justify-center border border-[#EDEBE7]">
+                    <Book className="w-5 h-5 text-[#7A9E85]" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold font-serif text-slate-800 dark:text-slate-200">Reflective Journal</h2>
-                    <p className="text-xs text-slate-500">Your private space for unguided, local-only reflection.</p>
+                    <h2 className="text-xl font-bold font-serif text-[#2B2B2B]">Reflective Journal</h2>
+                    <p className="text-xs text-[#6B6B6B]">Your private space for unguided, local-only reflection.</p>
                   </div>
                 </div>
                 {!isCreatingJournal && (
@@ -7244,58 +7197,58 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
 
           {activeCenterTab === 'directory' && (
-            <div className="flex-1 flex flex-col p-6 animate-fade-in bg-slate-50/50 dark:bg-black/50 rounded-2xl">
+            <div className="flex-1 flex flex-col p-6 animate-fade-in bg-white rounded-2xl">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-indigo-50 dark:bg-white/[0.02]/30 rounded-xl flex items-center justify-center">
-                  <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                <div className="w-10 h-10 bg-[#E8F0EA] rounded-xl flex items-center justify-center border border-[#EDEBE7]">
+                  <svg className="w-5 h-5 text-[#7A9E85]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold font-serif text-slate-800 dark:text-slate-200">Clinical Directory</h2>
-                  <p className="text-xs text-slate-500">Important contacts and resources for your safety.</p>
+                  <h2 className="text-xl font-bold font-serif text-[#2B2B2B]">Clinical Directory</h2>
+                  <p className="text-xs text-[#6B6B6B]">Important contacts and resources for your safety.</p>
                 </div>
               </div>
               
               <div className="flex flex-col gap-6 max-w-2xl mx-auto w-full mt-4">
-                <div className={`p-5 rounded-2xl relative overflow-hidden group shadow-sm transition-all duration-300 border ${themeClass("bg-white border-indigo-150", "bg-[#0b0f19] border-white/10", "bg-[#faf6ee] border-[#e3d5be]")}`}>
-            <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50/ dark:bg-white/[0.02]/50 rounded-full blur-2xl -mr-10 -mt-10"></div>
-            <h3 className={`text-sm font-bold mb-2 flex items-center gap-2 font-display ${themeClass("text-slate-900", "text-white", "text-[#3e2723]")}`}>
-              <svg className="w-4 h-4 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
+                <div className="p-5 rounded-2xl relative overflow-hidden group shadow-sm border border-[#EDEBE7] bg-white">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-[#7A9E85]/5 rounded-full blur-2xl -mr-10 -mt-10"></div>
+            <h3 className="text-sm font-bold mb-2 flex items-center gap-2 font-display text-[#2B2B2B]">
+              <svg className="w-4 h-4 text-[#7A9E85]" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M2.166 4.9c-.807.124-1.424.814-1.424 1.631v6.938c0 .817.617 1.507 1.424 1.631.782.12 1.578.21 2.381.268.272.02.502-.178.542-.45a11.95 11.95 0 01.316-1.597 10.457 10.457 0 00-1.222-.44 1.5 1.5 0 01-.98-1.12c-.52-1.92-.52-3.92 0-5.84a1.5 1.5 0 01.98-1.12c.594-.16 1.205-.282 1.83-.362a.498.498 0 00.418-.49v-.368A2.25 2.25 0 017.682 1.5h4.636a2.25 2.25 0 012.25 2.25v.368c0 .244.177.45.418.49.625.08 1.236.202 1.83.362a1.5 1.5 0 01.98 1.12c.52 1.92.52 3.92 0 5.84a1.5 1.5 0 01-.98 1.12 10.45 10.45 0 00-1.222.44 11.95 11.95 0 01.316 1.597c.04.272.27.47.541.45.804-.058 1.6-.149 2.382-.268.807-.124 1.424-.814 1.424-1.631V6.531c0-.817-.617-1.507-1.424-1.63a39.39 39.39 0 00-15.668 0zm6.182-1.15a.75.75 0 01.75-.75h1.8a.75.75 0 01.75.75v.328a41.01 41.01 0 00-3.3 0v-.328z" clipRule="evenodd" />
               </svg>
               Combatting Stigma & AI Abuse
             </h3>
-            <p className={`text-xs leading-relaxed ${themeClass("text-slate-600", "text-slate-350", "text-amber-900/80")}`}>
-              We never pretend to be a primary therapist. Treating standard AI chatbots as real human therapists can lead to dangerous co-dependency (often termed <span className="text-purple-600 font-bold">'AI Psychosis'</span>). 
+            <p className="text-xs leading-relaxed text-[#4A4A4A]">
+              We never pretend to be a primary therapist. Treating standard AI chatbots as real human therapists can lead to dangerous co-dependency (often termed <span className="text-[#7A9E85] font-bold">'AI Psychosis'</span>). 
             </p>
-            <div className={`mt-3 text-[11px] p-2.5 rounded-lg border font-mono ${themeClass("bg-slate-50 text-slate-705 border-slate-200", "bg-black/65 text-slate-300 border-white/10", "bg-[#ebdcb9] text-[#5d4037] border-[#d8c7a6]")}`}>
-              <span className="text-emerald-705 font-bold">🔒 Client-Side Guard:</span> No personally identifiable records are shared. Complete security isolation prevents server identification leaks.
+            <div className="mt-3 text-[11px] p-2.5 rounded-lg border font-mono bg-[#FAF8F5] text-[#6B6B6B] border-[#EDEBE7]">
+              <span className="text-[#7A9E85] font-bold">🔒 Client-Side Guard:</span> No personally identifiable records are shared. Complete security isolation prevents server identification leaks.
             </div>
           </div>
-                <div className="bg-white dark:bg-black border border-indigo-100 dark:border-white/10 p-5 rounded-2xl shadow-sm mt-4">
-            <h3 className="text-xs font-bold text-indigo-750 uppercase tracking-widest mb-3 font-mono">International Crisis Links</h3>
+                <div className="bg-white border border-[#EDEBE7] p-5 rounded-2xl shadow-sm">
+            <h3 className="text-xs font-bold text-[#7A9E85] uppercase tracking-widest mb-3 font-mono">International Crisis Links</h3>
             <div className="space-y-2 text-xs">
-              <div className="p-2 bg-slate-50 dark:bg-[#0a0a0a] rounded-lg border border-slate-205">
-                <p className="font-semibold text-slate-800 dark:text-slate-200">KIRAN Mental Health India</p>
-                <a href="tel:18005990019" className="text-indigo-600 font-mono font-medium block hover:underline">1800-599-0019 (24/7)</a>
+              <div className="p-2 bg-[#FAF8F5] rounded-lg border border-[#EDEBE7]">
+                <p className="font-semibold text-[#2B2B2B]">KIRAN Mental Health India</p>
+                <a href="tel:18005990019" className="text-[#7A9E85] font-mono font-medium block hover:underline">1800-599-0019 (24/7)</a>
               </div>
-              <div className="p-2 bg-slate-50 dark:bg-[#0a0a0a] rounded-lg border border-slate-205">
-                <p className="font-semibold text-slate-800 dark:text-slate-200">Vandrevala Helpline (India)</p>
-                <a href="tel:9999666555" className="text-indigo-600 font-mono font-medium block hover:underline">9999 666 555 (24/7)</a>
+              <div className="p-2 bg-[#FAF8F5] rounded-lg border border-[#EDEBE7]">
+                <p className="font-semibold text-[#2B2B2B]">Vandrevala Helpline (India)</p>
+                <a href="tel:9999666555" className="text-[#7A9E85] font-mono font-medium block hover:underline">9999 666 555 (24/7)</a>
               </div>
-              <div className="p-2 bg-slate-50 dark:bg-[#0a0a0a] rounded-lg border border-slate-205">
-                <p className="font-semibold text-slate-805">US &amp; Canada Lifeline</p>
-                <span className="text-indigo-650 font-mono font-medium block">Dial or Text 988</span>
+              <div className="p-2 bg-[#FAF8F5] rounded-lg border border-[#EDEBE7]">
+                <p className="font-semibold text-[#2B2B2B]">US &amp; Canada Lifeline</p>
+                <span className="text-[#7A9E85] font-mono font-medium block">Dial or Text 988</span>
               </div>
-              <div className="p-2 bg-slate-50 dark:bg-[#0a0a0a] rounded-lg border border-slate-205">
-                <p className="font-semibold text-slate-850">Global Search Portal</p>
+              <div className="p-2 bg-[#FAF8F5] rounded-lg border border-[#EDEBE7]">
+                <p className="font-semibold text-[#2B2B2B]">Global Search Portal</p>
                 <a 
                   href="https://findahelpline.com" 
                   target="_blank" 
                   rel="noreferrer"
-                  className="text-indigo-600 font-medium hover:underline flex items-center gap-1 text-[11px]"
+                  className="text-[#7A9E85] font-medium hover:underline flex items-center gap-1 text-[11px]"
                 >
                   findahelpline.com
-                  <svg className="w-3 h-3 text-slate-400 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                  <svg className="w-3 h-3 text-[#6B6B6B] inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
                 </a>
               </div>
             </div>
@@ -8308,70 +8261,66 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           {activeCenterTab === 'settings' && (
             <div className="flex-1 flex flex-col items-center pt-8 pb-20 text-center px-4 md:px-10 animate-fade-in overflow-y-auto w-full max-w-2xl mx-auto font-sans">
               
-              {/* Settings Mode Tabs */}
-              <div className="flex bg-slate-100 dark:bg-white/5 p-1 rounded-xl w-full max-w-md mb-8 shrink-0 border border-slate-200/50 dark:border-white/5">
+              <div className="flex bg-[#FAF8F5] p-1 rounded-xl w-full max-w-md mb-8 shrink-0 border border-[#EDEBE7]">
                 <button 
                   type="button"
                   onClick={() => setSettingsSubTab('profile')}
-                  className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${settingsSubTab === 'profile' ? 'bg-white dark:bg-slate-800 text-slate-800 dark:text-white shadow-xs' : 'text-slate-400 hover:text-slate-200'}`}
+                  className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${settingsSubTab === 'profile' ? 'bg-white text-[#2B2B2B] shadow-sm' : 'text-[#6B6B6B] hover:text-[#2B2B2B]'}`}
                 >
                   User Info
                 </button>
                 <button 
                   type="button"
                   onClick={() => setSettingsSubTab('preferences')}
-                  className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${settingsSubTab === 'preferences' ? 'bg-white dark:bg-slate-800 text-slate-800 dark:text-white shadow-xs' : 'text-slate-400 hover:text-slate-200'}`}
+                  className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all cursor-pointer ${settingsSubTab === 'preferences' ? 'bg-white text-[#2B2B2B] shadow-sm' : 'text-[#6B6B6B] hover:text-[#2B2B2B]'}`}
                 >
                   Empathetic Guides
                 </button>
               </div>
 
               {settingsSubTab === 'profile' ? (
-                /* Profile & User Info sub-page */
                 <div className="w-full max-w-md mx-auto text-left space-y-6">
                   {user ? (
                     <div className="space-y-6">
-                      {/* Avatar & Basic Info Card */}
-                      <div className="flex items-center gap-4 bg-white/5 border border-white/10 p-4 rounded-2xl">
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white text-lg font-black shrink-0 shadow-md">
+                      <div className="flex items-center gap-4 bg-white border border-[#EDEBE7] p-4 rounded-2xl shadow-sm">
+                        <div className="w-12 h-12 rounded-full bg-[#E8F0EA] flex items-center justify-center text-[#7A9E85] text-lg font-black shrink-0">
                           {((profileDisplayName || user.email || user.uid || "AN").slice(0, 2)).toUpperCase()}
                         </div>
                         <div className="min-w-0">
-                          <h3 className="text-sm font-bold text-white truncate">{profileDisplayName || "Anonymous"}</h3>
-                          <p className="text-[11px] text-gray-500 truncate mt-0.5">{user.email}</p>
-                          <p className="text-[9px] text-gray-600 font-mono truncate mt-0.5">UID: {user.uid}</p>
+                          <h3 className="text-sm font-bold text-[#2B2B2B] truncate">{profileDisplayName || "Anonymous"}</h3>
+                          <p className="text-[11px] text-[#6B6B6B] truncate mt-0.5">{user.email}</p>
+                          <p className="text-[9px] text-[#6B6B6B] font-mono truncate mt-0.5">UID: {user.uid}</p>
                         </div>
                       </div>
 
-                      {/* Editable Form */}
                       <div className="space-y-4">
                         <div className="space-y-1.5">
-                          <label className="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Display Name</label>
+                          <label className="text-[10px] text-[#6B6B6B] uppercase tracking-wider font-bold">Display Name</label>
                           <input
                             type="text"
                             value={profileDisplayName}
                             onChange={(e) => setProfileDisplayName(e.target.value)}
-                            className="w-full bg-[#111] border border-white/10 rounded-xl text-xs p-3.5 text-white outline-none focus:border-white/30 transition-all"
+                            className="w-full bg-[#FAF8F5] border border-[#EDEBE7] rounded-xl text-xs p-3.5 text-[#2B2B2B] outline-none focus:border-[#7A9E85] transition-all"
                           />
                         </div>
 
                         <div className="space-y-1.5">
-                          <label className="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Username</label>
+                          <label className="text-[10px] text-[#6B6B6B] uppercase tracking-wider font-bold">Username</label>
                           <input
                             type="text"
                             value={profileUsername}
                             onChange={(e) => setProfileUsername(e.target.value)}
-                            className="w-full bg-[#111] border border-white/10 rounded-xl text-xs p-3.5 text-white outline-none focus:border-white/30 transition-all"
+                            className="w-full bg-[#FAF8F5] border border-[#EDEBE7] rounded-xl text-xs p-3.5 text-[#2B2B2B] outline-none focus:border-[#7A9E85] transition-all"
                           />
                         </div>
 
                         <div className="space-y-1.5">
-                          <label className="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Region</label>
+                          <label className="text-[10px] text-[#6B6B6B] uppercase tracking-wider font-bold">Region</label>
                           <div className="relative">
                             <select
                               value={profileLocation}
                               onChange={(e) => setProfileLocation(e.target.value)}
-                              className="w-full bg-[#111] border border-white/10 hover:border-white/20 rounded-xl text-xs p-3.5 text-white outline-none focus:border-white/30 transition-all cursor-pointer appearance-none"
+                              className="w-full bg-[#FAF8F5] border border-[#EDEBE7] hover:border-[#7A9E85] rounded-xl text-xs p-3.5 text-[#2B2B2B] outline-none focus:border-[#7A9E85] transition-all cursor-pointer appearance-none"
                             >
                               <option value="India">India</option>
                               <option value="USA">United States</option>
@@ -8381,13 +8330,12 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                               <option value="Singapore">Singapore</option>
                               <option value="International">International</option>
                             </select>
-                            <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 text-xs">▼</div>
+                            <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#6B6B6B] text-xs">▼</div>
                           </div>
                         </div>
 
-                        {/* 2x2 Grid of Conditions */}
                         <div className="space-y-2">
-                          <label className="text-[10px] text-gray-500 uppercase tracking-wider font-bold block">History & Conditions</label>
+                          <label className="text-[10px] text-[#6B6B6B] uppercase tracking-wider font-bold block">History & Conditions</label>
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                             {[
                               { id: "MEDS_CHRONIC", label: "Prescribed psychiatric medication" },
@@ -8405,12 +8353,12 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                                     setProfileConditions(prev => [...prev, condition.id]);
                                   }
                                 }}
-                                className="text-left flex items-center gap-3 p-3 rounded-xl border border-white/5 hover:border-white/10 bg-white/[0.02] cursor-pointer transition-all group"
+                                className="text-left flex items-center gap-3 p-3 rounded-xl border border-[#EDEBE7] hover:border-[#7A9E85]/30 bg-[#FAF8F5] cursor-pointer transition-all group"
                               >
-                                <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-colors ${profileConditions.includes(condition.id) ? 'bg-white border-white' : 'border-gray-600 group-hover:border-gray-500'}`}>
-                                  {profileConditions.includes(condition.id) && <Check className="w-3 h-3 text-black stroke-[3]" />}
+                                <div className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-colors ${profileConditions.includes(condition.id) ? 'bg-[#7A9E85] border-[#7A9E85]' : 'border-[#EDEBE7] group-hover:border-[#7A9E85]'}`}>
+                                  {profileConditions.includes(condition.id) && <Check className="w-3 h-3 text-white stroke-[3]" />}
                                 </div>
-                                <span className={`text-[11px] transition-colors ${profileConditions.includes(condition.id) ? 'text-white' : 'text-gray-400 group-hover:text-gray-300'}`}>
+                                <span className={`text-[11px] transition-colors ${profileConditions.includes(condition.id) ? 'text-[#2B2B2B]' : 'text-[#6B6B6B] group-hover:text-[#2B2B2B]'}`}>
                                   {condition.label}
                                 </span>
                               </button>
@@ -8419,17 +8367,16 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                         </div>
 
                         <div className="space-y-1.5">
-                          <label className="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Specify Diagnosis / Symptoms (Optional)</label>
+                          <label className="text-[10px] text-[#6B6B6B] uppercase tracking-wider font-bold">Specify Diagnosis / Symptoms (Optional)</label>
                           <textarea
                             value={profileCustomHistory}
                             onChange={(e) => setProfileCustomHistory(e.target.value)}
                             rows={2}
-                            className="w-full bg-[#111] border border-white/10 hover:border-white/20 rounded-xl text-xs p-3.5 text-white placeholder-gray-700 outline-none focus:border-white/30 transition-all resize-none"
+                            className="w-full bg-[#FAF8F5] border border-[#EDEBE7] hover:border-[#7A9E85]/30 rounded-xl text-xs p-3.5 text-[#2B2B2B] placeholder-[#6B6B6B] outline-none focus:border-[#7A9E85] transition-all resize-none"
                           />
                         </div>
                       </div>
 
-                      {/* Profile Actions */}
                       <div className="pt-2 flex flex-col gap-3">
                         <button
                           type="button"
@@ -8451,29 +8398,24 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                               alert("Failed to update profile: " + err.message);
                             }
                           }}
-                          className="w-full py-3 bg-white hover:bg-gray-200 text-black text-xs font-bold rounded-xl transition-all uppercase tracking-wider cursor-pointer text-center"
+                          className="w-full py-3 bg-[#7A9E85] hover:bg-[#6B9080] text-white text-xs font-bold rounded-xl transition-all uppercase tracking-wider cursor-pointer text-center shadow-sm"
                         >
                           Save Changes
                         </button>
 
-                        <div className="flex items-center justify-between pt-4 border-t border-slate-200/20 dark:border-white/10">
+                        <div className="flex items-center justify-between pt-4 border-t border-[#EDEBE7]">
                           <button
                             type="button"
                             onClick={handleLogout}
-                            className="Btn"
+                            className="px-4 py-2.5 border border-[#EDEBE7] hover:bg-[#FAF8F5] text-[#6B6B6B] hover:text-[#2B2B2B] text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
                           >
-                            <div className="sign">
-                              <svg viewBox="0 0 512 512" className="w-[17px] h-[17px]">
-                                <path fill="white" d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z" />
-                              </svg>
-                            </div>
-                            <div className="text font-sans">SignOut</div>
+                            Sign Out
                           </button>
 
                           <button
                             type="button"
                             onClick={() => setShowWipeConfirm(true)}
-                            className="px-4 py-2.5 border border-orange-500/20 hover:bg-orange-500/10 text-orange-400 hover:text-orange-300 text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
+                            className="px-4 py-2.5 border border-[#EDEBE7] hover:bg-[#F0EBD6] text-[#6B6B6B] hover:text-[#2B2B2B] text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
                           >
                             Wipe Local Data
                           </button>
@@ -8504,7 +8446,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                                 alert("Account deletion failed. For safety, please sign out and sign in again before running this command.");
                               }
                             }}
-                            className="px-4 py-2.5 border border-red-500/20 hover:bg-red-500/10 text-red-400 hover:text-red-300 text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
+                            className="px-4 py-2.5 border border-[#EDEBE7] hover:bg-[#F5E6E0] text-[#6B6B6B] hover:text-[#2B2B2B] text-xs font-bold rounded-xl transition-all cursor-pointer text-center"
                           >
                             Delete Account
                           </button>
@@ -8512,19 +8454,18 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       </div>
                     </div>
                   ) : (
-                    /* Logged Out Placement Card */
-                    <div className="text-center p-8 bg-white/5 border border-white/10 rounded-3xl space-y-4">
-                      <Lock className="w-8 h-8 text-gray-500 mx-auto" />
+                    <div className="text-center p-8 bg-white border border-[#EDEBE7] rounded-2xl space-y-4 shadow-sm">
+                      <Lock className="w-8 h-8 text-[#6B6B6B] mx-auto" />
                       <div className="space-y-1.5">
-                        <h4 className="text-sm font-bold text-white">Cloud Sync Disabled</h4>
-                        <p className="text-xs text-gray-400 leading-relaxed">
+                        <h4 className="text-sm font-bold text-[#2B2B2B]">Cloud Sync Disabled</h4>
+                        <p className="text-xs text-[#6B6B6B] leading-relaxed">
                           Authenticate your session to unlock private cloud back-ups for your chats, journals, and clinical Intake configuration.
                         </p>
                       </div>
                       <button
                         type="button"
                         onClick={() => setIsAliasModalOpen(true)}
-                        className="px-6 py-2.5 bg-white hover:bg-gray-250 text-black font-bold text-xs rounded-xl transition-all cursor-pointer uppercase tracking-wider"
+                        className="px-6 py-2.5 bg-[#7A9E85] hover:bg-[#6B9080] text-white font-bold text-xs rounded-xl transition-all cursor-pointer uppercase tracking-wider shadow-sm"
                       >
                         Sign In / Register
                       </button>
@@ -8532,30 +8473,29 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                   )}
                 </div>
               ) : (
-                /* Preferences / Guides sub-page (original settings content) */
                 <div className="w-full max-w-md mx-auto text-left flex flex-col gap-4">
                   <button 
                     onClick={() => setShowSpecializedApproaches(!showSpecializedApproaches)}
-                    className="px-6 py-3 w-full bg-white dark:bg-[#0a0a0a] hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-white/10 text-slate-800 dark:text-slate-200 text-sm font-bold rounded-xl cursor-pointer transition-all shadow-sm"
+                    className="px-6 py-3 w-full bg-white hover:bg-[#FAF8F5] border border-[#EDEBE7] text-[#2B2B2B] text-sm font-bold rounded-xl cursor-pointer transition-all shadow-sm"
                   >
                     {showSpecializedApproaches ? "Hide Specialized Approaches" : "Configure Specialized Approaches"}
                   </button>
                   {showSpecializedApproaches && (
                     <div className="animate-fade-in">
-                      <div className={`p-5 rounded-2xl flex flex-col gap-4 shadow-sm border transition-all duration-300 ${themeClass("bg-white border-indigo-100 text-slate-800", "bg-[#0b0f19] border-white/10 text-slate-200", "bg-[#faf6ee] border-[#e3d5be] text-[#3e2723]")}`}>
+                      <div className="p-5 rounded-2xl flex flex-col gap-4 shadow-sm border border-[#EDEBE7] bg-white">
                         <div>
                           <div className="flex items-center justify-between">
-                            <h3 className={`text-sm font-bold tracking-tight uppercase font-display ${themeClass("text-slate-800", "text-white", "text-[#3e2723]")}`}>Specialized Approaches</h3>
+                            <h3 className="text-sm font-bold tracking-tight uppercase font-display text-[#2B2B2B]">Specialized Approaches</h3>
                             {personaSearchQuery && (
-                              <span className="text-[9px] font-bold text-indigo-655 bg-indigo-50 dark:bg-white/[0.02] px-1.5 py-0.5 border border-indigo-150 dark:border-white/10 rounded shadow-2xs">
+                              <span className="text-[9px] font-bold text-[#7A9E85] bg-[#E8F0EA] px-1.5 py-0.5 border border-[#EDEBE7] rounded">
                                 Filtered
                               </span>
                             )}
                           </div>
-                          <p className="text-xs text-slate-555 mt-1">
+                          <p className="text-xs text-[#6B6B6B] mt-1">
                             {personaSearchQuery ? (
                               <span>
-                                Showing matching guides (or <button type="button" onClick={() => setPersonaSearchQuery("")} className="text-indigo-655 font-bold hover:underline cursor-pointer focus-visible:outline-none">clear search</button>):
+                                Showing matching guides (or <button type="button" onClick={() => setPersonaSearchQuery("")} className="text-[#7A9E85] font-bold hover:underline cursor-pointer focus-visible:outline-none">clear search</button>):
                               </span>
                             ) : (
                               "Select one of our 5 specialized empathetic room guides:"
@@ -8575,12 +8515,12 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                             
                             if (filtered.length === 0) {
                               return (
-                                <div className="p-6 text-center text-slate-400 border border-dashed border-slate-200 dark:border-white/10 rounded-xl space-y-1.5 bg-white/20 dark:bg-white/[0.01]">
-                                  <p className="text-xs font-semibold text-slate-700 dark:text-slate-350">No matching guides found</p>
+                                <div className="p-6 text-center text-[#6B6B6B] border border-dashed border-[#EDEBE7] rounded-xl space-y-1.5 bg-[#FAF8F5]">
+                                  <p className="text-xs font-semibold text-[#2B2B2B]">No matching guides found</p>
                                   <button
                                     type="button"
                                     onClick={() => setPersonaSearchQuery("")}
-                                    className="text-[10px] text-indigo-655 font-mono font-bold hover:underline cursor-pointer"
+                                    className="text-[10px] text-[#7A9E85] font-mono font-bold hover:underline cursor-pointer"
                                   >
                                     Reset Search Filter
                                   </button>
@@ -8599,33 +8539,33 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                                   onClick={() => handleCharacterChange(char.id)}
                                   className={`w-full text-left p-3 rounded-xl border transition-all cursor-pointer flex items-start gap-3 relative ${
                                     isSelected
-                                      ? "bg-indigo-550 dark:bg-white/[0.02]/70 border-indigo-305 shadow-sm ring-1 ring-indigo-200/40"
+                                      ? "bg-[#E8F0EA] border-[#7A9E85]/30 shadow-sm"
                                       : isLocked
-                                      ? "bg-slate-100/45 border-slate-201 opacity-80 hover:opacity-100 hover:bg-slate-105/60"
-                                      : "bg-white/20 dark:bg-white/[0.01] border-slate-200/80 hover:bg-slate-105/60 hover:border-slate-350"
+                                      ? "bg-[#FAF8F5] border-[#EDEBE7] opacity-80 hover:opacity-100 hover:bg-white"
+                                      : "bg-white border-[#EDEBE7] hover:bg-[#FAF8F5] hover:border-[#7A9E85]/20"
                                   }`}
                                 >
                                   {isSelected && (
                                     <span className="absolute top-2 right-2 flex h-2 w-2">
-                                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                                      <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7A9E85] opacity-75"></span>
+                                      <span className="relative inline-flex rounded-full h-2 w-2 bg-[#7A9E85]"></span>
                                     </span>
                                   )}
 
                                   {isLocked && (
-                                    <span className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-[#fee2e2] text-rose-750 text-[8px] font-mono font-bold px-1.5 py-0.5 rounded-md border border-rose-200 dark:border-rose-800">
+                                    <span className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-[#F5E6E0] text-[#6B6B6B] text-[8px] font-mono font-bold px-1.5 py-0.5 rounded-md border border-[#EDEBE7]">
                                       <span>🔒 ₹250/mo</span>
                                     </span>
                                   )}
 
                                   {char.id === "veer" && (
-                                    <span className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-rose-50 dark:bg-rose-950/20 text-rose-750 dark:text-rose-300 text-[8px] font-mono font-bold px-1.5 py-0.5 rounded border border-rose-200/30">
+                                    <span className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-[#F5E6E0] text-[#6B6B6B] text-[8px] font-mono font-bold px-1.5 py-0.5 rounded border border-[#EDEBE7]">
                                       <span>⚖️ Legal Support</span>
                                     </span>
                                   )}
 
                                   {char.id === "inayat" && (
-                                    <span className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-emerald-50 text-emerald-700 text-[8px] font-mono font-bold px-1.5 py-0.5 rounded border border-emerald-200/35">
+                                    <span className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-[#E8F0EA] text-[#7A9E85] text-[8px] font-mono font-bold px-1.5 py-0.5 rounded border border-[#EDEBE7]">
                                       <span>🟢 FREE</span>
                                     </span>
                                   )}
@@ -8639,11 +8579,11 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
                                   <div className="flex-1 min-w-0">
                                     <div className="flex items-center gap-1.5 pr-14">
-                                      <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">
+                                      <h4 className="text-xs font-bold text-[#2B2B2B] truncate">
                                         {highlightText(char.name, personaSearchQuery)}
                                       </h4>
                                     </div>
-                                    <p className="text-[11px] text-slate-550 truncate mt-0.5">
+                                    <p className="text-[11px] text-[#6B6B6B] truncate mt-0.5">
                                       {highlightText(char.specialization, personaSearchQuery)}
                                     </p>
                                   </div>
@@ -8658,9 +8598,9 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
 
                   <button 
                     onClick={() => setShowSafetyModal(true)}
-                    className="mb-4 mt-2 px-6 py-3 w-full max-w-xs mx-auto bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-900/30 dark:hover:bg-emerald-900/50 border border-emerald-250 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 text-sm font-bold rounded-xl cursor-pointer transition-all flex items-center justify-center gap-2 font-display shadow-sm"
+                    className="mb-4 mt-2 px-6 py-3 w-full max-w-xs mx-auto bg-[#E8F0EA] hover:bg-[#D6E8DA] border border-[#EDEBE7] text-[#7A9E85] text-sm font-bold rounded-xl cursor-pointer transition-all flex items-center justify-center gap-2 font-display shadow-sm"
                   >
-                    <Shield className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                    <Shield className="w-4 h-4" />
                     <span>Open AI Safety & Ethics Portal</span>
                   </button>
 
@@ -8672,20 +8612,18 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           )}
           {activeCenterTab === 'chat' && (
             <>
-              {/* Interactive Chat Board area */}
               <div 
                 className="flex-1 p-6 overflow-y-auto space-y-4 transition-all duration-300 ease-in-out"
                 style={{ background: getCharacterBg(activeChar.id, themeMode) }}
               >
                 
-                {/* Active Programmatic Alerts */}
                 {isCrisisActive && (
-                  <div className="p-4 bg-rose-50 border border-rose-250 rounded-xl relative space-y-2 mb-4 animate-fade-in">
+                  <div className="p-4 bg-[#F5E6E0] border border-[#EDEBE7] rounded-2xl relative space-y-2 mb-4 animate-fade-in-up">
                     <div className="flex items-start gap-2.5">
-                      <ShieldAlert className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
+                      <ShieldAlert className="w-5 h-5 text-[#7A9E85] shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="text-xs font-bold text-rose-950 font-sans">Emergency Crisis Containment Triggered</h4>
-                        <p className="text-[11px] text-rose-800 dark:text-rose-300 leading-relaxed mt-1 font-sans">
+                        <h4 className="text-xs font-bold text-[#2B2B2B] font-sans">Emergency Crisis Containment Triggered</h4>
+                        <p className="text-[11px] text-[#4A4A4A] leading-relaxed mt-1 font-sans">
                           Our algorithms detected severe safety warning indexes matching suicidal/self-harm intent. The standard roleplay character response was halted. Please stop talking to this machine and call professional helpers who can protect you, free and privately.
                         </p>
                       </div>
@@ -8696,13 +8634,13 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           setActiveCenterTab('safety');
                           setIsCrisisActive(false);
                         }}
-                        className="px-3 py-1 bg-rose-600 hover:bg-rose-700 text-white text-[10px] font-bold rounded cursor-pointer transition-all"
+                        className="px-3 py-1 bg-[#7A9E85] hover:bg-[#6B9080] text-white text-[10px] font-bold rounded-xl cursor-pointer transition-all"
                       >
                         View Official Directory
                       </button>
                       <button 
                         onClick={() => setIsCrisisActive(false)}
-                        className="px-3 py-1 bg-white dark:bg-black border border-rose-200 dark:border-rose-800 hover:bg-rose-50 dark:hover:bg-rose-950 text-rose-700 dark:text-rose-300 text-[10px] font-medium rounded cursor-pointer transition-all"
+                        className="px-3 py-1 bg-white border border-[#EDEBE7] hover:bg-[#FAF8F5] text-[#4A4A4A] text-[10px] font-medium rounded-xl cursor-pointer transition-all"
                       >
                         Acknowledge Protocol
                       </button>
@@ -8711,12 +8649,12 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 )}
 
                 {isDependencyActive && (
-                  <div className="p-4 bg-amber-50 border border-amber-250 rounded-xl relative space-y-2 mb-4 animate-fade-in">
+                  <div className="p-4 bg-[#F0EBD6] border border-[#EDEBE7] rounded-2xl relative space-y-2 mb-4 animate-fade-in-up">
                     <div className="flex items-start gap-2.5">
-                      <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                      <AlertTriangle className="w-5 h-5 text-[#7A9E85] shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="text-xs font-bold text-amber-950 font-sans">Reality Grounder Indicator (Codependency Prevention)</h4>
-                        <p className="text-[11px] text-amber-800 leading-relaxed mt-1 font-sans">
+                        <h4 className="text-xs font-bold text-[#2B2B2B] font-sans">Reality Grounder Indicator (Codependency Prevention)</h4>
+                        <p className="text-[11px] text-[#4A4A4A] leading-relaxed mt-1 font-sans">
                           Session length warning: You have exchanged multiple turns with this companion. Continuous, attachment-heavy chatbot interactions can foster co-dependency and therapist replacement delusion. Please look away from this display, fill a glass of water, and anchor yourself in your material world.
                         </p>
                       </div>
@@ -8727,13 +8665,13 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           setActiveCenterTab('safety');
                           setIsDependencyActive(false);
                         }}
-                        className="px-3 py-1 bg-amber-655 hover:bg-amber-700 text-white text-[10px] font-bold rounded cursor-pointer transition-all"
+                        className="px-3 py-1 bg-[#7A9E85] hover:bg-[#6B9080] text-white text-[10px] font-bold rounded-xl cursor-pointer transition-all"
                       >
                         Read Ethics Portal Details
                       </button>
                       <button 
                         onClick={() => setIsDependencyActive(false)}
-                        className="px-3 py-1 bg-white dark:bg-black border border-amber-250 hover:bg-amber-50 dark:hover:bg-amber-950 text-amber-700 text-[10px] font-medium rounded cursor-pointer"
+                        className="px-3 py-1 bg-white border border-[#EDEBE7] hover:bg-[#FAF8F5] text-[#4A4A4A] text-[10px] font-medium rounded-xl cursor-pointer"
                       >
                         Acknowledge Warning
                       </button>
@@ -8749,12 +8687,12 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                    
                    if (filteredHistory.length === 0 && chatHistory.length > 0) {
                      return (
-                       <div className="p-8 text-center text-slate-400 border border-dashed border-slate-200 dark:border-white/10 rounded-xl space-y-1 bg-white/5 dark:bg-white/[0.01]">
-                         <p className="text-xs font-semibold text-slate-700 dark:text-slate-350">No matching messages found</p>
+                       <div className="p-8 text-center text-[#6B6B6B] border border-dashed border-[#EDEBE7] rounded-2xl space-y-1 bg-white/50">
+                         <p className="text-xs font-semibold text-[#2B2B2B]">No matching messages found</p>
                          <button
                            type="button"
                            onClick={() => setChatSearchQuery("")}
-                           className="text-[10px] text-indigo-650 font-mono font-bold hover:underline cursor-pointer"
+                           className="text-[10px] text-[#7A9E85] font-mono font-bold hover:underline cursor-pointer"
                          >
                            Clear Search Filter
                          </button>
@@ -8762,23 +8700,23 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                      );
                    }
                    
-                   return filteredHistory.map((msg) => {
+                   return filteredHistory.map((msg, idx) => {
                      const isUser = msg.sender === 'user';
                      return (
-                       <div key={msg.id} className={`flex gap-3.5 ${isUser ? "justify-end" : "justify-start"} animate-fade-in-up`}>
+                       <div key={msg.id} className={`flex gap-3.5 ${isUser ? "justify-end" : "justify-start"} message-enter`} style={{ animationDelay: `${idx * 0.05}s` }}>
                          
                          {!isUser && (
-                           <div className={`w-8 h-8 rounded-lg ${activeChar.avatarColor} border flex-shrink-0 flex items-center justify-center`}>
+                           <div className="w-8 h-8 rounded-xl bg-white border border-[#EDEBE7] flex-shrink-0 flex items-center justify-center shadow-sm">
                              {(() => {
                                const IconComponent = CHARACTER_ICONS[activeChar.id] || Sparkles;
-                               return <IconComponent className="w-4 h-4" />;
+                               return <IconComponent className="w-4 h-4 text-[#7A9E85]" />;
                              })()}
                            </div>
                          )}
 
                          <div className="max-w-[85%] flex flex-col">
                            <div 
-                             className={`p-3.5 rounded-2xl text-xs leading-relaxed whitespace-pre-wrap ${
+                             className={`p-3.5 text-sm leading-relaxed whitespace-pre-wrap ${
                                getCharacterBubbleStyle(activeChar.id, isUser)
                              }`}
                            >
@@ -8792,7 +8730,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                               <MedicoLegalLawyersDirectory initialLocation={userLocation} />
                            )}
                            
-                           <span className={`text-[10px] text-slate-500 mt-1 px-1 font-mono ${isUser ? "text-right" : "text-left"}`}>
+                           <span className={`text-[10px] text-[#6B6B6B] mt-1 px-1 font-mono ${isUser ? "text-right" : "text-left"}`}>
                              {msg.timestamp} {showEncryptedView && "(CLIENT-ENCRYPTED SHA-256)"}
                            </span>
                          </div>
@@ -8802,23 +8740,18 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                  })()}
 
                 {isTyping && (
-                  <div className="flex gap-3.5 animate-fade-in-up">
-                    <div className={`w-8 h-8 rounded-lg ${activeChar.avatarColor} border flex-shrink-0 flex items-center justify-center`}>
+                  <div className="flex gap-3.5 message-enter">
+                    <div className="w-8 h-8 rounded-xl bg-white border border-[#EDEBE7] flex-shrink-0 flex items-center justify-center shadow-sm">
                       {(() => {
                         const IconComponent = CHARACTER_ICONS[activeChar.id] || Sparkles;
-                        return <IconComponent className="w-4 h-4" />;
+                        return <IconComponent className="w-4 h-4 text-[#7A9E85]" />;
                       })()}
                     </div>
-                    <div className={`${themeClass(
-                      "bg-white dark:bg-black text-slate-600 dark:text-slate-400 border-slate-200/50",
-                      "bg-black text-slate-300 border-white/10",
-                      "bg-[#faf6ee] text-[#3e2723] border-[#e3d5be]"
-                    )} p-3.5 rounded-2xl rounded-tl-none border text-xs flex items-center gap-2.5`}>
-                      <span className="text-[10px] tracking-wide font-mono">Formulating grounding insight...</span>
-                      <div className="flex gap-1.5 pt-0.5">
-                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce"></div>
-                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce [animation-delay:0.15s]"></div>
-                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-bounce [animation-delay:0.3s]"></div>
+                    <div className="bg-white border border-[#EDEBE7] p-4 rounded-2xl rounded-bl-sm text-sm flex items-center gap-3 shadow-sm">
+                      <div className="flex gap-1.5">
+                        <div className="w-2 h-2 rounded-full bg-[#7A9E85] typing-dot"></div>
+                        <div className="w-2 h-2 rounded-full bg-[#7A9E85] typing-dot"></div>
+                        <div className="w-2 h-2 rounded-full bg-[#7A9E85] typing-dot"></div>
                       </div>
                     </div>
                   </div>
@@ -8827,55 +8760,52 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 <div ref={chatEndRef} />
               </div>
 
-              {/* Secure Client Input Form */}
-              <div className="p-4 bg-white/20 dark:bg-white/[0.01] border-t border-indigo-50">
+              <div className="p-4 bg-white border-t border-[#EDEBE7]">
                 <form onSubmit={handleSendMessage} className="space-y-3">
-                  {/* Share Dialogue Success Toast */}
                   {shareSuccessToast && (
-                    <div className="p-3 bg-emerald-950/50 border border-emerald-500/40 rounded-xl text-xs text-emerald-300 font-sans flex items-start gap-2 leading-normal">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                    <div className="p-3 bg-[#E8F0EA] border border-[#7A9E85]/30 rounded-2xl text-xs text-[#2B2B2B] font-sans flex items-start gap-2 leading-normal">
+                      <CheckCircle2 className="w-4 h-4 text-[#7A9E85] shrink-0 mt-0.5" />
                       <span>{shareSuccessToast}</span>
                     </div>
                   )}
 
-                  {/* Share Preview and Confirmation Panel */}
                   {showShareConfirmPane ? (
-                    <div className="p-3.5 bg-black border border-indigo-500/30 rounded-xl space-y-3">
+                    <div className="p-4 bg-white border border-[#EDEBE7] rounded-2xl space-y-3 shadow-sm">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] tracking-wider uppercase font-mono text-indigo-400 font-semibold flex items-center gap-1">
+                        <span className="text-[10px] tracking-wider uppercase font-mono text-[#7A9E85] font-semibold flex items-center gap-1">
                           <Sparkles className="w-3.5 h-3.5" />
                           <span>Anonymized Dialogue Summary</span>
                         </span>
                         <button
                           type="button"
                           onClick={() => { setShowShareConfirmPane(false); setSharedDialogueSummary(""); }}
-                          className="text-slate-400 hover:text-slate-200 text-xs font-semibold hover:underline"
+                          className="text-[#6B6B6B] hover:text-[#2B2B2B] text-xs font-semibold hover:underline"
                         >
                           Cancel
                         </button>
                       </div>
 
-                      <p className="text-[11px] text-slate-400 leading-relaxed italic">
+                      <p className="text-[11px] text-[#6B6B6B] leading-relaxed italic">
                         This summary was compiled server-side by our de-escalation sanitization model. Your names, unique metadata, and severe triggering expressions have been stripped.
                       </p>
 
-                      <div className="p-3 bg-slate-50 dark:bg-[#0a0a0a] border border-slate-200 dark:border-white/10 rounded-lg">
+                      <div className="p-3 bg-[#FAF8F5] border border-[#EDEBE7] rounded-xl">
                         <textarea
                           rows={3}
                           value={sharedDialogueSummary}
                           onChange={(e) => setSharedDialogueSummary(e.target.value)}
                           maxLength={300}
                           placeholder="Refining dialogue..."
-                          className="w-full bg-transparent border-none outline-none text-xs text-slate-800 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 resize-none focus:ring-0 leading-relaxed"
+                          className="w-full bg-transparent border-none outline-none text-xs text-[#2B2B2B] placeholder-[#6B6B6B] resize-none focus:ring-0 leading-relaxed"
                         />
-                        <div className="text-right text-[9px] font-mono text-slate-500 mt-1">
+                        <div className="text-right text-[9px] font-mono text-[#6B6B6B] mt-1">
                           {sharedDialogueSummary.length}/300 chars
                         </div>
                       </div>
 
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1 border-t border-slate-200 dark:border-white/10">
-                        <span className="text-[9px] text-slate-500 font-mono flex items-center gap-1">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1 border-t border-[#EDEBE7]">
+                        <span className="text-[9px] text-[#6B6B6B] font-mono flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#7A9E85]"></span>
                           Location: Anonymous ({loginAlias || "Guest"}) - Dialogue Summary
                         </span>
 
@@ -8884,9 +8814,9 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                             type="button"
                             onClick={handlePostSummaryToWall}
                             disabled={isSummarizingAndSharing || !sharedDialogueSummary.trim()}
-                            className="px-3 py-1.5 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 disabled:opacity-40 text-white font-bold text-[10px] uppercase tracking-wider rounded-lg transition-all shadow-sm cursor-pointer flex items-center gap-1.5"
+                            className="px-3 py-1.5 bg-[#7A9E85] hover:bg-[#6B9080] disabled:opacity-40 text-white font-bold text-[10px] uppercase tracking-wider rounded-xl transition-all shadow-sm cursor-pointer flex items-center gap-1.5"
                           >
-                            <svg className="w-3.5 h-3.5 text-emerald-100" fill="currentColor" viewBox="0 0 20 20">
+                            <svg className="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20">
                               <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
                             </svg>
                             <span>Publish to Wall</span>
@@ -8895,12 +8825,11 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       </div>
                     </div>
                   ) : (
-                    /* Share option teaser */
                     chatHistory.length > 1 && (
-                      <div className="p-2.5 bg-indigo-50/ dark:bg-white/[0.02]/40 border border-indigo-100 dark:border-white/10 rounded-xl space-y-1">
+                      <div className="p-2.5 bg-[#FAF8F5] border border-[#EDEBE7] rounded-2xl space-y-1">
                         <div className="flex items-center justify-between gap-2">
-                          <span className="text-[11px] text-slate-600 dark:text-slate-400 flex items-center gap-1.5 leading-relaxed">
-                            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-ping shrink-0" />
+                          <span className="text-[11px] text-[#6B6B6B] flex items-center gap-1.5 leading-relaxed">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#7A9E85] animate-ping shrink-0" />
                             <span>Anonymously push a sanitized summary to the Comm Circle Wall?</span>
                           </span>
                           
@@ -8908,7 +8837,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                             type="button"
                             onClick={handleGenerateDialogueSummary}
                             disabled={isSummarizingAndSharing}
-                            className="px-2.5 py-1 bg-indigo-650 hover:bg-indigo-600 disabled:opacity-40 text-white font-bold text-[10px] uppercase tracking-wider rounded-lg cursor-pointer transition-all flex items-center gap-1 shrink-0 shadow-sm"
+                            className="px-2.5 py-1 bg-[#7A9E85] hover:bg-[#6B9080] disabled:opacity-40 text-white font-bold text-[10px] uppercase tracking-wider rounded-xl cursor-pointer transition-all flex items-center gap-1 shrink-0 shadow-sm"
                           >
                             {isSummarizingAndSharing ? (
                               <>
@@ -8925,8 +8854,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                         </div>
 
                         {shareError && (
-                          <div className="text-[10px] text-rose-400 font-sans mt-0.5">
-                            ⚠️ {shareError}
+                          <div className="text-[10px] text-[#6B6B6B] font-sans mt-0.5">
+                            {shareError}
                           </div>
                         )}
                       </div>
@@ -8934,7 +8863,6 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                   )}
 
                   <div className="flex items-center gap-3 w-full">
-                    {/* Left circular plus button */}
                     <button
                       type="button"
                       onClick={() => {
@@ -8943,13 +8871,12 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           (fileInput as HTMLInputElement).click();
                         }
                       }}
-                      className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.08] dark:hover:bg-white/[0.15] text-slate-500 dark:text-slate-400 border border-slate-200/50 dark:border-white/5 shadow-sm active:scale-95 cursor-pointer"
+                      className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 bg-[#FAF8F5] hover:bg-[#EDEBE7] text-[#6B6B6B] border border-[#EDEBE7] shadow-sm active:scale-95 cursor-pointer"
                       title="Attach media or reflection snapshot"
                     >
-                      <Plus className="w-5 h-5 text-slate-500 dark:text-slate-350 stroke-[1.8]" />
+                      <Plus className="w-5 h-5 stroke-[1.8]" />
                     </button>
 
-                    {/* Hidden file input */}
                     <input
                       type="file"
                       id="chat-file-attachment"
@@ -8962,35 +8889,28 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       }}
                     />
 
-                    {/* Main Text Input Pill */}
-                    <div className={`flex-1 flex items-center gap-2 px-4 py-1.5 rounded-full border transition-all duration-300 shadow-sm ${
-                      isDarkCharacter(activeChar.id, themeMode) 
-                        ? 'bg-[#121212]/95 border-white/[0.08]' 
-                        : 'bg-slate-905 bg-[#121212] border-slate-800'
-                    } ${getCharacterAccentBorder(activeChar.id)}`}>
+                    <div className={`flex-1 flex items-center gap-2 px-4 py-2 rounded-2xl border transition-all duration-200 shadow-sm bg-white border-[#EDEBE7] ${getCharacterAccentBorder(activeChar.id)}`}>
                       <input
                         type="text"
                         value={messageText}
                         onChange={(e) => setMessageText(e.target.value)}
                         placeholder={isListening ? "Listening... speak now..." : "Message..."}
-                        className="bg-transparent border-none outline-none text-xs flex-1 font-sans px-1 py-2 text-white placeholder-slate-500 focus:ring-0"
+                        className="bg-transparent border-none outline-none text-sm flex-1 font-sans px-1 py-1 text-[#2B2B2B] placeholder-[#6B6B6B] focus:ring-0"
                       />
 
-                      {/* Voice Dictation (Microphone Icon) */}
                       <button
                         type="button"
                         onClick={toggleListening}
-                        className={`p-2 rounded-full transition-all duration-300 shrink-0 flex items-center justify-center cursor-pointer ${
+                        className={`p-2 rounded-full transition-all duration-200 shrink-0 flex items-center justify-center cursor-pointer ${
                           isListening 
-                            ? "bg-rose-600/20 text-rose-400 scale-105" 
-                            : "hover:bg-white/5 text-slate-500 hover:text-slate-350"
+                            ? "bg-[#7A9E85]/10 text-[#7A9E85] scale-105" 
+                            : "hover:bg-[#FAF8F5] text-[#6B6B6B] hover:text-[#2B2B2B]"
                         }`}
                         title={isListening ? "Voice matching active. Press to pause dictation." : "Physically exhausted? Dictate your thoughts."}
                       >
                         <Mic className={`w-[17px] h-[17px] ${isListening ? 'animate-pulse' : ''}`} />
                       </button>
 
-                      {/* Far-Right circle button: Waveform or Send */}
                       <button
                         type={messageText.trim() ? "submit" : "button"}
                         onClick={() => {
@@ -8998,10 +8918,10 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                             toggleListening();
                           }
                         }}
-                        className={`w-[30px] h-[30px] rounded-full flex items-center justify-center shrink-0 transition-all duration-300 active:scale-95 cursor-pointer ${
+                        className={`w-[34px] h-[34px] rounded-full flex items-center justify-center shrink-0 transition-all duration-200 active:scale-95 cursor-pointer hover:scale-105 ${
                           messageText.trim() 
-                            ? getCharacterSubmitBg(activeChar.id) 
-                            : "bg-white/[0.06] hover:bg-white/[0.12] text-slate-400"
+                            ? getCharacterSubmitBg(activeChar.id) + " shadow-sm" 
+                            : "bg-[#FAF8F5] hover:bg-[#EDEBE7] text-[#6B6B6B]"
                         }`}
                         title={messageText.trim() ? "Send Safe Message" : "Voice dictation action"}
                       >
@@ -9010,7 +8930,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                             <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
                           </svg>
                         ) : (
-                          <svg className="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round">
+                          <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round">
                             <line x1="6" y1="10" x2="6" y2="14" />
                             <line x1="10" y1="6" x2="10" y2="18" />
                             <line x1="14" y1="8" x2="14" y2="16" />
@@ -9028,34 +8948,31 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           )}
 
           {activeCenterTab === 'safety' && (
-            /* Safety & Ethics Portal Full Screen Scroll Panel Card */
-            <div className={`flex-1 p-5 overflow-y-auto space-y-5 font-sans rounded-b-2xl transition-colors duration-300 ${themeClass("bg-white text-slate-800", "bg-black/60 text-slate-100", "bg-[#fdf9f0] text-[#3e2723]")}`}>
+            <div className="flex-1 p-5 overflow-y-auto space-y-5 font-sans rounded-b-2xl bg-white text-[#2B2B2B]">
               
-              {/* Premium Combined Head Header with Dual Sub-Tabs Selector */}
-              <div className={`border p-4.5 rounded-2xl relative overflow-hidden flex flex-col gap-3.5 transition-all duration-300 ${themeClass("bg-indigo-50/20 border-indigo-100/70", "bg-white/[0.02]/10 border-white/10/20", "bg-[#f5ebd7] border-[#e6dcc3]")}`}>
-                <div className="absolute -right-8 -bottom-8 w-28 h-28 bg-indigo-500/5 rounded-full blur-xl"></div>
+              <div className="border border-[#EDEBE7] p-4.5 rounded-2xl relative overflow-hidden flex flex-col gap-3.5 transition-all duration-300 bg-[#FAF8F5]">
+                <div className="absolute -right-8 -bottom-8 w-28 h-28 bg-[#7A9E85]/5 rounded-full blur-xl"></div>
                 <div className="flex flex-col gap-1.5 z-10">
-                  <span className={`text-[9.5px] uppercase font-mono tracking-widest px-2 py-0.5 rounded-md font-bold self-start ${themeClass("bg-indigo-100 text-indigo-750", "bg-indigo-900/35 text-indigo-300", "bg-[#eddcb8] text-[#5c3e21]")}`}>
+                  <span className="text-[9.5px] uppercase font-mono tracking-widest px-2 py-0.5 rounded-md font-bold self-start bg-[#E8F0EA] text-[#7A9E85]">
                     Active Alignment Engine
                   </span>
-                  <h3 className={`text-sm md:text-base font-bold flex items-center gap-2 font-display ${themeClass("text-indigo-950", "text-indigo-200", "text-[#4a2e22]")}`}>
-                    <Shield className="w-5 h-5 text-indigo-650 dark:text-indigo-400 shrink-0" />
+                  <h3 className="text-sm md:text-base font-bold flex items-center gap-2 font-display text-[#2B2B2B]">
+                    <Shield className="w-5 h-5 text-[#7A9E85] shrink-0" />
                     AI Safety, Governance &amp; Ethics Portal
                   </h3>
-                  <p className={`text-[10.5px] leading-relaxed max-w-2xl ${themeClass("text-slate-650", "text-slate-350", "text-[#5e4337]/90")}`}>
+                  <p className="text-[10.5px] leading-relaxed max-w-2xl text-[#6B6B6B]">
                     Project Friend AI enforces rigorous ethical de-escalation blueprints, robust antivirus shields, and dark web defenses directly inside client code. Toggle the active dashboards below to audit.
                   </p>
                 </div>
 
-                {/* Switcher tabs */}
-                <div className={`flex p-1 rounded-xl max-w-md w-full border self-start z-10 ${themeClass("bg-slate-100/80 border-slate-200/60", "bg-slate-950/40 border-white/10/50", "bg-[#ebdcb9]/60 border-[#dfcca3]")}`}>
+                <div className="flex p-1 rounded-xl max-w-md w-full border self-start z-10 bg-[#FAF8F5] border-[#EDEBE7]">
                   <button
                     type="button"
                     onClick={() => setSafetyPortalSubTab('guardrails')}
                     className={`flex-1 flex items-center justify-center gap-1 py-1.5 text-[10px] md:text-[11px] font-bold rounded-lg cursor-pointer transition-all ${
                       safetyPortalSubTab === 'guardrails'
-                        ? themeClass("bg-white border border-slate-205 text-indigo-755 shadow-xs", "bg-[#0a0a0a] border border-slate-705 text-indigo-205 shadow-xs", "bg-[#fcf8ef] border-[#dfcca3] text-[#4a2e22] shadow-xs")
-                        : "text-slate-500 hover:text-slate-800 dark:text-slate-200 dark:hover:text-slate-200 hover:bg-white/20 dark:bg-white/[0.01]"
+                        ? "bg-white border border-[#EDEBE7] text-[#7A9E85] shadow-sm"
+                        : "text-[#6B6B6B] hover:text-[#2B2B2B] hover:bg-white/50"
                     }`}
                   >
                     ⚡ Live Guardrails
@@ -9065,8 +8982,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     onClick={() => setSafetyPortalSubTab('governance')}
                     className={`flex-1 flex items-center justify-center gap-1 py-1.5 text-[10px] md:text-[11px] font-bold rounded-lg cursor-pointer transition-all ${
                       safetyPortalSubTab === 'governance'
-                        ? themeClass("bg-white border border-slate-205 text-indigo-755 shadow-xs", "bg-[#0a0a0a] border border-slate-705 text-indigo-205 shadow-xs", "bg-[#fcf8ef] border-[#dfcca3] text-[#4a2e22] shadow-xs")
-                        : "text-slate-500 hover:text-slate-805 dark:hover:text-slate-220 hover:bg-white/20 dark:bg-white/[0.01]"
+                        ? "bg-white border border-[#EDEBE7] text-[#7A9E85] shadow-sm"
+                        : "text-[#6B6B6B] hover:text-[#2B2B2B] hover:bg-white/50"
                     }`}
                   >
                     ⚖️ Governance &amp; Ethics
@@ -9077,8 +8994,8 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     onClick={() => setSafetyPortalSubTab('cybersecurity')}
                     className={`flex-1 flex items-center justify-center gap-1 py-1.5 text-[10px] md:text-[11px] font-bold rounded-lg cursor-pointer transition-all ${
                       safetyPortalSubTab === 'cybersecurity'
-                        ? themeClass("bg-emerald-50 border border-emerald-205 text-emerald-800 shadow-xs", "bg-emerald-950/40 border border-emerald-800 text-emerald-400 shadow-xs", "bg-[#ecf7f1] border-[#c0e6ce] text-[#1c402a] shadow-xs")
-                        : "text-slate-500 hover:text-emerald-800 dark:hover:text-emerald-400 hover:bg-emerald-55/30"
+                        ? "bg-white border border-[#EDEBE7] text-[#7A9E85] shadow-sm"
+                        : "text-[#6B6B6B] hover:text-[#2B2B2B] hover:bg-white/50"
                     }`}
                   >
                     🔐 Dark Web &amp; AV Shield

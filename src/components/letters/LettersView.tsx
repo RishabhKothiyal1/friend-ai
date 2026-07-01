@@ -22,7 +22,7 @@ export function LettersView({ userId }: LettersViewProps) {
 
   const [avatarConfig, setAvatarConfig] = useState<AvatarConfig>({
     animal: 'pig',
-    bg: '#FF57B2'
+    bg: '#7A9E85'
   });
 
   const [editAvatar, setEditAvatar] = useState(false);
@@ -42,17 +42,16 @@ export function LettersView({ userId }: LettersViewProps) {
 
   return (
     <div className="font-[family-name:var(--font-letters-sans)] h-full flex flex-col">
-      <div className="bg-[#FAFAF7] dark:bg-gray-950 rounded-2xl border border-[#E5E7EB] dark:border-gray-800 flex flex-col flex-1 min-h-0">
-        {/* Top Tab Navigation */}
-        <div className="bg-white dark:bg-gray-900 border-b border-[#E5E7EB] dark:border-gray-800 flex items-center justify-around px-2 py-2 shrink-0">
+      <div className="bg-[#FAF8F5] rounded-2xl border border-[#EDEBE7] flex flex-col flex-1 min-h-0 shadow-sm">
+        <div className="bg-white border-b border-[#EDEBE7] flex items-center justify-around px-2 py-2 shrink-0 rounded-t-2xl">
           {tabs.map(tab => (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex flex-col items-center justify-center gap-0.5 px-3 py-1.5 rounded-lg transition-all ${
+              className={`flex flex-col items-center justify-center gap-0.5 px-3 py-1.5 rounded-xl transition-all ${
                 activeTab === tab.id
-                  ? 'text-[#F4B400] dark:text-amber-400 scale-105 font-bold'
-                  : 'text-[#13294B]/60 dark:text-gray-400 hover:text-[#13294B] dark:hover:text-gray-100'
+                  ? 'text-[#7A9E85] scale-105 font-bold bg-[#E8F0EA]'
+                  : 'text-[#6B6B6B] hover:text-[#2B2B2B] hover:bg-[#FAF8F5]'
               }`}
             >
               <span className="text-lg">{tab.icon}</span>
@@ -61,7 +60,6 @@ export function LettersView({ userId }: LettersViewProps) {
           ))}
         </div>
 
-        {/* Content */}
         <div className="relative flex-1 overflow-y-auto min-h-0">
           {activeTab === 'home' && (
             <Dashboard
@@ -98,21 +96,21 @@ export function LettersView({ userId }: LettersViewProps) {
           )}
 
           {activeTab === 'profile' && (
-            <div className="bg-[#FAFAF7] dark:bg-gray-950 px-4 py-8 space-y-8">
+            <div className="bg-[#FAF8F5] px-4 py-8 space-y-8">
               <div className="max-w-4xl mx-auto">
-                <div className="bg-white dark:bg-gray-900 border border-[#E5E7EB] dark:border-gray-800 rounded-2xl p-6 shadow-sm flex flex-col md:flex-row items-center gap-6">
+                <div className="bg-white border border-[#EDEBE7] rounded-2xl p-6 shadow-sm flex flex-col md:flex-row items-center gap-6">
                   <Avatar config={avatarConfig} className="w-32 h-32" />
                   <div className="space-y-3 text-center md:text-left flex-1">
                     <div>
-                      <p className="text-2xl font-[family-name:var(--font-letters-serif)] font-bold text-[#13294B] dark:text-gray-100">
+                      <p className="text-2xl font-[family-name:var(--font-letters-serif)] font-bold text-[#2B2B2B]">
                         {profile?.displayName || 'Anonymous'}
                       </p>
-                      <p className="text-[#13294B]/50 dark:text-gray-400 text-xs mt-1">UID: {userId || 'anonymous'}</p>
+                      <p className="text-[#6B6B6B] text-xs mt-1">UID: {userId || 'anonymous'}</p>
                     </div>
                     <div className="flex flex-wrap gap-2 justify-center md:justify-start">
                       <button
                         onClick={() => setEditAvatar(!editAvatar)}
-                        className="px-4 py-2 bg-[#13294B] dark:bg-gray-800 text-white text-xs font-bold rounded-full hover:bg-[#13294B]/95 dark:hover:bg-gray-700 transition"
+                        className="px-4 py-2 bg-[#7A9E85] text-white text-xs font-bold rounded-full hover:bg-[#6B9080] transition shadow-sm"
                       >
                         {editAvatar ? 'Close Editor' : 'Customize Avatar'}
                       </button>
@@ -140,9 +138,8 @@ export function LettersView({ userId }: LettersViewProps) {
           )}
         </div>
 
-        {/* Letter Reader Overlay */}
         {readingLetter && (
-          <div className="fixed inset-0 z-50 overflow-y-auto bg-[#FAFAF7] dark:bg-gray-950">
+          <div className="fixed inset-0 z-50 overflow-y-auto bg-[#FAF8F5]">
             <LetterReader
               title={readingLetter.title}
               content={readingLetter.body}

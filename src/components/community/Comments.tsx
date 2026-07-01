@@ -98,7 +98,7 @@ export default function Comments({ postId, comments, loading }: CommentsProps) {
           {profile?.photoURL ? (
             <img src={profile.photoURL} alt="" className="w-7 h-7 rounded-full object-cover shrink-0" />
           ) : (
-            <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shrink-0 text-white text-[10px] font-black">
+            <div className="w-7 h-7 rounded-full bg-[#E8F0EA] flex items-center justify-center shrink-0 text-[#7A9E85] text-[10px] font-black">
               {(profile?.displayName || "U").charAt(0).toUpperCase()}
             </div>
           )}
@@ -110,27 +110,27 @@ export default function Comments({ postId, comments, loading }: CommentsProps) {
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-                className="flex-1 px-3 py-1.5 rounded-xl border border-white/10 bg-white/5 text-white text-xs placeholder:text-slate-500 focus:outline-none focus:border-indigo-500"
+                className="flex-1 px-3 py-1.5 rounded-xl border border-[#EDEBE7] bg-[#FAF8F5] text-[#2B2B2B] text-xs placeholder:text-[#6B6B6B] focus:outline-none focus:border-[#7A9E85]"
               />
               <button
                 onClick={handleSubmit}
                 disabled={submitting || !newComment.trim()}
-                className="px-3 py-1.5 rounded-xl bg-indigo-600 text-white text-xs font-bold hover:bg-indigo-500 transition-colors cursor-pointer disabled:opacity-50"
+                className="px-3 py-1.5 rounded-xl bg-[#7A9E85] text-white text-xs font-bold hover:bg-[#6B9080] transition-colors cursor-pointer disabled:opacity-50 shadow-sm"
               >
                 {submitting ? <Loader2 className="w-3 h-3 animate-spin" /> : "Post"}
               </button>
             </div>
-            {commentError && <p className="text-[10px] text-red-400 mt-1">{commentError}</p>}
+            {commentError && <p className="text-[10px] text-[#6B6B6B] mt-1">{commentError}</p>}
           </div>
         </div>
       )}
 
       {loading ? (
         <div className="flex justify-center py-4">
-          <Loader2 className="w-5 h-5 animate-spin text-slate-400" />
+          <Loader2 className="w-5 h-5 animate-spin text-[#7A9E85]" />
         </div>
       ) : comments.length === 0 ? (
-        <p className="text-xs text-slate-500 text-center py-4">No comments yet. Be the first to share your thoughts!</p>
+        <p className="text-xs text-[#6B6B6B] text-center py-4">No comments yet. Be the first to share your thoughts!</p>
       ) : (
         comments.map((comment) => (
           <CommentItem
@@ -191,33 +191,33 @@ function CommentItem({
   const isOwn = userId === comment.authorId;
 
   return (
-    <div className="p-3 rounded-xl border border-white/5 bg-white/[0.03]">
+    <div className="p-3 rounded-2xl border border-[#EDEBE7] bg-white shadow-sm">
       <div className="flex items-start gap-2">
         {comment.authorAvatar ? (
           <img src={comment.authorAvatar} alt="" className="w-6 h-6 rounded-full object-cover shrink-0" />
         ) : (
-          <div className="w-6 h-6 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shrink-0 text-white text-[9px] font-black">
+          <div className="w-6 h-6 rounded-full bg-[#E8F0EA] flex items-center justify-center shrink-0 text-[#7A9E85] text-[9px] font-black">
             {(comment.authorName || "U").charAt(0).toUpperCase()}
           </div>
         )}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-1.5 text-[10px] text-slate-400 mb-0.5">
-            <span className="font-medium text-slate-200">{comment.authorName}</span>
+          <div className="flex items-center gap-1.5 text-[10px] text-[#6B6B6B] mb-0.5">
+            <span className="font-medium text-[#2B2B2B]">{comment.authorName}</span>
             <span>·</span>
             <span>{timeAgo(comment.createdAt)}</span>
           </div>
-          <p className="text-xs text-slate-300 leading-relaxed">{comment.content}</p>
+          <p className="text-xs text-[#4A4A4A] leading-relaxed">{comment.content}</p>
           <div className="flex items-center gap-3 mt-1.5">
-            <button className="flex items-center gap-1 text-[10px] text-slate-500 hover:text-indigo-400 transition-colors cursor-pointer">
+            <button className="flex items-center gap-1 text-[10px] text-[#6B6B6B] hover:text-[#7A9E85] transition-colors cursor-pointer">
               <Heart className="w-3 h-3" />
               {comment.likes}
             </button>
-            <button onClick={() => onReply(comment.id)} className="flex items-center gap-1 text-[10px] text-slate-500 hover:text-indigo-400 transition-colors cursor-pointer">
+            <button onClick={() => onReply(comment.id)} className="flex items-center gap-1 text-[10px] text-[#6B6B6B] hover:text-[#7A9E85] transition-colors cursor-pointer">
               <Reply className="w-3 h-3" />
               Reply
             </button>
             {isOwn && (
-              <button onClick={() => onDelete(comment.id)} className="flex items-center gap-1 text-[10px] text-slate-500 hover:text-red-400 transition-colors cursor-pointer">
+              <button onClick={() => onDelete(comment.id)} className="flex items-center gap-1 text-[10px] text-[#6B6B6B] hover:text-[#7A9E85] transition-colors cursor-pointer">
                 <Trash2 className="w-3 h-3" />
               </button>
             )}
@@ -231,13 +231,13 @@ function CommentItem({
                 value={replyContent}
                 onChange={(e) => onReplyContentChange(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && onSubmitReply(comment.id)}
-                className="flex-1 px-2 py-1 rounded-lg border border-white/10 bg-white/5 text-white text-[10px] placeholder:text-slate-500 focus:outline-none focus:border-indigo-500"
+                className="flex-1 px-2 py-1 rounded-xl border border-[#EDEBE7] bg-[#FAF8F5] text-[#2B2B2B] text-[10px] placeholder:text-[#6B6B6B] focus:outline-none focus:border-[#7A9E85]"
                 autoFocus
               />
               <button
                 onClick={() => onSubmitReply(comment.id)}
                 disabled={submitting || !replyContent.trim()}
-                className="px-2 py-1 rounded-lg bg-indigo-600 text-white text-[10px] font-bold hover:bg-indigo-500 transition-colors cursor-pointer disabled:opacity-50"
+                className="px-2 py-1 rounded-xl bg-[#7A9E85] text-white text-[10px] font-bold hover:bg-[#6B9080] transition-colors cursor-pointer disabled:opacity-50 shadow-sm"
               >
                 Reply
               </button>
@@ -248,7 +248,7 @@ function CommentItem({
             <div className="mt-2">
               <button
                 onClick={() => onToggleReplies(comment.id)}
-                className="flex items-center gap-1 text-[10px] text-indigo-400 hover:text-indigo-300 transition-colors cursor-pointer"
+                className="flex items-center gap-1 text-[10px] text-[#7A9E85] hover:text-[#6B9080] transition-colors cursor-pointer"
               >
                 {isExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
                 {replies.length} {replies.length === 1 ? "reply" : "replies"}
@@ -259,25 +259,26 @@ function CommentItem({
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
                     className="overflow-hidden"
                   >
-                    <div className="mt-2 space-y-2 pl-4 border-l border-white/10">
+                    <div className="mt-2 space-y-2 pl-4 border-l border-[#EDEBE7]">
                       {replies.map((reply) => (
                         <div key={reply.id} className="flex items-start gap-2">
                           {reply.authorAvatar ? (
                             <img src={reply.authorAvatar} alt="" className="w-5 h-5 rounded-full object-cover shrink-0" />
                           ) : (
-                            <div className="w-5 h-5 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shrink-0 text-white text-[7px] font-black">
+                            <div className="w-5 h-5 rounded-full bg-[#E8F0EA] flex items-center justify-center shrink-0 text-[#7A9E85] text-[7px] font-black">
                               {(reply.authorName || "U").charAt(0).toUpperCase()}
                             </div>
                           )}
                           <div>
-                            <div className="flex items-center gap-1 text-[10px] text-slate-400">
-                              <span className="font-medium text-slate-200">{reply.authorName}</span>
+                            <div className="flex items-center gap-1 text-[10px] text-[#6B6B6B]">
+                              <span className="font-medium text-[#2B2B2B]">{reply.authorName}</span>
                               <span>·</span>
                               <span>{timeAgo(reply.createdAt)}</span>
                             </div>
-                            <p className="text-[11px] text-slate-300">{reply.content}</p>
+                            <p className="text-[11px] text-[#4A4A4A]">{reply.content}</p>
                           </div>
                         </div>
                       ))}
