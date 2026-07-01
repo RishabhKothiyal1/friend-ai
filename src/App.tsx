@@ -6210,7 +6210,11 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
             <Hero1 onSignIn={() => { setAuthModalTab("login"); setIsAliasModalOpen(true); }} onGetStarted={() => { setAuthModalTab("signup"); setIsAliasModalOpen(true); }} />
           </div>
         ) : (
-        <div className="flex-1 max-w-[1700px] w-full mx-auto p-4 md:p-6 grid grid-cols-1 xl:grid-cols-12 gap-6">
+        <div className={`flex-1 w-full mx-auto ${
+          activeCenterTab === 'chat' 
+            ? 'flex flex-col' 
+            : 'max-w-[1700px] p-4 md:p-6 grid grid-cols-1 xl:grid-cols-12 gap-6'
+        }`}>
         {activeCenterTab === 'analytics' ? (
           <div className="col-span-1 xl:col-span-12">
             
@@ -6941,15 +6945,11 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
         
 
         {/* Center Chat column (Width: 12) */}
-        <section className={`xl:col-span-12 flex flex-col rounded-2xl overflow-hidden min-h-[600px] ${
+        <section className={`flex flex-col overflow-hidden ${
           activeCenterTab === 'chat'
-            ? "h-[calc(100vh-120px)] xl:h-[calc(100vh-160px)]"
-            : "xl:h-[820px]"
-        } shadow-sm relative animate-fade-in border transition-all duration-300 ${
-          activeCenterTab === 'chat'
-            ? "bg-white/80 border-[#EDEBE7] dark:bg-black/30 dark:border-white/10"
-            : themeClass("bg-white border-[#EDEBE7]", "bg-[#0b0f19] border-white/10", "bg-[#faf6ee] border-[#e3d5be]")
-        }`}>
+            ? 'flex-1'
+            : 'xl:col-span-12 rounded-2xl min-h-[600px] xl:h-[820px] shadow-sm relative animate-fade-in border transition-all duration-300'
+        } ${activeCenterTab !== 'chat' ? themeClass("bg-white border-[#EDEBE7]", "bg-[#0b0f19] border-white/10", "bg-[#faf6ee] border-[#e3d5be]") : ''}`}>
           
           
           {activeCenterTab === 'journal' && (
@@ -8613,9 +8613,10 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
           {activeCenterTab === 'chat' && (
             <>
               <div 
-                className="flex-1 p-6 overflow-y-auto space-y-4 transition-all duration-300 ease-in-out"
+                className="flex-1 overflow-y-auto scroll-smooth"
                 style={{ background: getCharacterBg(activeChar.id, themeMode) }}
               >
+                <div className="max-w-[900px] mx-auto w-full px-5 py-4 space-y-4 transition-all duration-300 ease-in-out">
                 
                 {isCrisisActive && (
                   <div className="p-4 bg-[#F5E6E0] border border-[#EDEBE7] rounded-2xl relative space-y-2 mb-4 animate-fade-in-up">
@@ -8758,10 +8759,11 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                 )}
 
                 <div ref={chatEndRef} />
+                </div>
               </div>
 
-              <div className="p-4 bg-white border-t border-[#EDEBE7]">
-                <form onSubmit={handleSendMessage} className="space-y-3">
+              <div className="shrink-0 border-t border-[#EDEBE7] bg-white/90 backdrop-blur-sm">
+                <form onSubmit={handleSendMessage} className="max-w-[900px] mx-auto w-full px-5 py-4 space-y-3">
                   {shareSuccessToast && (
                     <div className="p-3 bg-[#E8F0EA] border border-[#7A9E85]/30 rounded-2xl text-xs text-[#2B2B2B] font-sans flex items-start gap-2 leading-normal">
                       <CheckCircle2 className="w-4 h-4 text-[#7A9E85] shrink-0 mt-0.5" />
@@ -8826,43 +8828,27 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                     </div>
                   ) : (
                     chatHistory.length > 1 && (
-                      <div className="p-2.5 bg-[#FAF8F5] border border-[#EDEBE7] rounded-2xl space-y-1">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="text-[11px] text-[#6B6B6B] flex items-center gap-1.5 leading-relaxed">
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#7A9E85] animate-ping shrink-0" />
-                            <span>Anonymously push a sanitized summary to the Comm Circle Wall?</span>
-                          </span>
-                          
-                          <button
-                            type="button"
-                            onClick={handleGenerateDialogueSummary}
-                            disabled={isSummarizingAndSharing}
-                            className="px-2.5 py-1 bg-[#7A9E85] hover:bg-[#6B9080] disabled:opacity-40 text-white font-bold text-[10px] uppercase tracking-wider rounded-xl cursor-pointer transition-all flex items-center gap-1 shrink-0 shadow-sm"
-                          >
-                            {isSummarizingAndSharing ? (
-                              <>
-                                <svg className="animate-spin h-3 w-3 text-white" fill="none" viewBox="0 0 24 24">
-                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                <span>Generating...</span>
-                              </>
-                            ) : (
-                              <span>Share To Community</span>
-                            )}
-                          </button>
+                      <div className="flex items-center justify-between gap-2 px-1">
+                        <div className="flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#7A9E85] animate-ping shrink-0" />
+                          <span className="text-[10px] text-[#6B6B6B]">Share an anonymous summary to Community Wall?</span>
                         </div>
-
+                        <button
+                          type="button"
+                          onClick={handleGenerateDialogueSummary}
+                          disabled={isSummarizingAndSharing}
+                          className="px-2.5 py-1 bg-[#7A9E85] hover:bg-[#6B9080] disabled:opacity-40 text-white font-bold text-[9px] uppercase tracking-wider rounded-lg cursor-pointer transition-all shrink-0"
+                        >
+                          {isSummarizingAndSharing ? "Generating..." : "Share"}
+                        </button>
                         {shareError && (
-                          <div className="text-[10px] text-[#6B6B6B] font-sans mt-0.5">
-                            {shareError}
-                          </div>
+                          <span className="text-[9px] text-[#6B6B6B]">{shareError}</span>
                         )}
                       </div>
                     )
                   )}
 
-                  <div className="flex items-center gap-3 w-full">
+                  <div className="flex items-center gap-2 w-full rounded-[28px] border border-[#EDEBE7] bg-white shadow-sm focus-within:border-[#7A9E85]/40 focus-within:ring-2 focus-within:ring-[#7A9E85]/10 transition-all duration-200 px-3 h-[52px]">
                     <button
                       type="button"
                       onClick={() => {
@@ -8871,10 +8857,10 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                           (fileInput as HTMLInputElement).click();
                         }
                       }}
-                      className="w-11 h-11 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 bg-[#FAF8F5] hover:bg-[#EDEBE7] text-[#6B6B6B] border border-[#EDEBE7] shadow-sm active:scale-95 cursor-pointer"
+                      className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-[#6B6B6B] hover:text-[#7A9E85] hover:bg-[#E8F0EA] transition-colors cursor-pointer"
                       title="Attach media or reflection snapshot"
                     >
-                      <Plus className="w-5 h-5 stroke-[1.8]" />
+                      <Plus className="w-[18px] h-[18px]" />
                     </button>
 
                     <input
@@ -8889,56 +8875,54 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                       }}
                     />
 
-                    <div className={`flex-1 flex items-center gap-2 px-4 py-2 rounded-2xl border transition-all duration-200 shadow-sm bg-white border-[#EDEBE7] ${getCharacterAccentBorder(activeChar.id)}`}>
-                      <input
-                        type="text"
-                        value={messageText}
-                        onChange={(e) => setMessageText(e.target.value)}
-                        placeholder={isListening ? "Listening... speak now..." : "Message..."}
-                        className="bg-transparent border-none outline-none text-sm flex-1 font-sans px-1 py-1 text-[#2B2B2B] placeholder-[#6B6B6B] focus:ring-0"
-                      />
+                    <input
+                      type="text"
+                      value={messageText}
+                      onChange={(e) => setMessageText(e.target.value)}
+                      placeholder={isListening ? "Listening... speak now..." : "Message Friend AI..."}
+                      className="bg-transparent border-none outline-none text-sm flex-1 font-sans px-1 text-[#2B2B2B] placeholder-[#6B6B6B] focus:ring-0 h-full"
+                    />
 
-                      <button
-                        type="button"
-                        onClick={toggleListening}
-                        className={`p-2 rounded-full transition-all duration-200 shrink-0 flex items-center justify-center cursor-pointer ${
-                          isListening 
-                            ? "bg-[#7A9E85]/10 text-[#7A9E85] scale-105" 
-                            : "hover:bg-[#FAF8F5] text-[#6B6B6B] hover:text-[#2B2B2B]"
-                        }`}
-                        title={isListening ? "Voice matching active. Press to pause dictation." : "Physically exhausted? Dictate your thoughts."}
-                      >
-                        <Mic className={`w-[17px] h-[17px] ${isListening ? 'animate-pulse' : ''}`} />
-                      </button>
+                    <button
+                      type="button"
+                      onClick={toggleListening}
+                      className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors cursor-pointer ${
+                        isListening 
+                          ? "bg-[#7A9E85]/10 text-[#7A9E85]" 
+                          : "text-[#6B6B6B] hover:text-[#7A9E85] hover:bg-[#E8F0EA]"
+                      }`}
+                      title={isListening ? "Voice matching active. Press to pause dictation." : "Physically exhausted? Dictate your thoughts."}
+                    >
+                      <Mic className={`w-[18px] h-[18px] ${isListening ? 'animate-pulse' : ''}`} />
+                    </button>
 
-                      <button
-                        type={messageText.trim() ? "submit" : "button"}
-                        onClick={() => {
-                          if (!messageText.trim()) {
-                            toggleListening();
-                          }
-                        }}
-                        className={`w-[34px] h-[34px] rounded-full flex items-center justify-center shrink-0 transition-all duration-200 active:scale-95 cursor-pointer hover:scale-105 ${
-                          messageText.trim() 
-                            ? getCharacterSubmitBg(activeChar.id) + " shadow-sm" 
-                            : "bg-[#FAF8F5] hover:bg-[#EDEBE7] text-[#6B6B6B]"
-                        }`}
-                        title={messageText.trim() ? "Send Safe Message" : "Voice dictation action"}
-                      >
-                        {messageText.trim() ? (
-                          <svg className="w-3.5 h-3.5 text-white transform rotate-45 -translate-x-[1px] translate-y-[0.5px]" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
-                          </svg>
-                        ) : (
-                          <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round">
-                            <line x1="6" y1="10" x2="6" y2="14" />
-                            <line x1="10" y1="6" x2="10" y2="18" />
-                            <line x1="14" y1="8" x2="14" y2="16" />
-                            <line x1="18" y1="10" x2="18" y2="14" />
-                          </svg>
-                        )}
-                      </button>
-                    </div>
+                    <button
+                      type={messageText.trim() ? "submit" : "button"}
+                      onClick={() => {
+                        if (!messageText.trim()) {
+                          toggleListening();
+                        }
+                      }}
+                      className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer ${
+                        messageText.trim() 
+                          ? "bg-[#7A9E85] text-white shadow-sm hover:bg-[#6B9080] hover:scale-105 active:scale-95" 
+                          : "text-[#6B6B6B]"
+                      }`}
+                      title={messageText.trim() ? "Send Safe Message" : "Voice dictation action"}
+                    >
+                      {messageText.trim() ? (
+                        <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+                        </svg>
+                      ) : (
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                          <line x1="6" y1="10" x2="6" y2="14" />
+                          <line x1="10" y1="6" x2="10" y2="18" />
+                          <line x1="14" y1="8" x2="14" y2="16" />
+                          <line x1="18" y1="10" x2="18" y2="14" />
+                        </svg>
+                      )}
+                    </button>
                   </div>
 
 
