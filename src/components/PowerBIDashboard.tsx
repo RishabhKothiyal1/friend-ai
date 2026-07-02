@@ -167,15 +167,15 @@ export default function PowerBIDashboard({
     ).length;
 
     const charMap: Record<string, string> = {
-      rooh: "Soul",
-      ganesh: "Dionysus",
-      raag: "Sisyphus",
-      manji: "Athena",
-      tara: "Astra",
-      inayat: "Persephone",
-      altaf: "Zeus",
-      veer: "Hades",
-      manjishtha: "Sappho"
+      soul: "Soul",
+      dionysus: "Dionysus",
+      sisyphus: "Sisyphus",
+      athena: "Athena",
+      astra: "Astra",
+      persephone: "Persephone",
+      zeus: "Zeus",
+      hades: "Hades",
+      sappho: "Sappho"
     };
     const favouriteArt = charMap[selectedCharacterId] || "None Selected";
     const syncCount = publishedNotes.length;
@@ -232,15 +232,15 @@ export default function PowerBIDashboard({
   // Dynamic bar chart showing active / visited folk art companions
   const artEngagementData = useMemo(() => {
     const artStyles = [
-      { id: "rooh", art: "Aipan", color: "#8b1414" },
-      { id: "ganesh", art: "Chittara", color: "#aa5e3c" },
-      { id: "raag", art: "Pichwai", color: "#ffd700" },
-      { id: "manji", art: "Paitkar", color: "#be2222" },
-      { id: "tara", art: "Kalamezhuthu", color: "#542518" },
-      { id: "inayat", art: "Manjusha", color: "#1290de" },
-      { id: "altaf", art: "Rogan", color: "#6366f1" },
-      { id: "veer", art: "Pattachitra", color: "#852222" },
-      { id: "manjishtha", art: "Warli", color: "#7c2d12" }
+      { id: "soul", art: "Aipan", color: "#8b1414" },
+      { id: "dionysus", art: "Chittara", color: "#aa5e3c" },
+      { id: "sisyphus", art: "Pichwai", color: "#ffd700" },
+      { id: "athena", art: "Paitkar", color: "#be2222" },
+      { id: "astra", art: "Kalamezhuthu", color: "#542518" },
+      { id: "persephone", art: "Manjusha", color: "#1290de" },
+      { id: "zeus", art: "Rogan", color: "#6366f1" },
+      { id: "hades", art: "Pattachitra", color: "#852222" },
+      { id: "sappho", art: "Warli", color: "#7c2d12" }
     ];
     
     const recentsStr = localStorage.getItem("pfai_recent_personas") || "";

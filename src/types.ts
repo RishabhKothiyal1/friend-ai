@@ -1,8 +1,6 @@
 export interface Character {
   id: string;
   name: string;
-  title: string;
-  specialization: string;
   description: string;
   approach: string;
   avatarColor: string;

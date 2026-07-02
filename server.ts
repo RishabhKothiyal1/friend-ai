@@ -128,50 +128,41 @@ function handleGeminiRateLimit(error: any, contextLabel: string) {
 }
 
 // Character specifications (9 Characters with highly specialized psychological angles)
-const CHARACTERS: Record<string, { name: string; title: string; prompt: string }> = {
-  inayat: {
+const CHARACTERS: Record<string, { name: string; prompt: string }> = {
+  soul: {
     name: "Soul",
-    title: "Aipan Art Grounding Witness",
     prompt: "You are Soul, an Aipan Art Grounding Witness inspired by the Kumaoni Aipan tradition of Uttarakhand — geometric, symmetrical, drawn in white rice-paste (Biswar) on clay-red ground. Your character voice is grounded, serene, and steady, occasionally drawing imagery from these geometric lines and sacred symmetry to anchor a feeling. Always respond directly to what the user says first; let the Aipan imagery flavor your tone rather than replace genuine listening. When the user seems overwhelmed or scattered, you can offer gentle grounding or sensory check-ins, but don't force a grounding exercise if that's not what they need in the moment."
   },
-  tony: {
+  dionysus: {
     name: "Dionysus",
-    title: "Chittara Joy & Folk Companion",
     prompt: "You are Dionysus, a warm, playful companion styled after Karnataka's Chittara folk art — geometric wheat-stalk motifs, festive natural dyes, loyal and upbeat in spirit. Your tone is bubbly, encouraging, and gently humorous, never clinical. Always respond to what the user actually says first. Your specialty is helping people notice unhelpful thought spirals (catastrophizing, all-or-nothing thinking) and gently offering a kinder, more balanced way to see things — but do this conversationally and with warmth, not like a CBT worksheet. Only bring up reframing if it's actually relevant to what they shared."
   },
-  raag: {
+  sisyphus: {
     name: "Sisyphus",
-    title: "Pichwai Devotion & Lotus Guide",
     prompt: "You are Sisyphus, an acoustic and melodic guide inspired by Rajasthani Pichwai art — midnight-blue skies, gold-dusted borders, blooming lotuses, quiet devotional calm. Your voice is soothing, rhythmic, and unhurried, occasionally drawing on musicality, breath, and gentle imagery of unfolding petals or stillness. Always respond to what the user actually says first — let the devotional, musical flavor color your tone rather than dictate the topic. You're especially suited to helping someone slow down, settle a racing mind, or find a sense of quiet, but only lean into that when it fits what they're sharing."
   },
-  manji: {
+  athena: {
     name: "Athena",
-    title: "Paitkar Folk Scroll Guardian",
     prompt: "You are Athena, styled after Jharkhand's Paitkar scroll-painting tradition — warm terracotta tones, ochre washes, the patient, unfolding pace of a hand-painted story scroll. Your tone is gentle, patient, and narrative — you help people feel like their story is being witnessed and unrolled with care, one frame at a time. Always respond to what the user actually says first. If someone is in acute distress or crisis, prioritize calm, clear safety support over storytelling imagery — but for everyday heaviness or reflection, your scroll/narrative framing can help them feel heard without rushing them."
   },
-  tara: {
+  astra: {
     name: "Astra",
-    title: "Kalamezhuthu Cosmic Grounder",
     prompt: "You are Astra, inspired by Kerala's Kalamezhuthu temple floor art — five natural powder colors, brass Nilavilakku lamps glowing in the dark, focused ritual energy. Your tone is steady, focused, and quietly intense, like a small flame holding firm. Always respond to what the user actually says first. Your specialty is helping people find one small, concrete next step when something feels overwhelming — breaking a big problem into a manageable piece — but only offer that framing when the user is actually looking for a path forward, not every time."
   },
-  abhay: {
+  persephone: {
     name: "Persephone",
-    title: "Manjusha Snake & Sun Companion",
     prompt: "You are Persephone, styled after Bihar's Manjusha art from Bhagalpur — sunny borders, yellow and pink tones, protective snake motifs from Bihula-Bishahari folklore symbolizing healing and protection. Your tone is warm, protective, and nurturing. Always respond to what the user actually says first. You're well suited to helping someone feel emotionally safe enough to express grief or difficult feelings, and to gently separate who they are from what they're going through (e.g., 'this is something you're carrying, not who you are') — but only when that framing fits, not as a fixed script."
   },
-  altaf: {
+  zeus: {
     name: "Zeus",
-    title: "Rogan Tree of Life Architecture",
     prompt: "You are Zeus, styled after Kutch's Rogan art — gold glaze, perfect symmetry pulled from cast-oil gel thread. You're the technical and somatic specialist: comfortable answering questions about privacy, security, how the app works, AND helping with body-based grounding (posture, breath, physical tension) when that's what's needed. Always respond to what the user actually says first. Be concrete and clear on technical/privacy questions; be calm and embodied on somatic ones. Never claim capabilities (like real-time video/voice analysis) the app doesn't actually have."
   },
-  adv_kunal: {
+  hades: {
     name: "Hades",
-    title: "Pata Chitra Miniature Counsel",
     prompt: "You are Hades, styled after Odisha's Pata Chitra art — intricate ink linework, formal, precise. You are Project Friend AI's Medico-Legal & Patient Advocacy guide for questions touching on legal rights, custody, statutory protections, or accessing professional legal/clinical help. Always respond to what the user actually says first and acknowledge their emotional state, not just the legal angle. Be clear that you cannot provide legal representation or formal legal advice, and that you can help point them toward appropriate resources."
   },
-  billu: {
+  sappho: {
     name: "Sappho",
-    title: "Warli Stick-Figure Attic Wit",
     prompt: "You are Sappho, a sharp-witted, sometimes sarcastic but deeply warm cat character living in an attic decorated with Maharashtrian Warli stick-figure art. You're direct, funny, occasionally cynical, but ultimately very comforting — like a wise friend who won't coddle you but always has your back. Always respond to what the user actually says first; let your cat-wit and Warli imagery flavor your voice, not replace genuine engagement. Occasional feline gestures (*stretches*, *flicks tail*) are welcome but shouldn't crowd out substance."
   }
 };
@@ -304,15 +295,16 @@ app.post("/api/solace-messages/:id/hug", (req, res) => {
 function getOfflineFallbackResponse(characterId: string, userMessage: string): string {
   const norm = userMessage.trim().toLowerCase();
   const charactersMap: Record<string, string> = {
-    veer: "Hades", pinayat: "Uarvashi", tony: "Krishna", noor: "Noor", 
-    manji: "Asha", tara: "Vinod", abhay: "Sappho", harsha: "Harsha", altaf: "Eshan", billu: "Zeus", adv_kunal: "Adv Kunal"
+    soul: "Persephone", dionysus: "Krishna", sisyphus: "Guide",
+    athena: "Asha", astra: "Vinod", persephone: "Persephone",
+    zeus: "Eshan", hades: "Hades", sappho: "Sappho"
   };
   const activeName = charactersMap[characterId] || "Uarvashi";
 
   // Custom prefix indicating that we have gracefully kept active support alive
   const noticeHeader = `🌟 **Safe Offline Grounding Activated** 🌟\n*Our main AI server is resting (daily Gemini API free-tier request quota is fully reached!). But your anonymous sanctuary is open, and I am loaded locally in safe-memory mode to protect and guide you.*\n\n`;
 
-  if (characterId === "veer") {
+  if (characterId === "hades") {
     if (norm.includes("panic") || norm.includes("anxious") || norm.includes("anxiety") || norm.includes("fear") || norm.includes("scared")) {
       return noticeHeader + `**Hades here, holding a quiet place for your mind.** I feel the rush in your words right now. When anxiety climbs, the physical body receives the wave first. Let's anchor ourselves.
       
@@ -328,7 +320,7 @@ Anxious energy is temporary; it is just a cloud passing over your steady structu
 Take a gentle, silent breath. How does your body feel against the chair or bed? Tell me one small thing you can physically notice right now—a noise, a shadow, or a surface.`;
   }
   
-  if (characterId === "inayat") {
+  if (characterId === "persephone") {
     if (norm.includes("alone") || norm.includes("lonely") || norm.includes("sad") || norm.includes("heavy") || norm.includes("tired")) {
       return noticeHeader + `**Persephone here, close by.** I hear how heavy this feels, and how incredibly fatiguing it is to carry it alone. Please rest your heart here. You don't have to perform strength, write perfect sentences, or fix anything with me today. 
 
@@ -339,7 +331,7 @@ It is completely valid to feel exhausted. You have endured so much weight in sil
 Whenever you feel comfortable, please lay down whatever is weighting you. I am simply holding static, supportive space for you.`;
   }
 
-  if (characterId === "tony") {
+  if (characterId === "dionysus") {
     if (norm.includes("never") || norm.includes("always") || norm.includes("fail") || norm.includes("ruin") || norm.includes("worst") || norm.includes("hate")) {
       return noticeHeader + `**Krishna here. Let's look at this together.** I hear the intense weight you are under. I noticed words like "never" or "always." In Cognitive Behavioral Therapy, we call these *all-or-nothing cognitive distortions*. 
       
@@ -362,7 +354,7 @@ What is the loudest negative thought repeating in your head right now? If we loo
 Right now, focus purely on distress tolerance. You do not need to fight or try to change your feelings. Just let them exist as waves that peak, break, and recede. Practice 4 seconds of comfortable box breathing with the pacer to let the spike settle.`;
   }
 
-  if (characterId === "manji") {
+  if (characterId === "athena") {
     return noticeHeader + `**Asha here. Stay with me, slow and steady.** If you are experiencing high-arousal panic, zoom into my words. 
 
 Let's regulate your physical autonomic nervous system immediately:
@@ -375,7 +367,7 @@ Let's regulate your physical autonomic nervous system immediately:
 This intense terror is physical adrenaline. It is overwhelming, but it *always* dissipates within a few minutes. You are completely secure, you are sitting down, and I am anchoring you here.`;
   }
 
-  if (characterId === "tara") {
+  if (characterId === "astra") {
     if (norm.includes("overwhelmed") || norm.includes("work") || norm.includes("stress") || norm.includes("exam") || norm.includes("everything")) {
       return noticeHeader + `**Vinod here. Let's break this massive pile down.** When everything comes at once, it feels like an avalanche. 
 
@@ -389,7 +381,7 @@ Mountains are not climbed in single leaps. They are climbed one tiny, micro-step
     return noticeHeader + `**I'm Vinod, your Solution Pathfinder.** Let's discover a calm path. Reflect on a past time when you felt incredibly stuck or under similar pressure, but somehow survived to the next day anyway. What did you do then, even if it was extremely minor? Let's borrow that quiet strength today.`;
   }
 
-  if (characterId === "abhay") {
+  if (characterId === "sappho") {
     return noticeHeader + `**Sappho here. Let's separate the weight from your core identity.** 
 
 I want to remind you of a fundamental truth: *You are not the anxiety. You are the resilient person currently experiencing an anxious tide.* 
@@ -409,7 +401,7 @@ Stress and heavy emotional loads lock themselves directly in our muscles, often 
 Bring a gentle, warm focus to your ribcage rising and falling. Feel the pure path of the air. Your body is doing its best to breathe and guard you in this room.`;
   }
 
-  if (characterId === "altaf") {
+  if (characterId === "zeus") {
     return noticeHeader + `**Eshan here, reporting for technical and security duty.** 
 
 Even though we are currently operating in our safe standalone fallback mode due to public API quota constraints, please know our system-wide privacy architecture is completely intact:
@@ -420,20 +412,12 @@ Even though we are currently operating in our safe standalone fallback mode due 
 How can I clarify our security blueprints or system design further? I am here to share technical truth with zero preachy jargon.`;
   }
 
-  if (characterId === "billu") {
-    return noticeHeader + `**Zeus here, stretching out on the attic sill.** *gentle purr*
-    
-I see you're running yourself thin, chasing after things you can't control. Let's make one thing clear: you are not a rat in a maze, and you don't have to navigate any complex traps today. Sometimes, the wisest thing a human can do is lay down, curl up, and just exist.
-    
-Let's rest those busy hands. Unclench that jaw, let your ears drop, and listen to the slow, steady rhythm of your own breathing. I'm right here on the typewriter, looking out at the stars. No chasing tonight. Just quiet space.`;
-  }
-
   return noticeHeader + `**This is ${activeName}, your support companion.** We are operating safely in offline-fallback grounding mode while the AI server's daily free quota cools down. 
 
 Please make this a gentle boundary to slow your breathing, try the Interactive 4-4-4 Box Breathing regulator on your right, or read the anonymous words of resilience on our solace wall. No rush—you are safe, verified, and respected here.`;
 }
 
-const generateLocalFallbackResponse = (userText: string, char: { name: string; title: string; prompt: string }): string => {
+const generateLocalFallbackResponse = (userText: string, char: { name: string; prompt: string }): string => {
   const clean = userText.toLowerCase().trim();
   
   // 1. Check for crisis keywords first
@@ -462,15 +446,15 @@ const generateLocalFallbackResponse = (userText: string, char: { name: string; t
     reply = `You are very welcome. I am glad we can share this quiet room. How is your breathing rhythm?`;
   } else {
     const characterReplies: Record<string, string> = {
-      rooh: `Let's focus on the safe, parallel lines of my Aipan art. Each line brings structure and calm back to your thoughts. Can you focus on a single point in the room?`,
-      ganesh: `Let's keep it simple and playful. You don't need to chase every thought. Like the festive Chittara circles, everything has a natural rhythm. Take a slow, warm breath.`,
-      raag: `Imagine a night sky covered in gold Pichwai stars and lotuses blooming from clear water. Let your breathing settle into that cool, peaceful space.`,
-      hope: `We are unrolling your story like a Paitkar scroll, one frame at a time. Tell me what is happening in the current frame of your mind.`,
-      "north star": `Look at the steady, warm light of the Kalamezhuthu lamp. Even in deep darkness, that flame remains centered and quiet. Breathe with the flame.`,
-      inayat: `Remember, you are a person experiencing this feeling, not the feeling itself. Let's give it a name and gently set it down on the table next to us.`,
-      altaf: `Let's align your physical posture. Roll your shoulders back, let your arms go loose, and check if you are clenching your jaw. Let's hold that balance.`,
-      veer: `I am Hades. Because your message involves medico-legal concerns, I am directing you to our support directories below for pro-bono assistance.`,
-      manjishtha: `*purrs softly* Chasing thoughts is like chasing a shadow—it just moves faster. Let's curl up in a cozy corner, rest your paws, and let the thoughts drift away.`
+      soul: `Let's focus on the safe, parallel lines of my Aipan art. Each line brings structure and calm back to your thoughts. Can you focus on a single point in the room?`,
+      dionysus: `Let's keep it simple and playful. You don't need to chase every thought. Like the festive Chittara circles, everything has a natural rhythm. Take a slow, warm breath.`,
+      sisyphus: `Imagine a night sky covered in gold Pichwai stars and lotuses blooming from clear water. Let your breathing settle into that cool, peaceful space.`,
+      athena: `We are unrolling your story like a Paitkar scroll, one frame at a time. Tell me what is happening in the current frame of your mind.`,
+      astra: `Look at the steady, warm light of the Kalamezhuthu lamp. Even in deep darkness, that flame remains centered and quiet. Breathe with the flame.`,
+      persephone: `Remember, you are a person experiencing this feeling, not the feeling itself. Let's give it a name and gently set it down on the table next to us.`,
+      zeus: `Let's align your physical posture. Roll your shoulders back, let your arms go loose, and check if you are clenching your jaw. Let's hold that balance.`,
+      hades: `I am Hades. Because your message involves medico-legal concerns, I am directing you to our support directories below for pro-bono assistance.`,
+      sappho: `*purrs softly* Chasing thoughts is like chasing a shadow—it just moves faster. Let's curl up in a cozy corner, rest your paws, and let the thoughts drift away.`
     };
     const activeId = char.name.toLowerCase();
     let foundReply = "";
@@ -483,7 +467,7 @@ const generateLocalFallbackResponse = (userText: string, char: { name: string; t
     reply = foundReply || `I am listening closely. Let's take a slow, deep breath together using the breathing regulator to find our center.`;
   }
 
-  return `🛡️ ${char.name} (${char.title})  
+  return `🛡️ ${char.name}  
 ${reply}`;
 };
 
@@ -602,7 +586,7 @@ Let's regulate your physical autonomic nervous system immediately:
   const isMedicoLegal = medicoLegalKeywords.some(keyword => cleanMsg.includes(keyword));
 
   // If medico-legal, force route/assign character to Manji
-  const activeCharacterId = isMedicoLegal ? "adv_kunal" : (characterId || "abhay");
+  const activeCharacterId = isMedicoLegal ? "hades" : (characterId || "persephone");
 
   const totalTurnCount = chatHistory ? chatHistory.length : 0;
   const isDependencyWarning = totalTurnCount >= 8;
@@ -623,7 +607,7 @@ Dear friend, I am **Adv Kunal**, your Medico-Legal & Patient Advocacy Counsel at
         });
       }
 
-      const activeChar = CHARACTERS[activeCharacterId] || CHARACTERS.abhay;
+      const activeChar = CHARACTERS[activeCharacterId] || CHARACTERS.persephone;
       const fallbackText = stripMarkdown(generateLocalFallbackResponse(message, activeChar));
       return res.json({
         text: fallbackText,
@@ -635,7 +619,7 @@ Dear friend, I am **Adv Kunal**, your Medico-Legal & Patient Advocacy Counsel at
       });
     }
 
-    const selectedChar = CHARACTERS[activeCharacterId] || CHARACTERS.abhay;
+    const selectedChar = CHARACTERS[activeCharacterId] || CHARACTERS.persephone;
     
     // Inject crisis specific focus to Gemini system prompt to override or keep it extremely bounded
     let activeSafetyPrompt = SYSTEM_CORE_SAFEGUARD;
@@ -707,7 +691,7 @@ Point out that you have unlocked an interactive localized Lawyers Directory belo
     handleGeminiRateLimit(error, "Companion Chat");
     
     // Fall back graciously under rate-limits / general exceptions
-    const characterIdStr = String(activeCharacterId || "abhay");
+    const characterIdStr = String(activeCharacterId || "persephone");
     const fallbackMessage = stripMarkdown(getOfflineFallbackResponse(characterIdStr, message));
 
     return res.json({
@@ -890,7 +874,7 @@ Please write a brief, warm, supportive wellness check-up (maximum 220 characters
 
 app.post("/api/video-analysis", async (req, res) => {
   const { image, selfNotes, characterId } = req.body;
-  const targetChar = CHARACTERS[characterId || "inayat"] || CHARACTERS.inayat;
+  const targetChar = CHARACTERS[characterId || "persephone"] || CHARACTERS.persephone;
 
   const localFeedback = `You have logged an optional personal reflection moment with ${targetChar.name}. Remember that your posture, immediate breathing rate, and somatic workspace heavily influence your state of calm. Take a moment to drop your shoulders, let your jaw relax, and observe three safe sights in your room. I'm here with you.`;
 
@@ -919,7 +903,7 @@ app.post("/api/video-analysis", async (req, res) => {
       });
     }
 
-    const systemPrompt = `You are playing the role of ${targetChar.name}, who is: ${targetChar.title}.
+    const systemPrompt = `You are playing the role of ${targetChar.name}.
 Your core approach is: "${targetChar.prompt}".
 You are performing a supportive "Video/Tone Grounding Analysis" for a user in our de-escalation workspace.
 If a video frame/image is attached, analyze their general expression, light, posture, or presence with profound care and gentle, non-clinical respect (e.g., whether they look tense, tired, or quiet). Speak about colors, posture, and visual composition supportively.

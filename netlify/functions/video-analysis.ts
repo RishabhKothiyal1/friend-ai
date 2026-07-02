@@ -1,15 +1,15 @@
 import { GoogleGenAI } from "@google/genai";
 
-const CHARACTERS: Record<string, { name: string; title: string; prompt: string }> = {
-  inayat: {     name: "Soul", title: "Aipan Art Grounding Witness", prompt: "" },
-  tony: {     name: "Dionysus", title: "Chittara Joy & Folk Companion", prompt: "" },
-  raag: {     name: "Sisyphus", title: "Pichwai Devotion & Lotus Guide", prompt: "" },
-  manji: {     name: "Athena", title: "Paitkar Folk Scroll Guardian", prompt: "" },
-  tara: {     name: "Astra", title: "Kalamezhuthu Cosmic Grounder", prompt: "" },
-  abhay: {     name: "Persephone", title: "Manjusha Snake & Sun Companion", prompt: "" },
-  altaf: {     name: "Zeus", title: "Rogan Tree of Life Architecture", prompt: "" },
-  adv_kunal: {     name: "Hades", title: "Pata Chitra Miniature Counsel", prompt: "" },
-  billu: {     name: "Sappho", title: "Warli Stick-Figure Attic Wit", prompt: "" }
+const CHARACTERS: Record<string, { name: string; prompt: string }> = {
+  soul: {     name: "Soul", prompt: "" },
+  dionysus: {     name: "Dionysus", prompt: "" },
+  sisyphus: {     name: "Sisyphus", prompt: "" },
+  athena: {     name: "Athena", prompt: "" },
+  astra: {     name: "Astra", prompt: "" },
+  persephone: {     name: "Persephone", prompt: "" },
+  zeus: {     name: "Zeus", prompt: "" },
+  hades: {     name: "Hades", prompt: "" },
+  sappho: {     name: "Sappho", prompt: "" }
 };
 
 function stripMarkdown(text: string): string {
@@ -36,7 +36,7 @@ export const handler = async (event: any, context: any) => {
     const parsedBody = JSON.parse(event.body || "{}");
     const { image, selfNotes, characterId } = parsedBody;
 
-    const targetChar = CHARACTERS[characterId || "inayat"] || CHARACTERS.inayat;
+    const targetChar = CHARACTERS[characterId || "persephone"] || CHARACTERS.persephone;
     const localFeedback = `You have logged an optional personal reflection moment with ${targetChar.name}. Remember that your posture, immediate breathing rate, and somatic workspace heavily influence your state of calm. Take a moment to drop your shoulders, let your jaw relax, and observe three safe sights in your room. I'm here with you.`;
 
     const apiKey = process.env.GEMINI_API_KEY;
@@ -70,7 +70,7 @@ export const handler = async (event: any, context: any) => {
       });
     }
 
-    const systemPrompt = `You are playing the role of ${targetChar.name}, who is: ${targetChar.title}.
+    const systemPrompt = `You are playing the role of ${targetChar.name}.
 Your core approach prompt details.
 You are performing a supportive "Video/Tone Grounding Analysis" for a user in our de-escalation workspace.
 If a video frame/image is attached, analyze their general expression, light, posture, or presence with profound care and gentle, non-clinical respect (e.g., whether they look tense, tired, or quiet). Speak about colors, posture, and visual composition supportively.
@@ -103,7 +103,7 @@ Absolute Guardrail: Do NOT offer clinical diagnoses, psychiatric jargon, or prea
   } catch (error: any) {
     const parsedBody = JSON.parse(event.body || "{}");
     const { characterId } = parsedBody;
-    const targetChar = CHARACTERS[characterId || "inayat"] || CHARACTERS.inayat;
+    const targetChar = CHARACTERS[characterId || "persephone"] || CHARACTERS.persephone;
     const localFeedback = `You have logged an optional personal reflection moment with ${targetChar.name}. Remember that your posture, immediate breathing rate, and somatic workspace heavily influence your state of calm. Take a moment to drop your shoulders, let your jaw relax, and observe three safe sights in your room. I'm here with you.`;
     return {
       statusCode: 200,

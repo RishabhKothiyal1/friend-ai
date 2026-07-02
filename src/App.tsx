@@ -192,8 +192,6 @@ class SomaticSynth {
 interface Character {
   id: string;
   name: string;
-  title: string;
-  specialization: string;
   avatarInitials: string;
   avatarColor: string;
   accentColor: string;
@@ -206,7 +204,7 @@ const CHARACTER_ICONS: Record<string, React.ComponentType<any>> = {
   soul: HeartHandshake,
   dionysus: Dog,
   sisyphus: Music,
-  manji: Flame,
+  athena: Flame,
   astra: Moon,
   persephone: Sparkles,
   zeus: Headphones,
@@ -705,10 +703,8 @@ function clearMoodsFromDB(): Promise<void> {
 
 const CHARACTERS: Character[] = [
   {
-    id: "rooh",
+    id: "soul",
     name: "Soul",
-    title: "Aipan Art Grounding Witness",
-    specialization: "Uttarakhand Geru & Biswar Flow",
     avatarInitials: "Ro",
     avatarColor: "bg-[#b04030] text-[#fcfbf9] border-[#d4af37]/30 font-serif",
     accentColor: "orange",
@@ -717,10 +713,8 @@ const CHARACTERS: Character[] = [
     groundingMantra: "Like the steady concentric lines of Himalayan Aipan, find your center in current reality. Let us align your feelings step-by-step."
   },
   {
-    id: "ganesh",
+    id: "dionysus",
     name: "Dionysus",
-    title: "Chittara Joy & Folk Companion",
-    specialization: "Karnataka Geometric Wheat-Stalk Art",
     avatarInitials: "Ga",
     avatarColor: "bg-[#ca4d34] text-[#fff7d6] border-[#ebdca5] font-serif",
     accentColor: "yellow",
@@ -729,10 +723,8 @@ const CHARACTERS: Character[] = [
     groundingMantra: "Let's align with the solid parallel structures of the harvest! Conquering anxiety one playful tail-wag at a time."
   },
   {
-    id: "raag",
+    id: "sisyphus",
     name: "Sisyphus",
-    title: "Pichwai Devotion & Lotus Guide",
-    specialization: "Nathdwara Sacred Starry Blue Art",
     avatarInitials: "Ra",
     avatarColor: "bg-[#0c1b40] text-[#ffa0b4] border-[#e6c35c]/40 font-serif",
     accentColor: "pink",
@@ -741,10 +733,8 @@ const CHARACTERS: Character[] = [
     groundingMantra: "Behold the opening petals of the Pichwai lotus. Drop your shoulders, breathe in the fragrance of ancient safety."
   },
   {
-    id: "manji",
+    id: "athena",
     name: "Athena",
-    title: "Paitkar Folk Scroll Guardian",
-    specialization: "Jharkhand Natural Dye Earthy Storytelling",
     avatarInitials: "At",
     avatarColor: "bg-[#e1ba8a] text-[#7a3219] border-[#b07844] font-serif",
     accentColor: "rose",
@@ -753,10 +743,8 @@ const CHARACTERS: Character[] = [
     groundingMantra: "Like an organic Paitkar story-scroll, your path develops in beautiful, natural dyes. Every frame is a step towards release."
   },
   {
-    id: "tara",
+    id: "astra",
     name: "Astra",
-    title: "Kalamezhuthu Cosmic Grounder",
-    specialization: "Kerala Vibrant Five-Color Powder Art",
     avatarInitials: "Astra",
     avatarColor: "bg-[#1c1d21] text-[#f3b41e] border-[#3e2723] font-serif",
     accentColor: "indigo",
@@ -765,10 +753,8 @@ const CHARACTERS: Character[] = [
     groundingMantra: "Behold the steady flame of the Nilavilakku lamp, cutting through midnight darkness. Breathe, grounded as the sacred dust."
   },
   {
-    id: "inayat",
+    id: "persephone",
     name: "Persephone",
-    title: "Manjusha Snake & Sun Companion",
-    specialization: "Bihar Bihula Yellow-Pink Healing",
     avatarInitials: "In",
     avatarColor: "bg-[#f7d04a] text-[#e23e7f] border-[#008b45]/40 font-serif",
     accentColor: "sky",
@@ -777,10 +763,8 @@ const CHARACTERS: Character[] = [
     groundingMantra: ""
   },
   {
-    id: "altaf",
+    id: "zeus",
     name: "Zeus",
-    title: "Rogan Tree of Life Architecture",
-    specialization: "Somatic Posture, Voice & Rogan Art Symmetry",
     avatarInitials: "Al",
     avatarColor: "bg-[#0b4a2e] text-[#f0d05d] border-[#ebdcb9]/40 font-serif",
     accentColor: "purple",
@@ -789,10 +773,8 @@ const CHARACTERS: Character[] = [
     groundingMantra: "Let us trace beautiful, symmetrical shapes with our posture, calm as gold glaze. Breathe in perfect alignment, secure and centered."
   },
   {
-    id: "veer",
+    id: "hades",
     name: "Hades",
-    title: "Pata Chitra Miniature Counsel",
-    specialization: "Odisha Intricate Ink & Tempera Law",
     avatarInitials: "Ve",
     avatarColor: "bg-[#faf1e1] text-[#3e2723] border-[#d4af37] font-serif",
     accentColor: "rose",
@@ -801,10 +783,8 @@ const CHARACTERS: Character[] = [
     groundingMantra: "The law is a masterfully detailed shield, like an ancient Pata Chitra temple scroll. We will draft your defense with absolute clarity."
   },
   {
-    id: "manjishtha",
+    id: "sappho",
     name: "Sappho",
-    title: "Warli Stick-Figure Attic Wit",
-    specialization: "Maharashtra Rice-Paste Mud Attic Room",
     avatarInitials: "Ma",
     avatarColor: "bg-[#804a30] text-[#f0ede6] border-[#ebdcb9] font-serif",
     accentColor: "amber",
@@ -1391,23 +1371,23 @@ function getCharacterBg(charId: string, themeMode?: string): string {
   }
 
   switch (charId) {
-    case "rooh":
+    case "soul":
       return `radial-gradient(circle at 10% 15%, rgba(170, 107, 81, 0.09) 0%, transparent 55%), radial-gradient(circle at 85% 85%, rgba(226, 208, 196, 0.4) 0%, transparent 60%), linear-gradient(to bottom, #fefbfc 0%, #f7ebe4 100%)`;
-    case "ganesh":
+    case "dionysus":
       return `radial-gradient(circle at 15% 15%, rgba(217, 119, 6, 0.08) 0%, transparent 50%), radial-gradient(circle at 85% 85%, rgba(179, 137, 16, 0.1) 0%, transparent 55%), linear-gradient(to bottom, #fffdf8 0%, #fff7d6 100%)`;
-    case "raag":
+    case "sisyphus":
       return `radial-gradient(circle at 20% 20%, rgba(160, 82, 110, 0.09) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(219, 178, 190, 0.4) 0%, transparent 60%), linear-gradient(to bottom, #faf5f7 0%, #ebd3da 100%)`;
-    case "manji":
+    case "athena":
       return `radial-gradient(circle at 15% 15%, rgba(178, 88, 53, 0.1) 0%, transparent 50%), radial-gradient(circle at 85% 85%, rgba(244, 230, 222, 0.4) 0%, transparent 60%), linear-gradient(to bottom, #fbf2eb 0%, #e8d0be 100%)`;
-    case "tara":
+    case "astra":
       return `radial-gradient(circle at 85% 15%, rgba(251, 191, 36, 0.15) 0%, transparent 40%), radial-gradient(circle at 15% 85%, rgba(99, 102, 241, 0.15) 0%, transparent 55%), linear-gradient(to bottom, #090d1e 0%, #11182c 100%)`;
-    case "inayat":
+    case "persephone":
       return `radial-gradient(circle at 15% 15%, rgba(129, 140, 248, 0.12) 0%, transparent 50%), radial-gradient(circle at 85% 85%, rgba(10, 17, 40, 0.3) 0%, transparent 60%), linear-gradient(to bottom, #0a1128 0%, #03081a 100%)`;
-    case "altaf":
+    case "zeus":
       return `radial-gradient(circle at 10% 15%, rgba(126, 34, 206, 0.08) 0%, transparent 55%), radial-gradient(circle at 85% 85%, rgba(233, 213, 255, 0.3) 0%, transparent 60%), linear-gradient(to bottom, #faf5ff 0%, #f3e8ff 100%)`;
-    case "veer":
+    case "hades":
       return `radial-gradient(circle at 10% 15%, rgba(141, 110, 99, 0.08) 0%, transparent 55%), radial-gradient(circle at 85% 85%, rgba(212, 163, 89, 0.15) 0%, transparent 60%), linear-gradient(to bottom, #FAF9F6 0%, #EFEBE9 100%)`;
-    case "manjishtha":
+    case "sappho":
       return `radial-gradient(circle at 15% 15%, rgba(217, 119, 6, 0.08) 0%, transparent 50%), radial-gradient(circle at 85% 85%, rgba(212, 163, 89, 0.2) 0%, transparent 60%), linear-gradient(to bottom, #fffdfa 0%, #fef3c7 100%)`;
     default:
       return "linear-gradient(to bottom, #ffffff, #f8fafc)";
@@ -1416,7 +1396,7 @@ function getCharacterBg(charId: string, themeMode?: string): string {
 
 function isDarkCharacter(charId: string, themeMode?: string): boolean {
   if (themeMode === 'midnight') return true;
-  return charId === 'tara' || charId === 'inayat';
+  return charId === 'astra' || charId === 'persephone';
 }
 
 function getCharacterBubbleStyle(charId: string, isUser: boolean): string {
@@ -1440,7 +1420,7 @@ function getCharacterAccentBorder(charId: string): string {
 // ============================================
 const CozyRoomSketch = ({ charId }: { charId: string }) => {
   // 1. AIPAN ART (Uttarakhand) - Soul (rooh)
-  if (charId === "rooh") {
+  if (charId === "soul") {
     return (
       <div id="cozy-room-rooh" className="w-full h-40 rounded-2xl border-2 border-[#d4af37]/30 bg-[#9c2a1b] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#fcfbf9] select-none group">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.06),transparent_60%)] pointer-events-none" />
@@ -1553,7 +1533,7 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
   }
 
   // 2. CHITTARA ART (Karnataka) - Dionysus (ganesh)
-  if (charId === "ganesh") {
+  if (charId === "dionysus") {
     return (
       <div id="cozy-room-ganesh" className="w-full h-40 rounded-2xl border-2 border-[#b8860b]/30 bg-[#a63d23] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#fff8e7] select-none group">
         <div className="absolute inset-0 bg-gradient-to-tr from-[#941c0e] to-transparent pointer-events-none" />
@@ -1655,7 +1635,7 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
   }
 
   // 3. PICHWAI ART (Rajasthan) - Sisyphus (raag)
-  if (charId === "raag") {
+  if (charId === "sisyphus") {
     return (
       <div id="cozy-room-raag" className="w-full h-40 rounded-2xl border-2 border-[#e6b432]/30 bg-[#0d1c3a] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#ffa0b4] select-none group">
         <div className="absolute inset-0 bg-[#061025]/50 pointer-events-none" />
@@ -1763,7 +1743,7 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
   }
 
   // 4. PAITKAR SCROLL ART (Jharkhand) - Athena (manji)
-  if (charId === "manji") {
+  if (charId === "athena") {
     return (
       <div id="cozy-room-manji" className="w-full h-40 rounded-2xl border-2 border-[#8c5210]/30 bg-[#dfb582] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#4a2305] select-none group">
         <div className="absolute inset-0 bg-[#733d06]/5 pointer-events-none" />
@@ -1850,7 +1830,7 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
   }
 
   // 5. KALAMEZHUTHU ART (Kerala) - North Star (tara)
-  if (charId === "tara") {
+  if (charId === "astra") {
     return (
       <div id="cozy-room-tara" className="w-full h-40 rounded-2xl border-2 border-[#d4af37]/40 bg-[#141517] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#ecaa1e] select-none group">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(60,40,20,0.18),transparent_70%)] pointer-events-none" />
@@ -1968,7 +1948,7 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
   }
 
   // 6. MANJUSHA ART (Bihar) - Persephone (inayat)
-  if (charId === "inayat") {
+  if (charId === "persephone") {
     return (
       <div id="cozy-room-inayat" className="w-full h-40 rounded-2xl border-2 border-[#1c854c]/30 bg-[#ffd23f] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#da286d] select-none group">
         
@@ -2046,7 +2026,7 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
   }
 
   // 7. ROGAN ART (Gujarat) - Zeus (altaf)
-  if (charId === "altaf") {
+  if (charId === "zeus") {
     return (
       <div id="cozy-room-altaf" className="w-full h-40 rounded-2xl border-2 border-[#ecc54a]/30 bg-[#084524] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#ecc54a] select-none group">
         <div className="absolute inset-0 bg-[#042814]/40 pointer-events-none" />
@@ -2125,7 +2105,7 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
   }
 
   // 8. PATA CHITRA ART (Odisha) - Hades (veer)
-  if (charId === "veer") {
+  if (charId === "hades") {
     return (
       <div id="cozy-room-veer" className="w-full h-40 rounded-2xl border-2 border-[#814125]/30 bg-[#faf1e1] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#3e2723] select-none group">
         <div className="absolute inset-0 bg-[#814125]/5 pointer-events-none" />
@@ -2207,7 +2187,7 @@ const CozyRoomSketch = ({ charId }: { charId: string }) => {
   }
 
   // 9. WARLI ART (Maharashtra) - Sappho (manjishtha) -> Now Warli instead of Wise Wood Attic
-  if (charId === "manjishtha") {
+  if (charId === "sappho") {
     return (
       <div id="cozy-room-manjishtha" className="w-full h-40 rounded-2xl border-2 border-[#ebdca5]/35 bg-[#82442b] overflow-hidden relative shadow-inner flex items-center justify-between p-4 text-[#fffbf2] select-none group">
         <div className="absolute inset-0 bg-[#5c2d1b]/50 pointer-events-none" />
@@ -2447,17 +2427,17 @@ OPERATIONAL RULES:
 const CHARACTER_PROMPTS: Record<string, { name: string; prompt: string }> = {
   soul: {
     name: "Soul",
-    prompt: "You are Soul, an Aipan Art Grounding Witness inspired by the Kumaoni Aipan tradition of Uttarakhand — geometric, symmetrical, drawn in white rice-paste (Biswar) on clay-red ground. Your character voice is grounded, serene, and steady, occasionally drawing imagery from these geometric lines and sacred symmetry to anchor a feeling. Always respond directly to what the user says first; let the Aipan imagery flavor your tone rather than replace genuine listening. When the user seems overwhelmed or scattered, you can offer gentle grounding or sensory check-ins, but don't force a grounding exercise if that's not what they need in the moment."
+    prompt: "You are Soul, an Aipan Art Grounding Witness inspired by the Kumaoni Aipan tradition of Uttarakhand — geometric, symmetrical, drawn in white rice-paste (Biswar) on clay-red ground. Your character voice is grounded, serene, and steady, occasionally drawing imagery from these geometric lines and sacred symmetry to anchor a feeling. Always respond directly to what the user says first; let the Aipan imagery flavor your tone rather than replace genuine listening. When the user seems overwhelmed or scattered, you can offer gentle grounding or sensory check-ins, but don\'t force a grounding exercise if that\'s not what they need in the moment."
   },
   dionysus: {
     name: "Dionysus",
-    prompt: "You are Dionysus, a warm, playful companion styled after Karnataka's Chittara folk art — geometric wheat-stalk motifs, festive natural dyes, loyal and upbeat in spirit. Your tone is bubbly, encouraging, and gently humorous, never clinical. Always respond to what the user actually says first. Your specialty is helping people notice unhelpful thought spirals (catastrophizing, all-or-nothing thinking) and gently offering a kinder, more balanced way to see things — but do this conversationally and with warmth, not like a CBT worksheet. Only bring up reframing if it's actually relevant to what they shared."
+    prompt: "You are Dionysus, a warm, playful companion styled after Karnataka\'s Chittara folk art — geometric wheat-stalk motifs, festive natural dyes, loyal and upbeat in spirit. Your tone is bubbly, encouraging, and gently humorous, never clinical. Always respond to what the user actually says first. Your specialty is helping people notice unhelpful thought spirals (catastrophizing, all-or-nothing thinking) and gently offering a kinder, more balanced way to see things — but do this conversationally and with warmth, not like a CBT worksheet. Only bring up reframing if it\'s actually relevant to what they shared."
   },
   sisyphus: {
     name: "Sisyphus",
     prompt: "You are Sisyphus, an acoustic and melodic guide inspired by Rajasthani Pichwai art — midnight-blue skies, gold-dusted borders, blooming lotuses, quiet devotional calm. Your voice is soothing, rhythmic, and unhurried, occasionally drawing on musicality, breath, and gentle imagery of unfolding petals or stillness. Always respond to what the user actually says first — let the devotional, musical flavor color your tone rather than dictate the topic. You're especially suited to helping someone slow down, settle a racing mind, or find a sense of quiet, but only lean into that when it fits what they're sharing."
   },
-  manji: {
+  athena: {
     name: "Athena",
     prompt: "You are Athena, styled after Jharkhand's Paitkar scroll-painting tradition — warm terracotta tones, ochre washes, the patient, unfolding pace of a hand-painted story scroll. Your tone is gentle, patient, and narrative — you help people feel like their story is being witnessed and unrolled with care, one frame at a time. Always respond to what the user actually says first. If someone is in acute distress or crisis, prioritize calm, clear safety support over storytelling imagery — but for everyday heaviness or reflection, your scroll/narrative framing can help them feel heard without rushing them."
   },
@@ -2830,9 +2810,9 @@ export default function App() {
   const [selectedCharacterId, setSelectedCharacterId] = useState<string>(() => {
     try {
       const saved = localStorage.getItem("pfai_selected_character_id");
-      return saved && CHARACTERS.some((c) => c.id === saved) ? saved : "inayat";
+      return saved && CHARACTERS.some((c) => c.id === saved) ? saved : "persephone";
     } catch (e) {
-      return "inayat";
+      return "persephone";
     }
   });
   const [messageText, setMessageText] = useState<string>("");
@@ -2841,9 +2821,9 @@ export default function App() {
       const savedCharId = (() => {
         try {
           const saved = localStorage.getItem("pfai_selected_character_id");
-          return saved && CHARACTERS.some((c) => c.id === saved) ? saved : "inayat";
+          return saved && CHARACTERS.some((c) => c.id === saved) ? saved : "persephone";
         } catch (e) {
-          return "inayat";
+          return "persephone";
         }
       })();
       const saved = localStorage.getItem("pfai_chat_history_" + savedCharId) || localStorage.getItem("pfai_chat_history");
@@ -2866,9 +2846,9 @@ export default function App() {
     const initialCharId = (() => {
       try {
         const saved = localStorage.getItem("pfai_selected_character_id");
-        return saved && CHARACTERS.some((c) => c.id === saved) ? saved : "inayat";
+        return saved && CHARACTERS.some((c) => c.id === saved) ? saved : "persephone";
       } catch (e) {
-        return "inayat";
+        return "persephone";
       }
     })();
     const targetChar = CHARACTERS.find(c => c.id === initialCharId) || CHARACTERS[0];
@@ -2912,9 +2892,9 @@ export default function App() {
       const savedCharId = (() => {
         try {
           const saved = localStorage.getItem("pfai_selected_character_id");
-          return saved && CHARACTERS.some((c) => c.id === saved) ? saved : "inayat";
+          return saved && CHARACTERS.some((c) => c.id === saved) ? saved : "persephone";
         } catch (e) {
-          return "inayat";
+          return "persephone";
         }
       })();
       return localStorage.getItem("pfai_active_session_id_" + savedCharId);
@@ -3753,7 +3733,7 @@ export default function App() {
   useEffect(() => {
     if (!user) {
       try {
-        const savedCharId = localStorage.getItem("pfai_selected_character_id") || "inayat";
+        const savedCharId = localStorage.getItem("pfai_selected_character_id") || "persephone";
         const savedHistory = localStorage.getItem("pfai_chat_history_" + savedCharId) || localStorage.getItem("pfai_chat_history");
         if (savedHistory) setChatHistory(JSON.parse(savedHistory));
         else setChatHistory([]);
@@ -4284,7 +4264,7 @@ export default function App() {
     setShowRedirectModalOnLogin(false);
     setIsClinicalDirectoryOpen(false);
     setLoginError("");
-    setSelectedCharacterId("inayat");
+    setSelectedCharacterId("persephone");
     setIsCrisisActive(false);
     setIsDependencyActive(false);
     
@@ -4879,10 +4859,10 @@ export default function App() {
       reply = `You are very welcome. I am glad we can share this quiet room. How is your breathing rhythm?`;
     } else {
       const characterPrompts: Record<string, string> = {
-        rooh: `Let's focus on the safe, parallel lines of my Aipan art. Each line brings structure and calm back to your thoughts. Can you focus on a single point in the room?`,
+        soul: `Let's focus on the safe, parallel lines of my Aipan art. Each line brings structure and calm back to your thoughts. Can you focus on a single point in the room?`,
         dionysus: `Let's keep it simple and playful. You don't need to chase every thought. Like the festive Chittara circles, everything has a natural rhythm. Take a slow, warm breath.`,
         sisyphus: `Imagine a night sky covered in gold Pichwai stars and lotuses blooming from clear water. Let your breathing settle into that cool, peaceful space.`,
-        manji: `We are unrolling your story like a Paitkar scroll, one frame at a time. Tell me what is happening in the current frame of your mind.`,
+        athena: `We are unrolling your story like a Paitkar scroll, one frame at a time. Tell me what is happening in the current frame of your mind.`,
         astra: `Look at the steady, warm light of the Kalamezhuthu lamp. Even in deep darkness, that flame remains centered and quiet. Breathe with the flame.`,
         persephone: `Remember, you are a person experiencing this feeling, not the feeling itself. Let's give it a name and gently set it down on the table next to us.`,
         zeus: `Let's align your physical posture. Roll your shoulders back, let your arms go loose, and check if you are clenching your jaw. Let's hold that balance.`,
@@ -5009,10 +4989,10 @@ I am an automated grounding AI companion, not a medical doctor, psychiatrist, or
       "legal aid"
     ];
     const isMedicoLegalTriggered = medicoLegalKeywords.some(k => normalizedText.includes(k));
-    const targetCharId = isMedicoLegalTriggered ? "veer" : selectedCharacterId;
+    const targetCharId = isMedicoLegalTriggered ? "hades" : selectedCharacterId;
     
-    if (isMedicoLegalTriggered && selectedCharacterId !== "veer") {
-      setSelectedCharacterId("veer");
+    if (isMedicoLegalTriggered && selectedCharacterId !== "hades") {
+      setSelectedCharacterId("hades");
     }
 
     // Pre-filter: Identity Check
@@ -5092,7 +5072,7 @@ I am an automated grounding AI companion, not a medical doctor, psychiatrist, or
         
         if (isMedicoLegal) {
           setIsMedicoLegalTriggered(true);
-          setSelectedCharacterId("veer");
+          setSelectedCharacterId("hades");
         }
         if (isDependencyWarning) {
           setIsDependencyActive(true);
@@ -5116,7 +5096,7 @@ I am an automated grounding AI companion, not a medical doctor, psychiatrist, or
   };
 
   const handleCharacterChange = (charId: string) => {
-    const isPremium = charId !== "inayat" && charId !== "manji" && charId !== "altaf" && charId !== "veer";
+    const isPremium = charId !== "persephone" && charId !== "athena" && charId !== "zeus" && charId !== "hades";
     if (isPremium && !isPremiumSubscribed) {
       setPendingCharId(charId);
       setIsPaywallModalOpen(true);
@@ -7317,9 +7297,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                             const filtered = CHARACTERS.filter((char) => {
                               const query = personaSearchQuery.toLowerCase().trim();
                               if (!query) return true;
-                              return char.specialization.toLowerCase().includes(query) || 
-                                     char.name.toLowerCase().includes(query) || 
-                                     char.title.toLowerCase().includes(query);
+                              return char.name.toLowerCase().includes(query);
                             });
                             
                             if (filtered.length === 0) {
@@ -7339,7 +7317,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                             
                             return filtered.map((char) => {
                               const isSelected = char.id === selectedCharacterId;
-                              const isPremiumChar = char.id !== "inayat" && char.id !== "manji" && char.id !== "altaf" && char.id !== "veer";
+                              const isPremiumChar = char.id !== "persephone" && char.id !== "athena" && char.id !== "zeus" && char.id !== "hades";
                               const isLocked = isPremiumChar && !isPremiumSubscribed;
                               
                               return (
@@ -7367,13 +7345,13 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                                     </span>
                                   )}
 
-                                  {char.id === "veer" && (
+                                  {char.id === "hades" && (
                                     <span className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-[#F5E6E0] text-[#6B6B6B] text-[8px] font-mono font-bold px-1.5 py-0.5 rounded border border-[#EDEBE7]">
                                       <span>⚖️ Legal Support</span>
                                     </span>
                                   )}
 
-                                  {char.id === "inayat" && (
+                                  {char.id === "persephone" && (
                                     <span className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-[#E8F0EA] text-[#7A9E85] text-[8px] font-mono font-bold px-1.5 py-0.5 rounded border border-[#EDEBE7]">
                                       <span>🟢 FREE</span>
                                     </span>
@@ -10781,9 +10759,7 @@ I am speaking to you now as ${CHARACTERS.find(c => c.id === pendingCharId)?.name
                     const filtered = CHARACTERS.filter((char) => {
                       const query = personaSearchQuery.toLowerCase().trim();
                       if (!query) return true;
-                      return char.specialization.toLowerCase().includes(query) || 
-                             char.name.toLowerCase().includes(query) || 
-                             char.title.toLowerCase().includes(query);
+                      return char.name.toLowerCase().includes(query);
                     });
                     
                     if (filtered.length === 0) {
@@ -10833,7 +10809,7 @@ I am speaking to you now as ${CHARACTERS.find(c => c.id === pendingCharId)?.name
                               )}
                             </div>
                             <p className="text-[11px] text-slate-400 leading-snug truncate group-hover:text-indigo-200 transition-colors">
-                              {char.specialization}
+                              {char.tagline}
                             </p>
                             
                           </div>
@@ -11017,7 +10993,7 @@ I am speaking to you now as ${CHARACTERS.find(c => c.id === pendingCharId)?.name
                 })()}
               </div>
               <div>
-                <h4 className="text-sm font-bold text-slate-950">{activeChar.name} — <span className="text-xs text-indigo-600 font-medium">{activeChar.title}</span></h4>
+                <h4 className="text-sm font-bold text-slate-950">{activeChar.name}</h4>
                 <p className="text-[11px] text-slate-500 italic">"{activeChar.tagline}"</p>
               </div>
             </div>
@@ -11031,7 +11007,7 @@ I am speaking to you now as ${CHARACTERS.find(c => c.id === pendingCharId)?.name
               <textarea
                 readOnly
                 className="w-full h-44 p-3 bg-slate-950 text-slate-100 rounded-xl border border-slate-950 font-mono text-[11px] leading-relaxed resize-none focus:outline-none focus:ring-1 focus:ring-amber-400 selection:bg-amber-500 selection:text-slate-950 shrink-0"
-                value={`🌸 PROJECT FRIEND AI — PERSONA SUPPORT REQUISITIONS 🌸\n=========================================================\nGuide Persona  : ${activeChar.name}\nRole / Title   : ${activeChar.title}\nKey Focus Area : ${activeChar.specialization}\n\n" ${activeChar.groundingMantra} "\n\n[ GUIDANCE & EMOTIONAL RECEPTACLE ORIENTATION ]\n- Orientation M.O. : ${activeChar.tagline}\n- Detailed Support Philosophy:\n  ${activeChar.longDescription}\n\n=========================================================\nSecured anonymously via Project Friend AI. Grounded non-clinical crisis containment, active de-escalation, and client-side encryption.`}
+                value={`🌸 PROJECT FRIEND AI — PERSONA SUPPORT REQUISITIONS 🌸\n=========================================================\nGuide Persona  : ${activeChar.name}\n\n" ${activeChar.groundingMantra} "\n\n[ GUIDANCE & EMOTIONAL RECEPTACLE ORIENTATION ]\n- Orientation M.O. : ${activeChar.tagline}\n- Detailed Support Philosophy:\n  ${activeChar.longDescription}\n\n=========================================================\nSecured anonymously via Project Friend AI. Grounded non-clinical crisis containment, active de-escalation, and client-side encryption.`}
               />
             </div>
 
@@ -11040,7 +11016,7 @@ I am speaking to you now as ${CHARACTERS.find(c => c.id === pendingCharId)?.name
               <button
                 type="button"
                 onClick={() => {
-                  const textToCopy = `🌸 PROJECT FRIEND AI — PERSONA SUPPORT REQUISITIONS 🌸\n=========================================================\nGuide Persona  : ${activeChar.name}\nRole / Title   : ${activeChar.title}\nKey Focus Area : ${activeChar.specialization}\n\n" ${activeChar.groundingMantra} "\n\n[ GUIDANCE & EMOTIONAL RECEPTACLE ORIENTATION ]\n- Orientation M.O. : ${activeChar.tagline}\n- Detailed Support Philosophy:\n  ${activeChar.longDescription}\n\n=========================================================\nSecured anonymously via Project Friend AI. Grounded non-clinical crisis containment, active de-escalation, and client-side encryption.`;
+                  const textToCopy = `🌸 PROJECT FRIEND AI — PERSONA SUPPORT REQUISITIONS 🌸\n=========================================================\nGuide Persona  : ${activeChar.name}\n\n" ${activeChar.groundingMantra} "\n\n[ GUIDANCE & EMOTIONAL RECEPTACLE ORIENTATION ]\n- Orientation M.O. : ${activeChar.tagline}\n- Detailed Support Philosophy:\n  ${activeChar.longDescription}\n\n=========================================================\nSecured anonymously via Project Friend AI. Grounded non-clinical crisis containment, active de-escalation, and client-side encryption.`;
                   navigator.clipboard.writeText(textToCopy).then(() => {
                     setCopiedIndicator(true);
                     setTimeout(() => setCopiedIndicator(false), 2500);

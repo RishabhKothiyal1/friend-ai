@@ -232,7 +232,7 @@ class MozartPianoEngine {
 
     // Schedule chords & arpeggios custom to each room with that slow-wave Prateek vibe
     switch (charId) {
-      case "rooh": // Warm Sunset Vibe in C Major / G Major: Cmaj7 - G - Em7 - D
+      case "soul": // Warm Sunset Vibe in C Major / G Major: Cmaj7 - G - Em7 - D
         {
           const barDuration = this.stepDuration * 8;
           if (idx === 0) {
@@ -258,7 +258,7 @@ class MozartPianoEngine {
         }
         break;
 
-      case "ganesh": // Bouncy, hopeful tender folk in F Major / C Major: Fadd9 - C - Am7 - G
+      case "dionysus": // Bouncy, hopeful tender folk in F Major / C Major: Fadd9 - C - Am7 - G
         {
           const barDuration = this.stepDuration * 8;
           if (idx === 0) {
@@ -279,7 +279,7 @@ class MozartPianoEngine {
         }
         break;
 
-      case "raag": // Sweet, starry, contemplative pink-lotus vibe: Am7 - Fmaj7 - C - G
+      case "sisyphus": // Sweet, starry, contemplative pink-lotus vibe: Am7 - Fmaj7 - C - G
         {
           const barDuration = this.stepDuration * 8;
           if (idx === 0) {
@@ -302,7 +302,7 @@ class MozartPianoEngine {
         }
         break;
 
-      case "manji": // Earthy folk tale nostalgia: Dm7 - Am7 - C - G
+      case "athena": // Earthy folk tale nostalgia: Dm7 - Am7 - C - G
         {
           const barDuration = this.stepDuration * 8;
           if (idx === 0) {
@@ -323,7 +323,7 @@ class MozartPianoEngine {
         }
         break;
 
-      case "tara": // Deep cosmic temple embers in Em7 - Cmaj7 - G - D
+      case "astra": // Deep cosmic temple embers in Em7 - Cmaj7 - G - D
         {
           const barDuration = this.stepDuration * 8;
           if (idx === 0) {
@@ -344,7 +344,7 @@ class MozartPianoEngine {
         }
         break;
 
-      case "inayat": // Comforting, protective Bihar folk companion: Gadd9 - Em7 - Cadd9 - D
+      case "persephone": // Comforting, protective Bihar folk companion: Gadd9 - Em7 - Cadd9 - D
         {
           const barDuration = this.stepDuration * 8;
           if (idx === 0) {
@@ -365,7 +365,7 @@ class MozartPianoEngine {
         }
         break;
 
-      case "altaf": // Elegant gold lace geometric arpeggiation: C - Csus2 - Fmaj7 - G
+      case "zeus": // Elegant gold lace geometric arpeggiation: C - Csus2 - Fmaj7 - G
         {
           const barDuration = this.stepDuration * 8;
           if (idx === 0) {
@@ -386,7 +386,7 @@ class MozartPianoEngine {
         }
         break;
 
-      case "manjishtha": // Whimsical lightweight acoustic folk: G - C - D - G
+      case "sappho": // Whimsical lightweight acoustic folk: G - C - D - G
         {
           const barDuration = this.stepDuration * 8;
           if (idx === 0) {
@@ -407,7 +407,7 @@ class MozartPianoEngine {
         }
         break;
 
-      case "veer": // Classic supportive protective harmony: Am7 - Dm7 - G7 - Cmaj7
+      case "hades": // Classic supportive protective harmony: Am7 - Dm7 - G7 - Cmaj7
         {
           const barDuration = this.stepDuration * 8;
           if (idx === 0) {
