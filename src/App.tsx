@@ -2833,7 +2833,7 @@ export default function App() {
           const firstMsg = parsed[0];
           const currentChar = CHARACTERS.find(c => c.id === savedCharId) || CHARACTERS[0];
           if (firstMsg && firstMsg.sender === "bot" && firstMsg.text && firstMsg.text.includes("speaking as ") && !firstMsg.text.includes(currentChar.name)) {
-            const freshWelcome = `I have initialized specialized support. I am now speaking as ${currentChar.name}. How can I support you right now?`;
+            const freshWelcome = `How can I support you right now?`;
             parsed[0] = { ...firstMsg, text: freshWelcome };
             try { localStorage.setItem("pfai_chat_history_" + savedCharId, JSON.stringify(parsed)); } catch (e) {}
           }
@@ -2852,7 +2852,7 @@ export default function App() {
       }
     })();
     const targetChar = CHARACTERS.find(c => c.id === initialCharId) || CHARACTERS[0];
-    const initialWelcome = `I have initialized specialized support. I am now speaking as ${targetChar.name}.`;
+    const initialWelcome = `How can I support you right now?`;
 
     return [
       {
@@ -5132,7 +5132,7 @@ I am an automated grounding AI companion, not a medical doctor, psychiatrist, or
     }
 
     const target = CHARACTERS.find(c => c.id === charId)!;
-    let welcomeText = `I have initialized specialized support. I am now speaking as ${target.name}.`;
+    let welcomeText = `How can I support you right now?`;
 
     setActiveSessionId(null);
     try {
