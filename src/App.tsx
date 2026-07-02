@@ -4289,7 +4289,7 @@ export default function App() {
       console.error("Failed to clear active session ID:", e);
     }
 
-    const freshWelcome = `I have initialized specialized support. I am now speaking as ${activeChar.name}. How can I support you right now?`;
+    const freshWelcome = `How can I support you right now?`;
     const newWelcomeMsg = {
       id: "init-" + Date.now(),
       sender: "bot" as const,
@@ -4349,7 +4349,7 @@ export default function App() {
       } catch (e) {
         console.error("Failed to clear active session ID:", e);
       }
-      const freshWelcome = `I have initialized specialized support. I am now speaking as ${activeChar.name}. How can I support you right now?`;
+      const freshWelcome = `How can I support you right now?`;
       const newWelcomeMsg = {
         id: "init-" + Date.now(),
         sender: "bot" as const,
