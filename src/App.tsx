@@ -7300,7 +7300,7 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                                 Showing matching guides (or <button type="button" onClick={() => setPersonaSearchQuery("")} className="text-[#7A9E85] font-bold hover:underline cursor-pointer focus-visible:outline-none">clear search</button>):
                               </span>
                             ) : (
-                              "Select one of our 5 specialized empathetic room guides:"
+                              "Choose one of our 9 specialized empathetic approaches."
                             )}
                           </p>
                         </div>
@@ -7379,16 +7379,13 @@ Repeat this cycle five times. Focus your gaze on three static objects in your im
                                     })()}
                                   </div>
 
-                                  <div className="flex-1 min-w-0">
-                                    <div className="flex items-center gap-1.5 pr-14">
-                                      <h4 className="text-xs font-bold text-[#2B2B2B] truncate">
-                                        {highlightText(char.name, personaSearchQuery)}
-                                      </h4>
+                                    <div className="flex-1 min-w-0">
+                                      <div className="flex items-center gap-1.5 pr-14">
+                                        <h4 className="text-xs font-bold text-[#2B2B2B] truncate">
+                                          {highlightText(char.name, personaSearchQuery)}
+                                        </h4>
+                                      </div>
                                     </div>
-                                    <p className="text-[11px] text-[#6B6B6B] truncate mt-0.5">
-                                      {highlightText(char.specialization, personaSearchQuery)}
-                                    </p>
-                                  </div>
                                 </button>
                               );
                             });
